@@ -2,7 +2,7 @@
 
 This application was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
 
-## This repository belongs to team x
+## This repository belongs to team 37
 
 - William Parkhouse (WXP218@student.bham.ac.uk)
 
