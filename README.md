@@ -9,8 +9,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Henry Southall (HXS362@student.bham.ac.uk)
 - Rory Simpson (RXS1099@student.bham.ac.uk)
 - Goytom Fissehaye (GXF267@student.bham.ac.uk)
-
-- (insert the list of team mates)
+- Dave Sima (DXS251@student.bham.ac.uk)
 
 ## changes for Teamproject
 
