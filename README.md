@@ -7,6 +7,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - William Parkhouse (WXP218@student.bham.ac.uk)
 - Dakshesh Pandey (DXP232@student.bham.ac.uk)
 - Henry Southall (HXS362@student.bham.ac.uk)
+- Rory Simpson (RXS1099@student.bham.ac.uk)
 
 - (insert the list of team mates)
 
