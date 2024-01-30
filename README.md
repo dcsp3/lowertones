@@ -10,6 +10,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Rory Simpson (RXS1099@student.bham.ac.uk)
 - Goytom Fissehaye (GXF267@student.bham.ac.uk)
 - Dave Sima (DXS251@student.bham.ac.uk)
+- Deniz Erdogan (DXE033@student.bham.ac.uk)
 
 ## changes for Teamproject
 
