@@ -16,6 +16,27 @@ Navbar
   width: 1.75em;
 }
 
+/* Add rounded corners and Spotify green color to the button */
+.navbar-login-button button.btn-spotify {
+  border-radius: 20px; /* Adjust the value to increase or decrease the roundness */
+  background-color: #1db954; /* Spotify green color */
+  color: #ffffff; /* White text color */
+}
+
+/* Style the button on hover and focus */
+.navbar-login-button button.btn-spotify:hover,
+.navbar-login-button button.btn-spotify:focus {
+  background-color: #25d366; /* Lighter green on hover/focus */
+  color: #ffffff; /* White text color */
+  outline: none; /* Remove focus outline */
+}
+
+/* Style the button when active (clicked) */
+.navbar-login-button button.btn-spotify:active {
+  background-color: #128c7e; /* Darker green when clicked */
+  color: #ffffff; /* White text color */
+}
+
 .navbar {
   padding: 0.2rem 1rem;
   .dropdown-item.active,

@@ -2,9 +2,23 @@
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">Teamproject</span>
-      <span class="navbar-version">{{ version }}</span>
     </a>
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <span>
+            <span>Track Organizer</span>
+          </span>
+        </a>
+      </li>
+      <!-- Add two more page links as needed -->
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/your-second-link" (click)="collapseNavbar()">
+          <span>Visualisations</span>
+        </a>
+      </li>
+    </ul>
+
     <a
       class="navbar-toggler d-lg-none"
       href="javascript:void(0);"
@@ -17,16 +31,9 @@
     >
       <fa-icon icon="bars"></fa-icon>
     </a>
+
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
-            <span>
-              <fa-icon icon="home"></fa-icon>
-              <span>Home</span>
-            </span>
-          </a>
-        </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"
@@ -174,6 +181,9 @@
           </ul>
         </li>
       </ul>
+    </div>
+    <div class="navbar-login-button">
+      <button class="btn btn-spotify" (click)="loginWithSpotify()">Login with Spotify</button>
     </div>
   </div>
 </nav>

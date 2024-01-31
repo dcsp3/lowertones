@@ -48,6 +48,10 @@ export class NavbarComponent implements OnInit {
     this.isNavbarCollapsed = true;
   }
 
+  loginWithSpotify(): void {
+    // Add your Spotify login logic here
+  }
+
   login(): void {
     this.router.navigate(['/login']);
   }
