@@ -41,6 +41,8 @@ export class NavbarComponent implements OnInit {
 
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
+      console.log('User Authorities:', account?.authorities);
+      console.log('Has Any Authority:', this.hasAnyAuthority(['ADMIN', 'USER']));
     });
   }
 
@@ -49,7 +51,11 @@ export class NavbarComponent implements OnInit {
   }
 
   loginWithSpotify(): void {
-    // Add your Spotify login logic here
+    // Add Spotify login logic here
+  }
+
+  hasAnyAuthority(authorities: string[]): boolean {
+    return this.account?.authorities?.some(authority => authorities.includes(authority)) || false;
   }
 
   login(): void {

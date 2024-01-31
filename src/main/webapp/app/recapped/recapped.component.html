@@ -1,1 +1,54 @@
-<p>recapped works!</p>
+<div class="container">
+  <h1 class="title">R<sub>e</sub>CAPD:</h1>
+  <h2 class="subtitle">Find the People Behind the Music You Like</h2>
+  <div class="selection-container">
+    <div class="musician-selection">
+      <label for="musicianType">Your Last {{ timeframeLabel }} in:</label>
+      <div ngbDropdown class="dropdown">
+        <button class="btn btn-secondary custom-dropdown-toggle" id="musicianTypeDropdown" ngbDropdownToggle>
+          {{ selectedMusicianType }}
+        </button>
+        <div ngbDropdownMenu class="custom-dropdown-menu" aria-labelledby="musicianTypeDropdown">
+          <button ngbDropdownItem *ngFor="let musicianType of musicianTypes" (click)="selectedMusicianType = musicianType">
+            {{ musicianType }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeframe-selection">
+      <label for="timeRange" class="label-gap">Select Time Range:</label>
+      <div>
+        <a href="javascript:void(0)" (click)="selectTimeRange('lastMonth')" [class.active]="selectedTimeRange === 'lastMonth'"
+          >Last Month</a
+        >
+        <a href="javascript:void(0)" (click)="selectTimeRange('last6Months')" [class.active]="selectedTimeRange === 'last6Months'"
+          >Last 6 Months</a
+        >
+        <a href="javascript:void(0)" (click)="selectTimeRange('lastFewYears')" [class.active]="selectedTimeRange === 'lastFewYears'"
+          >Last Few Years</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Display the table of top musicians -->
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Genre</th>
+        <!-- Add other relevant columns -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let musician of topMusicians; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ musician.name }}</td>
+        <td>{{ musician.genre }}</td>
+        <!-- Add other relevant data bindings -->
+      </tr>
+    </tbody>
+  </table>
+</div>

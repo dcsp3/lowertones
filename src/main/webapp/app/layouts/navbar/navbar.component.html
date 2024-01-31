@@ -11,14 +11,20 @@
           </span>
         </a>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <!-- Only show these links if the user has the 'ADMIN' or 'USER' authority -->
+      <li
+        class="nav-item"
+        *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <a class="nav-link" routerLink="/recapped" (click)="collapseNavbar()">
           <span>
-            <span>Recapped</span>
+            <span>ReCAPD</span>
           </span>
         </a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li class="nav-item" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']" routerLinkActive="active">
         <a class="nav-link" routerLink="/visualisations" (click)="collapseNavbar()">
           <span>Visualisations</span>
         </a>
@@ -52,7 +58,7 @@
     </form>
 
     <!-- Spacer to push the Login with Spotify button to the right -->
-    <div class="flex-grow-1"></div>
+    <div class="flex-grow-2"></div>
 
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <!-- likely remove this entire div later, as OG login / signup is unneeded-->

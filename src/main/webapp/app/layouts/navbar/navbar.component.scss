@@ -16,34 +16,56 @@ Navbar
   width: 1.75em;
 }
 
-/* Add rounded corners and Spotify green color to the button */
 .navbar-login-button button.btn-spotify {
-  border-radius: 20px; /* Adjust the value to increase or decrease the roundness */
-  background-color: #1db954; /* Spotify green color */
-  color: #ffffff; /* White text color */
+  border-radius: 20px;
+  background-color: #1db954;
+  color: #ffffff;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem 1rem;
+}
+
+form.d-flex {
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .form-control.rounded-pill {
-  width: 700px; /* Adjust the width as needed */
-  border-radius: 20px; /* Adjust the border-radius for rounded edges */
+  width: 100%;
+  border-radius: 20px;
+  margin: 0 auto;
 }
 
-/* Style the button on hover and focus */
+.navbar-login-button button.btn-spotify {
+  border-radius: 20px;
+  background-color: #1db954;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
 .navbar-login-button button.btn-spotify:hover,
 .navbar-login-button button.btn-spotify:focus {
-  background-color: #25d366; /* Lighter green on hover/focus */
-  color: #ffffff; /* White text color */
-  outline: none; /* Remove focus outline */
+  background-color: #25d366;
+  color: #ffffff;
+  outline: none;
 }
 
-/* Style the button when active (clicked) */
 .navbar-login-button button.btn-spotify:active {
-  background-color: #128c7e; /* Darker green when clicked */
-  color: #ffffff; /* White text color */
+  background-color: #1ca44e;
+  color: #ffffff;
 }
 
 .navbar {
   padding: 0.2rem 1rem;
+
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
@@ -51,8 +73,9 @@ Navbar
   }
 
   a.nav-link {
-    font-weight: 400;
+    font-weight: bold;
     color: $gray-100;
+    white-space: nowrap;
   }
 
   .navbar-toggler {
