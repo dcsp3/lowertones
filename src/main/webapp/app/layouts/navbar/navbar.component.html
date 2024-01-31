@@ -1,18 +1,25 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md bg-light">
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
     </a>
     <ul class="navbar-nav">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+        <a class="nav-link" routerLink="/tableview" (click)="collapseNavbar()">
           <span>
             <span>Track Organizer</span>
           </span>
         </a>
       </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/recapped" (click)="collapseNavbar()">
+          <span>
+            <span>Recapped</span>
+          </span>
+        </a>
+      </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/your-second-link" (click)="collapseNavbar()">
+        <a class="nav-link" routerLink="/visualisations" (click)="collapseNavbar()">
           <span>Visualisations</span>
         </a>
       </li>
@@ -38,7 +45,7 @@
       <input
         class="form-control rounded-pill"
         type="search"
-        placeholder="Search"
+        placeholder="Search the Library"
         aria-label="Search"
         (keydown.enter)="performSearch($event)"
       />

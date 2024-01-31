@@ -8,7 +8,7 @@ Navbar
 
 .navbar-version {
   font-size: 0.65em;
-  color: $navbar-dark-color;
+  color: $navbar-light-color;
 }
 
 .profile-image {
@@ -25,7 +25,7 @@ Navbar
 
 .form-control.rounded-pill {
   width: 700px; /* Adjust the width as needed */
-  border-radius: 20px; /* Adjust the border-radius for rounded edges */
+  border-radius: 2px; /* Adjust the border-radius for rounded edges */
 }
 
 /* Style the button on hover and focus */
@@ -52,6 +52,7 @@ Navbar
 
   a.nav-link {
     font-weight: 400;
+    color: $gray-100;
   }
 
   .navbar-toggler {
