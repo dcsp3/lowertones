@@ -11,7 +11,6 @@
           </span>
         </a>
       </li>
-      <!-- Add two more page links as needed -->
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/your-second-link" (click)="collapseNavbar()">
           <span>Visualisations</span>
@@ -32,7 +31,24 @@
       <fa-icon icon="bars"></fa-icon>
     </a>
 
+    <!-- Spacer to push the search bar to the middle -->
+    <div class="flex-grow-1"></div>
+
+    <form class="d-flex mx-auto">
+      <input
+        class="form-control rounded-pill"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        (keydown.enter)="performSearch($event)"
+      />
+    </form>
+
+    <!-- Spacer to push the Login with Spotify button to the right -->
+    <div class="flex-grow-1"></div>
+
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
+      <!-- likely remove this entire div later, as OG login / signup is unneeded-->
       <ul class="navbar-nav ms-auto">
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li

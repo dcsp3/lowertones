@@ -65,4 +65,13 @@ export class NavbarComponent implements OnInit {
   toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
+
+  performSearch(event: any): void {
+    if (event.key === 'Enter') {
+      // Add search logic here
+      const searchTerm = (event.target as HTMLInputElement).value;
+      console.log(`Performing search for: ${searchTerm}`);
+      // Trigger search function here
+    }
+  }
 }

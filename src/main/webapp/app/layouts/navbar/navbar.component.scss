@@ -23,6 +23,11 @@ Navbar
   color: #ffffff; /* White text color */
 }
 
+.form-control.rounded-pill {
+  width: 700px; /* Adjust the width as needed */
+  border-radius: 20px; /* Adjust the border-radius for rounded edges */
+}
+
 /* Style the button on hover and focus */
 .navbar-login-button button.btn-spotify:hover,
 .navbar-login-button button.btn-spotify:focus {
