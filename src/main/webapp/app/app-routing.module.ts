@@ -6,6 +6,7 @@ import { navbarRoute } from './layouts/navbar/navbar.route';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 import { RecappedComponent } from 'app/recapped/recapped.component';
+import { NetworkComponent } from './network/network.component';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
@@ -38,6 +39,15 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           component: RecappedComponent,
           data: {
             pageTitle: 'Recapped',
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'your-network',
+          component: NetworkComponent,
+          data: {
+            pageTitle: 'Your Network',
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],
