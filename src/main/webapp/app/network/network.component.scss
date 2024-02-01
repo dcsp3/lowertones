@@ -1,0 +1,41 @@
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.title,
+.subtitle {
+  opacity: 0;
+  transform: translateY(20px);
+  font-family: 'Dela Gothic One', cursive;
+  transition: opacity 0.8s cubic-bezier(0.42, 0, 0.58, 1), transform 0.8s cubic-bezier(0.42, 0, 0.58, 1);
+  animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.6s forwards;
+}
+
+.title {
+  font-size: 54px;
+  margin-bottom: 5px;
+  line-height: 1;
+}
+
+.title sub {
+  font-size: 46px;
+  vertical-align: 0.25em;
+}
+
+.subtitle {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
