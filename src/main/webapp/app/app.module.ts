@@ -25,6 +25,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { RecappedComponent } from './recapped/recapped.component';
 import { NetworkComponent } from './network/network.component';
+import { TableviewComponent } from './tableview/tableview.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,16 @@ import { NetworkComponent } from './network/network.component';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, RecappedComponent, NetworkComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    RecappedComponent,
+    NetworkComponent,
+    TableviewComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {
