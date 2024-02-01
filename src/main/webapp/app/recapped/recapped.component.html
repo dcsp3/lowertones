@@ -33,22 +33,19 @@
   </div>
 
   <!-- Display the table of top musicians -->
-  <table>
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>Genre</th>
-        <!-- Add other relevant columns -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let musician of topMusicians; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ musician.name }}</td>
-        <td>{{ musician.genre }}</td>
-        <!-- Add other relevant data bindings -->
-      </tr>
-    </tbody>
-  </table>
+
+  <div class="image-container">
+    <img src="../../content/images/testalbum1.jpg" alt="Image 1" class="vanilla-tilt-img" />
+    <div class="image-caption">Caption for Image 1</div>
+  </div>
+
+  <div class="image-container">
+    <img src="../../content/images/testalbum2.jpg" alt="Image 2" class="vanilla-tilt-img" />
+    <div class="image-caption">Caption for Image 2</div>
+  </div>
+
+  <div class="image-container">
+    <img src="../../content/images/testalbum3.png" alt="Image 3" class="vanilla-tilt-img" />
+    <div class="image-caption">Caption for Image 3</div>
+  </div>
 </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ElementRef } from '@angular/core';
+import VanillaTilt from 'vanilla-tilt';
 
 @Component({
   selector: 'jhi-recapped',
@@ -12,10 +13,27 @@ export class RecappedComponent implements OnInit {
   topMusicians: any[] = [];
   timeframeLabel: string = 'Month'; // Default label
 
-  constructor() {}
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.loadTopMusicians();
+  }
+
+  ngAfterViewInit(): void {
+    // Manually set the tilt effect on all elements with class 'vanilla-tilt-img'
+    const imgElements = this.elementRef.nativeElement.querySelectorAll('.vanilla-tilt-img');
+
+    imgElements.forEach((imgElement: HTMLElement) => {
+      VanillaTilt.init(imgElement, {
+        max: 32,
+        speed: 2000,
+        glare: true,
+        'max-glare': 0,
+        easing: 'cubic-bezier(.03,.98,.52,.99)',
+        perspective: 900,
+        transition: true,
+      });
+    });
   }
 
   loadTopMusicians(): void {
