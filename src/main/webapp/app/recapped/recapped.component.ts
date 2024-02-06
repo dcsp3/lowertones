@@ -7,12 +7,12 @@ import VanillaTilt from 'vanilla-tilt';
   styleUrls: ['./recapped.component.scss'],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
-  currentScreen: 'title' | 'selection' | 'results' = 'title'; // Declare currentScreen property
-  selectedMusicianType: string = 'Producers'; // Default to prdoucers
+  currentScreen: 'title' | 'selection' | 'results' = 'title';
+  selectedMusicianType: string = 'Producers';
   musicianTypes: string[] = ['Producers', 'Singers', 'Guitarists', 'Bassists', 'Drummers'];
-  selectedTimeRange: string = 'lastMonth'; // Set the default time range to last Month
+  selectedTimeRange: string = 'lastMonth';
   topMusicians: any[] = [];
-  timeframeLabel: string = 'Month'; // Default label
+  timeframeLabel: string = 'Month';
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -21,13 +21,25 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Initialize VanillaTilt on title screen
+    this.initVanillaTiltTitleScreen();
+  }
+
+  private initVanillaTiltTitleScreen(): void {
     const titleImgElement = this.elementRef.nativeElement.querySelector('.title-screen .vanilla-tilt-img');
     this.initVanillaTilt(titleImgElement);
   }
 
-  // Add this method to initialize VanillaTilt on an element
-  initVanillaTilt(element: HTMLElement): void {
+  private initVanillaTiltOnResultsScreen(): void {
+    const imgElements = this.elementRef.nativeElement.querySelectorAll('.results-container .vanilla-tilt-img');
+
+    imgElements.forEach((imgElement: HTMLElement) => {
+      this.renderer.listen(imgElement, 'load', () => {
+        this.initVanillaTilt(imgElement);
+      });
+    });
+  }
+
+  private initVanillaTilt(element: HTMLElement): void {
     VanillaTilt.init(element, {
       max: 32,
       speed: 2000,
@@ -39,44 +51,23 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Add this method to initialize VanillaTilt on result screen images
-  initVanillaTiltOnResultsScreen(): void {
-    const imgElements = this.elementRef.nativeElement.querySelectorAll('.results-container .vanilla-tilt-img');
-
-    // Use Renderer2 to listen for changes and then initialize VanillaTilt
-    imgElements.forEach((imgElement: HTMLElement) => {
-      this.renderer.listen(imgElement, 'load', () => {
-        this.initVanillaTilt(imgElement);
-      });
-    });
-  }
-
   goToSelectionScreen(): void {
     this.currentScreen = 'selection';
   }
-  // Update the method to navigate between screens
+
   goToResultsScreen(): void {
     this.currentScreen = 'results';
-    this.initVanillaTiltOnResultsScreen(); // Initialize VanillaTilt on results screen
+    this.initVanillaTiltOnResultsScreen();
   }
 
   loadTopMusicians(): void {
-    // Implement the logic to fetch top musicians based on selectedMusicianType and time range
-    // may want to call service to fetch data from the backend
-    // Update this.topMusicians with the fetched data
-    // For example, can make an HTTP request to Spring Boot backend
-    // using Angular HttpClient to get data from API endpoint.
-    // Update timeframeLabel based on the selectedTimeRange
     this.updateTimeframeLabel();
+    // Implement logic to fetch top musicians based on selectedMusicianType and time range
+    // Update this.topMusicians with the fetched data
   }
 
   selectTimeRange(timeRange: string): void {
-    // Set the selected time range
     this.selectedTimeRange = timeRange;
-
-    // Implement logic to set the start and end date based on the selected time range
-    // Update this.startDate and this.endDate accordingly
-    // Then call loadTopMusicians to fetch data for the updated time range
     this.loadTopMusicians();
   }
 
