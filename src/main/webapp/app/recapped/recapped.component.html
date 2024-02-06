@@ -17,6 +17,14 @@
           <div class="col-md-6 order-md-first">
             <img
               src="../../content/images/testalbum.jpeg"
+              srcset="
+                ../../content/images/testalbum-small.jpeg   400w,
+                ../../content/images/testalbum-medium.jpeg  800w,
+                ../../content/images/testalbum-large.jpeg  1200w
+              "
+              sizes="(max-width: 600px) 400px,
+         (max-width: 1200px) 800px,
+         1200px"
               alt="Title Photo"
               class="title-photo img-fluid rounded vanilla-tilt-img fade-in-up"
             />
@@ -64,18 +72,55 @@
   <!-- Results Screen -->
   <div *ngIf="currentScreen === 'results'" class="results-container">
     <button class="btn btn-secondary back-btn" (click)="goToSelectionScreen()">Back to Options</button>
+
     <div class="image-container">
-      <img src="../../content/images/testalbum1.jpg" alt="Image 1" class="vanilla-tilt-img" />
+      <img
+        src="../../content/images/testalbum1.jpg"
+        srcset="
+          ../../content/images/testalbum1-small.jpg   400w,
+          ../../content/images/testalbum1-medium.jpg  800w,
+          ../../content/images/testalbum1-large.jpg  1200w
+        "
+        sizes="(max-width: 600px) 400px,
+               (max-width: 1200px) 800px,
+               1200px"
+        alt="Image 1"
+        class="vanilla-tilt-img"
+      />
       <div class="image-caption">Caption for Image 1</div>
     </div>
 
     <div class="image-container">
-      <img src="../../content/images/testalbum2.jpg" alt="Image 2" class="vanilla-tilt-img" />
+      <img
+        src="../../content/images/testalbum2.jpg"
+        srcset="
+          ../../content/images/testalbum2-small.jpg   400w,
+          ../../content/images/testalbum2-medium.jpg  800w,
+          ../../content/images/testalbum2-large.jpg  1200w
+        "
+        sizes="(max-width: 600px) 400px,
+               (max-width: 1200px) 800px,
+               1200px"
+        alt="Image 2"
+        class="vanilla-tilt-img"
+      />
       <div class="image-caption">Caption for Image 2</div>
     </div>
 
     <div class="image-container">
-      <img src="../../content/images/testalbum3.png" alt="Image 3" class="vanilla-tilt-img" />
+      <img
+        src="../../content/images/testalbum3.png"
+        srcset="
+          ../../content/images/testalbum3-small.png   400w,
+          ../../content/images/testalbum3-medium.png  800w,
+          ../../content/images/testalbum3-large.png  1200w
+        "
+        sizes="(max-width: 600px) 400px,
+               (max-width: 1200px) 800px,
+               1200px"
+        alt="Image 3"
+        class="vanilla-tilt-img"
+      />
       <div class="image-caption">Caption for Image 3</div>
     </div>
   </div>
