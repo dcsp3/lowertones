@@ -1,51 +1,83 @@
 <div class="container">
-  <h1 class="title">R<sub>e</sub>CAPD:</h1>
-  <h2 class="subtitle">Find the People Behind the Music You Like</h2>
-  <div class="selection-container">
-    <div class="musician-selection">
-      <label for="musicianType">Your Last {{ timeframeLabel }} in:</label>
-      <div ngbDropdown class="dropdown">
-        <button class="btn btn-secondary custom-dropdown-toggle" id="musicianTypeDropdown" ngbDropdownToggle>
-          {{ selectedMusicianType }}
-        </button>
-        <div ngbDropdownMenu class="custom-dropdown-menu" aria-labelledby="musicianTypeDropdown">
-          <button ngbDropdownItem *ngFor="let musicianType of musicianTypes" (click)="selectedMusicianType = musicianType">
-            {{ musicianType }}
-          </button>
+  <!-- Title Screen -->
+  <div *ngIf="currentScreen === 'title'" class="title-screen">
+    <div class="container text-center mt-5">
+      <div class="card p-4 rounded">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="d-flex flex-column h-100">
+              <h1 class="title mb-3">R<sub>e</sub>CAPD:</h1>
+              <h2 class="subtitle mb-3">Find the People Behind the Music You Like</h2>
+              <p class="mt-3 fade-in-up">
+                <!-- Added fade-in-up class -->
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur auctor dolor vitae consectetur lobortis.
+              </p>
+              <button class="btn btn-primary mt-3 fade-in-up" (click)="goToSelectionScreen()">Get Started</button>
+            </div>
+          </div>
+          <div class="col-md-6 order-md-first">
+            <img
+              src="../../content/images/testalbum.jpeg"
+              alt="Title Photo"
+              class="title-photo img-fluid rounded vanilla-tilt-img fade-in-up"
+            />
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="timeframe-selection">
-      <label for="timeRange" class="label-gap">Select Time Range:</label>
-      <div>
-        <a href="javascript:void(0)" (click)="selectTimeRange('lastMonth')" [class.active]="selectedTimeRange === 'lastMonth'"
-          >Last Month</a
-        >
-        <a href="javascript:void(0)" (click)="selectTimeRange('last6Months')" [class.active]="selectedTimeRange === 'last6Months'"
-          >Last 6 Months</a
-        >
-        <a href="javascript:void(0)" (click)="selectTimeRange('lastFewYears')" [class.active]="selectedTimeRange === 'lastFewYears'"
-          >Last Few Years</a
-        >
+  <!-- Selection Screen -->
+  <div *ngIf="currentScreen === 'selection'" class="selection-container">
+    <div class="selection-container">
+      <div class="musician-selection">
+        <label for="musicianType">Your Last {{ timeframeLabel }} in:</label>
+        <div ngbDropdown class="dropdown">
+          <button class="btn btn-secondary custom-dropdown-toggle" id="musicianTypeDropdown" ngbDropdownToggle>
+            {{ selectedMusicianType }}
+          </button>
+          <div ngbDropdownMenu class="custom-dropdown-menu" aria-labelledby="musicianTypeDropdown">
+            <button ngbDropdownItem *ngFor="let musicianType of musicianTypes" (click)="selectedMusicianType = musicianType">
+              {{ musicianType }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeframe-selection">
+        <label for="timeRange" class="label-gap">Select Time Range:</label>
+        <div>
+          <a href="javascript:void(0)" (click)="selectTimeRange('lastMonth')" [class.active]="selectedTimeRange === 'lastMonth'"
+            >Last Month</a
+          >
+          <a href="javascript:void(0)" (click)="selectTimeRange('last6Months')" [class.active]="selectedTimeRange === 'last6Months'"
+            >Last 6 Months</a
+          >
+          <a href="javascript:void(0)" (click)="selectTimeRange('lastFewYears')" [class.active]="selectedTimeRange === 'lastFewYears'"
+            >Last Few Years</a
+          >
+        </div>
       </div>
     </div>
+    <button class="btn btn-secondary back-btn" (click)="goToResultsScreen()">Confirm</button>
   </div>
 
-  <!-- Display the table of top musicians -->
+  <!-- Results Screen -->
+  <div *ngIf="currentScreen === 'results'" class="results-container">
+    <button class="btn btn-secondary back-btn" (click)="goToSelectionScreen()">Back to Options</button>
+    <div class="image-container">
+      <img src="../../content/images/testalbum1.jpg" alt="Image 1" class="vanilla-tilt-img" />
+      <div class="image-caption">Caption for Image 1</div>
+    </div>
 
-  <div class="image-container">
-    <img src="../../content/images/testalbum1.jpg" alt="Image 1" class="vanilla-tilt-img" />
-    <div class="image-caption">Caption for Image 1</div>
-  </div>
+    <div class="image-container">
+      <img src="../../content/images/testalbum2.jpg" alt="Image 2" class="vanilla-tilt-img" />
+      <div class="image-caption">Caption for Image 2</div>
+    </div>
 
-  <div class="image-container">
-    <img src="../../content/images/testalbum2.jpg" alt="Image 2" class="vanilla-tilt-img" />
-    <div class="image-caption">Caption for Image 2</div>
-  </div>
-
-  <div class="image-container">
-    <img src="../../content/images/testalbum3.png" alt="Image 3" class="vanilla-tilt-img" />
-    <div class="image-caption">Caption for Image 3</div>
+    <div class="image-container">
+      <img src="../../content/images/testalbum3.png" alt="Image 3" class="vanilla-tilt-img" />
+      <div class="image-caption">Caption for Image 3</div>
+    </div>
   </div>
 </div>

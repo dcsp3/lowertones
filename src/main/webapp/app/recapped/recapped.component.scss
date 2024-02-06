@@ -1,3 +1,71 @@
+@import '~bootstrap/scss/bootstrap';
+
+.title-screen {
+  text-align: center;
+  padding: 50px 0;
+
+  .card {
+    max-width: 1000px; /* Adjust as needed */
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #888;
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+  }
+
+  .title {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .title-photo {
+    width: 80%; /* Adjust as needed */
+    max-width: 600px; /* Set a max-width for responsiveness */
+    object-fit: cover;
+    border-radius: 8px;
+    align-self: center; /* Center the image */
+  }
+
+  p {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 15px;
+  }
+
+  .btn-primary {
+    font-size: 18px;
+    width: 200px; /* Adjust as needed */
+    align-self: center; /* Center the button */
+    margin-bottom: 15px;
+  }
+
+  .d-flex {
+    /* Added custom class for flex container */
+    display: flex;
+  }
+
+  .flex-column {
+    /* Added custom class for flex column direction */
+    flex-direction: column;
+  }
+
+  .h-100 {
+    /* Added custom class for 100% height */
+    height: 100%;
+  }
+
+  .mt-auto {
+    /* Added custom class for margin-top:auto */
+    margin-top: auto;
+  }
+}
+
 .container {
   text-align: center;
   position: relative;
@@ -41,6 +109,31 @@
     transform: translateY(20px); // Initially move the container down by 20px
     animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 1.8s forwards;
     z-index: 2;
+  }
+
+  .title-screen {
+    text-align: center;
+  }
+
+  .title-photo {
+    /* Style for the title photo */
+    width: 80%; /* Adjust as needed */
+    max-width: 400px; /* Set a max-width for responsiveness */
+  }
+
+  .get-started-btn {
+    /* Style for the Get Started button */
+    /* Add any additional styling as needed */
+  }
+
+  .results-container {
+    /* Style for the results container */
+    /* Add any additional styling as needed */
+  }
+
+  .confirm-btn {
+    /* Style for the Confirm / Next button */
+    /* Add any additional styling as needed */
   }
 
   .vanilla-tilt-img {
@@ -123,4 +216,32 @@
   a.active {
     color: lightblue;
   }
+}
+
+.btn {
+  /* Common styles for all buttons */
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.btn-primary {
+  /* Styles for primary (Get Started, Confirm / Next) button */
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-secondary {
+  /* Styles for secondary (Back) button */
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+  border-color: #545b62;
 }

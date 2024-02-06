@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Component({
@@ -6,34 +6,58 @@ import VanillaTilt from 'vanilla-tilt';
   templateUrl: './recapped.component.html',
   styleUrls: ['./recapped.component.scss'],
 })
-export class RecappedComponent implements OnInit {
+export class RecappedComponent implements OnInit, AfterViewInit {
+  currentScreen: 'title' | 'selection' | 'results' = 'title'; // Declare currentScreen property
   selectedMusicianType: string = 'Producers'; // Default to prdoucers
   musicianTypes: string[] = ['Producers', 'Singers', 'Guitarists', 'Bassists', 'Drummers'];
   selectedTimeRange: string = 'lastMonth'; // Set the default time range to last Month
   topMusicians: any[] = [];
   timeframeLabel: string = 'Month'; // Default label
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.loadTopMusicians();
   }
 
   ngAfterViewInit(): void {
-    // Manually set the tilt effect on all elements with class 'vanilla-tilt-img'
-    const imgElements = this.elementRef.nativeElement.querySelectorAll('.vanilla-tilt-img');
+    // Initialize VanillaTilt on title screen
+    const titleImgElement = this.elementRef.nativeElement.querySelector('.title-screen .vanilla-tilt-img');
+    this.initVanillaTilt(titleImgElement);
+  }
 
+  // Add this method to initialize VanillaTilt on an element
+  initVanillaTilt(element: HTMLElement): void {
+    VanillaTilt.init(element, {
+      max: 32,
+      speed: 2000,
+      glare: true,
+      'max-glare': 0,
+      easing: 'cubic-bezier(.03,.98,.52,.99)',
+      perspective: 900,
+      transition: true,
+    });
+  }
+
+  // Add this method to initialize VanillaTilt on result screen images
+  initVanillaTiltOnResultsScreen(): void {
+    const imgElements = this.elementRef.nativeElement.querySelectorAll('.results-container .vanilla-tilt-img');
+
+    // Use Renderer2 to listen for changes and then initialize VanillaTilt
     imgElements.forEach((imgElement: HTMLElement) => {
-      VanillaTilt.init(imgElement, {
-        max: 32,
-        speed: 2000,
-        glare: true,
-        'max-glare': 0,
-        easing: 'cubic-bezier(.03,.98,.52,.99)',
-        perspective: 900,
-        transition: true,
+      this.renderer.listen(imgElement, 'load', () => {
+        this.initVanillaTilt(imgElement);
       });
     });
+  }
+
+  goToSelectionScreen(): void {
+    this.currentScreen = 'selection';
+  }
+  // Update the method to navigate between screens
+  goToResultsScreen(): void {
+    this.currentScreen = 'results';
+    this.initVanillaTiltOnResultsScreen(); // Initialize VanillaTilt on results screen
   }
 
   loadTopMusicians(): void {
