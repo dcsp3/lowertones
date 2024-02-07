@@ -68,7 +68,7 @@ public class SpotifyExchangeCodeService {
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "authorization_code");
         requestBody.add("code", code);
-        requestBody.add("redirect_uri", "http://localhost:8080/callback");
+        requestBody.add("redirect_uri", "https://team37.dev.bham.team/callback");
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
