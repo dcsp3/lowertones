@@ -1,0 +1,11 @@
+{
+  "changelogDate": "20240207115753",
+  "dto": "no",
+  "fields": [],
+  "jpaMetamodelFiltering": false,
+  "name": "SpotifyExchangeCode",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
