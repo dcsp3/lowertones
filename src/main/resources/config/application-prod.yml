@@ -123,4 +123,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+#application:
+#  security:
+#    spotifyAppSecretID: 8758afca4e884efc91eefc0d3891cfd7
