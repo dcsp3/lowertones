@@ -10,6 +10,9 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { HttpClient } from '@angular/common/http';
 
+//custom services go here
+import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-handler.service';
+
 @Component({
   selector: 'jhi-navbar',
   templateUrl: './navbar.component.html',
@@ -29,7 +32,8 @@ export class NavbarComponent implements OnInit {
     private profileService: ProfileService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private spotifyAuthCodeHandler: SpotifyAuthcodeHandlerService
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
@@ -51,6 +55,16 @@ export class NavbarComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const code = params['code'];
       if (code) {
+        this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
+          response => {
+            console.log('Received access token:', response);
+            // Handle the response here, e.g., store the access token
+          },
+          error => {
+            console.error('Error sending authorization code:', error);
+            // Handle errors
+          }
+        );
         this.router.navigate(['/']);
       }
     });
@@ -81,6 +95,18 @@ export class NavbarComponent implements OnInit {
       });
 
     window.location.href = url.toString();
+    // Simulate sending authorization code back to the client for testing
+    const mockAuthorizationCode = 'testAuthorizationCode123'; // Replace with an actual authorization code
+    this.spotifyAuthCodeHandler.sendAuthorizationCode(mockAuthorizationCode).subscribe(
+      response => {
+        console.log('Received access token:', response);
+        // Handle the response here, e.g., store the access token
+      },
+      error => {
+        console.error('Error sending authorization code:', error);
+        // Handle errors
+      }
+    );
   }
 
   generateRandomString(length: number): string {

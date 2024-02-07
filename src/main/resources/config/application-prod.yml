@@ -126,3 +126,7 @@ jhipster:
 #application:
 #  security:
 #    spotifyAppSecretID: 8758afca4e884efc91eefc0d3891cfd7
+spotify:
+  client:
+    id: 668d334388b04520ba9e25b3d2289e78
+    secret: 8758afca4e884efc91eefc0d3891cfd7
