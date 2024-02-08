@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
   entitiesNavbarItems: any[] = [];
 
   constructor(
+    private cookieService: CookieService,
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
@@ -58,11 +60,13 @@ export class NavbarComponent implements OnInit {
         this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
           response => {
             console.log('Received access token:', response);
-            // Handle the response here, e.g., store the access token
+            const expirationDate = new Date();
+            expirationDate.setSeconds(expirationDate.getSeconds() + 3600);
+            this.cookieService.set('access_token', response.access_token, expirationDate);
+            this.cookieService.set('refresh_token', response.refresh_token);
           },
           error => {
             console.error('Error sending authorization code:', error);
-            // Handle errors
           }
         );
         this.router.navigate(['/']);
