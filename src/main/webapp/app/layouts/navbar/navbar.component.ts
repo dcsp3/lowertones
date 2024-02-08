@@ -95,18 +95,21 @@ export class NavbarComponent implements OnInit {
       });
 
     window.location.href = url.toString();
-    // Simulate sending authorization code back to the client for testing
-    const mockAuthorizationCode = 'testAuthorizationCode123'; // Replace with an actual authorization code
-    this.spotifyAuthCodeHandler.sendAuthorizationCode(mockAuthorizationCode).subscribe(
-      response => {
-        console.log('Received access token:', response);
-        // Handle the response here, e.g., store the access token
-      },
-      error => {
-        console.error('Error sending authorization code:', error);
-        // Handle errors
-      }
-    );
+    // Check if the URL contains the authorization code immediately after initiating the Spotify login
+    const queryParams = new URLSearchParams(window.location.search);
+    const code = queryParams.get('code');
+    if (code) {
+      this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
+        response => {
+          console.log('Received access token:', response);
+          // Handle the response here, e.g., store the access token
+        },
+        error => {
+          console.error('Error sending authorization code:', error);
+          // Handle errors
+        }
+      );
+    }
   }
 
   generateRandomString(length: number): string {
