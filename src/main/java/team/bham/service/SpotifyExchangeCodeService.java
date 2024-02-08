@@ -76,11 +76,11 @@ public class SpotifyExchangeCodeService {
         ResponseEntity<String> responseEntity = restTemplate.exchange(spotifyTokenUrl, HttpMethod.POST, requestEntity, String.class);
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            // Parse the response and extract the access token
+            // Return the access token directly
             JSONObject responseJson = new JSONObject(responseEntity.getBody());
             String accessToken = responseJson.getString("access_token");
             System.out.println("-----------------------------------------THIS IS THE TOKEN" + accessToken);
-            return accessToken;
+            return responseEntity.getBody();
         } else {
             // Handle error response from Spotify API
             return null;

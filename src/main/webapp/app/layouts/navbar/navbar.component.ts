@@ -96,20 +96,6 @@ export class NavbarComponent implements OnInit {
 
     window.location.href = url.toString();
     // Check if the URL contains the authorization code immediately after initiating the Spotify login
-    const queryParams = new URLSearchParams(window.location.search);
-    const code = queryParams.get('code');
-    if (code) {
-      this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
-        response => {
-          console.log('Received access token:', response);
-          // Handle the response here, e.g., store the access token
-        },
-        error => {
-          console.error('Error sending authorization code:', error);
-          // Handle errors
-        }
-      );
-    }
   }
 
   generateRandomString(length: number): string {
