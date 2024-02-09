@@ -60,10 +60,12 @@ export class NavbarComponent implements OnInit {
         this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
           response => {
             console.log('Received access token:', response);
-            const expirationDate = new Date();
-            expirationDate.setSeconds(expirationDate.getSeconds() + 3600);
-            this.cookieService.set('access_token', response.access_token, expirationDate);
-            this.cookieService.set('refresh_token', response.refresh_token);
+            const accessExpirationDate = new Date();
+            accessExpirationDate.setSeconds(accessExpirationDate.getSeconds() + 3600);
+            const refreshExpirationDate = new Date();
+            refreshExpirationDate.setSeconds(refreshExpirationDate.getDay() + 3600 * 24 * 30);
+            this.cookieService.set('access_token', response.access_token, accessExpirationDate);
+            this.cookieService.set('refresh_token', response.refresh_token, refreshExpirationDate);
           },
           error => {
             console.error('Error sending authorization code:', error);
@@ -100,6 +102,12 @@ export class NavbarComponent implements OnInit {
 
     window.location.href = url.toString();
     // Check if the URL contains the authorization code immediately after initiating the Spotify login
+  }
+  isLoggedIn(): boolean {
+    const accessToken = this.cookieService.get('access_token');
+    console.log('Access Token Present:', accessToken);
+    // Check if the access token exists and is not expired
+    return !!accessToken;
   }
 
   generateRandomString(length: number): string {
