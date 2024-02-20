@@ -1,0 +1,7 @@
+maybe we could use the following repo for converting the discogs to a database before cleaning, instead of the custom written java classes: 
+
+https://github.com/philipmat/discogs-xml2db
+
+Discogs databases are available here:
+https://discogs-data-dumps.s3.us-west-2.amazonaws.com/index.html?prefix=data/2024/
+They are available under a CC0 license. Each month is released in the first week of the month, and each new release has the new releases concatenated onto the whole database

@@ -1,0 +1,22 @@
+input size=76.9gb
+output size= 
+reduction%=
+
+56.5394916% of original file size when removing following tags:
+
+-- <Tags> to remove --
+
+videos
+notes
+images
+labels
+formats
+data_quality
+country
+position
+duration
+anv
+tracks
+companies
+identifiers
+
