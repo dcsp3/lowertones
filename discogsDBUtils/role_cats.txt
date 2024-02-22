@@ -1,0 +1,524 @@
+made by chatgpt, needs manual touch:
+
+SONGWRITERS:
+	Writer
+	Written By
+	Words By
+	Lyrics By
+	Songwriter
+
+PRODUCTION TEAM:
+	Producer
+	-"Executive"
+	Co producer
+	Recording Engineer
+	Recorded By
+	Engineer
+	Mastering Engineer
+	Mastered By
+	Arrangement
+    Arranged By
+    
+COMPOSERS:
+	Composer
+    Composed By
+
+MIXING:
+	Mixing Engineer	
+	Mixed By
+	Track Engineer
+    Tracking By
+    
+PERFORMERS:
+    Performer
+    Featuring
+
+ARTISTS:
+	Lead Vocals
+	Vocals
+	Backing Vocals
+	Voice
+
+GUITARS:
+	Guitar
+	Acoustic Guitar
+	Electric Guitar
+	Bass
+	Electric Bass
+	Rhythm Guitar
+	Lead Guitar
+    Pedal Steel Guitar
+    Slide Guitar
+    Bass Guitar
+	Steel Guitar
+	Twelve String Guitar
+    E Bow
+	Acoustic Bass
+	Fretless Bass
+
+ORGANS:
+	Organ
+	Electric Organ
+	Chord Organ Moog
+
+KEYBOARDS:
+	Keyboards
+	Electric Piano
+	Grand Piano
+	Farfisa
+	Synthesizer
+	Synth
+	Omnichord
+	Rhodes
+    Mellotron
+	Roland Jupiter
+	Celesta
+	Harpsichord
+    Clavichord
+
+STRING INSTRUMENTS:
+	Double Bass
+    Violin
+	Cello
+    Viola
+	Harp
+	Dulcimer
+	
+BRASS:
+	Trumpet
+	Trombone
+	Bugle
+	Flugelhorn
+	Bass Trombone
+	Tenor Trombone
+	French Horn
+	Horn
+	
+SAOPHONES:
+	Saxophone
+	Alto Saxophone
+	Baritone Saxophone
+	Tenor Saxophone
+	Soprano Saxophone
+
+FLUTES:
+    Flute
+	Alto Flute
+	Soprano Flute
+	Concert Flute
+    Piccolo Flute
+    Nose Flute
+
+DRUMS:
+	Drums
+	Percussion
+	Congas
+	Bongos
+	Tom Tom
+	Djembe
+	Goblet Drum
+	Drum Programming
+	Human Beatbox
+	Electronic Drums
+	Steel Drums
+	Tambourine
+	Drum Machine
+	Bass Drum
+	Surdo
+	Agog�
+	Bouzouki
+
+PERCUSSION:
+	Tambourine
+	Shaker
+	Bouzouki
+	Maracas
+	Cowbell
+    Body Percussion
+	Frame Drum
+	
+BELLS AND CHIMES:
+	Temple Bells
+	Bells
+	Wind Chimes
+
+ELECTRONICS:
+	Sequencer
+	Sampler
+	Effects
+	Instruments
+	Sounds
+	Looper
+	Noises
+    Electronics
+	E Bow
+	Computer
+	Turntables
+	Tweeked & Twisted By
+	MIDI Controller
+	
+SPECIAL EFFECTS/NOISE MAKERS:
+	Bowed Ventilator
+	Tape
+	Dilruba
+	Bullroarer
+	Saw
+	Sarangi
+	Sarod
+	Didgeridoo
+	Knives And Glue
+
+WOODWINDS:
+    Harmonica
+	Recorder
+	Bassoon
+	Oboe
+	Whistle
+    Pipe
+    Clarinet
+	Bass Clarinet
+    
+MISCELLANEOUS:
+    Accordion
+    Ukulele
+    Sitar
+    Banjo
+    Mandolin
+    Kazoo
+    Theremin
+	
+OTHER SOUNDS:
+	Dialog
+	Speech
+
+SINGING STYLES:
+	Rap
+	Scat
+	MC
+	
+ORCHESTRA:
+    Orchestra
+    Conductor
+    Concertmaster
+	Choir
+	Chorus
+	Horns
+	Brass
+	
+PRODUCTION ROLES:
+    Text By
+	Sleeve Notes
+	Credit
+	Assistant
+	Technician
+	Translator
+	Consultant
+	Advisor
+	Mixer
+	Project Manager
+	Director
+	Producer
+	Executive Producer
+
+VISUAL ARTS ROLES:
+	Designer
+	Artist
+	Painter
+	Animator
+	Photographer
+
+MISC ROLES:
+	Researcher
+	Consultant
+	Technician
+    Musician
+    Music Consultant
+    Soloist
+    Scenario
+    Supervisor
+    Supervisor
+    Realization
+    Contractor
+    Leader
+    Crew
+
+MISC PLACES:
+    London
+	Toronto
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	SONGWRITERS:
+	Writer
+	Written By
+	Words By
+	Lyrics By
+	Songwriter
+	Text By
+
+PRODUCERS:
+	Producer
+	Co producer
+	Executive producer
+
+ENGINEERS:
+	Recording Engineer
+	Recorded By
+	Engineer
+	Mastering Engineer
+	Mastered By
+	Remastered By
+	Tracking By
+	Sound Designer
+
+ARRANGERS:
+	Arrangement
+	Arranged By
+	Instrumentation By
+	Overdubbed By
+
+COMPOSERS:
+	Composer
+	Composed By
+	Accompanied By
+	Adapted By
+	Orchestrated By
+
+MIXERS:
+	Mixing Engineer	
+	Mixed By
+
+GUITARS:
+	Guitar
+	Acoustic Guitar
+    	Bass Guitar
+	Electric Guitar
+	Slide Guitar
+	Steel Guitar
+	Twelve String Guitar
+	Lead Guitar
+	Rhythm Guitar
+	Fretless Bass
+	Musical Assistance
+	Ebow
+	Uncredited
+	MIDI Controller
+	SFX"
+
+KEYBOARDS:
+	Keyboards
+	Piano
+	Electric Piano
+	Synthesizer
+	Synth
+	Omnichord
+	Harpsichord
+	Roland Jupiter
+	Grand Piano
+	Clavichord
+	Farfisa
+	Celesta
+	Mellotron
+	Macca Keyring
+	Bassoon
+	Clavinet
+	Timpani
+	Stylophone
+	Koto
+	Cymal
+	Concertmaster
+	Chorus
+	Polk Salad
+	Arp Oddessey
+	Scaremonger
+	Contrabass
+	Accordion
+	Harmonium
+	Kazoo
+	Zither
+	Xylophone
+	Arp Strings
+	Mbira
+	Koto
+	Tambourine
+	Tambura
+
+DRUMS:
+    Drums
+	Congas
+	Bongos
+	Tambourine
+	Djembe
+	Tom Tom
+	Rhythm Guitar
+	Electronic Drums
+	Steel Drums   
+    Drum Programming
+	Goblet Drum
+	Human Beatbox
+	Bouzouki
+
+PERCUSSION:
+	Bass 
+	Percussion
+	Acoustic Bass
+	Double Bass
+	Shaker
+	Drum Machine
+	Maracas
+	Timpani
+	Bell
+	Musical Bow
+	Snare
+	Casio Va 10
+	
+WIND INSTRUMENTS:
+	Saxophone
+	Alto Saxophone
+	Baritone Saxophone
+	Tenor Saxophone
+	Soprano Saxophone
+	Bassoon
+    Flute
+	Alto Flute
+	Soprano Flute
+	Concert Flute
+	Piccolo Flute
+
+BRASS INSTRUMENTS:
+	Trumpet
+	Bugle
+	Trombone
+	Tenor Trombone
+	Bass Trombone
+	French Horn
+	Horn
+
+STRING INSTRUMENTS:
+    Strings
+    Violin
+    Cello
+    Viola
+	Harp
+	Dulcimer
+	Banjo
+	Sitar
+	Mandolin
+	Ukulele
+	Guitar
+
+VOCALS:
+	Vocals
+	Voice
+	Backing Vocals
+	Lead Vocals
+	Baritone Vocals
+	Tenor Vocals
+	MC
+	Choir
+	Rap
+	Humming
+	Scat
+	Narrator
+	Soloist
+	Talkbox
+
+
+ELECTRONIC INSTRUMENTS AND SOUND RECORDING:
+	Effects
+	Instruments
+	Sounds
+	Sampler
+	Loops
+	Computer
+	Turntables
+	Sequencer
+	Roland CR 5000
+	Boss SYB 3
+	SP 1200
+	Saw
+	Vocoder
+	Tweak, Merge, and Make-Up
+	Tweaked & Twisted By
+	Send Berlin and Pacou
+
+OTHER INSTRUMENTS:
+    Harmonica
+	Recorder
+	Oboe
+	Whistle
+    Organ
+	Sarod
+	Kalimba
+	Hurdy Gurdy
+	Synthesizers
+	Pipe
+	Didgeridoo
+	Veena
+	Dulcimer
+    Shenai
+	Gong
+	Shenai
+	Frame Drum
+    Ondes Martenot
+    Nose Flute
+    Berimbau
+	Nose Flute
+	Teeth
+	Bass Clarinet
+	Stylophone
+	Rolled And Smoked
+	Farfisa
+	Mellotron
+	Dulcimer
+	Glockenspiel
+	Berimbau
+	Vibraphone
+	Tambourine
+	Bouzouki
+
+BEATBOXING:
+	Beatbox
+	Didgeridoo
+
+ARTISTS:
+    Guest
+	Featuring
+
+MISCELLANEOUS ROLES:
+	Consultant
+    Management	
+	Musician
+	Technician
+	Animation
+	Consultant
+	Text By
+	Video Editor
+	Producer
+	CG Artist
+	Executive Producer
+	Research
+	Soloist
+	Technician
+	Music Consultant
+	Musician
+	Executive Producer
+	Advisor
+	Project Manager
+	Director
+	Producer
+	Technician
+	Designer
+	Advisor
+	Production Manager
+	Painter
+	Scenario
+	Animator
+	Photographer
