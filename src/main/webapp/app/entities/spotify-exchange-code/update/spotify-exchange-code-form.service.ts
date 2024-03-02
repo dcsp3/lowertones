@@ -43,7 +43,7 @@ export class SpotifyExchangeCodeFormService {
   getSpotifyExchangeCode(form: SpotifyExchangeCodeFormGroup): ISpotifyExchangeCode | NewSpotifyExchangeCode {
     if (form.controls.id.disabled) {
       // form.value returns id with null value for FormGroup with only one FormControl
-      return {};
+      return { id: null };
     }
     return form.getRawValue() as ISpotifyExchangeCode | NewSpotifyExchangeCode;
   }
