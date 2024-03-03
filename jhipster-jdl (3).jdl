@@ -1,0 +1,64 @@
+// songTable - defines songs
+entity Song (songTable) {
+    dateAddedToDB LocalDate required,
+    dateLastModified LocalDate required,
+    songSpotifyID String required,
+    songTitle String required,
+    albumID String required,
+    previewURL String
+}
+entity Album (albumTable) {
+    discogsMetadataAdded Boolean required,					//false by default
+   	dateAddedToDB LocalDate required,
+    dateLastModified LocalDate required,
+   	albumSpotifyID String required,
+    albumName String required,
+    albumCoverArt String required, 							// Replace with appropriate type for href / file / path
+	spotifyAlbumUPC String,
+	spotifyAlbumEAN String,
+	spotifyAlbumISRC String,
+    discogsMasterID String
+}
+entity MainArtist (artistsTable) {
+  	dateAddedToDB LocalDate,
+   	dateLastModified LocalDate,
+    artistSpotifyID String required,
+   	artistName String required,
+	artistImage String required, 							// Replace with appropriate type for href / file / path
+}
+entity Contributor{
+	name String,
+    role String,
+    discogsID String
+}
+entity User (userTable) {
+   	spotifyUserID String required,
+    name String required,
+    spotifyRefreshToken String,
+	spotifyAuthToken String,
+    darkMode Boolean required
+}
+entity Playlist (playlistTable) {
+    dateAddedToDB LocalDate required,
+    dateLastModified LocalDate required,
+    playlistSpotifyID String required,
+    playlistName String required
+}
+relationship OneToMany {
+	Album to Song
+	MainArtist to Album	
+	User to Playlist
+    Album to Contributor
+	}
+relationship ManyToOne {
+	PlaylistSongJoin to Playlist
+  	PlaylistSongJoin to Song
+    SongArtistJoin to Song
+    SongArtistJoin to MainArtist
+}
+entity PlaylistSongJoin (playlistSongTable) {
+    songOrderIndex Integer required
+}
+entity SongArtistJoin (songArtistTable) {
+    topTrackIndex Integer
+}

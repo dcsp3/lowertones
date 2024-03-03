@@ -17,27 +17,7 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240207115753_added_entity_SpotifyExchangeCode.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181715_added_entity_Song.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181716_added_entity_Album.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181717_added_entity_MainArtist.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181718_added_entity_Contributor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181719_added_entity_AppUser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181720_added_entity_Playlist.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181721_added_entity_SpotifyGenreEntity.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181722_added_entity_MusicbrainzGenreEntity.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181723_added_entity_PlaylistSongJoin.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181724_added_entity_SongArtistJoin.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20240303181715_added_entity_constraints_Song.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181716_added_entity_constraints_Album.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181718_added_entity_constraints_Contributor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181719_added_entity_constraints_AppUser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181720_added_entity_constraints_Playlist.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181721_added_entity_constraints_SpotifyGenreEntity.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181722_added_entity_constraints_MusicbrainzGenreEntity.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181723_added_entity_constraints_PlaylistSongJoin.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240303181724_added_entity_constraints_SongArtistJoin.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>
