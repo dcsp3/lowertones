@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="playlist">
+      <h2 data-cy="playlistDetailsHeading"><span>Playlist</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ playlist.id }}</span>
+        </dd>
+        <dt><span>Date Added To DB</span></dt>
+        <dd>
+          <span>{{ playlist.dateAddedToDB | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Date Last Modified</span></dt>
+        <dd>
+          <span>{{ playlist.dateLastModified | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Playlist Spotify ID</span></dt>
+        <dd>
+          <span>{{ playlist.playlistSpotifyID }}</span>
+        </dd>
+        <dt><span>Playlist Name</span></dt>
+        <dd>
+          <span>{{ playlist.playlistName }}</span>
+        </dd>
+        <dt><span>Playlist Photo</span></dt>
+        <dd>
+          <span>{{ playlist.playlistPhoto }}</span>
+        </dd>
+        <dt><span>App User</span></dt>
+        <dd>
+          <div *ngIf="playlist.appUser">
+            <a [routerLink]="['/app-user', playlist.appUser.id, 'view']">{{ playlist.appUser.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/playlist', playlist.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

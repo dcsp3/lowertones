@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="musicbrainzGenreEntity">
+      <h2 data-cy="musicbrainzGenreEntityDetailsHeading"><span>Musicbrainz Genre Entity</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ musicbrainzGenreEntity.id }}</span>
+        </dd>
+        <dt><span>Musicbrainz Genre</span></dt>
+        <dd>
+          <span>{{ musicbrainzGenreEntity.musicbrainzGenre }}</span>
+        </dd>
+        <dt><span>Song</span></dt>
+        <dd>
+          <div *ngIf="musicbrainzGenreEntity.song">
+            <a [routerLink]="['/song', musicbrainzGenreEntity.song.id, 'view']">{{ musicbrainzGenreEntity.song.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Album</span></dt>
+        <dd>
+          <div *ngIf="musicbrainzGenreEntity.album">
+            <a [routerLink]="['/album', musicbrainzGenreEntity.album.id, 'view']">{{ musicbrainzGenreEntity.album.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Main Artist</span></dt>
+        <dd>
+          <div *ngIf="musicbrainzGenreEntity.mainArtist">
+            <a [routerLink]="['/main-artist', musicbrainzGenreEntity.mainArtist.id, 'view']">{{ musicbrainzGenreEntity.mainArtist.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/musicbrainz-genre-entity', musicbrainzGenreEntity.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

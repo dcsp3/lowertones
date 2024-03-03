@@ -1,0 +1,109 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303210528",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "album_table",
+  "fields": [
+    {
+      "fieldName": "albumSpotifyID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "albumName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "albumCoverArt",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "albumReleaseDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "releaseDatePrecision",
+      "fieldType": "ReleaseDatePrecision",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "YEAR,MONTH,DAY"
+    },
+    {
+      "fieldName": "albumPopularity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "albumType",
+      "fieldType": "AlbumType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ALBUM,SINGLE,COMPILATION"
+    },
+    {
+      "fieldName": "spotifyAlbumUPC",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "spotifyAlbumEAN",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "spotifyAlbumISRC",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateAddedToDB",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateLastModified",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "musicbrainzMetadataAdded",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "musicbrainzID",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Album",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "song",
+      "otherEntityRelationshipName": "album",
+      "relationshipName": "song",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "spotifyGenreEntity",
+      "otherEntityRelationshipName": "album",
+      "relationshipName": "spotifyGenreEntity",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "musicbrainzGenreEntity",
+      "otherEntityRelationshipName": "album",
+      "relationshipName": "musicbrainzGenreEntity",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "mainArtist",
+      "otherEntityRelationshipName": "album",
+      "relationshipName": "mainArtist",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

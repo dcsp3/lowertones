@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-contributor-heading" data-cy="ContributorCreateUpdateHeading">Create or edit a Contributor</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_role">Role</label>
+          <input type="text" class="form-control" name="role" id="field_role" data-cy="role" formControlName="role" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_instrument">Instrument</label>
+          <input
+            type="text"
+            class="form-control"
+            name="instrument"
+            id="field_instrument"
+            data-cy="instrument"
+            formControlName="instrument"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_musicbrainzID">Musicbrainz ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="musicbrainzID"
+            id="field_musicbrainzID"
+            data-cy="musicbrainzID"
+            formControlName="musicbrainzID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_song">Song</label>
+          <select class="form-control" id="field_song" data-cy="song" name="song" formControlName="song" [compareWith]="compareSong">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="songOption" *ngFor="let songOption of songsSharedCollection">{{ songOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
