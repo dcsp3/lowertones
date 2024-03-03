@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="mainArtist">
+      <h2 data-cy="mainArtistDetailsHeading"><span>Main Artist</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ mainArtist.id }}</span>
+        </dd>
+        <dt><span>Artist Spotify ID</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistSpotifyID }}</span>
+        </dd>
+        <dt><span>Artist Name</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistName }}</span>
+        </dd>
+        <dt><span>Artist Popularity</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistPopularity }}</span>
+        </dd>
+        <dt><span>Artist Image</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistImage }}</span>
+        </dd>
+        <dt><span>Artist Followers</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistFollowers }}</span>
+        </dd>
+        <dt><span>Date Added To DB</span></dt>
+        <dd>
+          <span>{{ mainArtist.dateAddedToDB | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Date Last Modified</span></dt>
+        <dd>
+          <span>{{ mainArtist.dateLastModified | formatMediumDate }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/main-artist', mainArtist.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

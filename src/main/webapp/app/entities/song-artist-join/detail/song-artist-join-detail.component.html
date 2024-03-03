@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="songArtistJoin">
+      <h2 data-cy="songArtistJoinDetailsHeading"><span>Song Artist Join</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ songArtistJoin.id }}</span>
+        </dd>
+        <dt><span>Top Track Index</span></dt>
+        <dd>
+          <span>{{ songArtistJoin.topTrackIndex }}</span>
+        </dd>
+        <dt><span>Song</span></dt>
+        <dd>
+          <div *ngIf="songArtistJoin.song">
+            <a [routerLink]="['/song', songArtistJoin.song.id, 'view']">{{ songArtistJoin.song.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Main Artist</span></dt>
+        <dd>
+          <div *ngIf="songArtistJoin.mainArtist">
+            <a [routerLink]="['/main-artist', songArtistJoin.mainArtist.id, 'view']">{{ songArtistJoin.mainArtist.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/song-artist-join', songArtistJoin.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

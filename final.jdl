@@ -1,0 +1,153 @@
+entity Song (songTable) {
+    //attributes from spotify get_track call
+    songSpotifyID String required,
+    songTitle String required,
+    songDuration Integer required,
+    songAlbumType AlbumType required,
+    songAlbumID String required,
+    songExplicit Boolean required,
+    songPopularity Integer required,
+    songPreviewURL String,
+
+    //attributes from spotify get_track_features call
+    songTrackFeaturesAdded Boolean required,					//false by default
+    songAcousticness Float,
+    songDanceability Float,
+    songEnergy Float,
+    songInstrumentalness Float,
+    songLiveness Float,
+    songLoudness Float,
+    songSpeechiness Float,
+    songTempo Float,
+    songValence Float,
+    songKey Integer,
+    songTimeSignature Integer,
+
+    //application attributes
+    songDateAddedToDB LocalDate required,
+    songDateLastModified LocalDate required
+}
+enum AlbumType {
+    ALBUM, SINGLE, COMPILATION
+}
+
+entity Album (albumTable) {
+    //attributes from spotify get_track call
+    albumSpotifyID String required,
+    albumName String required,
+    albumCoverArt String required, 							// Replace with appropriate type for href / file / path
+    albumReleaseDate LocalDate required,
+    releaseDatePrecision ReleaseDatePrecision required,
+    albumPopularity Integer required,
+    albumType AlbumType required,
+
+    //external ids
+    spotifyAlbumUPC String,
+    spotifyAlbumEAN String,
+    spotifyAlbumISRC String,
+
+    //application attributes
+    dateAddedToDB LocalDate required,
+    dateLastModified LocalDate required,
+
+    //attributes from third-party API call
+    musicbrainzMetadataAdded Boolean required,					//false by default
+    musicbrainzID String
+}
+enum ReleaseDatePrecision {
+    YEAR, MONTH, DAY
+}
+
+// artistsTable - defines main artists (e.g. The Beatles)
+entity MainArtist (artistsTable) {
+    //spotify attributes
+    artistSpotifyID String required,
+    artistName String required,
+    artistPopularity Integer required,
+    artistImage String required, 							// Replace with appropriate type for href / file / path
+    artistFollowers Integer,
+
+    //application attributes
+    dateAddedToDB LocalDate,
+    dateLastModified LocalDate,
+}
+
+//defines individual contributors (e.g. John Lennon)
+entity Contributor{
+    name String,
+    role String,
+    musicbrainzID String
+}
+
+entity AppUser (appUserTable) {
+    //attributes from spotify get_current_user_profile call
+    spotifyUserID String required,
+    name String required,
+    email String required,
+
+    //application attributes
+    spotifyRefreshToken String,
+    spotifyAuthToken String,
+    lastLoginDate LocalDate required,
+    discoverWeeklyBufferSettings Integer required, 			//0 by default, 0 is off, 1 is save to new playlist, 2 is save to same playlist
+    discoverWeeklyBufferPlaylistID String, 					//playlist ID that discover weekly is appended to
+
+    //preferences
+    darkMode Boolean required,
+}
+
+entity Playlist (playlistTable) {
+    //application attributes
+    dateAddedToDB LocalDate required,
+    dateLastModified LocalDate required,
+
+    //attributes from spotify get_current_user_profile call
+    playlistSpotifyID String required,
+    playlistName String required,
+    playlistPhoto String									// Replace with appropriate type for href / file / path
+}
+
+relationship OneToOne {
+    AppUser to User
+}
+
+relationship OneToMany {
+    Album to Song
+    MainArtist to Album
+    //MainArtist{parent} to MainArtist{child}					// linking artists with their related artists - NOT SURE THIS MAKES SENSE
+    AppUser to Playlist
+    Song to Contributor
+
+    Song to SpotifyGenreEntity
+    Album to SpotifyGenreEntity
+    MainArtist to SpotifyGenreEntity
+
+    Song to MusicbrainzGenreEntity
+    Album to MusicbrainzGenreEntity
+    MainArtist to MusicbrainzGenreEntity
+}
+
+relationship ManyToOne {
+    PlaylistSongJoin to Playlist
+    PlaylistSongJoin to Song
+    SongArtistJoin to Song
+    SongArtistJoin to MainArtist
+}
+
+entity SpotifyGenreEntity {
+    spotifyGenre String required
+}
+
+entity MusicbrainzGenreEntity {
+    musicbrainzGenre String required
+}
+
+// playlistSongTable - join table linking playlists and songs
+entity PlaylistSongJoin (playlistSongTable) {
+    songOrderIndex Integer required
+}
+
+// songArtistTable - join table linking songs and artists
+entity SongArtistJoin (songArtistTable) {
+    topTrackIndex Integer
+}

@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303181721",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "spotify_genre_entity",
+  "fields": [
+    {
+      "fieldName": "spotifyGenre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SpotifyGenreEntity",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "song",
+      "otherEntityRelationshipName": "spotifyGenreEntity",
+      "relationshipName": "song",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "album",
+      "otherEntityRelationshipName": "spotifyGenreEntity",
+      "relationshipName": "album",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "mainArtist",
+      "otherEntityRelationshipName": "spotifyGenreEntity",
+      "relationshipName": "mainArtist",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

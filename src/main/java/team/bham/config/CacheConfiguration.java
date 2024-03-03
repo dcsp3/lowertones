@@ -48,6 +48,31 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.User.class.getName());
             createCache(cm, team.bham.domain.Authority.class.getName());
             createCache(cm, team.bham.domain.User.class.getName() + ".authorities");
+            createCache(cm, team.bham.domain.SpotifyExchangeCode.class.getName());
+            createCache(cm, team.bham.domain.Song.class.getName());
+            createCache(cm, team.bham.domain.Song.class.getName() + ".contributors");
+            createCache(cm, team.bham.domain.Song.class.getName() + ".spotifyGenreEntities");
+            createCache(cm, team.bham.domain.Song.class.getName() + ".musicbrainzGenreEntities");
+            createCache(cm, team.bham.domain.Song.class.getName() + ".playlistSongJoins");
+            createCache(cm, team.bham.domain.Song.class.getName() + ".songArtistJoins");
+            createCache(cm, team.bham.domain.Album.class.getName());
+            createCache(cm, team.bham.domain.Album.class.getName() + ".songs");
+            createCache(cm, team.bham.domain.Album.class.getName() + ".spotifyGenreEntities");
+            createCache(cm, team.bham.domain.Album.class.getName() + ".musicbrainzGenreEntities");
+            createCache(cm, team.bham.domain.MainArtist.class.getName());
+            createCache(cm, team.bham.domain.MainArtist.class.getName() + ".albums");
+            createCache(cm, team.bham.domain.MainArtist.class.getName() + ".spotifyGenreEntities");
+            createCache(cm, team.bham.domain.MainArtist.class.getName() + ".musicbrainzGenreEntities");
+            createCache(cm, team.bham.domain.MainArtist.class.getName() + ".songArtistJoins");
+            createCache(cm, team.bham.domain.Contributor.class.getName());
+            createCache(cm, team.bham.domain.AppUser.class.getName());
+            createCache(cm, team.bham.domain.AppUser.class.getName() + ".playlists");
+            createCache(cm, team.bham.domain.Playlist.class.getName());
+            createCache(cm, team.bham.domain.Playlist.class.getName() + ".playlistSongJoins");
+            createCache(cm, team.bham.domain.SpotifyGenreEntity.class.getName());
+            createCache(cm, team.bham.domain.MusicbrainzGenreEntity.class.getName());
+            createCache(cm, team.bham.domain.PlaylistSongJoin.class.getName());
+            createCache(cm, team.bham.domain.SongArtistJoin.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

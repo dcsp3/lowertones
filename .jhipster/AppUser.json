@@ -1,0 +1,72 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303181719",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "app_user_table",
+  "fields": [
+    {
+      "fieldName": "spotifyUserID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "spotifyRefreshToken",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "spotifyAuthToken",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastLoginDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "discoverWeeklyBufferSettings",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "discoverWeeklyBufferPlaylistID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "darkMode",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "AppUser",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "appUser",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "playlist",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "playlist",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
