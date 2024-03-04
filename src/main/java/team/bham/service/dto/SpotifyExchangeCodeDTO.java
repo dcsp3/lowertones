@@ -1,3 +1,5 @@
+package team.bham.service.dto;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SpotifyExchangeCodeDTO {
