@@ -12,7 +12,7 @@ export class NetworkComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // Call the function to create D3.js graph
+    // Call the function to create TopArtists graph
     renderGraph(this.graphContainer.nativeElement, 750, 500);
   }
 }
