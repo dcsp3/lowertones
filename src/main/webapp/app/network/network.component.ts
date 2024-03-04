@@ -12,7 +12,7 @@ export class NetworkComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // Call the function to create TopArtists graph
+    // Call the function to create Top Artists graph!
     renderGraph(this.graphContainer.nativeElement, 750, 500);
   }
 }
