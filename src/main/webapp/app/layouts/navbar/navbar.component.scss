@@ -100,5 +100,11 @@ Logo styles
   vertical-align: middle;
   background: url('../../../content/images/lowertones-white-logo-alphabg-large.png') no-repeat center center;
   background-size: contain;
-  transform: scale(1.3); // Adjust the scale value as needed
+  transform: scale(1.3);
+  position: relative;
+  top: -3px;
+  //padding-right: 160px;
+}
+.navbar-brand.logo {
+  padding-right: 10px; // Adjust this value as needed
 }

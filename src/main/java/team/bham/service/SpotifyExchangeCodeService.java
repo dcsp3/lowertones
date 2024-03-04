@@ -58,18 +58,17 @@ public class SpotifyExchangeCodeService {
         return spotifyExchangeCodeRepository.save(spotifyExchangeCode);
     }
 
-    public String exchangeCodeForToken(String code) {
-        JSONObject codeObject = new JSONObject(code);
-        String extractedCode = codeObject.getString("code");
+    public String exchangeCodeForToken(String code, String url) {
         String spotifyTokenUrl = "https://accounts.spotify.com/api/token";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setBasicAuth(clientId, clientSecret);
+
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "authorization_code");
-        requestBody.add("code", extractedCode);
-        requestBody.add("redirect_uri", "http://localhost:9000");
+        requestBody.add("code", code);
+        requestBody.add("redirect_uri", url);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -79,10 +78,9 @@ public class SpotifyExchangeCodeService {
             // Return the access token directly
             JSONObject responseJson = new JSONObject(responseEntity.getBody());
             String accessToken = responseJson.getString("access_token");
-            System.out.println("-----------------------------------------THIS IS THE TOKEN" + accessToken);
+            System.out.println("-----------------------------------------THIS IS THE TOKEN: " + accessToken);
             return responseEntity.getBody();
         } else {
-            // Handle error response from Spotify API
             return null;
         }
     }
