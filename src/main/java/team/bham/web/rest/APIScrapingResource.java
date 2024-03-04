@@ -26,6 +26,9 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api")
 public class APIScrapingResource {
 
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
+
     private final UserRepository userRepository;
 
     //todo

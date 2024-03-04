@@ -1,6 +1,7 @@
 package team.bham.service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.config.Constants;
+import team.bham.domain.AppUser;
 import team.bham.domain.Authority;
 import team.bham.domain.User;
+import team.bham.repository.AppUserRepository;
 import team.bham.repository.AuthorityRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.AuthoritiesConstants;
@@ -35,6 +38,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final AppUserRepository appUserRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -43,11 +48,13 @@ public class UserService {
 
     public UserService(
         UserRepository userRepository,
+        AppUserRepository appUserRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager
     ) {
         this.userRepository = userRepository;
+        this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
@@ -130,6 +137,18 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+
+        AppUser appUser = new AppUser();
+        appUser.setUser(newUser);
+        appUser.setDarkMode(false);
+        appUser.setDiscoverWeeklyBufferPlaylistID(new String());
+        appUser.setDiscoverWeeklyBufferSettings(0);
+        appUser.setEmail(newUser.getEmail());
+        appUser.setName("test");
+        appUser.setSpotifyUserID(new String());
+        appUser.setLastLoginDate(LocalDate.now());
+        appUserRepository.save(appUser);
+
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -175,6 +194,18 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
+
+        AppUser appUser = new AppUser();
+        appUser.setUser(user);
+        appUser.setDarkMode(false);
+        appUser.setDiscoverWeeklyBufferPlaylistID(new String());
+        appUser.setDiscoverWeeklyBufferSettings(0);
+        appUser.setEmail(user.getEmail());
+        appUser.setName(user.getFirstName());
+        appUser.setSpotifyUserID(new String());
+        appUser.setLastLoginDate(LocalDate.now());
+        appUserRepository.save(appUser);
+
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
