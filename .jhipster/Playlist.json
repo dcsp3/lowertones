@@ -1,0 +1,53 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303210533",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "playlist_table",
+  "fields": [
+    {
+      "fieldName": "dateAddedToDB",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateLastModified",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "playlistSpotifyID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "playlistName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "playlistPhoto",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Playlist",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "playlist",
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "playlistSongJoin",
+      "otherEntityRelationshipName": "playlist",
+      "relationshipName": "playlistSongJoin",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

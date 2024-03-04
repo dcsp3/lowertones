@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303210530",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "contributor",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "role",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "instrument",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "musicbrainzID",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Contributor",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "song",
+      "otherEntityRelationshipName": "contributor",
+      "relationshipName": "song",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

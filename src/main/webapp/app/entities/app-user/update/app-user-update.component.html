@@ -1,0 +1,170 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-app-user-heading" data-cy="AppUserCreateUpdateHeading">Create or edit a App User</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyUserID">Spotify User ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyUserID"
+            id="field_spotifyUserID"
+            data-cy="spotifyUserID"
+            formControlName="spotifyUserID"
+          />
+          <div
+            *ngIf="
+              editForm.get('spotifyUserID')!.invalid && (editForm.get('spotifyUserID')!.dirty || editForm.get('spotifyUserID')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('spotifyUserID')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyRefreshToken">Spotify Refresh Token</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyRefreshToken"
+            id="field_spotifyRefreshToken"
+            data-cy="spotifyRefreshToken"
+            formControlName="spotifyRefreshToken"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyAuthToken">Spotify Auth Token</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyAuthToken"
+            id="field_spotifyAuthToken"
+            data-cy="spotifyAuthToken"
+            formControlName="spotifyAuthToken"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_lastLoginDate">Last Login Date</label>
+          <div class="input-group">
+            <input
+              id="field_lastLoginDate"
+              data-cy="lastLoginDate"
+              type="text"
+              class="form-control"
+              name="lastLoginDate"
+              ngbDatepicker
+              #lastLoginDateDp="ngbDatepicker"
+              formControlName="lastLoginDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="lastLoginDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('lastLoginDate')!.invalid && (editForm.get('lastLoginDate')!.dirty || editForm.get('lastLoginDate')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('lastLoginDate')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_discoverWeeklyBufferSettings">Discover Weekly Buffer Settings</label>
+          <input
+            type="number"
+            class="form-control"
+            name="discoverWeeklyBufferSettings"
+            id="field_discoverWeeklyBufferSettings"
+            data-cy="discoverWeeklyBufferSettings"
+            formControlName="discoverWeeklyBufferSettings"
+          />
+          <div
+            *ngIf="
+              editForm.get('discoverWeeklyBufferSettings')!.invalid &&
+              (editForm.get('discoverWeeklyBufferSettings')!.dirty || editForm.get('discoverWeeklyBufferSettings')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('discoverWeeklyBufferSettings')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('discoverWeeklyBufferSettings')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_discoverWeeklyBufferPlaylistID">Discover Weekly Buffer Playlist ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="discoverWeeklyBufferPlaylistID"
+            id="field_discoverWeeklyBufferPlaylistID"
+            data-cy="discoverWeeklyBufferPlaylistID"
+            formControlName="discoverWeeklyBufferPlaylistID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_darkMode">Dark Mode</label>
+          <input type="checkbox" class="form-check" name="darkMode" id="field_darkMode" data-cy="darkMode" formControlName="darkMode" />
+          <div *ngIf="editForm.get('darkMode')!.invalid && (editForm.get('darkMode')!.dirty || editForm.get('darkMode')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('darkMode')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

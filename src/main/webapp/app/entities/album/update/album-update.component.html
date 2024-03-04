@@ -1,0 +1,309 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-album-heading" data-cy="AlbumCreateUpdateHeading">Create or edit a Album</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumSpotifyID">Album Spotify ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="albumSpotifyID"
+            id="field_albumSpotifyID"
+            data-cy="albumSpotifyID"
+            formControlName="albumSpotifyID"
+          />
+          <div
+            *ngIf="
+              editForm.get('albumSpotifyID')!.invalid && (editForm.get('albumSpotifyID')!.dirty || editForm.get('albumSpotifyID')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('albumSpotifyID')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumName">Album Name</label>
+          <input type="text" class="form-control" name="albumName" id="field_albumName" data-cy="albumName" formControlName="albumName" />
+          <div *ngIf="editForm.get('albumName')!.invalid && (editForm.get('albumName')!.dirty || editForm.get('albumName')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('albumName')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumCoverArt">Album Cover Art</label>
+          <input
+            type="text"
+            class="form-control"
+            name="albumCoverArt"
+            id="field_albumCoverArt"
+            data-cy="albumCoverArt"
+            formControlName="albumCoverArt"
+          />
+          <div
+            *ngIf="
+              editForm.get('albumCoverArt')!.invalid && (editForm.get('albumCoverArt')!.dirty || editForm.get('albumCoverArt')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('albumCoverArt')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumReleaseDate">Album Release Date</label>
+          <div class="input-group">
+            <input
+              id="field_albumReleaseDate"
+              data-cy="albumReleaseDate"
+              type="text"
+              class="form-control"
+              name="albumReleaseDate"
+              ngbDatepicker
+              #albumReleaseDateDp="ngbDatepicker"
+              formControlName="albumReleaseDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="albumReleaseDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('albumReleaseDate')!.invalid &&
+              (editForm.get('albumReleaseDate')!.dirty || editForm.get('albumReleaseDate')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('albumReleaseDate')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_releaseDatePrecision">Release Date Precision</label>
+          <select
+            class="form-control"
+            name="releaseDatePrecision"
+            formControlName="releaseDatePrecision"
+            id="field_releaseDatePrecision"
+            data-cy="releaseDatePrecision"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let releaseDatePrecision of releaseDatePrecisionValues" [value]="releaseDatePrecision">
+              releaseDatePrecision
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('releaseDatePrecision')!.invalid &&
+              (editForm.get('releaseDatePrecision')!.dirty || editForm.get('releaseDatePrecision')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('releaseDatePrecision')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumPopularity">Album Popularity</label>
+          <input
+            type="number"
+            class="form-control"
+            name="albumPopularity"
+            id="field_albumPopularity"
+            data-cy="albumPopularity"
+            formControlName="albumPopularity"
+          />
+          <div
+            *ngIf="
+              editForm.get('albumPopularity')!.invalid &&
+              (editForm.get('albumPopularity')!.dirty || editForm.get('albumPopularity')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('albumPopularity')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('albumPopularity')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_albumType">Album Type</label>
+          <select class="form-control" name="albumType" formControlName="albumType" id="field_albumType" data-cy="albumType">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let albumType of albumTypeValues" [value]="albumType">albumType</option>
+          </select>
+          <div *ngIf="editForm.get('albumType')!.invalid && (editForm.get('albumType')!.dirty || editForm.get('albumType')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('albumType')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyAlbumUPC">Spotify Album UPC</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyAlbumUPC"
+            id="field_spotifyAlbumUPC"
+            data-cy="spotifyAlbumUPC"
+            formControlName="spotifyAlbumUPC"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyAlbumEAN">Spotify Album EAN</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyAlbumEAN"
+            id="field_spotifyAlbumEAN"
+            data-cy="spotifyAlbumEAN"
+            formControlName="spotifyAlbumEAN"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_spotifyAlbumISRC">Spotify Album ISRC</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyAlbumISRC"
+            id="field_spotifyAlbumISRC"
+            data-cy="spotifyAlbumISRC"
+            formControlName="spotifyAlbumISRC"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_dateAddedToDB">Date Added To DB</label>
+          <div class="input-group">
+            <input
+              id="field_dateAddedToDB"
+              data-cy="dateAddedToDB"
+              type="text"
+              class="form-control"
+              name="dateAddedToDB"
+              ngbDatepicker
+              #dateAddedToDBDp="ngbDatepicker"
+              formControlName="dateAddedToDB"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateAddedToDBDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('dateAddedToDB')!.invalid && (editForm.get('dateAddedToDB')!.dirty || editForm.get('dateAddedToDB')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('dateAddedToDB')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_dateLastModified">Date Last Modified</label>
+          <div class="input-group">
+            <input
+              id="field_dateLastModified"
+              data-cy="dateLastModified"
+              type="text"
+              class="form-control"
+              name="dateLastModified"
+              ngbDatepicker
+              #dateLastModifiedDp="ngbDatepicker"
+              formControlName="dateLastModified"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateLastModifiedDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('dateLastModified')!.invalid &&
+              (editForm.get('dateLastModified')!.dirty || editForm.get('dateLastModified')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('dateLastModified')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_musicbrainzMetadataAdded">Musicbrainz Metadata Added</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="musicbrainzMetadataAdded"
+            id="field_musicbrainzMetadataAdded"
+            data-cy="musicbrainzMetadataAdded"
+            formControlName="musicbrainzMetadataAdded"
+          />
+          <div
+            *ngIf="
+              editForm.get('musicbrainzMetadataAdded')!.invalid &&
+              (editForm.get('musicbrainzMetadataAdded')!.dirty || editForm.get('musicbrainzMetadataAdded')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('musicbrainzMetadataAdded')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_musicbrainzID">Musicbrainz ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="musicbrainzID"
+            id="field_musicbrainzID"
+            data-cy="musicbrainzID"
+            formControlName="musicbrainzID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_mainArtist">Main Artist</label>
+          <select
+            class="form-control"
+            id="field_mainArtist"
+            data-cy="mainArtist"
+            name="mainArtist"
+            formControlName="mainArtist"
+            [compareWith]="compareMainArtist"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="mainArtistOption" *ngFor="let mainArtistOption of mainArtistsSharedCollection">
+              {{ mainArtistOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

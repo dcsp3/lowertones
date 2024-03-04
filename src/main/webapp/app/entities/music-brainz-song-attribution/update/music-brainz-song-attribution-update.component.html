@@ -1,0 +1,130 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-music-brainz-song-attribution-heading" data-cy="MusicBrainzSongAttributionCreateUpdateHeading">
+        Create or edit a Music Brainz Song Attribution
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_recordingMBID">Recording MBID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="recordingMBID"
+            id="field_recordingMBID"
+            data-cy="recordingMBID"
+            formControlName="recordingMBID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_recordingTitle">Recording Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="recordingTitle"
+            id="field_recordingTitle"
+            data-cy="recordingTitle"
+            formControlName="recordingTitle"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songMainArtistName">Song Main Artist Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="songMainArtistName"
+            id="field_songMainArtistName"
+            data-cy="songMainArtistName"
+            formControlName="songMainArtistName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songMainArtistID">Song Main Artist ID</label>
+          <input
+            type="number"
+            class="form-control"
+            name="songMainArtistID"
+            id="field_songMainArtistID"
+            data-cy="songMainArtistID"
+            formControlName="songMainArtistID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songContributorMBID">Song Contributor MBID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="songContributorMBID"
+            id="field_songContributorMBID"
+            data-cy="songContributorMBID"
+            formControlName="songContributorMBID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songContributorName">Song Contributor Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="songContributorName"
+            id="field_songContributorName"
+            data-cy="songContributorName"
+            formControlName="songContributorName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songContributorRole">Song Contributor Role</label>
+          <input
+            type="text"
+            class="form-control"
+            name="songContributorRole"
+            id="field_songContributorRole"
+            data-cy="songContributorRole"
+            formControlName="songContributorRole"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_songContributorInstrument">Song Contributor Instrument</label>
+          <input
+            type="text"
+            class="form-control"
+            name="songContributorInstrument"
+            id="field_songContributorInstrument"
+            data-cy="songContributorInstrument"
+            formControlName="songContributorInstrument"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

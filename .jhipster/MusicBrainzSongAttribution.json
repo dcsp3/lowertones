@@ -1,0 +1,48 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303210531",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "music_brainz_song_attribution",
+  "fields": [
+    {
+      "fieldName": "recordingMBID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recordingTitle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "songMainArtistName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "songMainArtistID",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "songContributorMBID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "songContributorName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "songContributorRole",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "songContributorInstrument",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "MusicBrainzSongAttribution",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

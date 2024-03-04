@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="MusicBrainzSongAttributionHeading">
+    <span>Music Brainz Song Attributions</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-music-brainz-song-attribution"
+        [routerLink]="['/music-brainz-song-attribution/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Music Brainz Song Attribution </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="musicBrainzSongAttributions?.length === 0">
+    <span>No Music Brainz Song Attributions found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="musicBrainzSongAttributions && musicBrainzSongAttributions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recordingMBID">
+            <div class="d-flex">
+              <span>Recording MBID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recordingTitle">
+            <div class="d-flex">
+              <span>Recording Title</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songMainArtistName">
+            <div class="d-flex">
+              <span>Song Main Artist Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songMainArtistID">
+            <div class="d-flex">
+              <span>Song Main Artist ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songContributorMBID">
+            <div class="d-flex">
+              <span>Song Contributor MBID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songContributorName">
+            <div class="d-flex">
+              <span>Song Contributor Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songContributorRole">
+            <div class="d-flex">
+              <span>Song Contributor Role</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="songContributorInstrument">
+            <div class="d-flex">
+              <span>Song Contributor Instrument</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let musicBrainzSongAttribution of musicBrainzSongAttributions; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/music-brainz-song-attribution', musicBrainzSongAttribution.id, 'view']">{{
+              musicBrainzSongAttribution.id
+            }}</a>
+          </td>
+          <td>{{ musicBrainzSongAttribution.recordingMBID }}</td>
+          <td>{{ musicBrainzSongAttribution.recordingTitle }}</td>
+          <td>{{ musicBrainzSongAttribution.songMainArtistName }}</td>
+          <td>{{ musicBrainzSongAttribution.songMainArtistID }}</td>
+          <td>{{ musicBrainzSongAttribution.songContributorMBID }}</td>
+          <td>{{ musicBrainzSongAttribution.songContributorName }}</td>
+          <td>{{ musicBrainzSongAttribution.songContributorRole }}</td>
+          <td>{{ musicBrainzSongAttribution.songContributorInstrument }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/music-brainz-song-attribution', musicBrainzSongAttribution.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/music-brainz-song-attribution', musicBrainzSongAttribution.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(musicBrainzSongAttribution)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
