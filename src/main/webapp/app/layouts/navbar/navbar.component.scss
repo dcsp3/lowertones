@@ -64,7 +64,11 @@ form.d-flex {
 }
 
 .navbar {
-  padding: 0.2rem 1rem;
+  display: flex;
+  padding-left: 30px;
+  justify-content: flex-end; // Aligns items to the right
+  align-items: center; // Keeps items vertically centered
+  width: 100%; // Ensure the navbar spans the full width of its container
 
   .dropdown-item.active,
   .dropdown-item.active:focus,
@@ -75,6 +79,7 @@ form.d-flex {
   a.nav-link {
     font-weight: bold;
     color: $gray-100;
+    height: 45%;
     white-space: nowrap;
   }
 
@@ -95,4 +100,5 @@ Logo styles
   vertical-align: middle;
   background: url('../../../content/images/lowertones-white-logo-alphabg-large.png') no-repeat center center;
   background-size: contain;
+  transform: scale(1.3); // Adjust the scale value as needed
 }
