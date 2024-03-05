@@ -68,6 +68,16 @@
             data-cy="spotifyAuthToken"
             formControlName="spotifyAuthToken"
           />
+          <div
+            *ngIf="
+              editForm.get('spotifyAuthToken')!.invalid &&
+              (editForm.get('spotifyAuthToken')!.dirty || editForm.get('spotifyAuthToken')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('spotifyAuthToken')?.errors?.maxlength">
+              This field cannot be longer than 300 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
