@@ -8,7 +8,7 @@
 </div>
 <div class="table-content">
   <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
-  <p-table [value]="songData" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table [value]="songData" [paginator]="true" [rows]="10" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
