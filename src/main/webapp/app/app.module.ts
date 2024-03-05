@@ -36,6 +36,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { RecappedComponent } from './recapped/recapped.component';
 import { NetworkComponent } from './network/network.component';
 import { TableviewComponent } from './tableview/tableview.component';
+import { VisualisationsComponent } from './visualisations/visualisations.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { TableviewComponent } from './tableview/tableview.component';
     RecappedComponent,
     NetworkComponent,
     TableviewComponent,
+    VisualisationsComponent,
   ],
   bootstrap: [MainComponent],
 })

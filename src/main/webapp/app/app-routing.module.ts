@@ -10,6 +10,7 @@ import { TableviewComponent } from 'app/tableview/tableview.component';
 import { NetworkComponent } from './network/network.component';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { VisualisationsComponent } from './visualisations/visualisations.component';
 
 @NgModule({
   imports: [
@@ -58,6 +59,15 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           component: NetworkComponent,
           data: {
             pageTitle: 'Your Network',
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'visualisations',
+          component: VisualisationsComponent,
+          data: {
+            pageTitle: 'Visualisations',
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],
