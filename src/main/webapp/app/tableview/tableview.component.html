@@ -15,8 +15,9 @@
         <th>Title</th>
         <th>Artist</th>
         <th>Length</th>
-        <th>Genre</th>
-        <th>Release Year</th>
+        <th>Release Date</th>
+        <th>Popularity</th>
+        <th>Explicit</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-song>
@@ -25,8 +26,9 @@
         <td>{{ song.title }}</td>
         <td>{{ song.artist }}</td>
         <td>{{ song.length }}</td>
-        <td>{{ song.genre }}</td>
         <td>{{ song.release }}</td>
+        <td>{{ song.popularity }}</td>
+        <td>{{ song.explicit }}</td>
       </tr>
     </ng-template>
   </p-table>
