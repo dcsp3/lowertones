@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.AppUser;
 import team.bham.domain.User;
+import team.bham.repository.AppUserRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -30,10 +34,18 @@ public class APIScrapingResource {
     private String applicationName;
 
     private final UserRepository userRepository;
+    private final AppUserRepository appUserRepository;
+    private final SpotifyAPIWrapperService apiWrapper;
 
     //todo
-    public APIScrapingResource(UserRepository userRepository) {
+    public APIScrapingResource(
+        UserRepository userRepository,
+        AppUserRepository appUserRepository,
+        SpotifyAPIWrapperService apiWrapperService
+    ) {
         this.userRepository = userRepository;
+        this.appUserRepository = appUserRepository;
+        this.apiWrapper = apiWrapperService;
     }
 
     @PostMapping("/scrape")
@@ -41,12 +53,14 @@ public class APIScrapingResource {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @GetMapping("/test-get-user-id")
-    public ResponseEntity<Long> getUserID(Authentication authentication) {
-        String userName = authentication.getName();
-        User user = new User();
-        user = userRepository.findOneByLogin(userName).get();
-        return new ResponseEntity<>(user.getId(), HttpStatus.OK);
-        // return new ResponseEntity<>(authentication.getName(), HttpStatus.OK);
+    @GetMapping("/test-get-user-details")
+    public ResponseEntity<JSONObject> getUserID(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        return new ResponseEntity<>(apiWrapper.getUserDetails(appUser), HttpStatus.OK);
+    }
+
+    private AppUser resolveAppUser(String name) {
+        User user = userRepository.findOneByLogin(name).get();
+        return appUserRepository.findByUserId(user.getId()).get();
     }
 }
