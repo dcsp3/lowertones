@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +55,20 @@ public class APIScrapingResource {
     }
 
     @GetMapping("/test-get-user-details")
-    public ResponseEntity<JSONObject> getUserID(Authentication authentication) {
+    public ResponseEntity<String> getUserID(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        return new ResponseEntity<>(apiWrapper.getUserDetails(appUser), HttpStatus.OK);
+        return new ResponseEntity<>(apiWrapper.getUserDetails(appUser).toString(), HttpStatus.OK);
+    }
+
+    //huge sham job - should be removed in the near future
+    @GetMapping("/playlist-tracks")
+    public ResponseEntity<String> getPlaylistTracks(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser);
+        JSONArray playlistItems = playlistInfo.getJSONArray("items");
+        JSONObject firstPlaylist = playlistItems.getJSONObject(0);
+        JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id"));
+        return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);
     }
 
     private AppUser resolveAppUser(String name) {

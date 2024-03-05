@@ -42,4 +42,25 @@ public class SpotifyAPIWrapperService {
         //todo: handle errors.
         return new JSONObject(response.getBody());
     }
+
+    public JSONObject getCurrentUserPlaylists(AppUser user) {
+        String accessToken = user.getSpotifyAuthToken();
+        String endpoint = "https://api.spotify.com/v1/me/playlists?limit=1&offset=0";
+        return APICall(endpoint, accessToken);
+    }
+
+    public JSONObject getPlaylistTracks(AppUser user, String playlistId) {
+        String accessToken = user.getSpotifyAuthToken();
+        String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+        return APICall(endpoint, accessToken);
+    }
+
+    //overload for calls with extra params
+    private JSONObject APICall(String endpoint, String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
+        return new JSONObject(response.getBody());
+    }
 }
