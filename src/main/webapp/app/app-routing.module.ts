@@ -8,9 +8,10 @@ import { Authority } from 'app/config/authority.constants';
 import { RecappedComponent } from 'app/recapped/recapped.component';
 import { TableviewComponent } from 'app/tableview/tableview.component';
 import { NetworkComponent } from './network/network.component';
+import { VisualisationsComponent } from './visualisations/visualisations.component';
+import { GDPRComponent } from './gdpr/gdpr.component';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { VisualisationsComponent } from './visualisations/visualisations.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,13 @@ import { VisualisationsComponent } from './visualisations/visualisations.compone
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'gdpr-policy',
+          component: GDPRComponent,
+          data: {
+            pageTitle: 'GDPR Policy',
+          },
         },
         navbarRoute,
         ...errorRoute,

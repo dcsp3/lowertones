@@ -1,0 +1,39 @@
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.title,
+.subtitle {
+  font-family: 'Dela Gothic One', cursive;
+}
+
+.title {
+  font-size: 54px;
+  margin-bottom: 5px;
+  line-height: 1;
+}
+
+.content {
+  font-size: 18px;
+  padding: 10px;
+  margin: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+/* Style the table headers */
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  color: white;
+}

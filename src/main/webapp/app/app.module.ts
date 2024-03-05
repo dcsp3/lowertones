@@ -37,6 +37,7 @@ import { RecappedComponent } from './recapped/recapped.component';
 import { NetworkComponent } from './network/network.component';
 import { TableviewComponent } from './tableview/tableview.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
+import { GDPRComponent } from './gdpr/gdpr.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { VisualisationsComponent } from './visualisations/visualisations.compone
     NetworkComponent,
     TableviewComponent,
     VisualisationsComponent,
+    GDPRComponent,
   ],
   bootstrap: [MainComponent],
 })
