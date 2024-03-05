@@ -56,9 +56,11 @@ export class AppUserFormService {
       email: new FormControl(appUserRawValue.email, {
         validators: [Validators.required],
       }),
-      spotifyRefreshToken: new FormControl(appUserRawValue.spotifyRefreshToken),
+      spotifyRefreshToken: new FormControl(appUserRawValue.spotifyRefreshToken, {
+        validators: [Validators.maxLength(1000)],
+      }),
       spotifyAuthToken: new FormControl(appUserRawValue.spotifyAuthToken, {
-        validators: [Validators.maxLength(300)],
+        validators: [Validators.maxLength(1000)],
       }),
       lastLoginDate: new FormControl(appUserRawValue.lastLoginDate, {
         validators: [Validators.required],

@@ -56,6 +56,16 @@
             data-cy="spotifyRefreshToken"
             formControlName="spotifyRefreshToken"
           />
+          <div
+            *ngIf="
+              editForm.get('spotifyRefreshToken')!.invalid &&
+              (editForm.get('spotifyRefreshToken')!.dirty || editForm.get('spotifyRefreshToken')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('spotifyRefreshToken')?.errors?.maxlength">
+              This field cannot be longer than 1000 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -75,7 +85,7 @@
             "
           >
             <small class="form-text text-danger" *ngIf="editForm.get('spotifyAuthToken')?.errors?.maxlength">
-              This field cannot be longer than 300 characters.
+              This field cannot be longer than 1000 characters.
             </small>
           </div>
         </div>

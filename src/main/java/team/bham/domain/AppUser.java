@@ -39,11 +39,12 @@ public class AppUser implements Serializable {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "spotify_refresh_token")
+    @Size(max = 1000)
+    @Column(name = "spotify_refresh_token", length = 1000)
     private String spotifyRefreshToken;
 
-    @Size(max = 300)
-    @Column(name = "spotify_auth_token", length = 300)
+    @Size(max = 1000)
+    @Column(name = "spotify_auth_token", length = 1000)
     private String spotifyAuthToken;
 
     @NotNull

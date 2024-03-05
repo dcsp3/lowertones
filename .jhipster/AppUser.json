@@ -22,13 +22,15 @@
     },
     {
       "fieldName": "spotifyRefreshToken",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
     },
     {
       "fieldName": "spotifyAuthToken",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
-      "fieldValidateRulesMaxlength": "300"
+      "fieldValidateRulesMaxlength": "1000"
     },
     {
       "fieldName": "lastLoginDate",

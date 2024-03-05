@@ -98,8 +98,8 @@ entity AppUser (appUserTable) {
     email String required,
 
     //application attributes
-    spotifyRefreshToken String,
-    spotifyAuthToken String maxlength (300),
+    spotifyRefreshToken String maxlength (1000),
+    spotifyAuthToken String maxlength (1000),
     lastLoginDate LocalDate required,
     discoverWeeklyBufferSettings Integer required, 			//0 by default, 0 is off, 1 is save to new playlist, 2 is save to same playlist
     discoverWeeklyBufferPlaylistID String, 					//playlist ID that discover weekly is appended to
@@ -159,7 +159,7 @@ entity PlaylistSongJoin (playlistSongTable) {
     songOrderIndex Integer required
 }
 
-// songArtistTable - join table linking songs and artists
+// songArtistTable - join table linking songs and artistsn
 entity SongArtistJoin (songArtistTable) {
     topTrackIndex Integer
 }
