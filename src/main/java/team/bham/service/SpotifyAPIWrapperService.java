@@ -34,33 +34,28 @@ public class SpotifyAPIWrapperService {
     public JSONObject getUserDetails(AppUser user) {
         String accessToken = user.getSpotifyAuthToken();
         String endpoint = "https://api.spotify.com/v1/me";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
-        //todo: handle errors.
-        return new JSONObject(response.getBody());
+        return APICall(HttpMethod.GET, endpoint, accessToken);
     }
 
     public JSONObject getCurrentUserPlaylists(AppUser user) {
         String accessToken = user.getSpotifyAuthToken();
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=1&offset=0";
-        return APICall(endpoint, accessToken);
+        return APICall(HttpMethod.GET, endpoint, accessToken);
     }
 
     public JSONObject getPlaylistTracks(AppUser user, String playlistId) {
         String accessToken = user.getSpotifyAuthToken();
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
-        return APICall(endpoint, accessToken);
+        return APICall(HttpMethod.GET, endpoint, accessToken);
     }
 
     //overload for calls with extra params
-    private JSONObject APICall(String endpoint, String accessToken) {
+    //todo: handle errors, token expiry etc.
+    private JSONObject APICall(HttpMethod method, String endpoint, String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(endpoint, method, entity, String.class);
         return new JSONObject(response.getBody());
     }
 }
