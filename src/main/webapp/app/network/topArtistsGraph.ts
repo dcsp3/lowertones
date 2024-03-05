@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
 
+import { getTopArtists } from './getTopArtists';
+
 interface Node {
   id: string;
   type: string;
@@ -14,6 +16,7 @@ interface Link {
   distance: number;
 }
 
+/*
 // Get from another spotify api call util file
 const short_term: [number, string][] = [
   [60.0, 'Avenged Sevenfold'],
@@ -32,6 +35,19 @@ const short_term: [number, string][] = [
   [190.0, 'NF'],
   [200.0, 'C418'],
 ];
+*/
+
+const fetchData = async (timeRange: string, accessToken: string, refreshToken: string) => {
+  try {
+    const term = await getTopArtists(timeRange, accessToken, refreshToken);
+    const elements = getElements(term);
+
+    return elements;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
 
 function getElements(term: [number, string][]): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = [
@@ -52,13 +68,8 @@ function getElements(term: [number, string][]): { nodes: Node[]; links: Link[] }
   return { nodes, links };
 }
 
-function renderGraph(graphContainer: any, width: number, height: number): void {
+function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
   const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
-
-  const elements = getElements(short_term);
-
-  const nodes = elements.nodes;
-  const links = elements.links;
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -107,8 +118,6 @@ function renderGraph(graphContainer: any, width: number, height: number): void {
     .attr('r', d => (d.type === 'user' ? 25 : 20))
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
     .style('fill', d => (d.type === 'user' ? 'red' : 'black'));
-  //.on('mouseover', handleMouseOver)
-  //.on('mouseout', handleMouseOut);
 
   const label = svg
     .selectAll('text')
@@ -146,7 +155,12 @@ function updateGraph(node: any, link: any, label: any, width: number, height: nu
   label.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y - 30);
 }
 
-export { renderGraph };
+function clearGraph(graphContainer: any): void {
+  // Use D3 to select and remove all child elements of the graph container
+  d3.select(graphContainer).selectAll('*').remove();
+}
+
+export { fetchData, renderGraph, clearGraph };
 
 /*
 function handleMouseOver(d) {

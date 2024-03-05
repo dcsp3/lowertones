@@ -15,9 +15,11 @@
     </div>
 
     <div class="termButtons">
-      <button class="button" id="shortTerm">Last Few Weeks</button>
-      <button class="button" id="mediumTerm">Last Few Months</button>
-      <button class="button" id="longTerm">Last Few Years</button>
+      <button class="button" [class.selected]="timeRange === 'short_term'" (click)="changeTimeRange('short_term')">Last Few Weeks</button>
+      <button class="button" [class.selected]="timeRange === 'medium_term'" (click)="changeTimeRange('medium_term')">
+        Last Few Months
+      </button>
+      <button class="button" [class.selected]="timeRange === 'long_term'" (click)="changeTimeRange('long_term')">Last Few Years</button>
     </div>
 
     <div class="showConnectionsCheckbox"><input type="checkbox" id="showConnectionsCheckbox" /> Show Connections</div>

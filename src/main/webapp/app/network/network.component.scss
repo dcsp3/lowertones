@@ -9,7 +9,7 @@
   transform: translateY(20px);
   font-family: 'Dela Gothic One', cursive;
   transition: opacity 0.8s cubic-bezier(0.42, 0, 0.58, 1), transform 0.8s cubic-bezier(0.42, 0, 0.58, 1);
-  animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.6s forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
 
 .title {
@@ -53,8 +53,8 @@
   background-color: #222;
   color: white;
   border: none;
-  border-radius: 10px;
-  margin: 0.375rem;
+  border-radius: 0.375rem;
+  margin: 10px;
   padding: 5px;
   width: 100%;
 }
@@ -64,16 +64,34 @@
 }
 
 .termButtons > button {
-  background-color: #222;
+  position: relative;
+  background-color: transparent;
   color: white;
   border: none;
   border-radius: 0.375rem;
   margin: 5px;
   padding: 5px;
+  overflow: hidden;
 }
 
-.termButtons > button:hover {
-  background-color: #272727;
+.termButtons > button.selected {
+  background-color: #272727; /* Set your desired color */
+}
+
+.termButtons > button:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.termButtons > button:hover:after {
+  width: 100%;
+  left: 0;
 }
 
 .showConnectionsCheckbox {
