@@ -2,3 +2,32 @@
   <h1 class="title">Organize your Tracks</h1>
   <h2 class="subtitle">helo :D</h2>
 </div>
+<div id="sidebar">
+  <h2>Filter</h2>
+  <p>Lorem ipsum ...</p>
+</div>
+<div class="table-content">
+  <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
+  <p-table [value]="songData" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Length</th>
+        <th>Genre</th>
+        <th>Release Year</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-song>
+      <tr class="p-selectable-row">
+        <td><p-tableCheckbox [value]="song.selected"></p-tableCheckbox></td>
+        <td>{{ song.title }}</td>
+        <td>{{ song.artist }}</td>
+        <td>{{ song.length }}</td>
+        <td>{{ song.genre }}</td>
+        <td>{{ song.release }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

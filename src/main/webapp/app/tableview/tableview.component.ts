@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tableview.component.scss'],
 })
 export class TableviewComponent implements OnInit {
-  constructor() {}
+  songData: any[];
 
-  ngOnInit(): void {}
+  constructor() {
+    this.songData = new Array(100);
+  }
+
+  ngOnInit(): void {
+    this.songData.fill({ selected: false, title: 'lorem', artist: 'ipsum', length: '50s', genre: 'test', release: 2000 }, 0, 15);
+  }
 }
