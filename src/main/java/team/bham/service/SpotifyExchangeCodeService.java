@@ -69,11 +69,14 @@ public class SpotifyExchangeCodeService {
         requestBody.add("grant_type", "authorization_code");
         requestBody.add("code", code);
         requestBody.add("redirect_uri", url);
+        System.out.println("URL HERE: " + url);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(spotifyTokenUrl, HttpMethod.POST, requestEntity, String.class);
 
+        String errorBody = responseEntity.getBody();
+        System.out.println("Failed to exchange code for access token: " + errorBody);
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             // Return the access token directly
             JSONObject responseJson = new JSONObject(responseEntity.getBody());
@@ -81,6 +84,8 @@ public class SpotifyExchangeCodeService {
             System.out.println("-----------------------------------------THIS IS THE TOKEN: " + accessToken);
             return responseEntity.getBody();
         } else {
+            //String errorBody = responseEntity.getBody();
+            //System.out.println("Failed to exchange code for access token: " + errorBody);
             return null;
         }
     }
@@ -137,7 +142,7 @@ public class SpotifyExchangeCodeService {
     }
 
     /**
-     * Delete the spotifyExchangeCode by id.
+     * Delete the spotifyExchangeCode by id
      *
      * @param id the id of the entity.
      */

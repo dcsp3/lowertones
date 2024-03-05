@@ -10,11 +10,12 @@ export class SpotifyAuthcodeHandlerService {
   constructor(private http: HttpClient) {}
 
   sendAuthorizationCode(code: string) {
-    // Get the current URL
-    const currentUrl = window.location.href;
-
-    // Include the current URL in the request body along with the code
-    return this.http.post<any>('/api/spotify/exchange-code', { code, currentUrl }).pipe(
+    let currentUrl = window.location.href.split('?')[0];
+    // Remove trailing slash if present
+    if (currentUrl.endsWith('/')) {
+      currentUrl = currentUrl.slice(0, -1);
+    }
+    return this.http.post<any>('/api/spotify/exchange-code', { code, url: currentUrl }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error sending authorization code:', error);
         return throwError(error);
