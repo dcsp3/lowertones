@@ -6,15 +6,21 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.AppUser;
 import team.bham.domain.SpotifyExchangeCode;
+import team.bham.domain.User;
+import team.bham.repository.AppUserRepository;
 import team.bham.repository.SpotifyExchangeCodeRepository;
+import team.bham.repository.UserRepository;
 import team.bham.service.SpotifyExchangeCodeService;
 import team.bham.service.SpotifyExchangeCodeService;
 import team.bham.service.dto.SpotifyExchangeCodeDTO;
@@ -40,12 +46,20 @@ public class SpotifyExchangeCodeResource {
 
     private final SpotifyExchangeCodeRepository spotifyExchangeCodeRepository;
 
+    private final UserRepository userRepository;
+
+    private final AppUserRepository appUserRepository;
+
     public SpotifyExchangeCodeResource(
         SpotifyExchangeCodeService spotifyExchangeCodeService,
-        SpotifyExchangeCodeRepository spotifyExchangeCodeRepository
+        SpotifyExchangeCodeRepository spotifyExchangeCodeRepository,
+        UserRepository userRepository,
+        AppUserRepository appUserRepository
     ) {
         this.spotifyExchangeCodeService = spotifyExchangeCodeService;
         this.spotifyExchangeCodeRepository = spotifyExchangeCodeRepository;
+        this.userRepository = userRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     /**
@@ -59,13 +73,34 @@ public class SpotifyExchangeCodeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/spotify/exchange-code")
-    public ResponseEntity<String> exchangeCodeForToken(@RequestBody SpotifyExchangeCodeDTO spotifyExchangeCodeDTO) {
-        String accessToken = spotifyExchangeCodeService.exchangeCodeForToken(
+    public ResponseEntity<String> exchangeCodeForToken(
+        @RequestBody SpotifyExchangeCodeDTO spotifyExchangeCodeDTO,
+        Authentication authentication
+    ) {
+        String responseText = spotifyExchangeCodeService.exchangeCodeForToken(
             spotifyExchangeCodeDTO.getCode(),
             spotifyExchangeCodeDTO.getUrl()
         );
-        if (accessToken != null) {
-            return ResponseEntity.ok(accessToken);
+        if (responseText != null) {
+            JSONObject responseJson = new JSONObject(responseText);
+            String accessToken = responseJson.getString("access_token");
+            String refreshToken = responseJson.getString("refresh_token");
+            String userName = authentication.getName();
+            Optional<User> userOptional = userRepository.findOneByLogin(userName);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                Long userID = user.getId();
+                // Find the corresponding AppUser
+                Optional<AppUser> appUserOptional = appUserRepository.findByUserId(userID);
+                if (appUserOptional.isPresent()) {
+                    AppUser appUser = appUserOptional.get();
+                    // Update AppUser with accessToken and refreshToken
+                    appUser.setSpotifyAuthToken(accessToken);
+                    appUser.setSpotifyRefreshToken(refreshToken);
+                    appUserRepository.save(appUser); // Save the updated AppUser
+                }
+            }
+            return ResponseEntity.ok(responseText);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to exchange code for access token");
         }
