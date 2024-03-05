@@ -1,0 +1,18 @@
+@import '~bootstrap/scss/functions';
+@import '~bootswatch/dist/flatly/variables';
+@import '~bootstrap/scss/variables';
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 50px; // You can adjust the height as needed
+  margin: 0 auto;
+  width: 100%; // Ensures the footer extends full width
+}
+
+.footer p {
+  margin: 0; // Removes default paragraph margin
+  font-size: small;
+}

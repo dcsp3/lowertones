@@ -16,7 +16,7 @@ $gray-500: #adb5bd !default;
 $gray-600: #888 !default;
 $gray-700: #444 !default;
 $gray-800: #303030 !default;
-$gray-900: #222 !default;
+$gray-900: #222222 !default;
 $black: #000 !default;
 
 $blue: #375a7f !default;
@@ -30,27 +30,27 @@ $green: #00bc8c !default;
 $teal: #20c997 !default;
 $cyan: #3498db !default;
 
-$col1: #1a4146 !default;
-$col2: #297272 !default;
-$col3: #e8e0c8 !default;
+$col1: #3a1744 !default;
+$col2: #0b182e !default;
+$col3: #15305e !default;
 $col4: #d3a446 !default;
 $col5: #b66d2f !default;
 
-$primary: $blue !default;
-$secondary: $gray-700 !default;
-$success: $green !default;
+$primary: #ffffff !default;
+$secondary: $col2 !default;
+$success: $col1 !default;
 $info: $cyan !default;
 $warning: $yellow !default;
 $danger: $red !default;
-$light: $gray-500 !default;
-$dark: $gray-800 !default;
+$light: $col2 !default;
+$dark: $col2 !default;
 
 $min-contrast-ratio: 1.9 !default;
 
 // Body
 
-$body-bg: $gray-900 !default;
-$body-color: $white !default;
+$body-bg: $primary !default;
+$body-color: $dark !default;
 
 // Links
 
@@ -92,7 +92,7 @@ $form-file-button-hover-bg: darken($form-file-button-bg, 5%) !default;
 
 // Dropdowns
 
-$dropdown-bg: $gray-900 !default;
+$dropdown-bg: $col3 !default;
 $dropdown-border-color: $gray-700 !default;
 $dropdown-divider-bg: $gray-700 !default;
 $dropdown-link-color: $white !default;
@@ -135,8 +135,8 @@ $pagination-disabled-border-color: transparent !default;
 
 // Cards
 
-$card-cap-bg: $gray-700 !default;
-$card-bg: $gray-800 !default;
+$card-cap-bg: $gray-100 !default;
+$card-bg: $primary !default;
 
 // Popovers
 

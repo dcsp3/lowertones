@@ -56,21 +56,7 @@
       <fa-icon icon="bars"></fa-icon>
     </a>
 
-    <!-- Spacer to push the search bar to the middle -->
     <div class="flex-grow-1"></div>
-
-    <form class="d-flex mx-auto">
-      <input
-        class="form-control rounded-pill"
-        type="search"
-        placeholder="Search the Library"
-        aria-label="Search"
-        (keydown.enter)="performSearch($event)"
-      />
-    </form>
-
-    <!-- Spacer to push the Login with Spotify button to the right -->
-    <div class="flex-grow-2"></div>
 
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <!-- likely remove this entire div later, as OG login / signup is unneeded-->
@@ -84,7 +70,14 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
+          <a
+            class="nav-link dropdown-toggle"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="entity-menu"
+            data-cy="entity"
+            *jhiHasAnyAuthority="['ROLE_ADMIN']"
+          >
             <span>
               <fa-icon icon="th-list"></fa-icon>
               <span>Entities</span>
@@ -308,7 +301,6 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
-              <span>Account</span>
             </span>
             <span *ngIf="account?.imageUrl">
               <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
@@ -367,7 +359,7 @@
         </li>
       </ul>
     </div>
-    <div class="navbar-login-button">
+    <div class="navbar-login-button" [ngSwitch]="account !== null">
       <button *ngIf="!isLoggedIn()" class="btn btn-spotify" (click)="loginWithSpotify($event)">Login with Spotify</button>
     </div>
   </div>
