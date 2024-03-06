@@ -1,35 +1,35 @@
 <div class="container">
   <h1 class="title">Organize your Tracks</h1>
-  <h2 class="subtitle">helo :D</h2>
+  <h2 class="subtitle">Filter through your music to find the songs you enjoy</h2>
 </div>
-<div id="sidebar">
-  <h2>Filter</h2>
-  <p>Lorem ipsum ...</p>
-</div>
-<div class="table-content">
-  <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
-  <p-table [value]="songData" [paginator]="true" [rows]="10" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template pTemplate="header">
-      <tr>
-        <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>Length</th>
-        <th>Release Date</th>
-        <th>Popularity</th>
-        <th>Explicit</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-song>
-      <tr class="p-selectable-row">
-        <td><p-tableCheckbox [value]="song.selected"></p-tableCheckbox></td>
-        <td>{{ song.title }}</td>
-        <td>{{ song.artist }}</td>
-        <td>{{ song.length }}</td>
-        <td>{{ song.release }}</td>
-        <td>{{ song.popularity }}</td>
-        <td>{{ song.explicit }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+<div id="tableview-wrapper">
+  <div id="sidebar" class="tbv-divs">
+    <h2>Filter</h2>
+    <p>Lorem ipsum ...</p>
+  </div>
+  <div id="table-content" class="tbv-divs">
+    <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
+    <p-table [value]="songData" [paginator]="true" [rows]="10" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Length</th>
+          <th>Release Date</th>
+          <th>Popularity</th>
+          <th>Explicit</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-song>
+        <tr class="p-selectable-row">
+          <td>{{ song.title }}</td>
+          <td>{{ song.artist }}</td>
+          <td>{{ song.length }}</td>
+          <td>{{ song.release }}</td>
+          <td>{{ song.popularity }}</td>
+          <td>{{ song.explicit }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

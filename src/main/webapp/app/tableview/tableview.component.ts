@@ -60,6 +60,8 @@ export class TableviewComponent implements OnInit {
 
       this.songData[i] = songEntry;
     }
+
+    this.songData = this.songData.slice(0, numTracks);
   }
 }
 
