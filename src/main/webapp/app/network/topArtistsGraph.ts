@@ -82,7 +82,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .append('circle')
     .attr('r', d => (d.type === 'user' ? 25 : 20))
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
-    .style('fill', d => (d.type === 'user' ? 'red' : 'black'));
+    .style('fill', d => (d.type === 'user' ? 'red' : 'whitesmoke'));
 
   const label = svg
     .selectAll('text')
