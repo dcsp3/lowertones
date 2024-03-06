@@ -49,6 +49,24 @@ public class SpotifyAPIWrapperService {
         return APICall(HttpMethod.GET, endpoint, accessToken);
     }
 
+    public JSONObject getCurrentUserShortTermTopArtists(AppUser user) {
+        String accessToken = user.getSpotifyAuthToken();
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=short_term";
+        return APICall(HttpMethod.GET, endpoint, accessToken);
+    }
+
+    public JSONObject getCurrentUserMediumTermTopArtists(AppUser user) {
+        String accessToken = user.getSpotifyAuthToken();
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=medium_term";
+        return APICall(HttpMethod.GET, endpoint, accessToken);
+    }
+
+    public JSONObject getCurrentUserLongTermTopArtists(AppUser user) {
+        String accessToken = user.getSpotifyAuthToken();
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=long_term";
+        return APICall(HttpMethod.GET, endpoint, accessToken);
+    }
+
     //overload for calls with extra params
     //todo: handle errors, token expiry etc.
     private JSONObject APICall(HttpMethod method, String endpoint, String accessToken) {

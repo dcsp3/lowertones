@@ -1,7 +1,5 @@
 import * as d3 from 'd3';
 
-import { getTopArtists } from './getTopArtists';
-
 interface Node {
   id: string;
   type: string;
@@ -16,45 +14,12 @@ interface Link {
   distance: number;
 }
 
-/*
-// Get from another spotify api call util file
-const short_term: [number, string][] = [
-  [60.0, 'Avenged Sevenfold'],
-  [70.0, 'Slipknot'],
-  [80.0, 'Metro Boomin'],
-  [90.0, 'mgk'],
-  [100.0, 'Drake'],
-  [110.0, 'Neck Deep'],
-  [120.0, 'Metallica'],
-  [130.0, 'blink-182'],
-  [140.0, 'Bring Me The Horizon'],
-  [150.0, 'Linkin Park'],
-  [160.0, 'Kanye West'],
-  [170.0, 'Bullet For My Valentine'],
-  [180.0, 'Iron Maiden'],
-  [190.0, 'NF'],
-  [200.0, 'C418'],
-];
-*/
-
-const fetchData = async (timeRange: string, accessToken: string, refreshToken: string) => {
-  try {
-    const term = await getTopArtists(timeRange, accessToken, refreshToken);
-    const elements = getElements(term);
-
-    return elements;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
-
-function getElements(term: [number, string][]): { nodes: Node[]; links: Link[] } {
+function getElements(termArray: [number, string][]): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = [
     { id: 'user', type: 'user', rank: 0 }, // Assuming the user has rank 0 initially
   ];
 
-  for (const [rank, artist] of term) {
+  for (const [rank, artist] of termArray) {
     nodes.push({ id: artist, type: 'artist', rank });
   }
 
@@ -160,7 +125,7 @@ function clearGraph(graphContainer: any): void {
   d3.select(graphContainer).selectAll('*').remove();
 }
 
-export { fetchData, renderGraph, clearGraph };
+export { getElements, renderGraph, clearGraph };
 
 /*
 function handleMouseOver(d) {

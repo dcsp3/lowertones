@@ -3,6 +3,7 @@ package team.bham.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,6 +71,109 @@ public class APIScrapingResource {
         JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id"));
         return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);
     }
+
+    @GetMapping("/top-artists-short-term")
+    public ResponseEntity<List<Object>> getShortTermTopArtists(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        JSONObject topArtists = apiWrapper.getCurrentUserShortTermTopArtists(appUser);
+        JSONArray artists = topArtists.getJSONArray("items");
+
+        List<Object> result = new ArrayList<>();
+        int min_distance = 50;
+        int max_distance = 300;
+
+        for (int count = 0; count < artists.length(); count++) {
+            JSONObject item = artists.getJSONObject(count);
+            // Calculate the distance based on rank
+            double distance = min_distance + ((double) (max_distance - min_distance) / artists.length()) * (count + 1);
+
+            List<Object> artistInfo = new ArrayList<>();
+            artistInfo.add(distance);
+            artistInfo.add(item.getString("name"));
+            artistInfo.add(item.getString("id"));
+
+            result.add(artistInfo);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/top-artists-medium-term")
+    public ResponseEntity<List<Object>> getMediumTermTopArtists(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        JSONObject topArtists = apiWrapper.getCurrentUserMediumTermTopArtists(appUser);
+        JSONArray artists = topArtists.getJSONArray("items");
+
+        List<Object> result = new ArrayList<>();
+        int min_distance = 50;
+        int max_distance = 300;
+
+        for (int count = 0; count < artists.length(); count++) {
+            JSONObject item = artists.getJSONObject(count);
+            // Calculate the distance based on rank
+            double distance = min_distance + ((double) (max_distance - min_distance) / artists.length()) * (count + 1);
+
+            List<Object> artistInfo = new ArrayList<>();
+            artistInfo.add(distance);
+            artistInfo.add(item.getString("name"));
+            artistInfo.add(item.getString("id"));
+
+            result.add(artistInfo);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/top-artists-long-term")
+    public ResponseEntity<List<Object>> getLongTermTopArtists(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        JSONObject topArtists = apiWrapper.getCurrentUserLongTermTopArtists(appUser);
+        JSONArray artists = topArtists.getJSONArray("items");
+
+        List<Object> result = new ArrayList<>();
+        int min_distance = 50;
+        int max_distance = 300;
+
+        for (int count = 0; count < artists.length(); count++) {
+            JSONObject item = artists.getJSONObject(count);
+            // Calculate the distance based on rank
+            double distance = min_distance + ((double) (max_distance - min_distance) / artists.length()) * (count + 1);
+
+            List<Object> artistInfo = new ArrayList<>();
+            artistInfo.add(distance);
+            artistInfo.add(item.getString("name"));
+            artistInfo.add(item.getString("id"));
+
+            result.add(artistInfo);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /* 
+    @GetMapping("/top-artists")
+    public ResponseEntity<String> getCurrentUserTopArtists(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        try {
+            JSONObject shortTermArtists = apiWrapper.getCurrentUserShortTermTopArtists(appUser);
+            JSONObject mediumTermArtists = apiWrapper.getCurrentUserMediumTermTopArtists(appUser);
+            JSONObject longTermArtists = apiWrapper.getCurrentUserLongTermTopArtists(appUser);
+
+            JSONObject result = new JSONObject();
+            result.put("shortTerm", shortTermArtists);
+            result.put("mediumTerm", mediumTermArtists);
+            result.put("longTerm", longTermArtists);
+
+            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve artist data");
+        }
+    }
+    */
 
     private AppUser resolveAppUser(String name) {
         User user = userRepository.findOneByLogin(name).get();

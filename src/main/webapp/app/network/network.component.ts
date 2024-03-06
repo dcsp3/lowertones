@@ -1,6 +1,5 @@
-import { CookieService } from 'ngx-cookie-service';
-import { fetchData, renderGraph, clearGraph } from './topArtistsGraph';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
 @Component({
   selector: 'jhi-network',
@@ -10,12 +9,28 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 export class NetworkComponent implements OnInit {
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
 
-  timeRange: string = 'short_term'; // Default time range
-
-  constructor(private cookieService: CookieService) {}
+  timeRange: string = 'short-term';
 
   ngOnInit(): void {
-    this.fetchAndRenderGraph();
+    this.fetchAndRenderGraph(this.timeRange); // Fetch and render graph on component init
+  }
+
+  fetchTopArtists(timeRange: string): Promise<any> {
+    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1); // Adjust as necessary for token format
+    const headers: Headers = new Headers();
+    headers.set('Authorization', 'Bearer ' + token);
+    // Adjust the request URL to your local endpoint that handles the top artists
+    const request: RequestInfo = new Request('/api/top-artists-' + timeRange, {
+      method: 'GET',
+      headers: headers,
+    });
+
+    return fetch(request)
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      })
+      .catch(error => console.error('Error fetching top artists:', error));
   }
 
   changeTimeRange(newTimeRange: string): void {
@@ -23,24 +38,21 @@ export class NetworkComponent implements OnInit {
     if (newTimeRange !== this.timeRange) {
       this.timeRange = newTimeRange;
       console.log(`New Time Range: ${this.timeRange}`);
-      this.fetchAndRenderGraph();
+      this.fetchAndRenderGraph(this.timeRange);
     } else {
       return; // Exit early if the time range hasn't changed
     }
   }
 
-  private async fetchAndRenderGraph(): Promise<void> {
-    const accessToken = this.cookieService.get('access_token');
-    const refreshToken = this.cookieService.get('refresh_token');
-
+  private async fetchAndRenderGraph(timeRange: string): Promise<void> {
     try {
       // Clear the existing graph
       clearGraph(this.graphContainer.nativeElement);
 
       // Fetch new data
-      const elements = await fetchData(this.timeRange, accessToken, refreshToken);
+      const data = await this.fetchTopArtists(timeRange);
+      const elements = getElements(data);
 
-      // Render the new graph with updated data
       renderGraph(this.graphContainer.nativeElement, 750, 500, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
