@@ -21,3 +21,24 @@ Main page styles
     background-size: contain;
   }
 }
+
+.row.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  /* Adjust this breakpoint to match your framework's md breakpoint */
+  .col-md-9.flex-md-auto {
+    flex: 0 0 auto;
+    width: 50%; /* Adjust this as needed */
+  }
+}
+
+.home-background {
+  background-image: url('../../content/images/Untitled-1.png');
+  background-size: cover; /* Cover the entire page */
+  background-position: center; /* Center the background image */
+  height: 100vh; /* Make sure it covers the whole screen */
+  width: 100%;
+}

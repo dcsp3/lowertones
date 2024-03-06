@@ -1,6 +1,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootswatch/dist/flatly/variables';
 @import '~bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
 
 /* ==========================================================================
 Navbar
@@ -31,6 +32,9 @@ Navbar
     &:hover {
       color: $navbar-dark-hover-color;
     }
+  }
+  .navbar-custom .dropdown-item:hover {
+    --bs-dropdown-link-hover-bg: #ff4500; // Example color
   }
 }
 .nav-item.dropdown .dropdown-menu {
