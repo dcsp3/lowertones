@@ -1,6 +1,3 @@
-@import '~bootstrap/scss/functions';
-@import '~bootswatch/dist/flatly/variables';
-@import '~bootstrap/scss/variables';
 //@import 'node_modules/bootstrap/scss/bootstrap';
 
 /* ==========================================================================
@@ -8,16 +5,15 @@ Navbar
 ========================================================================== */
 
 .navbar {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  align-items: center;
   padding: 0.2rem 1rem;
+  z-index: 1030;
   display: flex;
+  position: fixed;
   padding-left: 30px;
   justify-content: space-between;
   align-items: center; // Keeps items vertically center ed
   width: 100%; // Ensure the navbar spans the full width of its container
+  background-color: #0000004b !important;
 
   .dropdown-item.active,
   .dropdown-item.active:focus,
@@ -26,21 +22,48 @@ Navbar
   }
   a.nav-link {
     font-weight: normal;
-    color: $gray-200;
-    height: 45%;
+    color: #ffffff;
     white-space: nowrap;
-  }
-  .navbar-toggler {
-    &:hover {
-      color: $navbar-dark-hover-color;
-    }
-  }
-  .navbar-custom .dropdown-item:hover {
-    --bs-dropdown-link-hover-bg: #ff4500; // Example color
   }
 }
 .nav-item.dropdown .dropdown-menu {
   top: calc(100% - 20px) !important; // Adjusts the dropdown lower
+}
+
+.navbar-nav {
+  height: 50px;
+  align-items: center;
+}
+
+.nav-item {
+  color: #000;
+  letter-spacing: 0.1rem;
+  transition: all 0.5s ease;
+  font-size: 0.8rem;
+  padding: 3px;
+  &:hover {
+    border-radius: 10px;
+    color: white;
+    background: rgba(102, 177, 241, 0.8);
+    transition: all 0.5s ease;
+  }
+}
+.container-fluid {
+  position: relative; /* Establishes a positioning context */
+  display: flex;
+  justify-content: space-between; /* Spread out navbar-left, navbar-center, and navbar-right */
+  align-items: center; /* Align items vertically in the middle */
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+.navbar-center {
+  position: absolute;
+  height: 50px;
+
+  left: 50%; /* Position halfway across the container */
+  transform: translateX(-50%); /* Shift back to achieve true centering */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ==========================================================================

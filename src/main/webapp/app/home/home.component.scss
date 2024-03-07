@@ -1,25 +1,11 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-
-.hipster {
-  display: inline-block;
-  width: 347px;
-  height: 497px;
-  background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
-  background-size: contain;
-}
-
-/* wait autoprefixer update to allow simple generation of high pixel density media query */
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-  only screen and (-moz-min-device-pixel-ratio: 2),
-  only screen and (-o-min-device-pixel-ratio: 2/1),
-  only screen and (min-resolution: 192dpi),
-  only screen and (min-resolution: 2dppx) {
-  .hipster {
-    background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
-    background-size: contain;
-  }
+@font-face {
+  font-family: 'alro';
+  src: url('../../content/fonts/alro-alro-bold-700.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .row.justify-content-center {
@@ -27,18 +13,55 @@ Main page styles
   justify-content: center;
 }
 
-@media (min-width: 768px) {
-  /* Adjust this breakpoint to match your framework's md breakpoint */
-  .col-md-9.flex-md-auto {
-    flex: 0 0 auto;
-    width: 50%; /* Adjust this as needed */
+/* Look, no Sass */
+
+.particle {
+  /* Starting values */
+  --angle: (5 * var(--index));
+  --radius: 20;
+  --x: calc(sin(var(--angle)) * var(--radius) * 1vmin);
+  --y: calc(cos(var(--angle)) * var(--radius) * 1vmin);
+
+  --angle2: calc(var(--index) * 1turn / var(--total));
+  --x2: calc(sin(var(--angle2)) * var(--radius) * 1vmin);
+  --y2: calc(cos(var(--angle2)) * var(--radius) * 1vmin);
+
+  --size: 3;
+  --speed: 3s;
+  --delay: calc(var(--index) * var(--speed) / var(--total) * 4);
+
+  --hue-angle: 10;
+  --hue-range: 90;
+  --hue-start: 20;
+
+  /* Animation */
+  animation: animation var(--speed) ease-out infinite alternate var(--delay);
+  transform: translate3d(var(--x), var(--y), 0);
+  opacity: 0;
+
+  /* Particle styling */
+  border-radius: 50%;
+  background: currentColor;
+  color: #ffffff;
+
+  position: absolute;
+  width: calc(var(--size) * 0.1vmin);
+  height: calc(var(--size) * 0.1vmin);
+  contain: strict; /* Does this help or is translate3d already doing it*/
+}
+
+@keyframes animation {
+  100% {
+    transform: translate3d(var(--x2), var(--y2), 0);
+    opacity: 1;
   }
 }
 
-.home-background {
-  background-image: url('../../content/images/Untitled-1.png');
-  background-size: cover; /* Cover the entire page */
-  background-position: center; /* Center the background image */
-  height: 100vh; /* Make sure it covers the whole screen */
-  width: 100%;
+.center {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  overflow: hidden;
 }
