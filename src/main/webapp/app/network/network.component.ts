@@ -78,7 +78,7 @@ export class NetworkComponent implements OnInit {
       const data = await this.fetchTopArtists(timeRange);
       const elements = getElements(data, userImageUrl);
 
-      renderGraph(this.graphContainer.nativeElement, 750, 500, elements.nodes, elements.links);
+      renderGraph(this.graphContainer.nativeElement, 700, 500, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
     }
