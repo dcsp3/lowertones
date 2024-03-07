@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { VERSION } from 'app/app.constants';
 import { Account } from 'app/core/auth/account.model';
@@ -10,6 +11,7 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { HttpClient } from '@angular/common/http';
+import { LocationService } from '../../shared/location.service'; // Update this path
 
 //custom services go here
 import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-handler.service';
@@ -19,15 +21,19 @@ import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-h
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
+  currentTab: string | null = null;
+  private tabSubscription: Subscription = new Subscription();
   inProduction?: boolean;
   isNavbarCollapsed = true;
   openAPIEnabled?: boolean;
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  currentSection: string | null = null;
 
   constructor(
+    private locationService: LocationService,
     private cookieService: CookieService,
     private loginService: LoginService,
     private accountService: AccountService,
@@ -48,7 +54,9 @@ export class NavbarComponent implements OnInit {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
     });
-
+    this.locationService.getCurrentTab().subscribe(sectionId => {
+      this.currentSection = sectionId;
+    });
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
       console.log('User Authorities:', account?.authorities);
@@ -146,5 +154,13 @@ export class NavbarComponent implements OnInit {
       console.log(`Performing search for: ${searchTerm}`);
       // Trigger search function here
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.tabSubscription) {
+      this.tabSubscription.unsubscribe();
+    }
+
+    // Clean up other resources
   }
 }

@@ -1,0 +1,55 @@
+.container-fluid {
+  padding-top: 70px; // Adjust this value based on the actual height of your navbar
+  background-color: transparent !important;
+}
+
+.card {
+  background-color: transparent !important;
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Arrange children (content and footer) in a column */
+  min-height: 100vh;
+  font-family: 'Poiret One', 'Roboto', 'Helvetica';
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  animation: gradientAnimation 12s ease infinite;
+  background-image: linear-gradient(
+      125deg,
+      rgba(206, 190, 41, 0.3) 0%,
+      rgba(155, 31, 80, 0.3) 33%,
+      rgba(41, 137, 216, 0.3) 71%,
+      rgba(155, 31, 80, 0.3) 95%
+    ),
+    linear-gradient(-88deg, rgba(206, 190, 41, 0.8) 0%, rgba(155, 31, 80, 0.3) 33%, rgba(41, 137, 216, 0.7) 71%, rgba(155, 31, 80, 0.7) 95%),
+    linear-gradient(23deg, rgba(206, 190, 41, 1) 0%, rgba(155, 31, 80, 0.6) 33%, rgba(41, 137, 216, 1) 71%, rgba(155, 31, 80, 1) 95%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-size: 100% 100%;
+    background-position: 0% 0%;
+  }
+  25% {
+    background-size: 120% 150%;
+    background-position: 25% 50%;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: 50% 100%;
+  }
+  75% {
+    background-size: 150% 150%;
+    background-position: 75% 50%;
+  }
+  100% {
+    background-size: 100% 100%;
+    background-position: 100% 0%;
+  }
+}
