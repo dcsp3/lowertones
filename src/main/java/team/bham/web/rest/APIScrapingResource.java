@@ -55,7 +55,7 @@ public class APIScrapingResource {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    @GetMapping("/test-get-user-details")
+    @GetMapping("/get-user-details")
     public ResponseEntity<String> getUserID(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
         return new ResponseEntity<>(apiWrapper.getUserDetails(appUser).toString(), HttpStatus.OK);
@@ -92,6 +92,9 @@ public class APIScrapingResource {
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
 
+            JSONArray images = item.getJSONArray("images");
+            artistInfo.add(images.getJSONObject(0).getString("url"));
+
             result.add(artistInfo);
         }
 
@@ -118,6 +121,9 @@ public class APIScrapingResource {
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
 
+            JSONArray images = item.getJSONArray("images");
+            artistInfo.add(images.getJSONObject(0).getString("url"));
+
             result.add(artistInfo);
         }
 
@@ -143,6 +149,9 @@ public class APIScrapingResource {
             artistInfo.add(distance);
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
+
+            JSONArray images = item.getJSONArray("images");
+            artistInfo.add(images.getJSONObject(0).getString("url"));
 
             result.add(artistInfo);
         }
