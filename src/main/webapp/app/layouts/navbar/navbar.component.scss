@@ -26,9 +26,6 @@ Navbar
     white-space: nowrap;
   }
 }
-.nav-item.dropdown .dropdown-menu {
-  top: calc(100% - 20px) !important; // Adjusts the dropdown lower
-}
 
 .navbar-nav {
   height: 50px;

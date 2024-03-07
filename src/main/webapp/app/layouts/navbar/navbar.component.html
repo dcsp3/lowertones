@@ -365,7 +365,7 @@
             </ul>
           </li>
         </ul>
-        <div class="navbar-login-button" [ngSwitch]="account !== null">
+        <div class="navbar-login-button" *ngSwitchCase="true">
           <button *ngIf="!isLoggedIn()" class="btn btn-spotify" (click)="loginWithSpotify($event)">Login with Spotify</button>
         </div>
       </div>
