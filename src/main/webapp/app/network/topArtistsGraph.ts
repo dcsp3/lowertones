@@ -34,13 +34,30 @@ function getElements(termArray: [number, string, string, string][], userImg: str
   return { nodes, links };
 }
 
+// On hover functions
+// Get these working
+
+/*
+function handleMouseOver(event: any, d: Node) {
+  const currentNode = d3.select(event.currentTarget);
+  currentNode.attr('r', (d.type === 'user' ? 28 : 23));
+  d3.select(`#label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`).style('display', 'block');
+}
+
+function handleMouseOut(event: any, d: Node) {
+  const currentNode = d3.select(event.currentTarget);
+  currentNode.attr('r', (d.type === 'user' ? 25 : 20));
+  d3.select(`#label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`).style('display', 'none');
+}
+*/
+
 function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
   const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
 
   // Defining patterns for each node based on imageUrl
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
-    const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, escape);
+    const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, '');
     const imageSize = node.type === 'user' ? 50 : 40; // Larger image size for 'user'
 
     defs
@@ -93,7 +110,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .append('line')
     .style('stroke', 'white')
     .style('stroke-width', 0.25)
-    .style('stroke-dasharray', '5,5');
+    .style('stroke-dasharray', '2,2');
 
   const node = svg
     .selectAll('circle')
@@ -102,9 +119,11 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .append('circle')
     .attr('r', d => (d.type === 'user' ? 25 : 20))
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
-    .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, escape)})`)
+    .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`)
     .style('stroke', 'black')
     .style('stroke-width', 0.75);
+  //.on('mouseenter', handleMouseOver)
+  //.on('mouseleave', handleMouseOut);
 
   const label = svg
     .selectAll('text')
@@ -117,7 +136,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .style('font-size', '12px')
     .style('fill', d => 'white')
     .style('display', 'block')
-    .attr('id', d => `label-${d.id}`);
+    .attr('id', d => `label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`);
 
   simulation.on('tick', () => updateGraph(node, link, label, width, height));
 }

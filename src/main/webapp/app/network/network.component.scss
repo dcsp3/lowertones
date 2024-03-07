@@ -4,12 +4,12 @@
   color: white;
   padding: 10px 20px; /* Add some padding around the text */
   margin: auto;
-  background-color: rgb(11, 24, 46);
+  background-color: transparent;
   border-radius: 0.375rem;
   align-items: center;
   width: 700px;
   margin-bottom: 20px;
-  box-shadow: 0 0 0.5ch black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .title,
@@ -36,7 +36,7 @@
 }
 
 .elements {
-  background-color: whitesmoke;
+  background: radial-gradient(transparent 60%, rgb(103, 104, 104));
   border-radius: 0.375rem;
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@
 }
 
 .graph {
-  background: linear-gradient(rgb(11, 24, 46), rgb(58, 96, 115), rgb(11, 24, 46));
+  background: radial-gradient(transparent, rgb(103, 104, 104));
   border-radius: 0.375rem;
   margin: 10px;
   padding: 10px;

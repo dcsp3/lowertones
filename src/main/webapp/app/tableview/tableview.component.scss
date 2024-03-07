@@ -1,6 +1,15 @@
 .container {
   text-align: center;
   position: relative;
+  color: white;
+  padding: 10px 20px; /* Add some padding around the text */
+  margin: auto;
+  background-color: transparent;
+  border-radius: 0.375rem;
+  align-items: center;
+  width: 800px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #tableview-wrapper {
@@ -34,12 +43,11 @@
   transform: translateY(20px);
   font-family: 'Dela Gothic One', cursive;
   transition: opacity 0.8s cubic-bezier(0.42, 0, 0.58, 1), transform 0.8s cubic-bezier(0.42, 0, 0.58, 1);
-  animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.6s forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
 
 .title {
   font-size: 54px;
-  margin-bottom: 5px;
   line-height: 1;
 }
 
@@ -50,7 +58,6 @@
 
 .subtitle {
   font-size: 24px;
-  margin-bottom: 30px;
 }
 
 @keyframes fadeIn {
