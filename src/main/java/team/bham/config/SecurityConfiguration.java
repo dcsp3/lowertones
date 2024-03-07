@@ -24,7 +24,7 @@ import tech.jhipster.config.JHipsterProperties;
 public class SecurityConfiguration {
 
     private final String contentSecurityPolicy =
-        "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.scdn.co; font-src 'self' data:";
+        "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.scdn.co; font-src 'self' data: https://fonts.gstatic.com";
 
     // private final JHipsterProperties jHipsterProperties;
 
