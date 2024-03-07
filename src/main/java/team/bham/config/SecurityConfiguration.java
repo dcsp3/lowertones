@@ -23,7 +23,10 @@ import tech.jhipster.config.JHipsterProperties;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration {
 
-    private final JHipsterProperties jHipsterProperties;
+    private final String contentSecurityPolicy =
+        "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.scdn.co; font-src 'self' data:";
+
+    // private final JHipsterProperties jHipsterProperties;
 
     private final TokenProvider tokenProvider;
 
@@ -39,7 +42,6 @@ public class SecurityConfiguration {
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
-        this.jHipsterProperties = jHipsterProperties;
     }
 
     @Bean
@@ -60,7 +62,7 @@ public class SecurityConfiguration {
             .accessDeniedHandler(problemSupport)
     .and()
         .headers()
-            .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
+            .contentSecurityPolicy(contentSecurityPolicy)
         .and()
             .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
         .and()
