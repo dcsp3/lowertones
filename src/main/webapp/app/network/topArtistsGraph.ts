@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 interface Node {
   id: string;
   type: string;
+  img: string;
   rank: number;
   x?: number;
   y?: number;
@@ -14,13 +15,13 @@ interface Link {
   distance: number;
 }
 
-function getElements(termArray: [number, string][]): { nodes: Node[]; links: Link[] } {
+function getElements(termArray: [number, string, string, string][], userImg: string): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = [
-    { id: 'user', type: 'user', rank: 0 }, // Assuming the user has rank 0 initially
+    { id: 'user', type: 'user', img: userImg, rank: 0 }, // Assuming the user has rank 0 initially
   ];
 
-  for (const [rank, artist] of termArray) {
-    nodes.push({ id: artist, type: 'artist', rank });
+  for (const [rank, artist, id, img] of termArray) {
+    nodes.push({ id: artist, type: 'artist', img, rank });
   }
 
   const links: Link[] = [];
@@ -35,6 +36,25 @@ function getElements(termArray: [number, string][]): { nodes: Node[]; links: Lin
 
 function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
   const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
+
+  // Defining patterns for each node based on imageUrl
+  const defs = svg.append('defs');
+  nodes.forEach((node, index) => {
+    const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, escape);
+    const imageSize = node.type === 'user' ? 50 : 40; // Larger image size for 'user'
+
+    defs
+      .append('pattern')
+      .attr('id', `img-${node.id}`)
+      .attr('patternUnits', 'objectBoundingBox')
+      .attr('width', 1)
+      .attr('height', 1)
+      .append('image')
+      .attr('xlink:href', node.img)
+      .attr('width', imageSize)
+      .attr('height', imageSize)
+      .attr('preserveAspectRatio', 'xMidYMid slice');
+  });
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -82,7 +102,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .append('circle')
     .attr('r', d => (d.type === 'user' ? 25 : 20))
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
-    .style('fill', d => (d.type === 'user' ? 'red' : 'whitesmoke'))
+    .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, escape)})`)
     .style('stroke', 'black')
     .style('stroke-width', 0.75);
 
@@ -128,54 +148,3 @@ function clearGraph(graphContainer: any): void {
 }
 
 export { getElements, renderGraph, clearGraph };
-
-/*
-function handleMouseOver(d) {
-  const currentNode = d3.select(this).datum();
-
-  d3.select(this).attr('r', (d) => (d.type === 'user' ? 28 : 23));
-
-  label.filter((nodeData) => nodeData.id === currentNode.id).style('display', 'block');
-}
-
-function handleMouseOut() {
-  const currentNode = d3.select(this).datum();
-
-  d3.select(this).attr('r', (d) => (currentNode.type === 'user' ? 25 : 20));
-}
-
-// Add event listeners to the buttons
-const shortTermButton = document.getElementById('shortTerm');
-const mediumTermButton = document.getElementById('mediumTerm');
-const longTermButton = document.getElementById('longTerm');
-
-shortTermButton.addEventListener('click', function () {
-  const elements = getElements(short_term);
-
-  svg.selectAll('line').remove();
-  svg.selectAll('circle').remove();
-  svg.selectAll('text').remove();
-
-  renderGraph(elements.nodes, elements.links);
-});
-
-mediumTermButton.addEventListener('click', function () {
-  const elements = getElements(medium_term);
-
-  svg.selectAll('line').remove();
-  svg.selectAll('circle').remove();
-  svg.selectAll('text').remove();
-
-  renderGraph(elements.nodes, elements.links);
-});
-
-longTermButton.addEventListener('click', function () {
-  const elements = getElements(long_term);
-
-  svg.selectAll('line').remove();
-  svg.selectAll('circle').remove();
-  svg.selectAll('text').remove();
-
-  renderGraph(elements.nodes, elements.links);
-});
-*/
