@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
+//custom services go here
+import { SpotifyAuthcodeHandlerService } from '../services/spotify-authcode-handler.service';
 
 @Component({
   selector: 'jhi-link-spotify',
@@ -7,9 +12,35 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./link-spotify.component.scss'],
 })
 export class LinkSpotifyComponent implements OnInit {
-  constructor(private cookieService: CookieService) {}
+  constructor(
+    private cookieService: CookieService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private spotifyAuthCodeHandler: SpotifyAuthcodeHandlerService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const code = params['code'];
+      if (code) {
+        console.log('Authorization code:', code);
+        this.handleAuthorizationCode(code);
+      }
+    });
+  }
+
+  handleAuthorizationCode(code: string): void {
+    this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
+      response => {
+        console.log('Received access token:', response);
+        this.router.navigate(['/']); // Adjust as necessary
+      },
+      error => {
+        console.error('Error sending authorization code:', error);
+        // Handle error, possibly by showing an error message to the user
+      }
+    );
+  }
 
   loginWithSpotify(event: MouseEvent): void {
     console.log('Login Event Intialised');

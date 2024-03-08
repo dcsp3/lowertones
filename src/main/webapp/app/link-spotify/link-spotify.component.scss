@@ -22,3 +22,23 @@
     opacity: 0.6;
   }
 }
+
+/* ==========================================================================
+Spotify button styles
+========================================================================== */
+.navbar-login-button button.btn-spotify {
+  border-radius: 20px;
+  background-color: #1db954;
+  color: #ffffff;
+  white-space: nowrap;
+}
+.navbar-login-button button.btn-spotify:hover,
+.navbar-login-button button.btn-spotify:focus {
+  background-color: #116630;
+  color: #ffffff;
+  outline: none;
+}
+.navbar-login-button button.btn-spotify:active {
+  background-color: #1ca44e;
+  color: #ffffff;
+}

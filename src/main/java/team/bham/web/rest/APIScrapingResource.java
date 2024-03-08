@@ -192,10 +192,13 @@ public class APIScrapingResource {
     }
 
     @GetMapping("/is-spotify-linked")
-    ResponseEntity<Boolean> isSpotifyLinked(Authentication authentication) {
+    public ResponseEntity<Boolean> isSpotifyLinked(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        return appUser.getSpotifyRefreshToken() != null && appUser.getSpotifyRefreshToken() != ""
-            ? new ResponseEntity<>(true, HttpStatus.OK)
-            : new ResponseEntity<>(false, HttpStatus.OK);
+        if (appUser == null) {
+            // AppUser not found, handle accordingly
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        boolean isLinked = appUser.getSpotifyRefreshToken() != null && !appUser.getSpotifyRefreshToken().isEmpty();
+        return new ResponseEntity<>(isLinked, HttpStatus.OK);
     }
 }
