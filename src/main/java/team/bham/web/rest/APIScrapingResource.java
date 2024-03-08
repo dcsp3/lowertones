@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.swing.text.StyledEditorKit.BoldAction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -186,6 +187,15 @@ public class APIScrapingResource {
 
     private AppUser resolveAppUser(String name) {
         User user = userRepository.findOneByLogin(name).get();
+
         return appUserRepository.findByUserId(user.getId()).get();
+    }
+
+    @GetMapping("/is-spotify-linked")
+    ResponseEntity<Boolean> isSpotifyLinked(Authentication authentication) {
+        AppUser appUser = resolveAppUser(authentication.getName());
+        return appUser.getSpotifyRefreshToken() != null && appUser.getSpotifyRefreshToken() != ""
+            ? new ResponseEntity<>(true, HttpStatus.OK)
+            : new ResponseEntity<>(false, HttpStatus.OK);
     }
 }

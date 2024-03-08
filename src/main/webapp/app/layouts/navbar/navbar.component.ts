@@ -11,10 +11,10 @@ import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { HttpClient } from '@angular/common/http';
-import { LocationService } from '../../shared/location.service'; // Update this path
 
 //custom services go here
 import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-handler.service';
+import { LocationService } from '../../shared/location.service';
 
 @Component({
   selector: 'jhi-navbar',
