@@ -1,0 +1,24 @@
+.spotify-container {
+  background-color: #e7e7e7; // Change this to whatever color you prefer
+  border: 1px solid #cccccc; // Example border
+  max-width: 600px; // Prevents the card from spanning the entire screen width
+  margin: 2rem auto; // Centers the card with a margin top and bottom
+  padding: 2rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: Adds a subtle shadow for depth
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  h2 {
+    text-align: center;
+    font-size: 1.7rem;
+    letter-spacing: 0.3rem;
+    opacity: 0.6;
+  }
+  h3 {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #000000 !important;
+    letter-spacing: 0.3rem;
+    opacity: 0.6;
+  }
+}
