@@ -11,8 +11,8 @@ Navbar
   position: fixed;
   padding-left: 30px;
   justify-content: space-between;
-  align-items: center; // Keeps items vertically center ed
-  width: 100%; // Ensure the navbar spans the full width of its container
+  align-items: center;
+  width: 100%;
   background-color: #0000004b !important;
 
   .dropdown-item.active,
@@ -20,11 +20,27 @@ Navbar
   .dropdown-item.active:hover {
     background-color: #1a4146;
   }
-  a.nav-link {
-    font-weight: normal;
-    color: #ffffff;
-    white-space: nowrap;
-  }
+}
+.nav-link {
+  font-weight: normal;
+  color: #ffffff;
+  white-space: nowrap;
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link.underline-link::after {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  height: 2px;
+  width: 0%;
+  background-color: #66b1f1;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.nav-link.underline-link.active-nav-link::after {
+  width: 100%;
 }
 
 .navbar-nav {
@@ -45,18 +61,18 @@ Navbar
   }
 }
 .container-fluid {
-  position: relative; /* Establishes a positioning context */
+  position: relative;
   display: flex;
-  justify-content: space-between; /* Spread out navbar-left, navbar-center, and navbar-right */
-  align-items: center; /* Align items vertically in the middle */
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .navbar-center {
   position: absolute;
   height: 50px;
 
-  left: 50%; /* Position halfway across the container */
-  transform: translateX(-50%); /* Shift back to achieve true centering */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -103,5 +119,5 @@ Logo styles
   //padding-right: 160px;
 }
 .navbar-brand.logo {
-  padding-right: 10px; // Adjust this value as needed
+  padding-right: 10px;
 }

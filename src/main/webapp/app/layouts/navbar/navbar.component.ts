@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
     });
-    this.locationService.getCurrentTab().subscribe(sectionId => {
+    this.tabSubscription = this.locationService.getCurrentTab().subscribe(sectionId => {
       this.currentSection = sectionId;
     });
     this.accountService.getAuthenticationState().subscribe(account => {
@@ -65,6 +65,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.subscribe(params => {
       const code = params['code'];
       if (code) {
+        this.cookieService.set('code', code);
+        this.router.navigate(['/']);
         this.spotifyAuthCodeHandler.sendAuthorizationCode(code).subscribe(
           response => {
             console.log('Received access token:', response);
@@ -79,7 +81,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
             console.error('Error sending authorization code:', error);
           }
         );
-        this.router.navigate(['/']);
       }
     });
   }
@@ -93,12 +94,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     const client_id = '668d334388b04520ba9e25b3d2289e78';
     const redirect_uri = window.location.origin;
-
     const state = this.generateRandomString(16);
-
     const scope =
       'playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private';
-
     const url =
       'https://accounts.spotify.com/authorize?' +
       new URLSearchParams({
@@ -108,14 +106,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
         redirect_uri: redirect_uri,
         state: state,
       });
-
     window.location.href = url.toString();
     // Check if the URL contains the authorization code immediately after initiating the Spotify login
   }
   isLoggedIn(): boolean {
     const accessToken = this.cookieService.get('access_token');
-    console.log('Access Token Present:', accessToken);
-    // Check if the access token exists and is not expired
+    if (accessToken != '') {
+      console.log('Access Token Present:', accessToken);
+    }
+
     return !!accessToken;
   }
 
@@ -156,11 +155,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateIfAuthenticated(targetRoute: string, sectionId: string): void {
+    if (this.hasAnyAuthority !== null) {
+      this.currentSection = sectionId;
+      this.router.navigate([targetRoute]);
+      this.collapseNavbar();
+    } else {
+      this.login();
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.tabSubscription) {
       this.tabSubscription.unsubscribe();
     }
-
-    // Clean up other resources
   }
 }

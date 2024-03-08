@@ -1,13 +1,33 @@
-<div class="row justify-content-center">
-  <div class="col-md-9 flex-md-auto">
-    <p class="lead">
+<main class="et-main">
+  <section class="et-slide" id="hero">
+    <h3>
       Welcome to Lowertones, where you can easily scan and organize your Spotify library. Our intuitive tabular form allows you to view your
       library at a glance, while the filters on the left help you find specific songs or albums. With our search bar at the top, you can
       quickly locate any track or artist. Start exploring your music collection today!
-    </p>
-  </div>
-</div>
+    </h3>
+    <div class="center" style="--total: 1080">
+      <div *ngFor="let particle of particles; let i = index" class="particle" [style]="{ '--index': i }"></div>
+    </div>
+  </section>
 
-<div class="center" style="--total: 1080">
-  <div *ngFor="let particle of particles; let i = index" class="particle" [style]="{ '--index': i }"></div>
-</div>
+  <section id="tableview-tab" class="et-slide">
+    <h1>tableview</h1>
+    <h3>preview of tableview with photos or small version and description</h3>
+  </section>
+  <section id="recapd-tab" class="et-slide">
+    <h1>recapd</h1>
+    <h3>preview of recapd with photos or small version and description</h3>
+  </section>
+  <section id="network-tab" class="et-slide">
+    <h1>network</h1>
+    <h3>preview of network with photos or small version and description</h3>
+  </section>
+  <section id="visualisations-tab" class="et-slide">
+    <h1>visualisations</h1>
+    <h3>preview of visualisations with photos or small version and description</h3>
+  </section>
+  <section id="getstarted-tab" class="et-slide">
+    <h1>Get Started</h1>
+    <h3>Create an account with us blahblah</h3>
+  </section>
+</main>

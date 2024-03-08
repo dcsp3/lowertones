@@ -13,8 +13,6 @@ Main page styles
   justify-content: center;
 }
 
-/* Look, no Sass */
-
 .particle {
   /* Starting values */
   --angle: (5 * var(--index));
@@ -64,4 +62,23 @@ Main page styles
   align-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.et-slide {
+  height: 91.2vh;
+  position: relative;
+  background: #eeeeee00;
+  text-align: center;
+  padding: 0 2em;
+  h1 {
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 1rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    color: #ffffff;
+    letter-spacing: 0.3rem;
+    opacity: 0.6;
+  }
 }

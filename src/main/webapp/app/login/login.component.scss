@@ -4,12 +4,13 @@
   max-width: 600px; // Prevents the card from spanning the entire screen width
   margin: 2rem auto; // Centers the card with a margin top and bottom
   padding: 2rem;
+  border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: Adds a subtle shadow for depth
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
   @media (max-width: 900px) {
     // Adjusts for smaller screens
-    margin: 1rem;
+    margin: rem;
     padding: 0.5rem;
   }
 }
