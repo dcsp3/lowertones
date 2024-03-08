@@ -7,6 +7,7 @@ import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 import { RecappedComponent } from 'app/recapped/recapped.component';
 import { TableviewComponent } from 'app/tableview/tableview.component';
+import { LinkSpotifyComponent } from 'app/link-spotify/link-spotify.component';
 import { NetworkComponent } from './network/network.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
@@ -69,6 +70,15 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           component: VisualisationsComponent,
           data: {
             pageTitle: 'Visualisations',
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'link-spotify',
+          component: LinkSpotifyComponent,
+          data: {
+            pageTitle: 'Link your Spotify Account',
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],

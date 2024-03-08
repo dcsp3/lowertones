@@ -38,6 +38,7 @@ import { NetworkComponent } from './network/network.component';
 import { TableviewComponent } from './tableview/tableview.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
+import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { GDPRComponent } from './gdpr/gdpr.component';
     TableviewComponent,
     VisualisationsComponent,
     GDPRComponent,
+    LinkSpotifyComponent,
   ],
   bootstrap: [MainComponent],
 })

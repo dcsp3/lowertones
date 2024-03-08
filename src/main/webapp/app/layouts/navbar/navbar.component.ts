@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, of, catchError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { VERSION } from 'app/app.constants';
 import { Account } from 'app/core/auth/account.model';
@@ -15,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 //custom services go here
 import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-handler.service';
 import { LocationService } from '../../shared/location.service';
+import { IsLinkedService } from '../../shared/is-linked.service';
 
 @Component({
   selector: 'jhi-navbar',
@@ -33,6 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentSection: string | null = null;
 
   constructor(
+    private isLinkedService: IsLinkedService,
     private locationService: LocationService,
     private cookieService: CookieService,
     private loginService: LoginService,
@@ -114,7 +117,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (accessToken != '') {
       console.log('Access Token Present:', accessToken);
     }
-
     return !!accessToken;
   }
 
@@ -157,9 +159,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   navigateIfAuthenticated(targetRoute: string, sectionId: string): void {
     if (this.hasAnyAuthority !== null) {
-      this.currentSection = sectionId;
-      this.router.navigate([targetRoute]);
-      this.collapseNavbar();
+      this.isLinkedService
+        .isLinked()
+        .pipe(
+          switchMap(isLinked => {
+            console.log('Is Spotify Linked:', isLinked);
+            if (!isLinked) {
+              // If Spotify is not linked, navigate to link-spotify page
+              return this.router.navigate(['/link-spotify']);
+            }
+            // If Spotify is linked, proceed with the original navigation
+            this.currentSection = sectionId;
+            this.collapseNavbar();
+            return this.router.navigate([targetRoute]);
+          }),
+          catchError(() => {
+            // Handle error, possibly navigating to an error page or showing a message
+            return of(null);
+          })
+        )
+        .subscribe();
     } else {
       this.login();
     }
