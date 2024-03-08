@@ -20,25 +20,33 @@
     color: #000000 !important;
     letter-spacing: 0.3rem;
     opacity: 0.6;
+    margin-bottom: 2rem;
   }
 }
 
 /* ==========================================================================
 Spotify button styles
 ========================================================================== */
-.navbar-login-button button.btn-spotify {
+
+.spotify-login-button {
+  display: flex;
+  justify-content: center; /* Centers the button horizontally */
+  margin-bottom: 1rem; /* Adds some space below the button, if needed */
+}
+
+.spotify-login-button button.btn-spotify {
   border-radius: 20px;
   background-color: #1db954;
   color: #ffffff;
   white-space: nowrap;
 }
-.navbar-login-button button.btn-spotify:hover,
-.navbar-login-button button.btn-spotify:focus {
+.spotify-login-button button.btn-spotify:hover,
+.spotify-login-button button.btn-spotify:focus {
   background-color: #116630;
   color: #ffffff;
   outline: none;
 }
-.navbar-login-button button.btn-spotify:active {
+.spotify-login-button button.btn-spotify:active {
   background-color: #1ca44e;
   color: #ffffff;
 }
