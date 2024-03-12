@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
@@ -30,6 +31,12 @@ public class SpotifyAPIWrapperService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Value("${spotify.client.id}")
+    private String clientId;
+
+    @Value("${spotify.client.secret}")
+    private String clientSecret;
 
     private AppUserRepository appUserRepository;
 
@@ -73,18 +80,17 @@ public class SpotifyAPIWrapperService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(endpoint, method, entity, String.class);
-        HttpStatus status = response.getStatusCode();
 
-        //gnarly..
-        while (status != HttpStatus.OK) {
-            //something blew up, whoops
-            if (status != HttpStatus.UNAUTHORIZED) return null;
+        //woah this is bad
+        ResponseEntity<String> response = null;
+        HttpStatus status = null;
+        try {
+            response = restTemplate.exchange(endpoint, method, entity, String.class);
+            status = response.getStatusCode();
+        } catch (HttpStatusCodeException e) {
+            //if(status != HttpStatus.UNAUTHORIZED) return null;
 
-            //HTTP 401 is more than likely a bad access token.
-            //update cur user's access token and retry call
             refreshAccessToken(user);
-
             headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
             entity = new HttpEntity<>(headers);
             response = restTemplate.exchange(endpoint, method, entity, String.class);
@@ -93,11 +99,11 @@ public class SpotifyAPIWrapperService {
         return new JSONObject(response.getBody());
     }
 
-    //header might need client id + secret??
     //todo: thoroughly test this
     private void refreshAccessToken(AppUser user) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBasicAuth(clientId, clientSecret);
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("grant_type", "refresh_token");
