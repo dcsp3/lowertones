@@ -34,9 +34,13 @@ export class NetworkComponent implements OnInit {
   }
 
   fetchUserImage(): Promise<any> {
+    // Get auth token
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
+
+    // Set headers for API call
     const headers: Headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
+
     const request: RequestInfo = new Request('/api/get-user-details', {
       method: 'GET',
       headers: headers,
@@ -59,7 +63,7 @@ export class NetworkComponent implements OnInit {
     // Only change the time range if the new time range isn't the same as the current time range (to avoid unnecessary API calls)
     if (newTimeRange !== this.timeRange) {
       this.timeRange = newTimeRange;
-      console.log(`New Time Range: ${this.timeRange}`);
+      // console.log(`New Time Range: ${this.timeRange}`);
       this.fetchAndRenderGraph(this.timeRange);
     } else {
       return; // Exit early if the time range hasn't changed
@@ -78,7 +82,7 @@ export class NetworkComponent implements OnInit {
       const data = await this.fetchTopArtists(timeRange);
       const elements = getElements(data, userImageUrl);
 
-      renderGraph(this.graphContainer.nativeElement, 700, 500, elements.nodes, elements.links);
+      renderGraph(this.graphContainer.nativeElement, 850, 600, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
     }

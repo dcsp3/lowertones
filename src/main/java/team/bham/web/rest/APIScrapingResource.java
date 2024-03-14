@@ -80,8 +80,8 @@ public class APIScrapingResource {
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
-        int min_distance = 50;
-        int max_distance = 300;
+        int min_distance = 150;
+        int max_distance = 600;
 
         for (int count = 0; count < artists.length(); count++) {
             JSONObject item = artists.getJSONObject(count);

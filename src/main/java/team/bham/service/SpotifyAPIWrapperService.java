@@ -60,7 +60,7 @@ public class SpotifyAPIWrapperService {
     }
 
     public JSONObject getCurrentUserShortTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=short_term";
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=short_term";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 

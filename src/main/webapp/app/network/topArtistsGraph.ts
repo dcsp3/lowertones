@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-interface Node {
+interface Node extends d3.SimulationNodeDatum {
   id: string;
   type: string;
   img: string;
@@ -9,7 +9,7 @@ interface Node {
   y?: number;
 }
 
-interface Link {
+interface Link extends d3.SimulationLinkDatum<Node> {
   source: string;
   target: string;
   distance: number;
@@ -80,12 +80,12 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .velocityDecay(0.9)
     .force(
       'charge',
-      d3.forceManyBody().strength((d: any) => (d.type === 'user' ? -1500 : -100))
+      d3.forceManyBody().strength((d: any) => (d.type === 'user' ? -1500 : -50))
     )
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force(
       'collision',
-      d3.forceCollide().radius((d: any) => (d.type === 'user' ? 0 : 50))
+      d3.forceCollide().radius((d: any) => (d.type === 'user' ? 0 : 25))
     )
     .force(
       'link',
@@ -102,6 +102,27 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       'fixUserY',
       d3.forceY(height / 2).strength((d: any) => (d.type === 'user' ? 1 : 0))
     );
+
+  function drag(simulation: d3.Simulation<Node, undefined>) {
+    function dragstarted(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+
+    function dragged(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+
+    function dragended(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+
+    return d3.drag<SVGCircleElement, any>().on('start', dragstarted).on('drag', dragged).on('end', dragended);
+  }
 
   const link = svg
     .selectAll('line')
@@ -121,7 +142,8 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
     .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`)
     .style('stroke', 'black')
-    .style('stroke-width', 0.75);
+    .style('stroke-width', 0.75)
+    .call(drag(simulation));
   //.on('mouseenter', handleMouseOver)
   //.on('mouseleave', handleMouseOut);
 
@@ -135,7 +157,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('alignment-baseline', 'middle')
     .style('font-size', '12px')
     .style('fill', d => 'white')
-    .style('display', 'block')
+    .style('display', 'none')
     .attr('id', d => `label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`);
 
   simulation.on('tick', () => updateGraph(node, link, label, width, height));
