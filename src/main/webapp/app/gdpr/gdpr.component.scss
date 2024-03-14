@@ -34,7 +34,8 @@
 
 .text-containers {
   align-self: center;
-  background: #323131;
+  background: transparent;
+  backdrop-filter: blur(20000px);
   padding: 20px;
   border-radius: 0.375rem;
   box-shadow: 0 0 5px #272727;

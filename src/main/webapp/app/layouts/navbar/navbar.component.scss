@@ -14,6 +14,7 @@ Navbar
   align-items: center;
   width: 100%;
   background-color: #0000004b !important;
+  backdrop-filter: blur(3px);
 
   .dropdown-item.active,
   .dropdown-item.active:focus,
