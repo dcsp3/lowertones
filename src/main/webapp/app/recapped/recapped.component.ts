@@ -7,7 +7,7 @@ import VanillaTilt from 'vanilla-tilt';
   styleUrls: ['./recapped.component.scss'],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
-  currentScreen: 'title' | 'selection' | 'results' = 'title';
+  currentScreen: 'title' | 'results' = 'title';
   selectedMusicianType: string = 'Producers';
   musicianTypes: string[] = ['Producers', 'Singers', 'Guitarists', 'Bassists', 'Drummers'];
   selectedTimeRange: string = 'lastMonth';
@@ -52,7 +52,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   goToSelectionScreen(): void {
-    this.currentScreen = 'selection';
+    this.currentScreen = 'title';
   }
 
   goToResultsScreen(): void {

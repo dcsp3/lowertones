@@ -11,7 +11,38 @@
               <h3 class="subtitle mb-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur auctor dolor vitae consectetur lobortis.
               </h3>
-              <button class="btn btn-primary mt-3 fade-in-up" (click)="goToSelectionScreen()">Get Started</button>
+              <button class="btn btn-primary mt-3 fade-in-up" (click)="goToResultsScreen()">Get Started</button>
+              <div class="timeframe-selection">
+                <label for="timeRange" class="label-gap">Select Time Range:</label>
+                <div>
+                  <a href="javascript:void(0)" (click)="selectTimeRange('lastMonth')" [class.active]="selectedTimeRange === 'lastMonth'"
+                    >Last Month</a
+                  >
+                  <a href="javascript:void(0)" (click)="selectTimeRange('last6Months')" [class.active]="selectedTimeRange === 'last6Months'"
+                    >Last 6 Months</a
+                  >
+                  <a
+                    href="javascript:void(0)"
+                    (click)="selectTimeRange('lastFewYears')"
+                    [class.active]="selectedTimeRange === 'lastFewYears'"
+                    >Last Few Years</a
+                  >
+                </div>
+              </div>
+              <div class="musician-selection">
+                <label for="musicianType">Your Last {{ timeframeLabel }} in:</label>
+                <div ngbDropdown class="dropdown">
+                  <button class="btn btn-secondary custom-dropdown-toggle" id="musicianTypeDropdown" ngbDropdownToggle>
+                    {{ selectedMusicianType }}
+                  </button>
+                  <div ngbDropdownMenu class="custom-dropdown-menu" aria-labelledby="musicianTypeDropdown">
+                    <button ngbDropdownItem *ngFor="let musicianType of musicianTypes" (click)="selectedMusicianType = musicianType">
+                      {{ musicianType }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-secondary back-btn" (click)="goToResultsScreen()">Confirm</button>
             </div>
           </div>
           <div class="col-md-6 order-md-first">
@@ -24,41 +55,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Selection Screen -->
-  <div *ngIf="currentScreen === 'selection'" class="selection-container">
-    <div class="selection-container">
-      <div class="musician-selection">
-        <label for="musicianType">Your Last {{ timeframeLabel }} in:</label>
-        <div ngbDropdown class="dropdown">
-          <button class="btn btn-secondary custom-dropdown-toggle" id="musicianTypeDropdown" ngbDropdownToggle>
-            {{ selectedMusicianType }}
-          </button>
-          <div ngbDropdownMenu class="custom-dropdown-menu" aria-labelledby="musicianTypeDropdown">
-            <button ngbDropdownItem *ngFor="let musicianType of musicianTypes" (click)="selectedMusicianType = musicianType">
-              {{ musicianType }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeframe-selection">
-        <label for="timeRange" class="label-gap">Select Time Range:</label>
-        <div>
-          <a href="javascript:void(0)" (click)="selectTimeRange('lastMonth')" [class.active]="selectedTimeRange === 'lastMonth'"
-            >Last Month</a
-          >
-          <a href="javascript:void(0)" (click)="selectTimeRange('last6Months')" [class.active]="selectedTimeRange === 'last6Months'"
-            >Last 6 Months</a
-          >
-          <a href="javascript:void(0)" (click)="selectTimeRange('lastFewYears')" [class.active]="selectedTimeRange === 'lastFewYears'"
-            >Last Few Years</a
-          >
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-secondary back-btn" (click)="goToResultsScreen()">Confirm</button>
   </div>
 
   <!-- Results Screen -->
@@ -77,7 +73,7 @@
                (max-width: 1200px) 800px,
                1200px"
         alt="Image 1"
-        class="vanilla-tilt-img"
+        class="title-photo img-fluid rounded vanilla-tilt-img fade-in-up"
       />
       <div class="image-caption">Caption for Image 1</div>
     </div>
@@ -94,7 +90,7 @@
                (max-width: 1200px) 800px,
                1200px"
         alt="Image 2"
-        class="vanilla-tilt-img"
+        class="title-photo img-fluid rounded vanilla-tilt-img fade-in-up"
       />
       <div class="image-caption">Caption for Image 2</div>
     </div>
@@ -111,7 +107,7 @@
                (max-width: 1200px) 800px,
                1200px"
         alt="Image 3"
-        class="vanilla-tilt-img"
+        class="title-photo img-fluid rounded vanilla-tilt-img fade-in-up"
       />
       <div class="image-caption">Caption for Image 3</div>
     </div>
