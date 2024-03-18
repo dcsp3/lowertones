@@ -10,6 +10,9 @@ export class NetworkComponent implements OnInit {
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
 
   timeRange: string = 'short-term';
+  topArtistImage: string = '';
+  topArtistName: string = '';
+  topGenre: string = '';
 
   ngOnInit(): void {
     this.fetchAndRenderGraph(this.timeRange); // Fetch and render graph on component init
@@ -28,6 +31,27 @@ export class NetworkComponent implements OnInit {
     return fetch(request)
       .then(response => response.json())
       .then(data => {
+        const topArtist = data[0]; // Get the first artist in the list
+        this.topArtistName = topArtist[1]; // Artist's name
+        this.topArtistImage = topArtist[4]; // Artist's image URL
+
+        // Assuming each artist's genres are now included in the data and is a list of strings
+        let genreCounts = new Map<string, number>();
+        data.forEach((artist: any) => {
+          artist[3].forEach((genre: string) => {
+            genreCounts.set(genre, (genreCounts.get(genre) || 0) + 1);
+          });
+        });
+
+        // Determine the top genre
+        let topGenreCount = 0;
+        genreCounts.forEach((count, genre) => {
+          if (count > topGenreCount) {
+            topGenreCount = count;
+            this.topGenre = genre;
+          }
+        });
+
         return data;
       })
       .catch(error => console.error('Error fetching top artists:', error));

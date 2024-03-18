@@ -15,12 +15,12 @@ interface Link extends d3.SimulationLinkDatum<Node> {
   distance: number;
 }
 
-function getElements(termArray: [number, string, string, string][], userImg: string): { nodes: Node[]; links: Link[] } {
+function getElements(termArray: [number, string, Array<string>, string, string][], userImg: string): { nodes: Node[]; links: Link[] } {
   const nodes: Node[] = [
     { id: 'user', type: 'user', img: userImg, rank: 0 }, // Assuming the user has rank 0 initially
   ];
 
-  for (const [rank, artist, id, img] of termArray) {
+  for (const [rank, artist, genres, id, img] of termArray) {
     nodes.push({ id: artist, type: 'artist', img, rank });
   }
 

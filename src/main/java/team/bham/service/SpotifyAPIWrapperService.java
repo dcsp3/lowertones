@@ -65,12 +65,12 @@ public class SpotifyAPIWrapperService {
     }
 
     public JSONObject getCurrentUserMediumTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=medium_term";
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=medium_term";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
     public JSONObject getCurrentUserLongTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=15&time_range=long_term";
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=long_term";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 

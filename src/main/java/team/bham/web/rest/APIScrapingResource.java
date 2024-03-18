@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.swing.text.StyledEditorKit.BoldAction;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -80,7 +81,7 @@ public class APIScrapingResource {
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
-        int min_distance = 150;
+        int min_distance = 100;
         int max_distance = 600;
 
         for (int count = 0; count < artists.length(); count++) {
@@ -92,6 +93,10 @@ public class APIScrapingResource {
             artistInfo.add(distance);
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
+
+            JSONArray genresArray = item.getJSONArray("genres");
+            List<String> genresList = genresArray.toList().stream().map(Object::toString).collect(Collectors.toList());
+            artistInfo.add(genresList);
 
             JSONArray images = item.getJSONArray("images");
             artistInfo.add(images.getJSONObject(0).getString("url"));
@@ -109,8 +114,8 @@ public class APIScrapingResource {
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
-        int min_distance = 50;
-        int max_distance = 300;
+        int min_distance = 100;
+        int max_distance = 600;
 
         for (int count = 0; count < artists.length(); count++) {
             JSONObject item = artists.getJSONObject(count);
@@ -121,6 +126,10 @@ public class APIScrapingResource {
             artistInfo.add(distance);
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
+
+            JSONArray genresArray = item.getJSONArray("genres");
+            List<String> genresList = genresArray.toList().stream().map(Object::toString).collect(Collectors.toList());
+            artistInfo.add(genresList);
 
             JSONArray images = item.getJSONArray("images");
             artistInfo.add(images.getJSONObject(0).getString("url"));
@@ -138,8 +147,8 @@ public class APIScrapingResource {
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
-        int min_distance = 50;
-        int max_distance = 300;
+        int min_distance = 100;
+        int max_distance = 600;
 
         for (int count = 0; count < artists.length(); count++) {
             JSONObject item = artists.getJSONObject(count);
@@ -150,6 +159,10 @@ public class APIScrapingResource {
             artistInfo.add(distance);
             artistInfo.add(item.getString("name"));
             artistInfo.add(item.getString("id"));
+
+            JSONArray genresArray = item.getJSONArray("genres");
+            List<String> genresList = genresArray.toList().stream().map(Object::toString).collect(Collectors.toList());
+            artistInfo.add(genresList);
 
             JSONArray images = item.getJSONArray("images");
             artistInfo.add(images.getJSONObject(0).getString("url"));
