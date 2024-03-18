@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   onWindowScroll(): void {
     const currentSection = this.getCurrentSectionInView();
     if (currentSection) {
+      console.log('Current section:', currentSection);
       this.locationService.setCurrentTab(currentSection);
     }
   }
