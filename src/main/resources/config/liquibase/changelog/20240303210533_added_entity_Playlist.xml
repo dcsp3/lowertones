@@ -26,7 +26,16 @@
             <column name="playlist_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="playlist_photo" type="varchar(255)">
+            <column name="playlist_snapshot_id" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="playlist_image_large" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="playlist_image_medium" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="playlist_image_small" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="app_user_id" type="bigint">
@@ -57,7 +66,10 @@
             <column name="date_last_modified" type="date"/>
             <column name="playlist_spotify_id" type="string"/>
             <column name="playlist_name" type="string"/>
-            <column name="playlist_photo" type="string"/>
+            <column name="playlist_snapshot_id" type="string"/>
+            <column name="playlist_image_large" type="string"/>
+            <column name="playlist_image_medium" type="string"/>
+            <column name="playlist_image_small" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

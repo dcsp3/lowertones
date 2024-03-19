@@ -137,8 +137,17 @@ public class PlaylistResource {
                 if (playlist.getPlaylistName() != null) {
                     existingPlaylist.setPlaylistName(playlist.getPlaylistName());
                 }
-                if (playlist.getPlaylistPhoto() != null) {
-                    existingPlaylist.setPlaylistPhoto(playlist.getPlaylistPhoto());
+                if (playlist.getPlaylistSnapshotID() != null) {
+                    existingPlaylist.setPlaylistSnapshotID(playlist.getPlaylistSnapshotID());
+                }
+                if (playlist.getPlaylistImageLarge() != null) {
+                    existingPlaylist.setPlaylistImageLarge(playlist.getPlaylistImageLarge());
+                }
+                if (playlist.getPlaylistImageMedium() != null) {
+                    existingPlaylist.setPlaylistImageMedium(playlist.getPlaylistImageMedium());
+                }
+                if (playlist.getPlaylistImageSmall() != null) {
+                    existingPlaylist.setPlaylistImageSmall(playlist.getPlaylistImageSmall());
                 }
 
                 return existingPlaylist;

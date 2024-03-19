@@ -8,6 +8,18 @@
     -->
     <changeSet id="20240303210527-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="song_table_id"
+                                 baseTableName="rel_song_table__contributor"
+                                 constraintName="fk_rel_song_table__contributor__song_table_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="song_table"/>
+
+        <addForeignKeyConstraint baseColumnNames="contributor_id"
+                                 baseTableName="rel_song_table__contributor"
+                                 constraintName="fk_rel_song_table__contributor__contributor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="contributor"/>
+
         <addForeignKeyConstraint baseColumnNames="album_id"
                                  baseTableName="song_table"
                                  constraintName="fk_song_table__album_id"

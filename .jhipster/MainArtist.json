@@ -21,7 +21,17 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "artistImage",
+      "fieldName": "artistImageSmall",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "artistImageMedium",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "artistImageLarge",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
@@ -44,6 +54,13 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityName": "relatedArtists",
+      "otherEntityRelationshipName": "mainArtist",
+      "ownerSide": true,
+      "relationshipName": "relatedArtists",
+      "relationshipType": "one-to-one"
+    },
     {
       "otherEntityName": "album",
       "otherEntityRelationshipName": "mainArtist",

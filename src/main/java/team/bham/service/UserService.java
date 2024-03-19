@@ -140,13 +140,14 @@ public class UserService {
 
         AppUser appUser = new AppUser();
         appUser.setUser(newUser);
-        appUser.setDarkMode(false);
         appUser.setDiscoverWeeklyBufferPlaylistID(new String());
         appUser.setDiscoverWeeklyBufferSettings(0);
         appUser.setEmail(newUser.getEmail());
         appUser.setName("test");
         appUser.setSpotifyUserID(new String());
         appUser.setLastLoginDate(LocalDate.now());
+        appUser.setHighContrastMode(false);
+        appUser.setTextSize(0);
         appUserRepository.save(appUser);
 
         this.clearUserCaches(newUser);
@@ -197,13 +198,14 @@ public class UserService {
 
         AppUser appUser = new AppUser();
         appUser.setUser(user);
-        appUser.setDarkMode(false);
         appUser.setDiscoverWeeklyBufferPlaylistID(new String());
         appUser.setDiscoverWeeklyBufferSettings(0);
         appUser.setEmail(user.getEmail());
-        appUser.setName(user.getFirstName());
+        appUser.setName("test");
         appUser.setSpotifyUserID(new String());
         appUser.setLastLoginDate(LocalDate.now());
+        appUser.setHighContrastMode(false);
+        appUser.setTextSize(0);
         appUserRepository.save(appUser);
 
         this.clearUserCaches(user);

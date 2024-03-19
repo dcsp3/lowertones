@@ -129,6 +129,9 @@ public class PlaylistSongJoinResource {
                 if (playlistSongJoin.getSongOrderIndex() != null) {
                     existingPlaylistSongJoin.setSongOrderIndex(playlistSongJoin.getSongOrderIndex());
                 }
+                if (playlistSongJoin.getSongDateAdded() != null) {
+                    existingPlaylistSongJoin.setSongDateAdded(playlistSongJoin.getSongDateAdded());
+                }
 
                 return existingPlaylistSongJoin;
             })

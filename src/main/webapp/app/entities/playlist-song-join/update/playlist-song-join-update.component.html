@@ -34,6 +34,32 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_songDateAdded">Song Date Added</label>
+          <div class="input-group">
+            <input
+              id="field_songDateAdded"
+              data-cy="songDateAdded"
+              type="text"
+              class="form-control"
+              name="songDateAdded"
+              ngbDatepicker
+              #songDateAddedDp="ngbDatepicker"
+              formControlName="songDateAdded"
+            />
+            <button type="button" class="btn btn-secondary" (click)="songDateAddedDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('songDateAdded')!.invalid && (editForm.get('songDateAdded')!.dirty || editForm.get('songDateAdded')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('songDateAdded')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_playlist">Playlist</label>
           <select
             class="form-control"

@@ -8,30 +8,37 @@ export const sampleWithRequiredData: IPlaylist = {
   dateLastModified: dayjs('2024-03-03'),
   playlistSpotifyID: 'Rubber withdrawal',
   playlistName: 'world-class synthesize invoice',
+  playlistSnapshotID: 'extranet Automotive',
 };
 
 export const sampleWithPartialData: IPlaylist = {
-  id: 32931,
+  id: 51949,
   dateAddedToDB: dayjs('2024-03-03'),
   dateLastModified: dayjs('2024-03-03'),
-  playlistSpotifyID: 'Research',
-  playlistName: 'Open-architected FTP distributed',
+  playlistSpotifyID: 'Forint',
+  playlistName: 'granular Object-based',
+  playlistSnapshotID: 'Streets Investment National',
+  playlistImageMedium: 'Fresh',
 };
 
 export const sampleWithFullData: IPlaylist = {
-  id: 34557,
+  id: 71695,
   dateAddedToDB: dayjs('2024-03-03'),
-  dateLastModified: dayjs('2024-03-03'),
-  playlistSpotifyID: 'Avon',
-  playlistName: 'up Course',
-  playlistPhoto: 'hacking Human',
+  dateLastModified: dayjs('2024-03-02'),
+  playlistSpotifyID: 'revolutionary Directives',
+  playlistName: 'Practical',
+  playlistSnapshotID: 'virtual Circle auxiliary',
+  playlistImageLarge: 'TCP Republic',
+  playlistImageMedium: 'user-centric up',
+  playlistImageSmall: 'Phased Keyboard',
 };
 
 export const sampleWithNewData: NewPlaylist = {
   dateAddedToDB: dayjs('2024-03-03'),
   dateLastModified: dayjs('2024-03-03'),
-  playlistSpotifyID: 'Dynamic Gorgeous Pizza',
-  playlistName: 'niches',
+  playlistSpotifyID: 'Account',
+  playlistName: 'synthesizing SCSI',
+  playlistSnapshotID: 'Small Secured',
   id: null,
 };
 

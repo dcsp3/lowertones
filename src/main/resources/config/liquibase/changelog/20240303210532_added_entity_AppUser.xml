@@ -23,6 +23,15 @@
             <column name="email" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="user_image_large" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="user_image_medium" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="user_image_small" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="spotify_refresh_token" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
@@ -38,7 +47,10 @@
             <column name="discover_weekly_buffer_playlist_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="dark_mode" type="boolean">
+            <column name="high_contrast_mode" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="text_size" type="integer">
                 <constraints nullable="false" />
             </column>
             <column name="user_id" type="bigint">
@@ -68,12 +80,16 @@
             <column name="spotify_user_id" type="string"/>
             <column name="name" type="string"/>
             <column name="email" type="string"/>
+            <column name="user_image_large" type="string"/>
+            <column name="user_image_medium" type="string"/>
+            <column name="user_image_small" type="string"/>
             <column name="spotify_refresh_token" type="string"/>
             <column name="spotify_auth_token" type="string"/>
             <column name="last_login_date" type="date"/>
             <column name="discover_weekly_buffer_settings" type="numeric"/>
             <column name="discover_weekly_buffer_playlist_id" type="string"/>
-            <column name="dark_mode" type="boolean"/>
+            <column name="high_contrast_mode" type="boolean"/>
+            <column name="text_size" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

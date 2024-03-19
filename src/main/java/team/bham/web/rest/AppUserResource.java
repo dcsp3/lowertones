@@ -134,6 +134,15 @@ public class AppUserResource {
                 if (appUser.getEmail() != null) {
                     existingAppUser.setEmail(appUser.getEmail());
                 }
+                if (appUser.getUserImageLarge() != null) {
+                    existingAppUser.setUserImageLarge(appUser.getUserImageLarge());
+                }
+                if (appUser.getUserImageMedium() != null) {
+                    existingAppUser.setUserImageMedium(appUser.getUserImageMedium());
+                }
+                if (appUser.getUserImageSmall() != null) {
+                    existingAppUser.setUserImageSmall(appUser.getUserImageSmall());
+                }
                 if (appUser.getSpotifyRefreshToken() != null) {
                     existingAppUser.setSpotifyRefreshToken(appUser.getSpotifyRefreshToken());
                 }
@@ -149,8 +158,11 @@ public class AppUserResource {
                 if (appUser.getDiscoverWeeklyBufferPlaylistID() != null) {
                     existingAppUser.setDiscoverWeeklyBufferPlaylistID(appUser.getDiscoverWeeklyBufferPlaylistID());
                 }
-                if (appUser.getDarkMode() != null) {
-                    existingAppUser.setDarkMode(appUser.getDarkMode());
+                if (appUser.getHighContrastMode() != null) {
+                    existingAppUser.setHighContrastMode(appUser.getHighContrastMode());
+                }
+                if (appUser.getTextSize() != null) {
+                    existingAppUser.setTextSize(appUser.getTextSize());
                 }
 
                 return existingAppUser;

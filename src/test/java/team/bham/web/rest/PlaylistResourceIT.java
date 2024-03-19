@@ -43,8 +43,17 @@ class PlaylistResourceIT {
     private static final String DEFAULT_PLAYLIST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_PLAYLIST_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PLAYLIST_PHOTO = "AAAAAAAAAA";
-    private static final String UPDATED_PLAYLIST_PHOTO = "BBBBBBBBBB";
+    private static final String DEFAULT_PLAYLIST_SNAPSHOT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_PLAYLIST_SNAPSHOT_ID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PLAYLIST_IMAGE_LARGE = "AAAAAAAAAA";
+    private static final String UPDATED_PLAYLIST_IMAGE_LARGE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PLAYLIST_IMAGE_MEDIUM = "AAAAAAAAAA";
+    private static final String UPDATED_PLAYLIST_IMAGE_MEDIUM = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PLAYLIST_IMAGE_SMALL = "AAAAAAAAAA";
+    private static final String UPDATED_PLAYLIST_IMAGE_SMALL = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/playlists";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -75,7 +84,10 @@ class PlaylistResourceIT {
             .dateLastModified(DEFAULT_DATE_LAST_MODIFIED)
             .playlistSpotifyID(DEFAULT_PLAYLIST_SPOTIFY_ID)
             .playlistName(DEFAULT_PLAYLIST_NAME)
-            .playlistPhoto(DEFAULT_PLAYLIST_PHOTO);
+            .playlistSnapshotID(DEFAULT_PLAYLIST_SNAPSHOT_ID)
+            .playlistImageLarge(DEFAULT_PLAYLIST_IMAGE_LARGE)
+            .playlistImageMedium(DEFAULT_PLAYLIST_IMAGE_MEDIUM)
+            .playlistImageSmall(DEFAULT_PLAYLIST_IMAGE_SMALL);
         return playlist;
     }
 
@@ -91,7 +103,10 @@ class PlaylistResourceIT {
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
             .playlistSpotifyID(UPDATED_PLAYLIST_SPOTIFY_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
-            .playlistPhoto(UPDATED_PLAYLIST_PHOTO);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .playlistImageLarge(UPDATED_PLAYLIST_IMAGE_LARGE)
+            .playlistImageMedium(UPDATED_PLAYLIST_IMAGE_MEDIUM)
+            .playlistImageSmall(UPDATED_PLAYLIST_IMAGE_SMALL);
         return playlist;
     }
 
@@ -117,7 +132,10 @@ class PlaylistResourceIT {
         assertThat(testPlaylist.getDateLastModified()).isEqualTo(DEFAULT_DATE_LAST_MODIFIED);
         assertThat(testPlaylist.getPlaylistSpotifyID()).isEqualTo(DEFAULT_PLAYLIST_SPOTIFY_ID);
         assertThat(testPlaylist.getPlaylistName()).isEqualTo(DEFAULT_PLAYLIST_NAME);
-        assertThat(testPlaylist.getPlaylistPhoto()).isEqualTo(DEFAULT_PLAYLIST_PHOTO);
+        assertThat(testPlaylist.getPlaylistSnapshotID()).isEqualTo(DEFAULT_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testPlaylist.getPlaylistImageLarge()).isEqualTo(DEFAULT_PLAYLIST_IMAGE_LARGE);
+        assertThat(testPlaylist.getPlaylistImageMedium()).isEqualTo(DEFAULT_PLAYLIST_IMAGE_MEDIUM);
+        assertThat(testPlaylist.getPlaylistImageSmall()).isEqualTo(DEFAULT_PLAYLIST_IMAGE_SMALL);
     }
 
     @Test
@@ -208,6 +226,23 @@ class PlaylistResourceIT {
 
     @Test
     @Transactional
+    void checkPlaylistSnapshotIDIsRequired() throws Exception {
+        int databaseSizeBeforeTest = playlistRepository.findAll().size();
+        // set the field null
+        playlist.setPlaylistSnapshotID(null);
+
+        // Create the Playlist, which fails.
+
+        restPlaylistMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(playlist)))
+            .andExpect(status().isBadRequest());
+
+        List<Playlist> playlistList = playlistRepository.findAll();
+        assertThat(playlistList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllPlaylists() throws Exception {
         // Initialize the database
         playlistRepository.saveAndFlush(playlist);
@@ -222,7 +257,10 @@ class PlaylistResourceIT {
             .andExpect(jsonPath("$.[*].dateLastModified").value(hasItem(DEFAULT_DATE_LAST_MODIFIED.toString())))
             .andExpect(jsonPath("$.[*].playlistSpotifyID").value(hasItem(DEFAULT_PLAYLIST_SPOTIFY_ID)))
             .andExpect(jsonPath("$.[*].playlistName").value(hasItem(DEFAULT_PLAYLIST_NAME)))
-            .andExpect(jsonPath("$.[*].playlistPhoto").value(hasItem(DEFAULT_PLAYLIST_PHOTO)));
+            .andExpect(jsonPath("$.[*].playlistSnapshotID").value(hasItem(DEFAULT_PLAYLIST_SNAPSHOT_ID)))
+            .andExpect(jsonPath("$.[*].playlistImageLarge").value(hasItem(DEFAULT_PLAYLIST_IMAGE_LARGE)))
+            .andExpect(jsonPath("$.[*].playlistImageMedium").value(hasItem(DEFAULT_PLAYLIST_IMAGE_MEDIUM)))
+            .andExpect(jsonPath("$.[*].playlistImageSmall").value(hasItem(DEFAULT_PLAYLIST_IMAGE_SMALL)));
     }
 
     @Test
@@ -241,7 +279,10 @@ class PlaylistResourceIT {
             .andExpect(jsonPath("$.dateLastModified").value(DEFAULT_DATE_LAST_MODIFIED.toString()))
             .andExpect(jsonPath("$.playlistSpotifyID").value(DEFAULT_PLAYLIST_SPOTIFY_ID))
             .andExpect(jsonPath("$.playlistName").value(DEFAULT_PLAYLIST_NAME))
-            .andExpect(jsonPath("$.playlistPhoto").value(DEFAULT_PLAYLIST_PHOTO));
+            .andExpect(jsonPath("$.playlistSnapshotID").value(DEFAULT_PLAYLIST_SNAPSHOT_ID))
+            .andExpect(jsonPath("$.playlistImageLarge").value(DEFAULT_PLAYLIST_IMAGE_LARGE))
+            .andExpect(jsonPath("$.playlistImageMedium").value(DEFAULT_PLAYLIST_IMAGE_MEDIUM))
+            .andExpect(jsonPath("$.playlistImageSmall").value(DEFAULT_PLAYLIST_IMAGE_SMALL));
     }
 
     @Test
@@ -268,7 +309,10 @@ class PlaylistResourceIT {
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
             .playlistSpotifyID(UPDATED_PLAYLIST_SPOTIFY_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
-            .playlistPhoto(UPDATED_PLAYLIST_PHOTO);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .playlistImageLarge(UPDATED_PLAYLIST_IMAGE_LARGE)
+            .playlistImageMedium(UPDATED_PLAYLIST_IMAGE_MEDIUM)
+            .playlistImageSmall(UPDATED_PLAYLIST_IMAGE_SMALL);
 
         restPlaylistMockMvc
             .perform(
@@ -286,7 +330,10 @@ class PlaylistResourceIT {
         assertThat(testPlaylist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
         assertThat(testPlaylist.getPlaylistSpotifyID()).isEqualTo(UPDATED_PLAYLIST_SPOTIFY_ID);
         assertThat(testPlaylist.getPlaylistName()).isEqualTo(UPDATED_PLAYLIST_NAME);
-        assertThat(testPlaylist.getPlaylistPhoto()).isEqualTo(UPDATED_PLAYLIST_PHOTO);
+        assertThat(testPlaylist.getPlaylistSnapshotID()).isEqualTo(UPDATED_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testPlaylist.getPlaylistImageLarge()).isEqualTo(UPDATED_PLAYLIST_IMAGE_LARGE);
+        assertThat(testPlaylist.getPlaylistImageMedium()).isEqualTo(UPDATED_PLAYLIST_IMAGE_MEDIUM);
+        assertThat(testPlaylist.getPlaylistImageSmall()).isEqualTo(UPDATED_PLAYLIST_IMAGE_SMALL);
     }
 
     @Test
@@ -360,7 +407,9 @@ class PlaylistResourceIT {
         partialUpdatedPlaylist
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
             .playlistSpotifyID(UPDATED_PLAYLIST_SPOTIFY_ID)
-            .playlistPhoto(UPDATED_PLAYLIST_PHOTO);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .playlistImageLarge(UPDATED_PLAYLIST_IMAGE_LARGE)
+            .playlistImageSmall(UPDATED_PLAYLIST_IMAGE_SMALL);
 
         restPlaylistMockMvc
             .perform(
@@ -378,7 +427,10 @@ class PlaylistResourceIT {
         assertThat(testPlaylist.getDateLastModified()).isEqualTo(DEFAULT_DATE_LAST_MODIFIED);
         assertThat(testPlaylist.getPlaylistSpotifyID()).isEqualTo(UPDATED_PLAYLIST_SPOTIFY_ID);
         assertThat(testPlaylist.getPlaylistName()).isEqualTo(DEFAULT_PLAYLIST_NAME);
-        assertThat(testPlaylist.getPlaylistPhoto()).isEqualTo(UPDATED_PLAYLIST_PHOTO);
+        assertThat(testPlaylist.getPlaylistSnapshotID()).isEqualTo(UPDATED_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testPlaylist.getPlaylistImageLarge()).isEqualTo(UPDATED_PLAYLIST_IMAGE_LARGE);
+        assertThat(testPlaylist.getPlaylistImageMedium()).isEqualTo(DEFAULT_PLAYLIST_IMAGE_MEDIUM);
+        assertThat(testPlaylist.getPlaylistImageSmall()).isEqualTo(UPDATED_PLAYLIST_IMAGE_SMALL);
     }
 
     @Test
@@ -398,7 +450,10 @@ class PlaylistResourceIT {
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
             .playlistSpotifyID(UPDATED_PLAYLIST_SPOTIFY_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
-            .playlistPhoto(UPDATED_PLAYLIST_PHOTO);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .playlistImageLarge(UPDATED_PLAYLIST_IMAGE_LARGE)
+            .playlistImageMedium(UPDATED_PLAYLIST_IMAGE_MEDIUM)
+            .playlistImageSmall(UPDATED_PLAYLIST_IMAGE_SMALL);
 
         restPlaylistMockMvc
             .perform(
@@ -416,7 +471,10 @@ class PlaylistResourceIT {
         assertThat(testPlaylist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
         assertThat(testPlaylist.getPlaylistSpotifyID()).isEqualTo(UPDATED_PLAYLIST_SPOTIFY_ID);
         assertThat(testPlaylist.getPlaylistName()).isEqualTo(UPDATED_PLAYLIST_NAME);
-        assertThat(testPlaylist.getPlaylistPhoto()).isEqualTo(UPDATED_PLAYLIST_PHOTO);
+        assertThat(testPlaylist.getPlaylistSnapshotID()).isEqualTo(UPDATED_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testPlaylist.getPlaylistImageLarge()).isEqualTo(UPDATED_PLAYLIST_IMAGE_LARGE);
+        assertThat(testPlaylist.getPlaylistImageMedium()).isEqualTo(UPDATED_PLAYLIST_IMAGE_MEDIUM);
+        assertThat(testPlaylist.getPlaylistImageSmall()).isEqualTo(UPDATED_PLAYLIST_IMAGE_SMALL);
     }
 
     @Test

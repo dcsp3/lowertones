@@ -62,9 +62,27 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="playlistPhoto">
+          <th scope="col" jhiSortBy="playlistSnapshotID">
             <div class="d-flex">
-              <span>Playlist Photo</span>
+              <span>Playlist Snapshot ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="playlistImageLarge">
+            <div class="d-flex">
+              <span>Playlist Image Large</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="playlistImageMedium">
+            <div class="d-flex">
+              <span>Playlist Image Medium</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="playlistImageSmall">
+            <div class="d-flex">
+              <span>Playlist Image Small</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -86,7 +104,10 @@
           <td>{{ playlist.dateLastModified | formatMediumDate }}</td>
           <td>{{ playlist.playlistSpotifyID }}</td>
           <td>{{ playlist.playlistName }}</td>
-          <td>{{ playlist.playlistPhoto }}</td>
+          <td>{{ playlist.playlistSnapshotID }}</td>
+          <td>{{ playlist.playlistImageLarge }}</td>
+          <td>{{ playlist.playlistImageMedium }}</td>
+          <td>{{ playlist.playlistImageSmall }}</td>
           <td>
             <div *ngIf="playlist.appUser">
               <a [routerLink]="['/app-user', playlist.appUser.id, 'view']">{{ playlist.appUser.id }}</a>

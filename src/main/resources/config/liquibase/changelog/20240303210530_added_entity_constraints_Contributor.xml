@@ -6,12 +6,5 @@
     <!--
         Added the constraints for entity Contributor.
     -->
-    <changeSet id="20240303210530-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="song_id"
-                                 baseTableName="contributor"
-                                 constraintName="fk_contributor__song_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="song_table"/>
-    </changeSet>
 </databaseChangeLog>

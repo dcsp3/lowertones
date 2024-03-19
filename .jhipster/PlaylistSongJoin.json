@@ -9,6 +9,11 @@
       "fieldName": "songOrderIndex",
       "fieldType": "Integer",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "songDateAdded",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,

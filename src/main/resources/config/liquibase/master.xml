@@ -29,6 +29,7 @@
     <include file="config/liquibase/changelog/20240303210535_added_entity_MusicbrainzGenreEntity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303210536_added_entity_PlaylistSongJoin.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303210537_added_entity_SongArtistJoin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240319120710_added_entity_RelatedArtists.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20240303210527_added_entity_constraints_Song.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303210528_added_entity_constraints_Album.xml" relativeToChangelogFile="false"/>
@@ -39,6 +40,7 @@
     <include file="config/liquibase/changelog/20240303210535_added_entity_constraints_MusicbrainzGenreEntity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303210536_added_entity_constraints_PlaylistSongJoin.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303210537_added_entity_constraints_SongArtistJoin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303210529_added_entity_constraints_MainArtist.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

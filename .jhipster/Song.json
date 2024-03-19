@@ -112,12 +112,6 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "contributor",
-      "otherEntityRelationshipName": "song",
-      "relationshipName": "contributor",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "spotifyGenreEntity",
       "otherEntityRelationshipName": "song",
       "relationshipName": "spotifyGenreEntity",
@@ -128,6 +122,13 @@
       "otherEntityRelationshipName": "song",
       "relationshipName": "musicbrainzGenreEntity",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "contributor",
+      "otherEntityRelationshipName": "song",
+      "ownerSide": true,
+      "relationshipName": "contributor",
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "album",

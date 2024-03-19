@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IPlaylistSongJoin } from '../playlist-song-join.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../playlist-song-join.test-samples';
 
-import { PlaylistSongJoinService } from './playlist-song-join.service';
+import { PlaylistSongJoinService, RestPlaylistSongJoin } from './playlist-song-join.service';
 
-const requireRestSample: IPlaylistSongJoin = {
+const requireRestSample: RestPlaylistSongJoin = {
   ...sampleWithRequiredData,
+  songDateAdded: sampleWithRequiredData.songDateAdded?.format(DATE_FORMAT),
 };
 
 describe('PlaylistSongJoin Service', () => {

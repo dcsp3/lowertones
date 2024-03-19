@@ -40,8 +40,16 @@ public class MainArtist implements Serializable {
     private Integer artistPopularity;
 
     @NotNull
-    @Column(name = "artist_image", nullable = false)
-    private String artistImage;
+    @Column(name = "artist_image_small", nullable = false)
+    private String artistImageSmall;
+
+    @NotNull
+    @Column(name = "artist_image_medium", nullable = false)
+    private String artistImageMedium;
+
+    @NotNull
+    @Column(name = "artist_image_large", nullable = false)
+    private String artistImageLarge;
 
     @Column(name = "artist_followers")
     private Integer artistFollowers;
@@ -51,6 +59,11 @@ public class MainArtist implements Serializable {
 
     @Column(name = "date_last_modified")
     private LocalDate dateLastModified;
+
+    @JsonIgnoreProperties(value = { "mainArtist" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
+    private RelatedArtists relatedArtists;
 
     @OneToMany(mappedBy = "mainArtist")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -126,17 +139,43 @@ public class MainArtist implements Serializable {
         this.artistPopularity = artistPopularity;
     }
 
-    public String getArtistImage() {
-        return this.artistImage;
+    public String getArtistImageSmall() {
+        return this.artistImageSmall;
     }
 
-    public MainArtist artistImage(String artistImage) {
-        this.setArtistImage(artistImage);
+    public MainArtist artistImageSmall(String artistImageSmall) {
+        this.setArtistImageSmall(artistImageSmall);
         return this;
     }
 
-    public void setArtistImage(String artistImage) {
-        this.artistImage = artistImage;
+    public void setArtistImageSmall(String artistImageSmall) {
+        this.artistImageSmall = artistImageSmall;
+    }
+
+    public String getArtistImageMedium() {
+        return this.artistImageMedium;
+    }
+
+    public MainArtist artistImageMedium(String artistImageMedium) {
+        this.setArtistImageMedium(artistImageMedium);
+        return this;
+    }
+
+    public void setArtistImageMedium(String artistImageMedium) {
+        this.artistImageMedium = artistImageMedium;
+    }
+
+    public String getArtistImageLarge() {
+        return this.artistImageLarge;
+    }
+
+    public MainArtist artistImageLarge(String artistImageLarge) {
+        this.setArtistImageLarge(artistImageLarge);
+        return this;
+    }
+
+    public void setArtistImageLarge(String artistImageLarge) {
+        this.artistImageLarge = artistImageLarge;
     }
 
     public Integer getArtistFollowers() {
@@ -176,6 +215,19 @@ public class MainArtist implements Serializable {
 
     public void setDateLastModified(LocalDate dateLastModified) {
         this.dateLastModified = dateLastModified;
+    }
+
+    public RelatedArtists getRelatedArtists() {
+        return this.relatedArtists;
+    }
+
+    public void setRelatedArtists(RelatedArtists relatedArtists) {
+        this.relatedArtists = relatedArtists;
+    }
+
+    public MainArtist relatedArtists(RelatedArtists relatedArtists) {
+        this.setRelatedArtists(relatedArtists);
+        return this;
     }
 
     public Set<Album> getAlbums() {
@@ -329,7 +381,9 @@ public class MainArtist implements Serializable {
             ", artistSpotifyID='" + getArtistSpotifyID() + "'" +
             ", artistName='" + getArtistName() + "'" +
             ", artistPopularity=" + getArtistPopularity() +
-            ", artistImage='" + getArtistImage() + "'" +
+            ", artistImageSmall='" + getArtistImageSmall() + "'" +
+            ", artistImageMedium='" + getArtistImageMedium() + "'" +
+            ", artistImageLarge='" + getArtistImageLarge() + "'" +
             ", artistFollowers=" + getArtistFollowers() +
             ", dateAddedToDB='" + getDateAddedToDB() + "'" +
             ", dateLastModified='" + getDateLastModified() + "'" +

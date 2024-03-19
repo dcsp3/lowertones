@@ -62,12 +62,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="song.id">
-            <div class="d-flex">
-              <span>Song</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -80,11 +74,6 @@
           <td>{{ contributor.role }}</td>
           <td>{{ contributor.instrument }}</td>
           <td>{{ contributor.musicbrainzID }}</td>
-          <td>
-            <div *ngIf="contributor.song">
-              <a [routerLink]="['/song', contributor.song.id, 'view']">{{ contributor.song.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

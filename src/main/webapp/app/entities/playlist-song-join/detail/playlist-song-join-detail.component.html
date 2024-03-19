@@ -18,6 +18,10 @@
         <dd>
           <span>{{ playlistSongJoin.songOrderIndex }}</span>
         </dd>
+        <dt><span>Song Date Added</span></dt>
+        <dd>
+          <span>{{ playlistSongJoin.songDateAdded | formatMediumDate }}</span>
+        </dd>
         <dt><span>Playlist</span></dt>
         <dd>
           <div *ngIf="playlistSongJoin.playlist">

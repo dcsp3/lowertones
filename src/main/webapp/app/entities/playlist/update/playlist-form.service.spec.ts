@@ -24,7 +24,10 @@ describe('Playlist Form Service', () => {
             dateLastModified: expect.any(Object),
             playlistSpotifyID: expect.any(Object),
             playlistName: expect.any(Object),
-            playlistPhoto: expect.any(Object),
+            playlistSnapshotID: expect.any(Object),
+            playlistImageLarge: expect.any(Object),
+            playlistImageMedium: expect.any(Object),
+            playlistImageSmall: expect.any(Object),
             appUser: expect.any(Object),
           })
         );
@@ -40,7 +43,10 @@ describe('Playlist Form Service', () => {
             dateLastModified: expect.any(Object),
             playlistSpotifyID: expect.any(Object),
             playlistName: expect.any(Object),
-            playlistPhoto: expect.any(Object),
+            playlistSnapshotID: expect.any(Object),
+            playlistImageLarge: expect.any(Object),
+            playlistImageMedium: expect.any(Object),
+            playlistImageSmall: expect.any(Object),
             appUser: expect.any(Object),
           })
         );

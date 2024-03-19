@@ -26,9 +26,17 @@
         <dd>
           <span>{{ mainArtist.artistPopularity }}</span>
         </dd>
-        <dt><span>Artist Image</span></dt>
+        <dt><span>Artist Image Small</span></dt>
         <dd>
-          <span>{{ mainArtist.artistImage }}</span>
+          <span>{{ mainArtist.artistImageSmall }}</span>
+        </dd>
+        <dt><span>Artist Image Medium</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistImageMedium }}</span>
+        </dd>
+        <dt><span>Artist Image Large</span></dt>
+        <dd>
+          <span>{{ mainArtist.artistImageLarge }}</span>
         </dd>
         <dt><span>Artist Followers</span></dt>
         <dd>
@@ -41,6 +49,12 @@
         <dt><span>Date Last Modified</span></dt>
         <dd>
           <span>{{ mainArtist.dateLastModified | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Related Artists</span></dt>
+        <dd>
+          <div *ngIf="mainArtist.relatedArtists">
+            <a [routerLink]="['/related-artists', mainArtist.relatedArtists.id, 'view']">{{ mainArtist.relatedArtists.id }}</a>
+          </div>
         </dd>
       </dl>
 

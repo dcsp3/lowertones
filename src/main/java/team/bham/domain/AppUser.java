@@ -39,6 +39,15 @@ public class AppUser implements Serializable {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "user_image_large")
+    private String userImageLarge;
+
+    @Column(name = "user_image_medium")
+    private String userImageMedium;
+
+    @Column(name = "user_image_small")
+    private String userImageSmall;
+
     @Size(max = 1000)
     @Column(name = "spotify_refresh_token", length = 1000)
     private String spotifyRefreshToken;
@@ -59,8 +68,12 @@ public class AppUser implements Serializable {
     private String discoverWeeklyBufferPlaylistID;
 
     @NotNull
-    @Column(name = "dark_mode", nullable = false)
-    private Boolean darkMode;
+    @Column(name = "high_contrast_mode", nullable = false)
+    private Boolean highContrastMode;
+
+    @NotNull
+    @Column(name = "text_size", nullable = false)
+    private Integer textSize;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -123,6 +136,45 @@ public class AppUser implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserImageLarge() {
+        return this.userImageLarge;
+    }
+
+    public AppUser userImageLarge(String userImageLarge) {
+        this.setUserImageLarge(userImageLarge);
+        return this;
+    }
+
+    public void setUserImageLarge(String userImageLarge) {
+        this.userImageLarge = userImageLarge;
+    }
+
+    public String getUserImageMedium() {
+        return this.userImageMedium;
+    }
+
+    public AppUser userImageMedium(String userImageMedium) {
+        this.setUserImageMedium(userImageMedium);
+        return this;
+    }
+
+    public void setUserImageMedium(String userImageMedium) {
+        this.userImageMedium = userImageMedium;
+    }
+
+    public String getUserImageSmall() {
+        return this.userImageSmall;
+    }
+
+    public AppUser userImageSmall(String userImageSmall) {
+        this.setUserImageSmall(userImageSmall);
+        return this;
+    }
+
+    public void setUserImageSmall(String userImageSmall) {
+        this.userImageSmall = userImageSmall;
     }
 
     public String getSpotifyRefreshToken() {
@@ -190,17 +242,30 @@ public class AppUser implements Serializable {
         this.discoverWeeklyBufferPlaylistID = discoverWeeklyBufferPlaylistID;
     }
 
-    public Boolean getDarkMode() {
-        return this.darkMode;
+    public Boolean getHighContrastMode() {
+        return this.highContrastMode;
     }
 
-    public AppUser darkMode(Boolean darkMode) {
-        this.setDarkMode(darkMode);
+    public AppUser highContrastMode(Boolean highContrastMode) {
+        this.setHighContrastMode(highContrastMode);
         return this;
     }
 
-    public void setDarkMode(Boolean darkMode) {
-        this.darkMode = darkMode;
+    public void setHighContrastMode(Boolean highContrastMode) {
+        this.highContrastMode = highContrastMode;
+    }
+
+    public Integer getTextSize() {
+        return this.textSize;
+    }
+
+    public AppUser textSize(Integer textSize) {
+        this.setTextSize(textSize);
+        return this;
+    }
+
+    public void setTextSize(Integer textSize) {
+        this.textSize = textSize;
     }
 
     public User getUser() {
@@ -274,12 +339,16 @@ public class AppUser implements Serializable {
             ", spotifyUserID='" + getSpotifyUserID() + "'" +
             ", name='" + getName() + "'" +
             ", email='" + getEmail() + "'" +
+            ", userImageLarge='" + getUserImageLarge() + "'" +
+            ", userImageMedium='" + getUserImageMedium() + "'" +
+            ", userImageSmall='" + getUserImageSmall() + "'" +
             ", spotifyRefreshToken='" + getSpotifyRefreshToken() + "'" +
             ", spotifyAuthToken='" + getSpotifyAuthToken() + "'" +
             ", lastLoginDate='" + getLastLoginDate() + "'" +
             ", discoverWeeklyBufferSettings=" + getDiscoverWeeklyBufferSettings() +
             ", discoverWeeklyBufferPlaylistID='" + getDiscoverWeeklyBufferPlaylistID() + "'" +
-            ", darkMode='" + getDarkMode() + "'" +
+            ", highContrastMode='" + getHighContrastMode() + "'" +
+            ", textSize=" + getTextSize() +
             "}";
     }
 }

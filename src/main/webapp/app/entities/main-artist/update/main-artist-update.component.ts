@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { MainArtistFormService, MainArtistFormGroup } from './main-artist-form.service';
 import { IMainArtist } from '../main-artist.model';
 import { MainArtistService } from '../service/main-artist.service';
+import { IRelatedArtists } from 'app/entities/related-artists/related-artists.model';
+import { RelatedArtistsService } from 'app/entities/related-artists/service/related-artists.service';
 
 @Component({
   selector: 'jhi-main-artist-update',
@@ -16,13 +18,19 @@ export class MainArtistUpdateComponent implements OnInit {
   isSaving = false;
   mainArtist: IMainArtist | null = null;
 
+  relatedArtistsCollection: IRelatedArtists[] = [];
+
   editForm: MainArtistFormGroup = this.mainArtistFormService.createMainArtistFormGroup();
 
   constructor(
     protected mainArtistService: MainArtistService,
     protected mainArtistFormService: MainArtistFormService,
+    protected relatedArtistsService: RelatedArtistsService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareRelatedArtists = (o1: IRelatedArtists | null, o2: IRelatedArtists | null): boolean =>
+    this.relatedArtistsService.compareRelatedArtists(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ mainArtist }) => {
@@ -30,6 +38,8 @@ export class MainArtistUpdateComponent implements OnInit {
       if (mainArtist) {
         this.updateForm(mainArtist);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -69,5 +79,25 @@ export class MainArtistUpdateComponent implements OnInit {
   protected updateForm(mainArtist: IMainArtist): void {
     this.mainArtist = mainArtist;
     this.mainArtistFormService.resetForm(this.editForm, mainArtist);
+
+    this.relatedArtistsCollection = this.relatedArtistsService.addRelatedArtistsToCollectionIfMissing<IRelatedArtists>(
+      this.relatedArtistsCollection,
+      mainArtist.relatedArtists
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.relatedArtistsService
+      .query({ filter: 'mainartist-is-null' })
+      .pipe(map((res: HttpResponse<IRelatedArtists[]>) => res.body ?? []))
+      .pipe(
+        map((relatedArtists: IRelatedArtists[]) =>
+          this.relatedArtistsService.addRelatedArtistsToCollectionIfMissing<IRelatedArtists>(
+            relatedArtists,
+            this.mainArtist?.relatedArtists
+          )
+        )
+      )
+      .subscribe((relatedArtists: IRelatedArtists[]) => (this.relatedArtistsCollection = relatedArtists));
   }
 }

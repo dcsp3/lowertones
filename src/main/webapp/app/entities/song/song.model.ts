@@ -1,4 +1,5 @@
 import dayjs from 'dayjs/esm';
+import { IContributor } from 'app/entities/contributor/contributor.model';
 import { IAlbum } from 'app/entities/album/album.model';
 import { AlbumType } from 'app/entities/enumerations/album-type.model';
 
@@ -26,6 +27,7 @@ export interface ISong {
   songTimeSignature?: number | null;
   songDateAddedToDB?: dayjs.Dayjs | null;
   songDateLastModified?: dayjs.Dayjs | null;
+  contributors?: Pick<IContributor, 'id'>[] | null;
   album?: Pick<IAlbum, 'id'> | null;
 }
 

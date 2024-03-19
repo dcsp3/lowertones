@@ -64,12 +64,14 @@ entity MainArtist (artistsTable) {
     artistSpotifyID String required,
     artistName String required,
     artistPopularity Integer required,
-    artistImage String required, 							// Replace with appropriate type for href / file / path
+    artistImageSmall String required,
+    artistImageMedium String required,
+    artistImageLarge String required,
     artistFollowers Integer,
 
     //application attributes
     dateAddedToDB LocalDate,
-    dateLastModified LocalDate,
+    dateLastModified LocalDate
 }
 
 //defines individual contributors (e.g. John Lennon)
@@ -98,6 +100,9 @@ entity AppUser (appUserTable) {
     email String required,
 
     //application attributes
+    userImageLarge String,
+    userImageMedium String,
+    userImageSmall String,
     spotifyRefreshToken String maxlength (1000),
     spotifyAuthToken String maxlength (1000),
     lastLoginDate LocalDate required,
@@ -105,7 +110,8 @@ entity AppUser (appUserTable) {
     discoverWeeklyBufferPlaylistID String, 					//playlist ID that discover weekly is appended to
 
     //preferences
-    darkMode Boolean required,
+    highContrastMode Boolean required,
+    textSize Integer required 								//0 by default, 0 is small, 1 is medium, 2 is large
 }
 
 entity Playlist (playlistTable) {
@@ -116,19 +122,45 @@ entity Playlist (playlistTable) {
     //attributes from spotify get_current_user_profile call
     playlistSpotifyID String required,
     playlistName String required,
-    playlistPhoto String									// Replace with appropriate type for href / file / path
+    playlistSnapshotID String required, 
+    playlistImageLarge String,
+    playlistImageMedium String,
+    playlistImageSmall String
+}
+
+entity RelatedArtists {
+    mainArtistSptfyID String required,
+    relatedArtistSpotifyID1 String required,
+    relatedArtistSpotifyID2 String required,
+    relatedArtistSpotifyID3 String required,
+    relatedArtistSpotifyID4 String required,
+    relatedArtistSpotifyID5 String required,
+    relatedArtistSpotifyID6 String required,
+    relatedArtistSpotifyID7 String required,
+    relatedArtistSpotifyID8 String required,
+    relatedArtistSpotifyID9 String required,
+    relatedArtistSpotifyID10 String required,
+    relatedArtistSpotifyID11 String required,
+    relatedArtistSpotifyID12 String required,
+    relatedArtistSpotifyID13 String required,
+    relatedArtistSpotifyID14 String required,
+    relatedArtistSpotifyID15 String required,
+    relatedArtistSpotifyID16 String required,
+    relatedArtistSpotifyID17 String required,
+    relatedArtistSpotifyID18 String required,
+    relatedArtistSpotifyID19 String required,
+    relatedArtistSpotifyID20 String required
 }
 
 relationship OneToOne {
     AppUser to User
+    MainArtist to RelatedArtists
 }
 
 relationship OneToMany {
     Album to Song
     MainArtist to Album
-    //MainArtist{parent} to MainArtist{child}					// linking artists with their related artists - NOT SURE THIS MAKES SENSE
     AppUser to Playlist
-    Song to Contributor
 
     Song to SpotifyGenreEntity
     Album to SpotifyGenreEntity
@@ -146,6 +178,10 @@ relationship ManyToOne {
     SongArtistJoin to MainArtist
 }
 
+relationship ManyToMany {
+    Song to Contributor
+}
+
 entity SpotifyGenreEntity {
     spotifyGenre String required
 }
@@ -156,7 +192,8 @@ entity MusicbrainzGenreEntity {
 
 // playlistSongTable - join table linking playlists and songs
 entity PlaylistSongJoin (playlistSongTable) {
-    songOrderIndex Integer required
+    songOrderIndex Integer required,
+    songDateAdded LocalDate required
 }
 
 // songArtistTable - join table linking songs and artistsn

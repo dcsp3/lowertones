@@ -6,7 +6,7 @@ export interface IContributor {
   role?: string | null;
   instrument?: string | null;
   musicbrainzID?: string | null;
-  song?: Pick<ISong, 'id'> | null;
+  songs?: Pick<ISong, 'id'>[] | null;
 }
 
 export type NewContributor = Omit<IContributor, 'id'> & { id: null };

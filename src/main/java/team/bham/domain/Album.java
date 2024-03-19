@@ -86,7 +86,7 @@ public class Album implements Serializable {
     @OneToMany(mappedBy = "album")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "contributors", "spotifyGenreEntities", "musicbrainzGenreEntities", "album", "playlistSongJoins", "songArtistJoins" },
+        value = { "spotifyGenreEntities", "musicbrainzGenreEntities", "contributors", "album", "playlistSongJoins", "songArtistJoins" },
         allowSetters = true
     )
     private Set<Song> songs = new HashSet<>();
@@ -102,7 +102,10 @@ public class Album implements Serializable {
     private Set<MusicbrainzGenreEntity> musicbrainzGenreEntities = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "albums", "spotifyGenreEntities", "musicbrainzGenreEntities", "songArtistJoins" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "relatedArtists", "albums", "spotifyGenreEntities", "musicbrainzGenreEntities", "songArtistJoins" },
+        allowSetters = true
+    )
     private MainArtist mainArtist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

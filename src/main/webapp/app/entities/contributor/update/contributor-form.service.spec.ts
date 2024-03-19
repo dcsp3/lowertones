@@ -24,7 +24,7 @@ describe('Contributor Form Service', () => {
             role: expect.any(Object),
             instrument: expect.any(Object),
             musicbrainzID: expect.any(Object),
-            song: expect.any(Object),
+            songs: expect.any(Object),
           })
         );
       });
@@ -39,7 +39,7 @@ describe('Contributor Form Service', () => {
             role: expect.any(Object),
             instrument: expect.any(Object),
             musicbrainzID: expect.any(Object),
-            song: expect.any(Object),
+            songs: expect.any(Object),
           })
         );
       });

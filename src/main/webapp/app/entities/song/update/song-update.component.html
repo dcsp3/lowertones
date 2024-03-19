@@ -344,6 +344,23 @@
         </div>
 
         <div class="row mb-3">
+          <label for="field_contributors">Contributor</label>
+          <select
+            class="form-control"
+            id="field_contributors"
+            data-cy="contributor"
+            multiple
+            name="contributors"
+            formControlName="contributors"
+            [compareWith]="compareContributor"
+          >
+            <option [ngValue]="contributorOption" *ngFor="let contributorOption of contributorsSharedCollection">
+              {{ contributorOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_album">Album</label>
           <select class="form-control" id="field_album" data-cy="album" name="album" formControlName="album" [compareWith]="compareAlbum">
             <option [ngValue]="null"></option>

@@ -40,8 +40,14 @@ class MainArtistResourceIT {
     private static final Integer DEFAULT_ARTIST_POPULARITY = 1;
     private static final Integer UPDATED_ARTIST_POPULARITY = 2;
 
-    private static final String DEFAULT_ARTIST_IMAGE = "AAAAAAAAAA";
-    private static final String UPDATED_ARTIST_IMAGE = "BBBBBBBBBB";
+    private static final String DEFAULT_ARTIST_IMAGE_SMALL = "AAAAAAAAAA";
+    private static final String UPDATED_ARTIST_IMAGE_SMALL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ARTIST_IMAGE_MEDIUM = "AAAAAAAAAA";
+    private static final String UPDATED_ARTIST_IMAGE_MEDIUM = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ARTIST_IMAGE_LARGE = "AAAAAAAAAA";
+    private static final String UPDATED_ARTIST_IMAGE_LARGE = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_ARTIST_FOLLOWERS = 1;
     private static final Integer UPDATED_ARTIST_FOLLOWERS = 2;
@@ -80,7 +86,9 @@ class MainArtistResourceIT {
             .artistSpotifyID(DEFAULT_ARTIST_SPOTIFY_ID)
             .artistName(DEFAULT_ARTIST_NAME)
             .artistPopularity(DEFAULT_ARTIST_POPULARITY)
-            .artistImage(DEFAULT_ARTIST_IMAGE)
+            .artistImageSmall(DEFAULT_ARTIST_IMAGE_SMALL)
+            .artistImageMedium(DEFAULT_ARTIST_IMAGE_MEDIUM)
+            .artistImageLarge(DEFAULT_ARTIST_IMAGE_LARGE)
             .artistFollowers(DEFAULT_ARTIST_FOLLOWERS)
             .dateAddedToDB(DEFAULT_DATE_ADDED_TO_DB)
             .dateLastModified(DEFAULT_DATE_LAST_MODIFIED);
@@ -98,7 +106,9 @@ class MainArtistResourceIT {
             .artistSpotifyID(UPDATED_ARTIST_SPOTIFY_ID)
             .artistName(UPDATED_ARTIST_NAME)
             .artistPopularity(UPDATED_ARTIST_POPULARITY)
-            .artistImage(UPDATED_ARTIST_IMAGE)
+            .artistImageSmall(UPDATED_ARTIST_IMAGE_SMALL)
+            .artistImageMedium(UPDATED_ARTIST_IMAGE_MEDIUM)
+            .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
@@ -126,7 +136,9 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistSpotifyID()).isEqualTo(DEFAULT_ARTIST_SPOTIFY_ID);
         assertThat(testMainArtist.getArtistName()).isEqualTo(DEFAULT_ARTIST_NAME);
         assertThat(testMainArtist.getArtistPopularity()).isEqualTo(DEFAULT_ARTIST_POPULARITY);
-        assertThat(testMainArtist.getArtistImage()).isEqualTo(DEFAULT_ARTIST_IMAGE);
+        assertThat(testMainArtist.getArtistImageSmall()).isEqualTo(DEFAULT_ARTIST_IMAGE_SMALL);
+        assertThat(testMainArtist.getArtistImageMedium()).isEqualTo(DEFAULT_ARTIST_IMAGE_MEDIUM);
+        assertThat(testMainArtist.getArtistImageLarge()).isEqualTo(DEFAULT_ARTIST_IMAGE_LARGE);
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(DEFAULT_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(DEFAULT_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(DEFAULT_DATE_LAST_MODIFIED);
@@ -203,10 +215,44 @@ class MainArtistResourceIT {
 
     @Test
     @Transactional
-    void checkArtistImageIsRequired() throws Exception {
+    void checkArtistImageSmallIsRequired() throws Exception {
         int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
         // set the field null
-        mainArtist.setArtistImage(null);
+        mainArtist.setArtistImageSmall(null);
+
+        // Create the MainArtist, which fails.
+
+        restMainArtistMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(mainArtist)))
+            .andExpect(status().isBadRequest());
+
+        List<MainArtist> mainArtistList = mainArtistRepository.findAll();
+        assertThat(mainArtistList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkArtistImageMediumIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
+        // set the field null
+        mainArtist.setArtistImageMedium(null);
+
+        // Create the MainArtist, which fails.
+
+        restMainArtistMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(mainArtist)))
+            .andExpect(status().isBadRequest());
+
+        List<MainArtist> mainArtistList = mainArtistRepository.findAll();
+        assertThat(mainArtistList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkArtistImageLargeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
+        // set the field null
+        mainArtist.setArtistImageLarge(null);
 
         // Create the MainArtist, which fails.
 
@@ -233,7 +279,9 @@ class MainArtistResourceIT {
             .andExpect(jsonPath("$.[*].artistSpotifyID").value(hasItem(DEFAULT_ARTIST_SPOTIFY_ID)))
             .andExpect(jsonPath("$.[*].artistName").value(hasItem(DEFAULT_ARTIST_NAME)))
             .andExpect(jsonPath("$.[*].artistPopularity").value(hasItem(DEFAULT_ARTIST_POPULARITY)))
-            .andExpect(jsonPath("$.[*].artistImage").value(hasItem(DEFAULT_ARTIST_IMAGE)))
+            .andExpect(jsonPath("$.[*].artistImageSmall").value(hasItem(DEFAULT_ARTIST_IMAGE_SMALL)))
+            .andExpect(jsonPath("$.[*].artistImageMedium").value(hasItem(DEFAULT_ARTIST_IMAGE_MEDIUM)))
+            .andExpect(jsonPath("$.[*].artistImageLarge").value(hasItem(DEFAULT_ARTIST_IMAGE_LARGE)))
             .andExpect(jsonPath("$.[*].artistFollowers").value(hasItem(DEFAULT_ARTIST_FOLLOWERS)))
             .andExpect(jsonPath("$.[*].dateAddedToDB").value(hasItem(DEFAULT_DATE_ADDED_TO_DB.toString())))
             .andExpect(jsonPath("$.[*].dateLastModified").value(hasItem(DEFAULT_DATE_LAST_MODIFIED.toString())));
@@ -254,7 +302,9 @@ class MainArtistResourceIT {
             .andExpect(jsonPath("$.artistSpotifyID").value(DEFAULT_ARTIST_SPOTIFY_ID))
             .andExpect(jsonPath("$.artistName").value(DEFAULT_ARTIST_NAME))
             .andExpect(jsonPath("$.artistPopularity").value(DEFAULT_ARTIST_POPULARITY))
-            .andExpect(jsonPath("$.artistImage").value(DEFAULT_ARTIST_IMAGE))
+            .andExpect(jsonPath("$.artistImageSmall").value(DEFAULT_ARTIST_IMAGE_SMALL))
+            .andExpect(jsonPath("$.artistImageMedium").value(DEFAULT_ARTIST_IMAGE_MEDIUM))
+            .andExpect(jsonPath("$.artistImageLarge").value(DEFAULT_ARTIST_IMAGE_LARGE))
             .andExpect(jsonPath("$.artistFollowers").value(DEFAULT_ARTIST_FOLLOWERS))
             .andExpect(jsonPath("$.dateAddedToDB").value(DEFAULT_DATE_ADDED_TO_DB.toString()))
             .andExpect(jsonPath("$.dateLastModified").value(DEFAULT_DATE_LAST_MODIFIED.toString()));
@@ -283,7 +333,9 @@ class MainArtistResourceIT {
             .artistSpotifyID(UPDATED_ARTIST_SPOTIFY_ID)
             .artistName(UPDATED_ARTIST_NAME)
             .artistPopularity(UPDATED_ARTIST_POPULARITY)
-            .artistImage(UPDATED_ARTIST_IMAGE)
+            .artistImageSmall(UPDATED_ARTIST_IMAGE_SMALL)
+            .artistImageMedium(UPDATED_ARTIST_IMAGE_MEDIUM)
+            .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
@@ -303,7 +355,9 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistSpotifyID()).isEqualTo(UPDATED_ARTIST_SPOTIFY_ID);
         assertThat(testMainArtist.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
         assertThat(testMainArtist.getArtistPopularity()).isEqualTo(UPDATED_ARTIST_POPULARITY);
-        assertThat(testMainArtist.getArtistImage()).isEqualTo(UPDATED_ARTIST_IMAGE);
+        assertThat(testMainArtist.getArtistImageSmall()).isEqualTo(UPDATED_ARTIST_IMAGE_SMALL);
+        assertThat(testMainArtist.getArtistImageMedium()).isEqualTo(UPDATED_ARTIST_IMAGE_MEDIUM);
+        assertThat(testMainArtist.getArtistImageLarge()).isEqualTo(UPDATED_ARTIST_IMAGE_LARGE);
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(UPDATED_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(UPDATED_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
@@ -377,7 +431,10 @@ class MainArtistResourceIT {
         MainArtist partialUpdatedMainArtist = new MainArtist();
         partialUpdatedMainArtist.setId(mainArtist.getId());
 
-        partialUpdatedMainArtist.artistName(UPDATED_ARTIST_NAME).dateAddedToDB(UPDATED_DATE_ADDED_TO_DB);
+        partialUpdatedMainArtist
+            .artistName(UPDATED_ARTIST_NAME)
+            .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
+            .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
 
         restMainArtistMockMvc
             .perform(
@@ -394,10 +451,12 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistSpotifyID()).isEqualTo(DEFAULT_ARTIST_SPOTIFY_ID);
         assertThat(testMainArtist.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
         assertThat(testMainArtist.getArtistPopularity()).isEqualTo(DEFAULT_ARTIST_POPULARITY);
-        assertThat(testMainArtist.getArtistImage()).isEqualTo(DEFAULT_ARTIST_IMAGE);
+        assertThat(testMainArtist.getArtistImageSmall()).isEqualTo(DEFAULT_ARTIST_IMAGE_SMALL);
+        assertThat(testMainArtist.getArtistImageMedium()).isEqualTo(DEFAULT_ARTIST_IMAGE_MEDIUM);
+        assertThat(testMainArtist.getArtistImageLarge()).isEqualTo(UPDATED_ARTIST_IMAGE_LARGE);
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(DEFAULT_ARTIST_FOLLOWERS);
-        assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(UPDATED_DATE_ADDED_TO_DB);
-        assertThat(testMainArtist.getDateLastModified()).isEqualTo(DEFAULT_DATE_LAST_MODIFIED);
+        assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(DEFAULT_DATE_ADDED_TO_DB);
+        assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
     }
 
     @Test
@@ -416,7 +475,9 @@ class MainArtistResourceIT {
             .artistSpotifyID(UPDATED_ARTIST_SPOTIFY_ID)
             .artistName(UPDATED_ARTIST_NAME)
             .artistPopularity(UPDATED_ARTIST_POPULARITY)
-            .artistImage(UPDATED_ARTIST_IMAGE)
+            .artistImageSmall(UPDATED_ARTIST_IMAGE_SMALL)
+            .artistImageMedium(UPDATED_ARTIST_IMAGE_MEDIUM)
+            .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
             .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
@@ -436,7 +497,9 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistSpotifyID()).isEqualTo(UPDATED_ARTIST_SPOTIFY_ID);
         assertThat(testMainArtist.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
         assertThat(testMainArtist.getArtistPopularity()).isEqualTo(UPDATED_ARTIST_POPULARITY);
-        assertThat(testMainArtist.getArtistImage()).isEqualTo(UPDATED_ARTIST_IMAGE);
+        assertThat(testMainArtist.getArtistImageSmall()).isEqualTo(UPDATED_ARTIST_IMAGE_SMALL);
+        assertThat(testMainArtist.getArtistImageMedium()).isEqualTo(UPDATED_ARTIST_IMAGE_MEDIUM);
+        assertThat(testMainArtist.getArtistImageLarge()).isEqualTo(UPDATED_ARTIST_IMAGE_LARGE);
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(UPDATED_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(UPDATED_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);

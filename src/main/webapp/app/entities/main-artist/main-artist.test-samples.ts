@@ -7,35 +7,44 @@ export const sampleWithRequiredData: IMainArtist = {
   artistSpotifyID: 'Phased',
   artistName: 'Underpass XML',
   artistPopularity: 58918,
-  artistImage: 'exploit',
+  artistImageSmall: 'exploit',
+  artistImageMedium: 'cyan Buckinghamshire Uganda',
+  artistImageLarge: 'Handmade Wooden Forward',
 };
 
 export const sampleWithPartialData: IMainArtist = {
-  id: 91375,
-  artistSpotifyID: 'copy copying',
-  artistName: 'transmit',
-  artistPopularity: 14040,
-  artistImage: 'Forward invoice dynamic',
-  artistFollowers: 73951,
-  dateLastModified: dayjs('2024-03-02'),
-};
-
-export const sampleWithFullData: IMainArtist = {
-  id: 32527,
-  artistSpotifyID: 'Granite',
-  artistName: 'Senior Assistant grow',
-  artistPopularity: 38398,
-  artistImage: 'Interactions Marketing withdrawal',
-  artistFollowers: 97064,
+  id: 33596,
+  artistSpotifyID: 'policy analyzer',
+  artistName: 'calculating Frozen',
+  artistPopularity: 39356,
+  artistImageSmall: 'Markets Interactions',
+  artistImageMedium: 'Tuna transform Shilling',
+  artistImageLarge: 'Enterprise-wide',
+  artistFollowers: 86443,
   dateAddedToDB: dayjs('2024-03-03'),
   dateLastModified: dayjs('2024-03-03'),
 };
 
+export const sampleWithFullData: IMainArtist = {
+  id: 16225,
+  artistSpotifyID: 'management',
+  artistName: 'Developer',
+  artistPopularity: 88640,
+  artistImageSmall: 'withdrawal multi-byte',
+  artistImageMedium: 'virtual Coordinator hack',
+  artistImageLarge: 'radical',
+  artistFollowers: 8967,
+  dateAddedToDB: dayjs('2024-03-02'),
+  dateLastModified: dayjs('2024-03-02'),
+};
+
 export const sampleWithNewData: NewMainArtist = {
-  artistSpotifyID: 'database transmitting Games',
-  artistName: 'Rubber',
-  artistPopularity: 99488,
-  artistImage: 'Fresh withdrawal multi-byte',
+  artistSpotifyID: 'Rubber feed',
+  artistName: 'Metal quantify Assimilated',
+  artistPopularity: 1430,
+  artistImageSmall: 'Orchestrator Steel',
+  artistImageMedium: 'quantify Account optical',
+  artistImageLarge: 'state',
   id: null,
 };
 

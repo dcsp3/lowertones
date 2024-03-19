@@ -87,6 +87,20 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="20240303210527-1-relations" author="jhipster">
+
+        <createTable tableName="rel_song_table__contributor">
+            <column name="contributor_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="song_table_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="song_table_id, contributor_id" tableName="rel_song_table__contributor"/>
+    </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

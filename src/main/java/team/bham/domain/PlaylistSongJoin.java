@@ -2,6 +2,7 @@ package team.bham.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -28,13 +29,17 @@ public class PlaylistSongJoin implements Serializable {
     @Column(name = "song_order_index", nullable = false)
     private Integer songOrderIndex;
 
+    @NotNull
+    @Column(name = "song_date_added", nullable = false)
+    private LocalDate songDateAdded;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "appUser", "playlistSongJoins" }, allowSetters = true)
     private Playlist playlist;
 
     @ManyToOne
     @JsonIgnoreProperties(
-        value = { "contributors", "spotifyGenreEntities", "musicbrainzGenreEntities", "album", "playlistSongJoins", "songArtistJoins" },
+        value = { "spotifyGenreEntities", "musicbrainzGenreEntities", "contributors", "album", "playlistSongJoins", "songArtistJoins" },
         allowSetters = true
     )
     private Song song;
@@ -65,6 +70,19 @@ public class PlaylistSongJoin implements Serializable {
 
     public void setSongOrderIndex(Integer songOrderIndex) {
         this.songOrderIndex = songOrderIndex;
+    }
+
+    public LocalDate getSongDateAdded() {
+        return this.songDateAdded;
+    }
+
+    public PlaylistSongJoin songDateAdded(LocalDate songDateAdded) {
+        this.setSongDateAdded(songDateAdded);
+        return this;
+    }
+
+    public void setSongDateAdded(LocalDate songDateAdded) {
+        this.songDateAdded = songDateAdded;
     }
 
     public Playlist getPlaylist() {
@@ -118,6 +136,7 @@ public class PlaylistSongJoin implements Serializable {
         return "PlaylistSongJoin{" +
             "id=" + getId() +
             ", songOrderIndex=" + getSongOrderIndex() +
+            ", songDateAdded='" + getSongDateAdded() + "'" +
             "}";
     }
 }

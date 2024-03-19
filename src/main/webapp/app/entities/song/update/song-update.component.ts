@@ -7,6 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { SongFormService, SongFormGroup } from './song-form.service';
 import { ISong } from '../song.model';
 import { SongService } from '../service/song.service';
+import { IContributor } from 'app/entities/contributor/contributor.model';
+import { ContributorService } from 'app/entities/contributor/service/contributor.service';
 import { IAlbum } from 'app/entities/album/album.model';
 import { AlbumService } from 'app/entities/album/service/album.service';
 import { AlbumType } from 'app/entities/enumerations/album-type.model';
@@ -20,6 +22,7 @@ export class SongUpdateComponent implements OnInit {
   song: ISong | null = null;
   albumTypeValues = Object.keys(AlbumType);
 
+  contributorsSharedCollection: IContributor[] = [];
   albumsSharedCollection: IAlbum[] = [];
 
   editForm: SongFormGroup = this.songFormService.createSongFormGroup();
@@ -27,9 +30,12 @@ export class SongUpdateComponent implements OnInit {
   constructor(
     protected songService: SongService,
     protected songFormService: SongFormService,
+    protected contributorService: ContributorService,
     protected albumService: AlbumService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareContributor = (o1: IContributor | null, o2: IContributor | null): boolean => this.contributorService.compareContributor(o1, o2);
 
   compareAlbum = (o1: IAlbum | null, o2: IAlbum | null): boolean => this.albumService.compareAlbum(o1, o2);
 
@@ -81,10 +87,24 @@ export class SongUpdateComponent implements OnInit {
     this.song = song;
     this.songFormService.resetForm(this.editForm, song);
 
+    this.contributorsSharedCollection = this.contributorService.addContributorToCollectionIfMissing<IContributor>(
+      this.contributorsSharedCollection,
+      ...(song.contributors ?? [])
+    );
     this.albumsSharedCollection = this.albumService.addAlbumToCollectionIfMissing<IAlbum>(this.albumsSharedCollection, song.album);
   }
 
   protected loadRelationshipsOptions(): void {
+    this.contributorService
+      .query()
+      .pipe(map((res: HttpResponse<IContributor[]>) => res.body ?? []))
+      .pipe(
+        map((contributors: IContributor[]) =>
+          this.contributorService.addContributorToCollectionIfMissing<IContributor>(contributors, ...(this.song?.contributors ?? []))
+        )
+      )
+      .subscribe((contributors: IContributor[]) => (this.contributorsSharedCollection = contributors));
+
     this.albumService
       .query()
       .pipe(map((res: HttpResponse<IAlbum[]>) => res.body ?? []))

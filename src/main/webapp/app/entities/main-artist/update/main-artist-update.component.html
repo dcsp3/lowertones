@@ -72,17 +72,68 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_artistImage">Artist Image</label>
+          <label class="form-label" for="field_artistImageSmall">Artist Image Small</label>
           <input
             type="text"
             class="form-control"
-            name="artistImage"
-            id="field_artistImage"
-            data-cy="artistImage"
-            formControlName="artistImage"
+            name="artistImageSmall"
+            id="field_artistImageSmall"
+            data-cy="artistImageSmall"
+            formControlName="artistImageSmall"
           />
-          <div *ngIf="editForm.get('artistImage')!.invalid && (editForm.get('artistImage')!.dirty || editForm.get('artistImage')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('artistImage')?.errors?.required"> This field is required. </small>
+          <div
+            *ngIf="
+              editForm.get('artistImageSmall')!.invalid &&
+              (editForm.get('artistImageSmall')!.dirty || editForm.get('artistImageSmall')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('artistImageSmall')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_artistImageMedium">Artist Image Medium</label>
+          <input
+            type="text"
+            class="form-control"
+            name="artistImageMedium"
+            id="field_artistImageMedium"
+            data-cy="artistImageMedium"
+            formControlName="artistImageMedium"
+          />
+          <div
+            *ngIf="
+              editForm.get('artistImageMedium')!.invalid &&
+              (editForm.get('artistImageMedium')!.dirty || editForm.get('artistImageMedium')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('artistImageMedium')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_artistImageLarge">Artist Image Large</label>
+          <input
+            type="text"
+            class="form-control"
+            name="artistImageLarge"
+            id="field_artistImageLarge"
+            data-cy="artistImageLarge"
+            formControlName="artistImageLarge"
+          />
+          <div
+            *ngIf="
+              editForm.get('artistImageLarge')!.invalid &&
+              (editForm.get('artistImageLarge')!.dirty || editForm.get('artistImageLarge')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('artistImageLarge')?.errors?.required">
+              This field is required.
+            </small>
           </div>
         </div>
 
@@ -134,6 +185,23 @@
               <fa-icon icon="calendar-alt"></fa-icon>
             </button>
           </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtists">Related Artists</label>
+          <select
+            class="form-control"
+            id="field_relatedArtists"
+            data-cy="relatedArtists"
+            name="relatedArtists"
+            formControlName="relatedArtists"
+            [compareWith]="compareRelatedArtists"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="relatedArtistsOption" *ngFor="let relatedArtistsOption of relatedArtistsCollection">
+              {{ relatedArtistsOption.id }}
+            </option>
+          </select>
         </div>
       </div>
 

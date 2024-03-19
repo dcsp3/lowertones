@@ -6,12 +6,16 @@ export interface IAppUser {
   spotifyUserID?: string | null;
   name?: string | null;
   email?: string | null;
+  userImageLarge?: string | null;
+  userImageMedium?: string | null;
+  userImageSmall?: string | null;
   spotifyRefreshToken?: string | null;
   spotifyAuthToken?: string | null;
   lastLoginDate?: dayjs.Dayjs | null;
   discoverWeeklyBufferSettings?: number | null;
   discoverWeeklyBufferPlaylistID?: string | null;
-  darkMode?: boolean | null;
+  highContrastMode?: boolean | null;
+  textSize?: number | null;
   user?: Pick<IUser, 'id'> | null;
 }
 

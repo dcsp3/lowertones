@@ -43,8 +43,18 @@ public class Playlist implements Serializable {
     @Column(name = "playlist_name", nullable = false)
     private String playlistName;
 
-    @Column(name = "playlist_photo")
-    private String playlistPhoto;
+    @NotNull
+    @Column(name = "playlist_snapshot_id", nullable = false)
+    private String playlistSnapshotID;
+
+    @Column(name = "playlist_image_large")
+    private String playlistImageLarge;
+
+    @Column(name = "playlist_image_medium")
+    private String playlistImageMedium;
+
+    @Column(name = "playlist_image_small")
+    private String playlistImageSmall;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "user", "playlists" }, allowSetters = true)
@@ -122,17 +132,56 @@ public class Playlist implements Serializable {
         this.playlistName = playlistName;
     }
 
-    public String getPlaylistPhoto() {
-        return this.playlistPhoto;
+    public String getPlaylistSnapshotID() {
+        return this.playlistSnapshotID;
     }
 
-    public Playlist playlistPhoto(String playlistPhoto) {
-        this.setPlaylistPhoto(playlistPhoto);
+    public Playlist playlistSnapshotID(String playlistSnapshotID) {
+        this.setPlaylistSnapshotID(playlistSnapshotID);
         return this;
     }
 
-    public void setPlaylistPhoto(String playlistPhoto) {
-        this.playlistPhoto = playlistPhoto;
+    public void setPlaylistSnapshotID(String playlistSnapshotID) {
+        this.playlistSnapshotID = playlistSnapshotID;
+    }
+
+    public String getPlaylistImageLarge() {
+        return this.playlistImageLarge;
+    }
+
+    public Playlist playlistImageLarge(String playlistImageLarge) {
+        this.setPlaylistImageLarge(playlistImageLarge);
+        return this;
+    }
+
+    public void setPlaylistImageLarge(String playlistImageLarge) {
+        this.playlistImageLarge = playlistImageLarge;
+    }
+
+    public String getPlaylistImageMedium() {
+        return this.playlistImageMedium;
+    }
+
+    public Playlist playlistImageMedium(String playlistImageMedium) {
+        this.setPlaylistImageMedium(playlistImageMedium);
+        return this;
+    }
+
+    public void setPlaylistImageMedium(String playlistImageMedium) {
+        this.playlistImageMedium = playlistImageMedium;
+    }
+
+    public String getPlaylistImageSmall() {
+        return this.playlistImageSmall;
+    }
+
+    public Playlist playlistImageSmall(String playlistImageSmall) {
+        this.setPlaylistImageSmall(playlistImageSmall);
+        return this;
+    }
+
+    public void setPlaylistImageSmall(String playlistImageSmall) {
+        this.playlistImageSmall = playlistImageSmall;
     }
 
     public AppUser getAppUser() {
@@ -207,7 +256,10 @@ public class Playlist implements Serializable {
             ", dateLastModified='" + getDateLastModified() + "'" +
             ", playlistSpotifyID='" + getPlaylistSpotifyID() + "'" +
             ", playlistName='" + getPlaylistName() + "'" +
-            ", playlistPhoto='" + getPlaylistPhoto() + "'" +
+            ", playlistSnapshotID='" + getPlaylistSnapshotID() + "'" +
+            ", playlistImageLarge='" + getPlaylistImageLarge() + "'" +
+            ", playlistImageMedium='" + getPlaylistImageMedium() + "'" +
+            ", playlistImageSmall='" + getPlaylistImageSmall() + "'" +
             "}";
     }
 }

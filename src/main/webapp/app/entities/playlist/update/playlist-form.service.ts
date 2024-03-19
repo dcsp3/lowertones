@@ -22,7 +22,10 @@ type PlaylistFormGroupContent = {
   dateLastModified: FormControl<IPlaylist['dateLastModified']>;
   playlistSpotifyID: FormControl<IPlaylist['playlistSpotifyID']>;
   playlistName: FormControl<IPlaylist['playlistName']>;
-  playlistPhoto: FormControl<IPlaylist['playlistPhoto']>;
+  playlistSnapshotID: FormControl<IPlaylist['playlistSnapshotID']>;
+  playlistImageLarge: FormControl<IPlaylist['playlistImageLarge']>;
+  playlistImageMedium: FormControl<IPlaylist['playlistImageMedium']>;
+  playlistImageSmall: FormControl<IPlaylist['playlistImageSmall']>;
   appUser: FormControl<IPlaylist['appUser']>;
 };
 
@@ -55,7 +58,12 @@ export class PlaylistFormService {
       playlistName: new FormControl(playlistRawValue.playlistName, {
         validators: [Validators.required],
       }),
-      playlistPhoto: new FormControl(playlistRawValue.playlistPhoto),
+      playlistSnapshotID: new FormControl(playlistRawValue.playlistSnapshotID, {
+        validators: [Validators.required],
+      }),
+      playlistImageLarge: new FormControl(playlistRawValue.playlistImageLarge),
+      playlistImageMedium: new FormControl(playlistRawValue.playlistImageMedium),
+      playlistImageSmall: new FormControl(playlistRawValue.playlistImageSmall),
       appUser: new FormControl(playlistRawValue.appUser),
     });
   }

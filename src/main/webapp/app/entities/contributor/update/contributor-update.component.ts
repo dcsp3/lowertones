@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { ContributorFormService, ContributorFormGroup } from './contributor-form.service';
 import { IContributor } from '../contributor.model';
 import { ContributorService } from '../service/contributor.service';
-import { ISong } from 'app/entities/song/song.model';
-import { SongService } from 'app/entities/song/service/song.service';
 
 @Component({
   selector: 'jhi-contributor-update',
@@ -18,18 +16,13 @@ export class ContributorUpdateComponent implements OnInit {
   isSaving = false;
   contributor: IContributor | null = null;
 
-  songsSharedCollection: ISong[] = [];
-
   editForm: ContributorFormGroup = this.contributorFormService.createContributorFormGroup();
 
   constructor(
     protected contributorService: ContributorService,
     protected contributorFormService: ContributorFormService,
-    protected songService: SongService,
     protected activatedRoute: ActivatedRoute
   ) {}
-
-  compareSong = (o1: ISong | null, o2: ISong | null): boolean => this.songService.compareSong(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ contributor }) => {
@@ -37,8 +30,6 @@ export class ContributorUpdateComponent implements OnInit {
       if (contributor) {
         this.updateForm(contributor);
       }
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -78,15 +69,5 @@ export class ContributorUpdateComponent implements OnInit {
   protected updateForm(contributor: IContributor): void {
     this.contributor = contributor;
     this.contributorFormService.resetForm(this.editForm, contributor);
-
-    this.songsSharedCollection = this.songService.addSongToCollectionIfMissing<ISong>(this.songsSharedCollection, contributor.song);
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.songService
-      .query()
-      .pipe(map((res: HttpResponse<ISong[]>) => res.body ?? []))
-      .pipe(map((songs: ISong[]) => this.songService.addSongToCollectionIfMissing<ISong>(songs, this.contributor?.song)))
-      .subscribe((songs: ISong[]) => (this.songsSharedCollection = songs));
   }
 }

@@ -42,6 +42,7 @@ describe('Song Form Service', () => {
             songTimeSignature: expect.any(Object),
             songDateAddedToDB: expect.any(Object),
             songDateLastModified: expect.any(Object),
+            contributors: expect.any(Object),
             album: expect.any(Object),
           })
         );
@@ -75,6 +76,7 @@ describe('Song Form Service', () => {
             songTimeSignature: expect.any(Object),
             songDateAddedToDB: expect.any(Object),
             songDateLastModified: expect.any(Object),
+            contributors: expect.any(Object),
             album: expect.any(Object),
           })
         );

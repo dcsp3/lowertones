@@ -2,6 +2,8 @@ package team.bham.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -35,12 +37,13 @@ public class Contributor implements Serializable {
     @Column(name = "musicbrainz_id")
     private String musicbrainzID;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "contributors")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "contributors", "spotifyGenreEntities", "musicbrainzGenreEntities", "album", "playlistSongJoins", "songArtistJoins" },
+        value = { "spotifyGenreEntities", "musicbrainzGenreEntities", "contributors", "album", "playlistSongJoins", "songArtistJoins" },
         allowSetters = true
     )
-    private Song song;
+    private Set<Song> songs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -109,16 +112,34 @@ public class Contributor implements Serializable {
         this.musicbrainzID = musicbrainzID;
     }
 
-    public Song getSong() {
-        return this.song;
+    public Set<Song> getSongs() {
+        return this.songs;
     }
 
-    public void setSong(Song song) {
-        this.song = song;
+    public void setSongs(Set<Song> songs) {
+        if (this.songs != null) {
+            this.songs.forEach(i -> i.removeContributor(this));
+        }
+        if (songs != null) {
+            songs.forEach(i -> i.addContributor(this));
+        }
+        this.songs = songs;
     }
 
-    public Contributor song(Song song) {
-        this.setSong(song);
+    public Contributor songs(Set<Song> songs) {
+        this.setSongs(songs);
+        return this;
+    }
+
+    public Contributor addSong(Song song) {
+        this.songs.add(song);
+        song.getContributors().add(this);
+        return this;
+    }
+
+    public Contributor removeSong(Song song) {
+        this.songs.remove(song);
+        song.getContributors().remove(this);
         return this;
     }
 

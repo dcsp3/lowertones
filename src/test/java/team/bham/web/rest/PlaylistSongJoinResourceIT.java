@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,6 +34,9 @@ class PlaylistSongJoinResourceIT {
     private static final Integer DEFAULT_SONG_ORDER_INDEX = 1;
     private static final Integer UPDATED_SONG_ORDER_INDEX = 2;
 
+    private static final LocalDate DEFAULT_SONG_DATE_ADDED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_SONG_DATE_ADDED = LocalDate.now(ZoneId.systemDefault());
+
     private static final String ENTITY_API_URL = "/api/playlist-song-joins";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -56,7 +61,9 @@ class PlaylistSongJoinResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static PlaylistSongJoin createEntity(EntityManager em) {
-        PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin().songOrderIndex(DEFAULT_SONG_ORDER_INDEX);
+        PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin()
+            .songOrderIndex(DEFAULT_SONG_ORDER_INDEX)
+            .songDateAdded(DEFAULT_SONG_DATE_ADDED);
         return playlistSongJoin;
     }
 
@@ -67,7 +74,9 @@ class PlaylistSongJoinResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static PlaylistSongJoin createUpdatedEntity(EntityManager em) {
-        PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin().songOrderIndex(UPDATED_SONG_ORDER_INDEX);
+        PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin()
+            .songOrderIndex(UPDATED_SONG_ORDER_INDEX)
+            .songDateAdded(UPDATED_SONG_DATE_ADDED);
         return playlistSongJoin;
     }
 
@@ -92,6 +101,7 @@ class PlaylistSongJoinResourceIT {
         assertThat(playlistSongJoinList).hasSize(databaseSizeBeforeCreate + 1);
         PlaylistSongJoin testPlaylistSongJoin = playlistSongJoinList.get(playlistSongJoinList.size() - 1);
         assertThat(testPlaylistSongJoin.getSongOrderIndex()).isEqualTo(DEFAULT_SONG_ORDER_INDEX);
+        assertThat(testPlaylistSongJoin.getSongDateAdded()).isEqualTo(DEFAULT_SONG_DATE_ADDED);
     }
 
     @Test
@@ -135,6 +145,25 @@ class PlaylistSongJoinResourceIT {
 
     @Test
     @Transactional
+    void checkSongDateAddedIsRequired() throws Exception {
+        int databaseSizeBeforeTest = playlistSongJoinRepository.findAll().size();
+        // set the field null
+        playlistSongJoin.setSongDateAdded(null);
+
+        // Create the PlaylistSongJoin, which fails.
+
+        restPlaylistSongJoinMockMvc
+            .perform(
+                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(playlistSongJoin))
+            )
+            .andExpect(status().isBadRequest());
+
+        List<PlaylistSongJoin> playlistSongJoinList = playlistSongJoinRepository.findAll();
+        assertThat(playlistSongJoinList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllPlaylistSongJoins() throws Exception {
         // Initialize the database
         playlistSongJoinRepository.saveAndFlush(playlistSongJoin);
@@ -145,7 +174,8 @@ class PlaylistSongJoinResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(playlistSongJoin.getId().intValue())))
-            .andExpect(jsonPath("$.[*].songOrderIndex").value(hasItem(DEFAULT_SONG_ORDER_INDEX)));
+            .andExpect(jsonPath("$.[*].songOrderIndex").value(hasItem(DEFAULT_SONG_ORDER_INDEX)))
+            .andExpect(jsonPath("$.[*].songDateAdded").value(hasItem(DEFAULT_SONG_DATE_ADDED.toString())));
     }
 
     @Test
@@ -160,7 +190,8 @@ class PlaylistSongJoinResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(playlistSongJoin.getId().intValue()))
-            .andExpect(jsonPath("$.songOrderIndex").value(DEFAULT_SONG_ORDER_INDEX));
+            .andExpect(jsonPath("$.songOrderIndex").value(DEFAULT_SONG_ORDER_INDEX))
+            .andExpect(jsonPath("$.songDateAdded").value(DEFAULT_SONG_DATE_ADDED.toString()));
     }
 
     @Test
@@ -182,7 +213,7 @@ class PlaylistSongJoinResourceIT {
         PlaylistSongJoin updatedPlaylistSongJoin = playlistSongJoinRepository.findById(playlistSongJoin.getId()).get();
         // Disconnect from session so that the updates on updatedPlaylistSongJoin are not directly saved in db
         em.detach(updatedPlaylistSongJoin);
-        updatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX);
+        updatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX).songDateAdded(UPDATED_SONG_DATE_ADDED);
 
         restPlaylistSongJoinMockMvc
             .perform(
@@ -197,6 +228,7 @@ class PlaylistSongJoinResourceIT {
         assertThat(playlistSongJoinList).hasSize(databaseSizeBeforeUpdate);
         PlaylistSongJoin testPlaylistSongJoin = playlistSongJoinList.get(playlistSongJoinList.size() - 1);
         assertThat(testPlaylistSongJoin.getSongOrderIndex()).isEqualTo(UPDATED_SONG_ORDER_INDEX);
+        assertThat(testPlaylistSongJoin.getSongDateAdded()).isEqualTo(UPDATED_SONG_DATE_ADDED);
     }
 
     @Test
@@ -269,7 +301,7 @@ class PlaylistSongJoinResourceIT {
         PlaylistSongJoin partialUpdatedPlaylistSongJoin = new PlaylistSongJoin();
         partialUpdatedPlaylistSongJoin.setId(playlistSongJoin.getId());
 
-        partialUpdatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX);
+        partialUpdatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX).songDateAdded(UPDATED_SONG_DATE_ADDED);
 
         restPlaylistSongJoinMockMvc
             .perform(
@@ -284,6 +316,7 @@ class PlaylistSongJoinResourceIT {
         assertThat(playlistSongJoinList).hasSize(databaseSizeBeforeUpdate);
         PlaylistSongJoin testPlaylistSongJoin = playlistSongJoinList.get(playlistSongJoinList.size() - 1);
         assertThat(testPlaylistSongJoin.getSongOrderIndex()).isEqualTo(UPDATED_SONG_ORDER_INDEX);
+        assertThat(testPlaylistSongJoin.getSongDateAdded()).isEqualTo(UPDATED_SONG_DATE_ADDED);
     }
 
     @Test
@@ -298,7 +331,7 @@ class PlaylistSongJoinResourceIT {
         PlaylistSongJoin partialUpdatedPlaylistSongJoin = new PlaylistSongJoin();
         partialUpdatedPlaylistSongJoin.setId(playlistSongJoin.getId());
 
-        partialUpdatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX);
+        partialUpdatedPlaylistSongJoin.songOrderIndex(UPDATED_SONG_ORDER_INDEX).songDateAdded(UPDATED_SONG_DATE_ADDED);
 
         restPlaylistSongJoinMockMvc
             .perform(
@@ -313,6 +346,7 @@ class PlaylistSongJoinResourceIT {
         assertThat(playlistSongJoinList).hasSize(databaseSizeBeforeUpdate);
         PlaylistSongJoin testPlaylistSongJoin = playlistSongJoinList.get(playlistSongJoinList.size() - 1);
         assertThat(testPlaylistSongJoin.getSongOrderIndex()).isEqualTo(UPDATED_SONG_ORDER_INDEX);
+        assertThat(testPlaylistSongJoin.getSongDateAdded()).isEqualTo(UPDATED_SONG_DATE_ADDED);
     }
 
     @Test

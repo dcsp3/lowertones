@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { SongFormService } from './song-form.service';
 import { SongService } from '../service/song.service';
 import { ISong } from '../song.model';
+import { IContributor } from 'app/entities/contributor/contributor.model';
+import { ContributorService } from 'app/entities/contributor/service/contributor.service';
 import { IAlbum } from 'app/entities/album/album.model';
 import { AlbumService } from 'app/entities/album/service/album.service';
 
@@ -20,6 +22,7 @@ describe('Song Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let songFormService: SongFormService;
   let songService: SongService;
+  let contributorService: ContributorService;
   let albumService: AlbumService;
 
   beforeEach(() => {
@@ -43,12 +46,35 @@ describe('Song Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     songFormService = TestBed.inject(SongFormService);
     songService = TestBed.inject(SongService);
+    contributorService = TestBed.inject(ContributorService);
     albumService = TestBed.inject(AlbumService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call Contributor query and add missing value', () => {
+      const song: ISong = { id: 456 };
+      const contributors: IContributor[] = [{ id: 27957 }];
+      song.contributors = contributors;
+
+      const contributorCollection: IContributor[] = [{ id: 13676 }];
+      jest.spyOn(contributorService, 'query').mockReturnValue(of(new HttpResponse({ body: contributorCollection })));
+      const additionalContributors = [...contributors];
+      const expectedCollection: IContributor[] = [...additionalContributors, ...contributorCollection];
+      jest.spyOn(contributorService, 'addContributorToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ song });
+      comp.ngOnInit();
+
+      expect(contributorService.query).toHaveBeenCalled();
+      expect(contributorService.addContributorToCollectionIfMissing).toHaveBeenCalledWith(
+        contributorCollection,
+        ...additionalContributors.map(expect.objectContaining)
+      );
+      expect(comp.contributorsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call Album query and add missing value', () => {
       const song: ISong = { id: 456 };
       const album: IAlbum = { id: 13290 };
@@ -73,12 +99,15 @@ describe('Song Management Update Component', () => {
 
     it('Should update editForm', () => {
       const song: ISong = { id: 456 };
+      const contributor: IContributor = { id: 90438 };
+      song.contributors = [contributor];
       const album: IAlbum = { id: 36859 };
       song.album = album;
 
       activatedRoute.data = of({ song });
       comp.ngOnInit();
 
+      expect(comp.contributorsSharedCollection).toContain(contributor);
       expect(comp.albumsSharedCollection).toContain(album);
       expect(comp.song).toEqual(song);
     });
@@ -153,6 +182,16 @@ describe('Song Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareContributor', () => {
+      it('Should forward to contributorService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(contributorService, 'compareContributor');
+        comp.compareContributor(entity, entity2);
+        expect(contributorService.compareContributor).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareAlbum', () => {
       it('Should forward to albumService', () => {
         const entity = { id: 123 };

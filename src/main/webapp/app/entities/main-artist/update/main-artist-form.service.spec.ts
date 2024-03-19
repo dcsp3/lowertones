@@ -23,10 +23,13 @@ describe('MainArtist Form Service', () => {
             artistSpotifyID: expect.any(Object),
             artistName: expect.any(Object),
             artistPopularity: expect.any(Object),
-            artistImage: expect.any(Object),
+            artistImageSmall: expect.any(Object),
+            artistImageMedium: expect.any(Object),
+            artistImageLarge: expect.any(Object),
             artistFollowers: expect.any(Object),
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
+            relatedArtists: expect.any(Object),
           })
         );
       });
@@ -40,10 +43,13 @@ describe('MainArtist Form Service', () => {
             artistSpotifyID: expect.any(Object),
             artistName: expect.any(Object),
             artistPopularity: expect.any(Object),
-            artistImage: expect.any(Object),
+            artistImageSmall: expect.any(Object),
+            artistImageMedium: expect.any(Object),
+            artistImageLarge: expect.any(Object),
             artistFollowers: expect.any(Object),
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
+            relatedArtists: expect.any(Object),
           })
         );
       });

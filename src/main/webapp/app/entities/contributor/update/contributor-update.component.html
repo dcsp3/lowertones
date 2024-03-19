@@ -44,14 +44,6 @@
             formControlName="musicbrainzID"
           />
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_song">Song</label>
-          <select class="form-control" id="field_song" data-cy="song" name="song" formControlName="song" [compareWith]="compareSong">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="songOption" *ngFor="let songOption of songsSharedCollection">{{ songOption.id }}</option>
-          </select>
-        </div>
       </div>
 
       <div>

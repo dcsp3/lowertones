@@ -40,6 +40,15 @@ class AppUserResourceIT {
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_USER_IMAGE_LARGE = "AAAAAAAAAA";
+    private static final String UPDATED_USER_IMAGE_LARGE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_USER_IMAGE_MEDIUM = "AAAAAAAAAA";
+    private static final String UPDATED_USER_IMAGE_MEDIUM = "BBBBBBBBBB";
+
+    private static final String DEFAULT_USER_IMAGE_SMALL = "AAAAAAAAAA";
+    private static final String UPDATED_USER_IMAGE_SMALL = "BBBBBBBBBB";
+
     private static final String DEFAULT_SPOTIFY_REFRESH_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_SPOTIFY_REFRESH_TOKEN = "BBBBBBBBBB";
 
@@ -55,8 +64,11 @@ class AppUserResourceIT {
     private static final String DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID = "AAAAAAAAAA";
     private static final String UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_DARK_MODE = false;
-    private static final Boolean UPDATED_DARK_MODE = true;
+    private static final Boolean DEFAULT_HIGH_CONTRAST_MODE = false;
+    private static final Boolean UPDATED_HIGH_CONTRAST_MODE = true;
+
+    private static final Integer DEFAULT_TEXT_SIZE = 1;
+    private static final Integer UPDATED_TEXT_SIZE = 2;
 
     private static final String ENTITY_API_URL = "/api/app-users";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -86,12 +98,16 @@ class AppUserResourceIT {
             .spotifyUserID(DEFAULT_SPOTIFY_USER_ID)
             .name(DEFAULT_NAME)
             .email(DEFAULT_EMAIL)
+            .userImageLarge(DEFAULT_USER_IMAGE_LARGE)
+            .userImageMedium(DEFAULT_USER_IMAGE_MEDIUM)
+            .userImageSmall(DEFAULT_USER_IMAGE_SMALL)
             .spotifyRefreshToken(DEFAULT_SPOTIFY_REFRESH_TOKEN)
             .spotifyAuthToken(DEFAULT_SPOTIFY_AUTH_TOKEN)
             .lastLoginDate(DEFAULT_LAST_LOGIN_DATE)
             .discoverWeeklyBufferSettings(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
-            .darkMode(DEFAULT_DARK_MODE);
+            .highContrastMode(DEFAULT_HIGH_CONTRAST_MODE)
+            .textSize(DEFAULT_TEXT_SIZE);
         return appUser;
     }
 
@@ -106,12 +122,16 @@ class AppUserResourceIT {
             .spotifyUserID(UPDATED_SPOTIFY_USER_ID)
             .name(UPDATED_NAME)
             .email(UPDATED_EMAIL)
+            .userImageLarge(UPDATED_USER_IMAGE_LARGE)
+            .userImageMedium(UPDATED_USER_IMAGE_MEDIUM)
+            .userImageSmall(UPDATED_USER_IMAGE_SMALL)
             .spotifyRefreshToken(UPDATED_SPOTIFY_REFRESH_TOKEN)
             .spotifyAuthToken(UPDATED_SPOTIFY_AUTH_TOKEN)
             .lastLoginDate(UPDATED_LAST_LOGIN_DATE)
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
-            .darkMode(UPDATED_DARK_MODE);
+            .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
+            .textSize(UPDATED_TEXT_SIZE);
         return appUser;
     }
 
@@ -136,12 +156,16 @@ class AppUserResourceIT {
         assertThat(testAppUser.getSpotifyUserID()).isEqualTo(DEFAULT_SPOTIFY_USER_ID);
         assertThat(testAppUser.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testAppUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testAppUser.getUserImageLarge()).isEqualTo(DEFAULT_USER_IMAGE_LARGE);
+        assertThat(testAppUser.getUserImageMedium()).isEqualTo(DEFAULT_USER_IMAGE_MEDIUM);
+        assertThat(testAppUser.getUserImageSmall()).isEqualTo(DEFAULT_USER_IMAGE_SMALL);
         assertThat(testAppUser.getSpotifyRefreshToken()).isEqualTo(DEFAULT_SPOTIFY_REFRESH_TOKEN);
         assertThat(testAppUser.getSpotifyAuthToken()).isEqualTo(DEFAULT_SPOTIFY_AUTH_TOKEN);
         assertThat(testAppUser.getLastLoginDate()).isEqualTo(DEFAULT_LAST_LOGIN_DATE);
         assertThat(testAppUser.getDiscoverWeeklyBufferSettings()).isEqualTo(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS);
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
-        assertThat(testAppUser.getDarkMode()).isEqualTo(DEFAULT_DARK_MODE);
+        assertThat(testAppUser.getHighContrastMode()).isEqualTo(DEFAULT_HIGH_CONTRAST_MODE);
+        assertThat(testAppUser.getTextSize()).isEqualTo(DEFAULT_TEXT_SIZE);
     }
 
     @Test
@@ -249,10 +273,27 @@ class AppUserResourceIT {
 
     @Test
     @Transactional
-    void checkDarkModeIsRequired() throws Exception {
+    void checkHighContrastModeIsRequired() throws Exception {
         int databaseSizeBeforeTest = appUserRepository.findAll().size();
         // set the field null
-        appUser.setDarkMode(null);
+        appUser.setHighContrastMode(null);
+
+        // Create the AppUser, which fails.
+
+        restAppUserMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(appUser)))
+            .andExpect(status().isBadRequest());
+
+        List<AppUser> appUserList = appUserRepository.findAll();
+        assertThat(appUserList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkTextSizeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = appUserRepository.findAll().size();
+        // set the field null
+        appUser.setTextSize(null);
 
         // Create the AppUser, which fails.
 
@@ -279,12 +320,16 @@ class AppUserResourceIT {
             .andExpect(jsonPath("$.[*].spotifyUserID").value(hasItem(DEFAULT_SPOTIFY_USER_ID)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].userImageLarge").value(hasItem(DEFAULT_USER_IMAGE_LARGE)))
+            .andExpect(jsonPath("$.[*].userImageMedium").value(hasItem(DEFAULT_USER_IMAGE_MEDIUM)))
+            .andExpect(jsonPath("$.[*].userImageSmall").value(hasItem(DEFAULT_USER_IMAGE_SMALL)))
             .andExpect(jsonPath("$.[*].spotifyRefreshToken").value(hasItem(DEFAULT_SPOTIFY_REFRESH_TOKEN)))
             .andExpect(jsonPath("$.[*].spotifyAuthToken").value(hasItem(DEFAULT_SPOTIFY_AUTH_TOKEN)))
             .andExpect(jsonPath("$.[*].lastLoginDate").value(hasItem(DEFAULT_LAST_LOGIN_DATE.toString())))
             .andExpect(jsonPath("$.[*].discoverWeeklyBufferSettings").value(hasItem(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS)))
             .andExpect(jsonPath("$.[*].discoverWeeklyBufferPlaylistID").value(hasItem(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)))
-            .andExpect(jsonPath("$.[*].darkMode").value(hasItem(DEFAULT_DARK_MODE.booleanValue())));
+            .andExpect(jsonPath("$.[*].highContrastMode").value(hasItem(DEFAULT_HIGH_CONTRAST_MODE.booleanValue())))
+            .andExpect(jsonPath("$.[*].textSize").value(hasItem(DEFAULT_TEXT_SIZE)));
     }
 
     @Test
@@ -302,12 +347,16 @@ class AppUserResourceIT {
             .andExpect(jsonPath("$.spotifyUserID").value(DEFAULT_SPOTIFY_USER_ID))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.userImageLarge").value(DEFAULT_USER_IMAGE_LARGE))
+            .andExpect(jsonPath("$.userImageMedium").value(DEFAULT_USER_IMAGE_MEDIUM))
+            .andExpect(jsonPath("$.userImageSmall").value(DEFAULT_USER_IMAGE_SMALL))
             .andExpect(jsonPath("$.spotifyRefreshToken").value(DEFAULT_SPOTIFY_REFRESH_TOKEN))
             .andExpect(jsonPath("$.spotifyAuthToken").value(DEFAULT_SPOTIFY_AUTH_TOKEN))
             .andExpect(jsonPath("$.lastLoginDate").value(DEFAULT_LAST_LOGIN_DATE.toString()))
             .andExpect(jsonPath("$.discoverWeeklyBufferSettings").value(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS))
             .andExpect(jsonPath("$.discoverWeeklyBufferPlaylistID").value(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID))
-            .andExpect(jsonPath("$.darkMode").value(DEFAULT_DARK_MODE.booleanValue()));
+            .andExpect(jsonPath("$.highContrastMode").value(DEFAULT_HIGH_CONTRAST_MODE.booleanValue()))
+            .andExpect(jsonPath("$.textSize").value(DEFAULT_TEXT_SIZE));
     }
 
     @Test
@@ -333,12 +382,16 @@ class AppUserResourceIT {
             .spotifyUserID(UPDATED_SPOTIFY_USER_ID)
             .name(UPDATED_NAME)
             .email(UPDATED_EMAIL)
+            .userImageLarge(UPDATED_USER_IMAGE_LARGE)
+            .userImageMedium(UPDATED_USER_IMAGE_MEDIUM)
+            .userImageSmall(UPDATED_USER_IMAGE_SMALL)
             .spotifyRefreshToken(UPDATED_SPOTIFY_REFRESH_TOKEN)
             .spotifyAuthToken(UPDATED_SPOTIFY_AUTH_TOKEN)
             .lastLoginDate(UPDATED_LAST_LOGIN_DATE)
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
-            .darkMode(UPDATED_DARK_MODE);
+            .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
+            .textSize(UPDATED_TEXT_SIZE);
 
         restAppUserMockMvc
             .perform(
@@ -355,12 +408,16 @@ class AppUserResourceIT {
         assertThat(testAppUser.getSpotifyUserID()).isEqualTo(UPDATED_SPOTIFY_USER_ID);
         assertThat(testAppUser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAppUser.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testAppUser.getUserImageLarge()).isEqualTo(UPDATED_USER_IMAGE_LARGE);
+        assertThat(testAppUser.getUserImageMedium()).isEqualTo(UPDATED_USER_IMAGE_MEDIUM);
+        assertThat(testAppUser.getUserImageSmall()).isEqualTo(UPDATED_USER_IMAGE_SMALL);
         assertThat(testAppUser.getSpotifyRefreshToken()).isEqualTo(UPDATED_SPOTIFY_REFRESH_TOKEN);
         assertThat(testAppUser.getSpotifyAuthToken()).isEqualTo(UPDATED_SPOTIFY_AUTH_TOKEN);
         assertThat(testAppUser.getLastLoginDate()).isEqualTo(UPDATED_LAST_LOGIN_DATE);
         assertThat(testAppUser.getDiscoverWeeklyBufferSettings()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS);
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
-        assertThat(testAppUser.getDarkMode()).isEqualTo(UPDATED_DARK_MODE);
+        assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
+        assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
     }
 
     @Test
@@ -434,9 +491,13 @@ class AppUserResourceIT {
         partialUpdatedAppUser
             .spotifyUserID(UPDATED_SPOTIFY_USER_ID)
             .name(UPDATED_NAME)
-            .spotifyAuthToken(UPDATED_SPOTIFY_AUTH_TOKEN)
+            .userImageMedium(UPDATED_USER_IMAGE_MEDIUM)
+            .userImageSmall(UPDATED_USER_IMAGE_SMALL)
             .lastLoginDate(UPDATED_LAST_LOGIN_DATE)
-            .darkMode(UPDATED_DARK_MODE);
+            .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
+            .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
+            .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
+            .textSize(UPDATED_TEXT_SIZE);
 
         restAppUserMockMvc
             .perform(
@@ -453,12 +514,16 @@ class AppUserResourceIT {
         assertThat(testAppUser.getSpotifyUserID()).isEqualTo(UPDATED_SPOTIFY_USER_ID);
         assertThat(testAppUser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAppUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testAppUser.getUserImageLarge()).isEqualTo(DEFAULT_USER_IMAGE_LARGE);
+        assertThat(testAppUser.getUserImageMedium()).isEqualTo(UPDATED_USER_IMAGE_MEDIUM);
+        assertThat(testAppUser.getUserImageSmall()).isEqualTo(UPDATED_USER_IMAGE_SMALL);
         assertThat(testAppUser.getSpotifyRefreshToken()).isEqualTo(DEFAULT_SPOTIFY_REFRESH_TOKEN);
-        assertThat(testAppUser.getSpotifyAuthToken()).isEqualTo(UPDATED_SPOTIFY_AUTH_TOKEN);
+        assertThat(testAppUser.getSpotifyAuthToken()).isEqualTo(DEFAULT_SPOTIFY_AUTH_TOKEN);
         assertThat(testAppUser.getLastLoginDate()).isEqualTo(UPDATED_LAST_LOGIN_DATE);
-        assertThat(testAppUser.getDiscoverWeeklyBufferSettings()).isEqualTo(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS);
-        assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
-        assertThat(testAppUser.getDarkMode()).isEqualTo(UPDATED_DARK_MODE);
+        assertThat(testAppUser.getDiscoverWeeklyBufferSettings()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS);
+        assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
+        assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
+        assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
     }
 
     @Test
@@ -477,12 +542,16 @@ class AppUserResourceIT {
             .spotifyUserID(UPDATED_SPOTIFY_USER_ID)
             .name(UPDATED_NAME)
             .email(UPDATED_EMAIL)
+            .userImageLarge(UPDATED_USER_IMAGE_LARGE)
+            .userImageMedium(UPDATED_USER_IMAGE_MEDIUM)
+            .userImageSmall(UPDATED_USER_IMAGE_SMALL)
             .spotifyRefreshToken(UPDATED_SPOTIFY_REFRESH_TOKEN)
             .spotifyAuthToken(UPDATED_SPOTIFY_AUTH_TOKEN)
             .lastLoginDate(UPDATED_LAST_LOGIN_DATE)
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
-            .darkMode(UPDATED_DARK_MODE);
+            .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
+            .textSize(UPDATED_TEXT_SIZE);
 
         restAppUserMockMvc
             .perform(
@@ -499,12 +568,16 @@ class AppUserResourceIT {
         assertThat(testAppUser.getSpotifyUserID()).isEqualTo(UPDATED_SPOTIFY_USER_ID);
         assertThat(testAppUser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAppUser.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testAppUser.getUserImageLarge()).isEqualTo(UPDATED_USER_IMAGE_LARGE);
+        assertThat(testAppUser.getUserImageMedium()).isEqualTo(UPDATED_USER_IMAGE_MEDIUM);
+        assertThat(testAppUser.getUserImageSmall()).isEqualTo(UPDATED_USER_IMAGE_SMALL);
         assertThat(testAppUser.getSpotifyRefreshToken()).isEqualTo(UPDATED_SPOTIFY_REFRESH_TOKEN);
         assertThat(testAppUser.getSpotifyAuthToken()).isEqualTo(UPDATED_SPOTIFY_AUTH_TOKEN);
         assertThat(testAppUser.getLastLoginDate()).isEqualTo(UPDATED_LAST_LOGIN_DATE);
         assertThat(testAppUser.getDiscoverWeeklyBufferSettings()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS);
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
-        assertThat(testAppUser.getDarkMode()).isEqualTo(UPDATED_DARK_MODE);
+        assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
+        assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
     }
 
     @Test

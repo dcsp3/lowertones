@@ -203,12 +203,17 @@ public class SongResource {
     /**
      * {@code GET  /songs} : get all the songs.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of songs in body.
      */
     @GetMapping("/songs")
-    public List<Song> getAllSongs() {
+    public List<Song> getAllSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Songs");
-        return songRepository.findAll();
+        if (eagerload) {
+            return songRepository.findAllWithEagerRelationships();
+        } else {
+            return songRepository.findAll();
+        }
     }
 
     /**
@@ -220,7 +225,7 @@ public class SongResource {
     @GetMapping("/songs/{id}")
     public ResponseEntity<Song> getSong(@PathVariable Long id) {
         log.debug("REST request to get Song : {}", id);
-        Optional<Song> song = songRepository.findById(id);
+        Optional<Song> song = songRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(song);
     }
 

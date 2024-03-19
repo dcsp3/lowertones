@@ -106,14 +106,60 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_playlistPhoto">Playlist Photo</label>
+          <label class="form-label" for="field_playlistSnapshotID">Playlist Snapshot ID</label>
           <input
             type="text"
             class="form-control"
-            name="playlistPhoto"
-            id="field_playlistPhoto"
-            data-cy="playlistPhoto"
-            formControlName="playlistPhoto"
+            name="playlistSnapshotID"
+            id="field_playlistSnapshotID"
+            data-cy="playlistSnapshotID"
+            formControlName="playlistSnapshotID"
+          />
+          <div
+            *ngIf="
+              editForm.get('playlistSnapshotID')!.invalid &&
+              (editForm.get('playlistSnapshotID')!.dirty || editForm.get('playlistSnapshotID')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('playlistSnapshotID')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistImageLarge">Playlist Image Large</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistImageLarge"
+            id="field_playlistImageLarge"
+            data-cy="playlistImageLarge"
+            formControlName="playlistImageLarge"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistImageMedium">Playlist Image Medium</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistImageMedium"
+            id="field_playlistImageMedium"
+            data-cy="playlistImageMedium"
+            formControlName="playlistImageMedium"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistImageSmall">Playlist Image Small</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistImageSmall"
+            id="field_playlistImageSmall"
+            data-cy="playlistImageSmall"
+            formControlName="playlistImageSmall"
           />
         </div>
 

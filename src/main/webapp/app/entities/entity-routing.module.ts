@@ -65,6 +65,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'SongArtistJoins' },
         loadChildren: () => import('./song-artist-join/song-artist-join.module').then(m => m.SongArtistJoinModule),
       },
+      {
+        path: 'related-artists',
+        data: { pageTitle: 'RelatedArtists' },
+        loadChildren: () => import('./related-artists/related-artists.module').then(m => m.RelatedArtistsModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

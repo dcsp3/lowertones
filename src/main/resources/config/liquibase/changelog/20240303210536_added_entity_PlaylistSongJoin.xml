@@ -17,6 +17,9 @@
             <column name="song_order_index" type="integer">
                 <constraints nullable="false" />
             </column>
+            <column name="song_date_added" type="date">
+                <constraints nullable="false" />
+            </column>
             <column name="playlist_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -45,6 +48,7 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="song_order_index" type="numeric"/>
+            <column name="song_date_added" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

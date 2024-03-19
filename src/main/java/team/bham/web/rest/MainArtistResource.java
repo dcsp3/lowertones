@@ -134,8 +134,14 @@ public class MainArtistResource {
                 if (mainArtist.getArtistPopularity() != null) {
                     existingMainArtist.setArtistPopularity(mainArtist.getArtistPopularity());
                 }
-                if (mainArtist.getArtistImage() != null) {
-                    existingMainArtist.setArtistImage(mainArtist.getArtistImage());
+                if (mainArtist.getArtistImageSmall() != null) {
+                    existingMainArtist.setArtistImageSmall(mainArtist.getArtistImageSmall());
+                }
+                if (mainArtist.getArtistImageMedium() != null) {
+                    existingMainArtist.setArtistImageMedium(mainArtist.getArtistImageMedium());
+                }
+                if (mainArtist.getArtistImageLarge() != null) {
+                    existingMainArtist.setArtistImageLarge(mainArtist.getArtistImageLarge());
                 }
                 if (mainArtist.getArtistFollowers() != null) {
                     existingMainArtist.setArtistFollowers(mainArtist.getArtistFollowers());

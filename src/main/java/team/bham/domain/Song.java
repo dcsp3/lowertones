@@ -107,11 +107,6 @@ public class Song implements Serializable {
 
     @OneToMany(mappedBy = "song")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "song" }, allowSetters = true)
-    private Set<Contributor> contributors = new HashSet<>();
-
-    @OneToMany(mappedBy = "song")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
     private Set<SpotifyGenreEntity> spotifyGenreEntities = new HashSet<>();
 
@@ -119,6 +114,16 @@ public class Song implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
     private Set<MusicbrainzGenreEntity> musicbrainzGenreEntities = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_song_table__contributor",
+        joinColumns = @JoinColumn(name = "song_table_id"),
+        inverseJoinColumns = @JoinColumn(name = "contributor_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "songs" }, allowSetters = true)
+    private Set<Contributor> contributors = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "songs", "spotifyGenreEntities", "musicbrainzGenreEntities", "mainArtist" }, allowSetters = true)
@@ -435,37 +440,6 @@ public class Song implements Serializable {
         this.songDateLastModified = songDateLastModified;
     }
 
-    public Set<Contributor> getContributors() {
-        return this.contributors;
-    }
-
-    public void setContributors(Set<Contributor> contributors) {
-        if (this.contributors != null) {
-            this.contributors.forEach(i -> i.setSong(null));
-        }
-        if (contributors != null) {
-            contributors.forEach(i -> i.setSong(this));
-        }
-        this.contributors = contributors;
-    }
-
-    public Song contributors(Set<Contributor> contributors) {
-        this.setContributors(contributors);
-        return this;
-    }
-
-    public Song addContributor(Contributor contributor) {
-        this.contributors.add(contributor);
-        contributor.setSong(this);
-        return this;
-    }
-
-    public Song removeContributor(Contributor contributor) {
-        this.contributors.remove(contributor);
-        contributor.setSong(null);
-        return this;
-    }
-
     public Set<SpotifyGenreEntity> getSpotifyGenreEntities() {
         return this.spotifyGenreEntities;
     }
@@ -525,6 +499,31 @@ public class Song implements Serializable {
     public Song removeMusicbrainzGenreEntity(MusicbrainzGenreEntity musicbrainzGenreEntity) {
         this.musicbrainzGenreEntities.remove(musicbrainzGenreEntity);
         musicbrainzGenreEntity.setSong(null);
+        return this;
+    }
+
+    public Set<Contributor> getContributors() {
+        return this.contributors;
+    }
+
+    public void setContributors(Set<Contributor> contributors) {
+        this.contributors = contributors;
+    }
+
+    public Song contributors(Set<Contributor> contributors) {
+        this.setContributors(contributors);
+        return this;
+    }
+
+    public Song addContributor(Contributor contributor) {
+        this.contributors.add(contributor);
+        contributor.getSongs().add(this);
+        return this;
+    }
+
+    public Song removeContributor(Contributor contributor) {
+        this.contributors.remove(contributor);
+        contributor.getSongs().remove(this);
         return this;
     }
 

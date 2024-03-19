@@ -47,6 +47,42 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_userImageLarge">User Image Large</label>
+          <input
+            type="text"
+            class="form-control"
+            name="userImageLarge"
+            id="field_userImageLarge"
+            data-cy="userImageLarge"
+            formControlName="userImageLarge"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_userImageMedium">User Image Medium</label>
+          <input
+            type="text"
+            class="form-control"
+            name="userImageMedium"
+            id="field_userImageMedium"
+            data-cy="userImageMedium"
+            formControlName="userImageMedium"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_userImageSmall">User Image Small</label>
+          <input
+            type="text"
+            class="form-control"
+            name="userImageSmall"
+            id="field_userImageSmall"
+            data-cy="userImageSmall"
+            formControlName="userImageSmall"
+          />
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_spotifyRefreshToken">Spotify Refresh Token</label>
           <input
             type="text"
@@ -154,10 +190,35 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_darkMode">Dark Mode</label>
-          <input type="checkbox" class="form-check" name="darkMode" id="field_darkMode" data-cy="darkMode" formControlName="darkMode" />
-          <div *ngIf="editForm.get('darkMode')!.invalid && (editForm.get('darkMode')!.dirty || editForm.get('darkMode')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('darkMode')?.errors?.required"> This field is required. </small>
+          <label class="form-label" for="field_highContrastMode">High Contrast Mode</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="highContrastMode"
+            id="field_highContrastMode"
+            data-cy="highContrastMode"
+            formControlName="highContrastMode"
+          />
+          <div
+            *ngIf="
+              editForm.get('highContrastMode')!.invalid &&
+              (editForm.get('highContrastMode')!.dirty || editForm.get('highContrastMode')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('highContrastMode')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_textSize">Text Size</label>
+          <input type="number" class="form-control" name="textSize" id="field_textSize" data-cy="textSize" formControlName="textSize" />
+          <div *ngIf="editForm.get('textSize')!.invalid && (editForm.get('textSize')!.dirty || editForm.get('textSize')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('textSize')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('textSize')?.errors?.number">
+              This field should be a number.
+            </small>
           </div>
         </div>
 

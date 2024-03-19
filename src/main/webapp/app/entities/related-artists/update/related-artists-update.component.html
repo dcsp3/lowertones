@@ -1,0 +1,494 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-related-artists-heading" data-cy="RelatedArtistsCreateUpdateHeading">Create or edit a Related Artists</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_mainArtistSptfyID">Main Artist Sptfy ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mainArtistSptfyID"
+            id="field_mainArtistSptfyID"
+            data-cy="mainArtistSptfyID"
+            formControlName="mainArtistSptfyID"
+          />
+          <div
+            *ngIf="
+              editForm.get('mainArtistSptfyID')!.invalid &&
+              (editForm.get('mainArtistSptfyID')!.dirty || editForm.get('mainArtistSptfyID')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('mainArtistSptfyID')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID1">Related Artist Spotify ID 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID1"
+            id="field_relatedArtistSpotifyID1"
+            data-cy="relatedArtistSpotifyID1"
+            formControlName="relatedArtistSpotifyID1"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID1')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID1')!.dirty || editForm.get('relatedArtistSpotifyID1')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID1')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID2">Related Artist Spotify ID 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID2"
+            id="field_relatedArtistSpotifyID2"
+            data-cy="relatedArtistSpotifyID2"
+            formControlName="relatedArtistSpotifyID2"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID2')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID2')!.dirty || editForm.get('relatedArtistSpotifyID2')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID2')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID3">Related Artist Spotify ID 3</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID3"
+            id="field_relatedArtistSpotifyID3"
+            data-cy="relatedArtistSpotifyID3"
+            formControlName="relatedArtistSpotifyID3"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID3')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID3')!.dirty || editForm.get('relatedArtistSpotifyID3')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID3')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID4">Related Artist Spotify ID 4</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID4"
+            id="field_relatedArtistSpotifyID4"
+            data-cy="relatedArtistSpotifyID4"
+            formControlName="relatedArtistSpotifyID4"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID4')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID4')!.dirty || editForm.get('relatedArtistSpotifyID4')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID4')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID5">Related Artist Spotify ID 5</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID5"
+            id="field_relatedArtistSpotifyID5"
+            data-cy="relatedArtistSpotifyID5"
+            formControlName="relatedArtistSpotifyID5"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID5')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID5')!.dirty || editForm.get('relatedArtistSpotifyID5')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID5')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID6">Related Artist Spotify ID 6</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID6"
+            id="field_relatedArtistSpotifyID6"
+            data-cy="relatedArtistSpotifyID6"
+            formControlName="relatedArtistSpotifyID6"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID6')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID6')!.dirty || editForm.get('relatedArtistSpotifyID6')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID6')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID7">Related Artist Spotify ID 7</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID7"
+            id="field_relatedArtistSpotifyID7"
+            data-cy="relatedArtistSpotifyID7"
+            formControlName="relatedArtistSpotifyID7"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID7')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID7')!.dirty || editForm.get('relatedArtistSpotifyID7')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID7')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID8">Related Artist Spotify ID 8</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID8"
+            id="field_relatedArtistSpotifyID8"
+            data-cy="relatedArtistSpotifyID8"
+            formControlName="relatedArtistSpotifyID8"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID8')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID8')!.dirty || editForm.get('relatedArtistSpotifyID8')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID8')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID9">Related Artist Spotify ID 9</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID9"
+            id="field_relatedArtistSpotifyID9"
+            data-cy="relatedArtistSpotifyID9"
+            formControlName="relatedArtistSpotifyID9"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID9')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID9')!.dirty || editForm.get('relatedArtistSpotifyID9')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID9')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID10">Related Artist Spotify ID 10</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID10"
+            id="field_relatedArtistSpotifyID10"
+            data-cy="relatedArtistSpotifyID10"
+            formControlName="relatedArtistSpotifyID10"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID10')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID10')!.dirty || editForm.get('relatedArtistSpotifyID10')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID10')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID11">Related Artist Spotify ID 11</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID11"
+            id="field_relatedArtistSpotifyID11"
+            data-cy="relatedArtistSpotifyID11"
+            formControlName="relatedArtistSpotifyID11"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID11')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID11')!.dirty || editForm.get('relatedArtistSpotifyID11')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID11')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID12">Related Artist Spotify ID 12</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID12"
+            id="field_relatedArtistSpotifyID12"
+            data-cy="relatedArtistSpotifyID12"
+            formControlName="relatedArtistSpotifyID12"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID12')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID12')!.dirty || editForm.get('relatedArtistSpotifyID12')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID12')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID13">Related Artist Spotify ID 13</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID13"
+            id="field_relatedArtistSpotifyID13"
+            data-cy="relatedArtistSpotifyID13"
+            formControlName="relatedArtistSpotifyID13"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID13')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID13')!.dirty || editForm.get('relatedArtistSpotifyID13')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID13')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID14">Related Artist Spotify ID 14</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID14"
+            id="field_relatedArtistSpotifyID14"
+            data-cy="relatedArtistSpotifyID14"
+            formControlName="relatedArtistSpotifyID14"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID14')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID14')!.dirty || editForm.get('relatedArtistSpotifyID14')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID14')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID15">Related Artist Spotify ID 15</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID15"
+            id="field_relatedArtistSpotifyID15"
+            data-cy="relatedArtistSpotifyID15"
+            formControlName="relatedArtistSpotifyID15"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID15')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID15')!.dirty || editForm.get('relatedArtistSpotifyID15')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID15')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID16">Related Artist Spotify ID 16</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID16"
+            id="field_relatedArtistSpotifyID16"
+            data-cy="relatedArtistSpotifyID16"
+            formControlName="relatedArtistSpotifyID16"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID16')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID16')!.dirty || editForm.get('relatedArtistSpotifyID16')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID16')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID17">Related Artist Spotify ID 17</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID17"
+            id="field_relatedArtistSpotifyID17"
+            data-cy="relatedArtistSpotifyID17"
+            formControlName="relatedArtistSpotifyID17"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID17')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID17')!.dirty || editForm.get('relatedArtistSpotifyID17')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID17')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID18">Related Artist Spotify ID 18</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID18"
+            id="field_relatedArtistSpotifyID18"
+            data-cy="relatedArtistSpotifyID18"
+            formControlName="relatedArtistSpotifyID18"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID18')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID18')!.dirty || editForm.get('relatedArtistSpotifyID18')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID18')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID19">Related Artist Spotify ID 19</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID19"
+            id="field_relatedArtistSpotifyID19"
+            data-cy="relatedArtistSpotifyID19"
+            formControlName="relatedArtistSpotifyID19"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID19')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID19')!.dirty || editForm.get('relatedArtistSpotifyID19')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID19')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_relatedArtistSpotifyID20">Related Artist Spotify ID 20</label>
+          <input
+            type="text"
+            class="form-control"
+            name="relatedArtistSpotifyID20"
+            id="field_relatedArtistSpotifyID20"
+            data-cy="relatedArtistSpotifyID20"
+            formControlName="relatedArtistSpotifyID20"
+          />
+          <div
+            *ngIf="
+              editForm.get('relatedArtistSpotifyID20')!.invalid &&
+              (editForm.get('relatedArtistSpotifyID20')!.dirty || editForm.get('relatedArtistSpotifyID20')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('relatedArtistSpotifyID20')?.errors?.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

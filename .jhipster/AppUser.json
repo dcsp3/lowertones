@@ -21,6 +21,18 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "userImageLarge",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "userImageMedium",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "userImageSmall",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "spotifyRefreshToken",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
@@ -47,8 +59,13 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "darkMode",
+      "fieldName": "highContrastMode",
       "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "textSize",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     }
   ],

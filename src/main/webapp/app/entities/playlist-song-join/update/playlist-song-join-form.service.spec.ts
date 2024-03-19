@@ -21,6 +21,7 @@ describe('PlaylistSongJoin Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             songOrderIndex: expect.any(Object),
+            songDateAdded: expect.any(Object),
             playlist: expect.any(Object),
             song: expect.any(Object),
           })
@@ -34,6 +35,7 @@ describe('PlaylistSongJoin Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             songOrderIndex: expect.any(Object),
+            songDateAdded: expect.any(Object),
             playlist: expect.any(Object),
             song: expect.any(Object),
           })

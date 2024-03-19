@@ -44,6 +44,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="songDateAdded">
+            <div class="d-flex">
+              <span>Song Date Added</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="playlist.id">
             <div class="d-flex">
               <span>Playlist</span>
@@ -65,6 +71,7 @@
             <a [routerLink]="['/playlist-song-join', playlistSongJoin.id, 'view']">{{ playlistSongJoin.id }}</a>
           </td>
           <td>{{ playlistSongJoin.songOrderIndex }}</td>
+          <td>{{ playlistSongJoin.songDateAdded | formatMediumDate }}</td>
           <td>
             <div *ngIf="playlistSongJoin.playlist">
               <a [routerLink]="['/playlist', playlistSongJoin.playlist.id, 'view']">{{ playlistSongJoin.playlist.id }}</a>

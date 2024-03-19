@@ -30,12 +30,6 @@
         <dd>
           <span>{{ contributor.musicbrainzID }}</span>
         </dd>
-        <dt><span>Song</span></dt>
-        <dd>
-          <div *ngIf="contributor.song">
-            <a [routerLink]="['/song', contributor.song.id, 'view']">{{ contributor.song.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -23,7 +23,13 @@
             <column name="artist_popularity" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="artist_image" type="varchar(255)">
+            <column name="artist_image_small" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="artist_image_medium" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="artist_image_large" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="artist_followers" type="integer">
@@ -34,6 +40,9 @@
             </column>
             <column name="date_last_modified" type="date">
                 <constraints nullable="true" />
+            </column>
+            <column name="related_artists_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_artists_table__related_artists_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -59,7 +68,9 @@
             <column name="artist_spotify_id" type="string"/>
             <column name="artist_name" type="string"/>
             <column name="artist_popularity" type="numeric"/>
-            <column name="artist_image" type="string"/>
+            <column name="artist_image_small" type="string"/>
+            <column name="artist_image_medium" type="string"/>
+            <column name="artist_image_large" type="string"/>
             <column name="artist_followers" type="numeric"/>
             <column name="date_added_to_db" type="date"/>
             <column name="date_last_modified" type="date"/>

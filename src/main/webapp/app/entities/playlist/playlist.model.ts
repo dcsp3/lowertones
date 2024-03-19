@@ -7,7 +7,10 @@ export interface IPlaylist {
   dateLastModified?: dayjs.Dayjs | null;
   playlistSpotifyID?: string | null;
   playlistName?: string | null;
-  playlistPhoto?: string | null;
+  playlistSnapshotID?: string | null;
+  playlistImageLarge?: string | null;
+  playlistImageMedium?: string | null;
+  playlistImageSmall?: string | null;
   appUser?: Pick<IAppUser, 'id'> | null;
 }
 

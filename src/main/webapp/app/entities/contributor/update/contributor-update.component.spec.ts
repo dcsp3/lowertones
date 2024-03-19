@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { ContributorFormService } from './contributor-form.service';
 import { ContributorService } from '../service/contributor.service';
 import { IContributor } from '../contributor.model';
-import { ISong } from 'app/entities/song/song.model';
-import { SongService } from 'app/entities/song/service/song.service';
 
 import { ContributorUpdateComponent } from './contributor-update.component';
 
@@ -20,7 +18,6 @@ describe('Contributor Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let contributorFormService: ContributorFormService;
   let contributorService: ContributorService;
-  let songService: SongService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +40,17 @@ describe('Contributor Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     contributorFormService = TestBed.inject(ContributorFormService);
     contributorService = TestBed.inject(ContributorService);
-    songService = TestBed.inject(SongService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Song query and add missing value', () => {
-      const contributor: IContributor = { id: 456 };
-      const song: ISong = { id: 66087 };
-      contributor.song = song;
-
-      const songCollection: ISong[] = [{ id: 57635 }];
-      jest.spyOn(songService, 'query').mockReturnValue(of(new HttpResponse({ body: songCollection })));
-      const additionalSongs = [song];
-      const expectedCollection: ISong[] = [...additionalSongs, ...songCollection];
-      jest.spyOn(songService, 'addSongToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ contributor });
-      comp.ngOnInit();
-
-      expect(songService.query).toHaveBeenCalled();
-      expect(songService.addSongToCollectionIfMissing).toHaveBeenCalledWith(
-        songCollection,
-        ...additionalSongs.map(expect.objectContaining)
-      );
-      expect(comp.songsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const contributor: IContributor = { id: 456 };
-      const song: ISong = { id: 1098 };
-      contributor.song = song;
 
       activatedRoute.data = of({ contributor });
       comp.ngOnInit();
 
-      expect(comp.songsSharedCollection).toContain(song);
       expect(comp.contributor).toEqual(contributor);
     });
   });
@@ -149,18 +120,6 @@ describe('Contributor Management Update Component', () => {
       expect(contributorService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareSong', () => {
-      it('Should forward to songService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(songService, 'compareSong');
-        comp.compareSong(entity, entity2);
-        expect(songService.compareSong).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

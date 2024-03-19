@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ContributorFormGroupInput = IContributor | PartialWithRequiredKeyOf<NewContributor>;
 
-type ContributorFormDefaults = Pick<NewContributor, 'id'>;
+type ContributorFormDefaults = Pick<NewContributor, 'id' | 'songs'>;
 
 type ContributorFormGroupContent = {
   id: FormControl<IContributor['id'] | NewContributor['id']>;
@@ -22,7 +22,7 @@ type ContributorFormGroupContent = {
   role: FormControl<IContributor['role']>;
   instrument: FormControl<IContributor['instrument']>;
   musicbrainzID: FormControl<IContributor['musicbrainzID']>;
-  song: FormControl<IContributor['song']>;
+  songs: FormControl<IContributor['songs']>;
 };
 
 export type ContributorFormGroup = FormGroup<ContributorFormGroupContent>;
@@ -46,7 +46,7 @@ export class ContributorFormService {
       role: new FormControl(contributorRawValue.role),
       instrument: new FormControl(contributorRawValue.instrument),
       musicbrainzID: new FormControl(contributorRawValue.musicbrainzID),
-      song: new FormControl(contributorRawValue.song),
+      songs: new FormControl(contributorRawValue.songs ?? []),
     });
   }
 
@@ -67,6 +67,7 @@ export class ContributorFormService {
   private getFormDefaults(): ContributorFormDefaults {
     return {
       id: null,
+      songs: [],
     };
   }
 }

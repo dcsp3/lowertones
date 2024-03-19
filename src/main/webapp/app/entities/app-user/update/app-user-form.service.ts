@@ -14,19 +14,23 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AppUserFormGroupInput = IAppUser | PartialWithRequiredKeyOf<NewAppUser>;
 
-type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'darkMode'>;
+type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'highContrastMode'>;
 
 type AppUserFormGroupContent = {
   id: FormControl<IAppUser['id'] | NewAppUser['id']>;
   spotifyUserID: FormControl<IAppUser['spotifyUserID']>;
   name: FormControl<IAppUser['name']>;
   email: FormControl<IAppUser['email']>;
+  userImageLarge: FormControl<IAppUser['userImageLarge']>;
+  userImageMedium: FormControl<IAppUser['userImageMedium']>;
+  userImageSmall: FormControl<IAppUser['userImageSmall']>;
   spotifyRefreshToken: FormControl<IAppUser['spotifyRefreshToken']>;
   spotifyAuthToken: FormControl<IAppUser['spotifyAuthToken']>;
   lastLoginDate: FormControl<IAppUser['lastLoginDate']>;
   discoverWeeklyBufferSettings: FormControl<IAppUser['discoverWeeklyBufferSettings']>;
   discoverWeeklyBufferPlaylistID: FormControl<IAppUser['discoverWeeklyBufferPlaylistID']>;
-  darkMode: FormControl<IAppUser['darkMode']>;
+  highContrastMode: FormControl<IAppUser['highContrastMode']>;
+  textSize: FormControl<IAppUser['textSize']>;
   user: FormControl<IAppUser['user']>;
 };
 
@@ -56,6 +60,9 @@ export class AppUserFormService {
       email: new FormControl(appUserRawValue.email, {
         validators: [Validators.required],
       }),
+      userImageLarge: new FormControl(appUserRawValue.userImageLarge),
+      userImageMedium: new FormControl(appUserRawValue.userImageMedium),
+      userImageSmall: new FormControl(appUserRawValue.userImageSmall),
       spotifyRefreshToken: new FormControl(appUserRawValue.spotifyRefreshToken, {
         validators: [Validators.maxLength(1000)],
       }),
@@ -69,7 +76,10 @@ export class AppUserFormService {
         validators: [Validators.required],
       }),
       discoverWeeklyBufferPlaylistID: new FormControl(appUserRawValue.discoverWeeklyBufferPlaylistID),
-      darkMode: new FormControl(appUserRawValue.darkMode, {
+      highContrastMode: new FormControl(appUserRawValue.highContrastMode, {
+        validators: [Validators.required],
+      }),
+      textSize: new FormControl(appUserRawValue.textSize, {
         validators: [Validators.required],
       }),
       user: new FormControl(appUserRawValue.user),
@@ -93,7 +103,7 @@ export class AppUserFormService {
   private getFormDefaults(): AppUserFormDefaults {
     return {
       id: null,
-      darkMode: false,
+      highContrastMode: false,
     };
   }
 }

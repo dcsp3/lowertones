@@ -31,8 +31,9 @@
     {
       "otherEntityName": "song",
       "otherEntityRelationshipName": "contributor",
+      "ownerSide": false,
       "relationshipName": "song",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

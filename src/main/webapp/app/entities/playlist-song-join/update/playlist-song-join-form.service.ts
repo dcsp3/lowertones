@@ -19,6 +19,7 @@ type PlaylistSongJoinFormDefaults = Pick<NewPlaylistSongJoin, 'id'>;
 type PlaylistSongJoinFormGroupContent = {
   id: FormControl<IPlaylistSongJoin['id'] | NewPlaylistSongJoin['id']>;
   songOrderIndex: FormControl<IPlaylistSongJoin['songOrderIndex']>;
+  songDateAdded: FormControl<IPlaylistSongJoin['songDateAdded']>;
   playlist: FormControl<IPlaylistSongJoin['playlist']>;
   song: FormControl<IPlaylistSongJoin['song']>;
 };
@@ -41,6 +42,9 @@ export class PlaylistSongJoinFormService {
         }
       ),
       songOrderIndex: new FormControl(playlistSongJoinRawValue.songOrderIndex, {
+        validators: [Validators.required],
+      }),
+      songDateAdded: new FormControl(playlistSongJoinRawValue.songDateAdded, {
         validators: [Validators.required],
       }),
       playlist: new FormControl(playlistSongJoinRawValue.playlist),

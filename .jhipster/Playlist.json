@@ -26,7 +26,20 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "playlistPhoto",
+      "fieldName": "playlistSnapshotID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "playlistImageLarge",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "playlistImageMedium",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "playlistImageSmall",
       "fieldType": "String"
     }
   ],

@@ -102,6 +102,13 @@
         <dd>
           <span>{{ song.songDateLastModified | formatMediumDate }}</span>
         </dd>
+        <dt><span>Contributor</span></dt>
+        <dd>
+          <span *ngFor="let contributor of song.contributors; let last = last">
+            <a [routerLink]="['/contributor', contributor.id, 'view']">{{ contributor.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
         <dt><span>Album</span></dt>
         <dd>
           <div *ngIf="song.album">
