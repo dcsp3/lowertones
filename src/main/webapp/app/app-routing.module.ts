@@ -11,8 +11,8 @@ import { LinkSpotifyComponent } from 'app/link-spotify/link-spotify.component';
 import { NetworkComponent } from './network/network.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
-
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { PasswordComponent } from './account/password/password.component';
 
 @NgModule({
   imports: [
@@ -88,6 +88,13 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           component: GDPRComponent,
           data: {
             pageTitle: 'GDPR Policy',
+          },
+        },
+        {
+          path: 'password',
+          component: PasswordComponent,
+          data: {
+            pageTitle: 'Password',
           },
         },
         navbarRoute,

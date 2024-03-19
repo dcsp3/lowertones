@@ -7,14 +7,14 @@ import { Account } from 'app/core/auth/account.model';
 const initialAccount: Account = {} as Account;
 
 @Component({
-  selector: 'jhi-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  selector: 'jhi-preferences',
+  templateUrl: './preferences.component.html',
+  styleUrls: ['./preferences.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class PreferencesComponent implements OnInit {
   success = false;
 
-  settingsForm = new FormGroup({
+  nameForm = new FormGroup({
     firstName: new FormControl(initialAccount.firstName, {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
@@ -29,6 +29,16 @@ export class SettingsComponent implements OnInit {
     }),
     langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
 
+    currentPassword: new FormControl('', { nonNullable: true, validators: Validators.required }),
+    newPassword: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+    }),
+    confirmPassword: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+    }),
+
     activated: new FormControl(initialAccount.activated, { nonNullable: true }),
     authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
     imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
@@ -40,7 +50,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
-        this.settingsForm.patchValue(account);
+        this.nameForm.patchValue(account);
       }
     });
   }
@@ -48,7 +58,7 @@ export class SettingsComponent implements OnInit {
   save(): void {
     this.success = false;
 
-    const account = this.settingsForm.getRawValue();
+    const account = this.nameForm.getRawValue();
     this.accountService.save(account).subscribe(() => {
       this.success = true;
 
