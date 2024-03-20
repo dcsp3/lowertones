@@ -14,6 +14,20 @@ const initialAccount: Account = {} as Account;
 export class PreferencesComponent implements OnInit {
   success = false;
 
+  isHighContrastMode = false;
+
+  toggleHighContrast(): void {
+    // Toggle high contrast mode
+    this.isHighContrastMode = !this.isHighContrastMode;
+
+    // Apply styles for high contrast mode
+    if (this.isHighContrastMode) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+  }
+
   nameForm = new FormGroup({
     firstName: new FormControl(initialAccount.firstName, {
       nonNullable: true,
