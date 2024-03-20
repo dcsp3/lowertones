@@ -38,6 +38,7 @@
             "styles": [
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
+              "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/bootstrap4-dark-blue/theme.css"
             ],
             "scripts": []
