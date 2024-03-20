@@ -15,6 +15,7 @@ export class PreferencesComponent implements OnInit {
   success = false;
 
   isHighContrastMode = false;
+  isDiscoverWeeklyBuffer = false;
 
   toggleHighContrast(): void {
     // Toggle high contrast mode
@@ -26,6 +27,11 @@ export class PreferencesComponent implements OnInit {
     } else {
       document.body.classList.remove('high-contrast');
     }
+  }
+
+  toggleDiscoverWeeklyBuffer(): void {
+    // Toggle high contrast mode
+    this.isDiscoverWeeklyBuffer = !this.isDiscoverWeeklyBuffer;
   }
 
   nameForm = new FormGroup({

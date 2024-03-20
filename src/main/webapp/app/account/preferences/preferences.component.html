@@ -28,6 +28,23 @@
     </div>
     <br />
 
+    <h2>Discover Weekly Buffer</h2>
+    <div class="textWithInputField">
+      <label>Enable Discover Weekly Buffer</label>
+      <input type="checkbox" id="discoverWeeklyToggle" (change)="toggleDiscoverWeeklyBuffer()" />
+    </div>
+
+    <div class="textWithInputField">
+      <label>Buffer Style</label>
+      <select id="dropdown">
+        <option value="option1">Weekly</option>
+        <option value="option2">Monthly</option>
+        <option value="option3">All</option>
+      </select>
+    </div>
+
+    <br />
+
     <h2 *ngIf="nameForm.value.login">Account details</h2>
 
     <div class="alert alert-success" *ngIf="success">
