@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableviewComponent implements OnInit {
   songData: SongEntry[];
+  filteredSongData: SongEntry[] = [];
   jsonBlob: any;
 
   constructor() {
@@ -15,6 +16,21 @@ export class TableviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.genSongList();
+    this.filteredSongData = this.songData;
+  }
+
+  applyFilter(filterValue: string, property: keyof SongEntry) {
+    if (!filterValue) {
+      this.filteredSongData = this.songData; // No filter, show all data
+    } else {
+      this.filteredSongData = this.songData.filter(song => {
+        // Convert the property value to a string for comparison
+        const propertyValue = song[property];
+        // If the property value is null or undefined, treat it as an empty string
+        const valueString = propertyValue == null ? '' : propertyValue.toString();
+        return valueString.toLowerCase().includes(filterValue.toLowerCase());
+      });
+    }
   }
 
   genSongList(): void {

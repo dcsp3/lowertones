@@ -18,6 +18,11 @@
   position: relative;
 }
 
+.p-sortable-column:hover {
+  background: rgba(53, 63, 77, 1) !important;
+  cursor: pointer;
+}
+
 .tbv-divs {
   margin: 2px;
   flex: 1;

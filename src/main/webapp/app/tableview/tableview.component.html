@@ -4,20 +4,35 @@
 </div>
 <div id="tableview-wrapper">
   <div id="sidebar" class="tbv-divs">
-    <h2>Filter</h2>
-    <p>Lorem ipsum ...</p>
+    <h2>Filters</h2>
+    <input #titleFilter type="text" placeholder="Filter by title" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
+    <button (click)="applyFilter(titleFilter.value, 'title')">Apply</button>
+
+    <input #artistFilter type="text" placeholder="Filter by artist" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
+    <button (click)="applyFilter(artistFilter.value, 'artist')">Apply</button>
+
+    <input #explicitFilter type="text" placeholder="Filter by explicitness" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
+    <button (click)="applyFilter(explicitFilter.value, 'explicit')">Apply</button>
   </div>
   <div id="table-content" class="tbv-divs">
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
-    <p-table [value]="songData" [paginator]="true" [rows]="10" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table
+      [value]="filteredSongData"
+      [paginator]="true"
+      [rows]="10"
+      [resizableColumns]="true"
+      styleClass="p-datatable-striped"
+      sortMode="multiple"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
       <ng-template pTemplate="header">
         <tr>
-          <th>Title</th>
-          <th>Artist</th>
-          <th>Length</th>
-          <th>Release Date</th>
-          <th>Popularity</th>
-          <th>Explicit</th>
+          <th pResizableColumn pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+          <th pResizableColumn pSortableColumn="artist">Artist<p-sortIcon field="artist"></p-sortIcon></th>
+          <th pResizableColumn pSortableColumn="length">Length<p-sortIcon field="length"></p-sortIcon></th>
+          <th pResizableColumn pSortableColumn="release">Release Date<p-sortIcon field="release"></p-sortIcon></th>
+          <th pResizableColumn pSortableColumn="popularity">Popularity<p-sortIcon field="popularity"></p-sortIcon></th>
+          <th pResizableColumn pSortableColumn="explicit">Explicit<p-sortIcon field="explicit"></p-sortIcon></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-song>
