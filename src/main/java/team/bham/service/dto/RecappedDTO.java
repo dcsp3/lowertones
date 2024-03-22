@@ -1,6 +1,5 @@
 package team.bham.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.File;
 
 public class RecappedDTO {

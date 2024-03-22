@@ -159,7 +159,6 @@ relationship OneToOne {
 
 relationship OneToMany {
     Album to Song
-    MainArtist to Album
     AppUser to Playlist
 
     Song to SpotifyGenreEntity
@@ -179,6 +178,7 @@ relationship ManyToOne {
 }
 
 relationship ManyToMany {
+    MainArtist to Album
     Song to Contributor
 }
 
