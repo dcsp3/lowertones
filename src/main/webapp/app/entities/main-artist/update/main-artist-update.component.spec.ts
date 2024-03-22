@@ -11,6 +11,8 @@ import { MainArtistService } from '../service/main-artist.service';
 import { IMainArtist } from '../main-artist.model';
 import { IRelatedArtists } from 'app/entities/related-artists/related-artists.model';
 import { RelatedArtistsService } from 'app/entities/related-artists/service/related-artists.service';
+import { IAlbum } from 'app/entities/album/album.model';
+import { AlbumService } from 'app/entities/album/service/album.service';
 
 import { MainArtistUpdateComponent } from './main-artist-update.component';
 
@@ -21,6 +23,7 @@ describe('MainArtist Management Update Component', () => {
   let mainArtistFormService: MainArtistFormService;
   let mainArtistService: MainArtistService;
   let relatedArtistsService: RelatedArtistsService;
+  let albumService: AlbumService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +47,7 @@ describe('MainArtist Management Update Component', () => {
     mainArtistFormService = TestBed.inject(MainArtistFormService);
     mainArtistService = TestBed.inject(MainArtistService);
     relatedArtistsService = TestBed.inject(RelatedArtistsService);
+    albumService = TestBed.inject(AlbumService);
 
     comp = fixture.componentInstance;
   });
@@ -67,15 +71,40 @@ describe('MainArtist Management Update Component', () => {
       expect(comp.relatedArtistsCollection).toEqual(expectedCollection);
     });
 
+    it('Should call Album query and add missing value', () => {
+      const mainArtist: IMainArtist = { id: 456 };
+      const albums: IAlbum[] = [{ id: 79134 }];
+      mainArtist.albums = albums;
+
+      const albumCollection: IAlbum[] = [{ id: 98653 }];
+      jest.spyOn(albumService, 'query').mockReturnValue(of(new HttpResponse({ body: albumCollection })));
+      const additionalAlbums = [...albums];
+      const expectedCollection: IAlbum[] = [...additionalAlbums, ...albumCollection];
+      jest.spyOn(albumService, 'addAlbumToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ mainArtist });
+      comp.ngOnInit();
+
+      expect(albumService.query).toHaveBeenCalled();
+      expect(albumService.addAlbumToCollectionIfMissing).toHaveBeenCalledWith(
+        albumCollection,
+        ...additionalAlbums.map(expect.objectContaining)
+      );
+      expect(comp.albumsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const mainArtist: IMainArtist = { id: 456 };
       const relatedArtists: IRelatedArtists = { id: 50852 };
       mainArtist.relatedArtists = relatedArtists;
+      const album: IAlbum = { id: 68744 };
+      mainArtist.albums = [album];
 
       activatedRoute.data = of({ mainArtist });
       comp.ngOnInit();
 
       expect(comp.relatedArtistsCollection).toContain(relatedArtists);
+      expect(comp.albumsSharedCollection).toContain(album);
       expect(comp.mainArtist).toEqual(mainArtist);
     });
   });
@@ -156,6 +185,16 @@ describe('MainArtist Management Update Component', () => {
         jest.spyOn(relatedArtistsService, 'compareRelatedArtists');
         comp.compareRelatedArtists(entity, entity2);
         expect(relatedArtistsService.compareRelatedArtists).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareAlbum', () => {
+      it('Should forward to albumService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(albumService, 'compareAlbum');
+        comp.compareAlbum(entity, entity2);
+        expect(albumService.compareAlbum).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

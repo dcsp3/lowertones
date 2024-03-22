@@ -13,5 +13,17 @@
                                  constraintName="fk_artists_table__related_artists_id"
                                  referencedColumnNames="id"
                                  referencedTableName="related_artists"/>
+
+        <addForeignKeyConstraint baseColumnNames="artists_table_id"
+                                 baseTableName="rel_artists_table__album"
+                                 constraintName="fk_rel_artists_table__album__artists_table_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="artists_table"/>
+
+        <addForeignKeyConstraint baseColumnNames="album_id"
+                                 baseTableName="rel_artists_table__album"
+                                 constraintName="fk_rel_artists_table__album__album_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="album_table"/>
     </changeSet>
 </databaseChangeLog>

@@ -203,6 +203,21 @@
             </option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label for="field_albums">Album</label>
+          <select
+            class="form-control"
+            id="field_albums"
+            data-cy="album"
+            multiple
+            name="albums"
+            formControlName="albums"
+            [compareWith]="compareAlbum"
+          >
+            <option [ngValue]="albumOption" *ngFor="let albumOption of albumsSharedCollection">{{ albumOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

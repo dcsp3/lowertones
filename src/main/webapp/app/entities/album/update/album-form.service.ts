@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AlbumFormGroupInput = IAlbum | PartialWithRequiredKeyOf<NewAlbum>;
 
-type AlbumFormDefaults = Pick<NewAlbum, 'id' | 'musicbrainzMetadataAdded'>;
+type AlbumFormDefaults = Pick<NewAlbum, 'id' | 'musicbrainzMetadataAdded' | 'mainArtists'>;
 
 type AlbumFormGroupContent = {
   id: FormControl<IAlbum['id'] | NewAlbum['id']>;
@@ -32,7 +32,7 @@ type AlbumFormGroupContent = {
   dateLastModified: FormControl<IAlbum['dateLastModified']>;
   musicbrainzMetadataAdded: FormControl<IAlbum['musicbrainzMetadataAdded']>;
   musicbrainzID: FormControl<IAlbum['musicbrainzID']>;
-  mainArtist: FormControl<IAlbum['mainArtist']>;
+  mainArtists: FormControl<IAlbum['mainArtists']>;
 };
 
 export type AlbumFormGroup = FormGroup<AlbumFormGroupContent>;
@@ -86,7 +86,7 @@ export class AlbumFormService {
         validators: [Validators.required],
       }),
       musicbrainzID: new FormControl(albumRawValue.musicbrainzID),
-      mainArtist: new FormControl(albumRawValue.mainArtist),
+      mainArtists: new FormControl(albumRawValue.mainArtists ?? []),
     });
   }
 
@@ -108,6 +108,7 @@ export class AlbumFormService {
     return {
       id: null,
       musicbrainzMetadataAdded: false,
+      mainArtists: [],
     };
   }
 }

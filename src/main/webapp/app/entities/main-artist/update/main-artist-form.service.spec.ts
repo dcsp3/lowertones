@@ -30,6 +30,7 @@ describe('MainArtist Form Service', () => {
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
             relatedArtists: expect.any(Object),
+            albums: expect.any(Object),
           })
         );
       });
@@ -50,6 +51,7 @@ describe('MainArtist Form Service', () => {
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
             relatedArtists: expect.any(Object),
+            albums: expect.any(Object),
           })
         );
       });

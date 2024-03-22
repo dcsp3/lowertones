@@ -101,12 +101,13 @@ public class Album implements Serializable {
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
     private Set<MusicbrainzGenreEntity> musicbrainzGenreEntities = new HashSet<>();
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "albums")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "relatedArtists", "albums", "spotifyGenreEntities", "musicbrainzGenreEntities", "songArtistJoins" },
+        value = { "relatedArtists", "spotifyGenreEntities", "musicbrainzGenreEntities", "albums", "songArtistJoins" },
         allowSetters = true
     )
-    private MainArtist mainArtist;
+    private Set<MainArtist> mainArtists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -398,16 +399,34 @@ public class Album implements Serializable {
         return this;
     }
 
-    public MainArtist getMainArtist() {
-        return this.mainArtist;
+    public Set<MainArtist> getMainArtists() {
+        return this.mainArtists;
     }
 
-    public void setMainArtist(MainArtist mainArtist) {
-        this.mainArtist = mainArtist;
+    public void setMainArtists(Set<MainArtist> mainArtists) {
+        if (this.mainArtists != null) {
+            this.mainArtists.forEach(i -> i.removeAlbum(this));
+        }
+        if (mainArtists != null) {
+            mainArtists.forEach(i -> i.addAlbum(this));
+        }
+        this.mainArtists = mainArtists;
     }
 
-    public Album mainArtist(MainArtist mainArtist) {
-        this.setMainArtist(mainArtist);
+    public Album mainArtists(Set<MainArtist> mainArtists) {
+        this.setMainArtists(mainArtists);
+        return this;
+    }
+
+    public Album addMainArtist(MainArtist mainArtist) {
+        this.mainArtists.add(mainArtist);
+        mainArtist.getAlbums().add(this);
+        return this;
+    }
+
+    public Album removeMainArtist(MainArtist mainArtist) {
+        this.mainArtists.remove(mainArtist);
+        mainArtist.getAlbums().remove(this);
         return this;
     }
 

@@ -166,12 +166,17 @@ public class MainArtistResource {
     /**
      * {@code GET  /main-artists} : get all the mainArtists.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mainArtists in body.
      */
     @GetMapping("/main-artists")
-    public List<MainArtist> getAllMainArtists() {
+    public List<MainArtist> getAllMainArtists(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all MainArtists");
-        return mainArtistRepository.findAll();
+        if (eagerload) {
+            return mainArtistRepository.findAllWithEagerRelationships();
+        } else {
+            return mainArtistRepository.findAll();
+        }
     }
 
     /**
@@ -183,7 +188,7 @@ public class MainArtistResource {
     @GetMapping("/main-artists/{id}")
     public ResponseEntity<MainArtist> getMainArtist(@PathVariable Long id) {
         log.debug("REST request to get MainArtist : {}", id);
-        Optional<MainArtist> mainArtist = mainArtistRepository.findById(id);
+        Optional<MainArtist> mainArtist = mainArtistRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(mainArtist);
     }
 

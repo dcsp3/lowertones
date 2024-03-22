@@ -62,12 +62,6 @@
       "relationshipType": "one-to-one"
     },
     {
-      "otherEntityName": "album",
-      "otherEntityRelationshipName": "mainArtist",
-      "relationshipName": "album",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "spotifyGenreEntity",
       "otherEntityRelationshipName": "mainArtist",
       "relationshipName": "spotifyGenreEntity",
@@ -78,6 +72,13 @@
       "otherEntityRelationshipName": "mainArtist",
       "relationshipName": "musicbrainzGenreEntity",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "album",
+      "otherEntityRelationshipName": "mainArtist",
+      "ownerSide": true,
+      "relationshipName": "album",
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "songArtistJoin",

@@ -70,12 +70,6 @@
         <dd>
           <span>{{ album.musicbrainzID }}</span>
         </dd>
-        <dt><span>Main Artist</span></dt>
-        <dd>
-          <div *ngIf="album.mainArtist">
-            <a [routerLink]="['/main-artist', album.mainArtist.id, 'view']">{{ album.mainArtist.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

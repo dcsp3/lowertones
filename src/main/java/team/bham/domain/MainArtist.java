@@ -67,11 +67,6 @@ public class MainArtist implements Serializable {
 
     @OneToMany(mappedBy = "mainArtist")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "songs", "spotifyGenreEntities", "musicbrainzGenreEntities", "mainArtist" }, allowSetters = true)
-    private Set<Album> albums = new HashSet<>();
-
-    @OneToMany(mappedBy = "mainArtist")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
     private Set<SpotifyGenreEntity> spotifyGenreEntities = new HashSet<>();
 
@@ -79,6 +74,16 @@ public class MainArtist implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
     private Set<MusicbrainzGenreEntity> musicbrainzGenreEntities = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_artists_table__album",
+        joinColumns = @JoinColumn(name = "artists_table_id"),
+        inverseJoinColumns = @JoinColumn(name = "album_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "songs", "spotifyGenreEntities", "musicbrainzGenreEntities", "mainArtists" }, allowSetters = true)
+    private Set<Album> albums = new HashSet<>();
 
     @OneToMany(mappedBy = "mainArtist")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -230,37 +235,6 @@ public class MainArtist implements Serializable {
         return this;
     }
 
-    public Set<Album> getAlbums() {
-        return this.albums;
-    }
-
-    public void setAlbums(Set<Album> albums) {
-        if (this.albums != null) {
-            this.albums.forEach(i -> i.setMainArtist(null));
-        }
-        if (albums != null) {
-            albums.forEach(i -> i.setMainArtist(this));
-        }
-        this.albums = albums;
-    }
-
-    public MainArtist albums(Set<Album> albums) {
-        this.setAlbums(albums);
-        return this;
-    }
-
-    public MainArtist addAlbum(Album album) {
-        this.albums.add(album);
-        album.setMainArtist(this);
-        return this;
-    }
-
-    public MainArtist removeAlbum(Album album) {
-        this.albums.remove(album);
-        album.setMainArtist(null);
-        return this;
-    }
-
     public Set<SpotifyGenreEntity> getSpotifyGenreEntities() {
         return this.spotifyGenreEntities;
     }
@@ -320,6 +294,31 @@ public class MainArtist implements Serializable {
     public MainArtist removeMusicbrainzGenreEntity(MusicbrainzGenreEntity musicbrainzGenreEntity) {
         this.musicbrainzGenreEntities.remove(musicbrainzGenreEntity);
         musicbrainzGenreEntity.setMainArtist(null);
+        return this;
+    }
+
+    public Set<Album> getAlbums() {
+        return this.albums;
+    }
+
+    public void setAlbums(Set<Album> albums) {
+        this.albums = albums;
+    }
+
+    public MainArtist albums(Set<Album> albums) {
+        this.setAlbums(albums);
+        return this;
+    }
+
+    public MainArtist addAlbum(Album album) {
+        this.albums.add(album);
+        album.getMainArtists().add(this);
+        return this;
+    }
+
+    public MainArtist removeAlbum(Album album) {
+        this.albums.remove(album);
+        album.getMainArtists().remove(this);
         return this;
     }
 

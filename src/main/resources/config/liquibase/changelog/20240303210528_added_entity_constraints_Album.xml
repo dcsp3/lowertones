@@ -6,12 +6,4 @@
     <!--
         Added the constraints for entity Album.
     -->
-    <changeSet id="20240303210528-2" author="jhipster">
-
-        <addForeignKeyConstraint baseColumnNames="main_artist_id"
-                                 baseTableName="album_table"
-                                 constraintName="fk_album_table__main_artist_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="artists_table"/>
-    </changeSet>
 </databaseChangeLog>

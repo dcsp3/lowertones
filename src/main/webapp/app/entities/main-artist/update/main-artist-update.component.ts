@@ -9,6 +9,8 @@ import { IMainArtist } from '../main-artist.model';
 import { MainArtistService } from '../service/main-artist.service';
 import { IRelatedArtists } from 'app/entities/related-artists/related-artists.model';
 import { RelatedArtistsService } from 'app/entities/related-artists/service/related-artists.service';
+import { IAlbum } from 'app/entities/album/album.model';
+import { AlbumService } from 'app/entities/album/service/album.service';
 
 @Component({
   selector: 'jhi-main-artist-update',
@@ -19,6 +21,7 @@ export class MainArtistUpdateComponent implements OnInit {
   mainArtist: IMainArtist | null = null;
 
   relatedArtistsCollection: IRelatedArtists[] = [];
+  albumsSharedCollection: IAlbum[] = [];
 
   editForm: MainArtistFormGroup = this.mainArtistFormService.createMainArtistFormGroup();
 
@@ -26,11 +29,14 @@ export class MainArtistUpdateComponent implements OnInit {
     protected mainArtistService: MainArtistService,
     protected mainArtistFormService: MainArtistFormService,
     protected relatedArtistsService: RelatedArtistsService,
+    protected albumService: AlbumService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareRelatedArtists = (o1: IRelatedArtists | null, o2: IRelatedArtists | null): boolean =>
     this.relatedArtistsService.compareRelatedArtists(o1, o2);
+
+  compareAlbum = (o1: IAlbum | null, o2: IAlbum | null): boolean => this.albumService.compareAlbum(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ mainArtist }) => {
@@ -84,6 +90,10 @@ export class MainArtistUpdateComponent implements OnInit {
       this.relatedArtistsCollection,
       mainArtist.relatedArtists
     );
+    this.albumsSharedCollection = this.albumService.addAlbumToCollectionIfMissing<IAlbum>(
+      this.albumsSharedCollection,
+      ...(mainArtist.albums ?? [])
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -99,5 +109,11 @@ export class MainArtistUpdateComponent implements OnInit {
         )
       )
       .subscribe((relatedArtists: IRelatedArtists[]) => (this.relatedArtistsCollection = relatedArtists));
+
+    this.albumService
+      .query()
+      .pipe(map((res: HttpResponse<IAlbum[]>) => res.body ?? []))
+      .pipe(map((albums: IAlbum[]) => this.albumService.addAlbumToCollectionIfMissing<IAlbum>(albums, ...(this.mainArtist?.albums ?? []))))
+      .subscribe((albums: IAlbum[]) => (this.albumsSharedCollection = albums));
   }
 }

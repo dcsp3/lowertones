@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IRelatedArtists } from 'app/entities/related-artists/related-artists.model';
+import { IAlbum } from 'app/entities/album/album.model';
 
 export interface IMainArtist {
   id: number;
@@ -13,6 +14,7 @@ export interface IMainArtist {
   dateAddedToDB?: dayjs.Dayjs | null;
   dateLastModified?: dayjs.Dayjs | null;
   relatedArtists?: Pick<IRelatedArtists, 'id'> | null;
+  albums?: Pick<IAlbum, 'id'>[] | null;
 }
 
 export type NewMainArtist = Omit<IMainArtist, 'id'> & { id: null };

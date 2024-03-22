@@ -34,7 +34,7 @@ describe('Album Form Service', () => {
             dateLastModified: expect.any(Object),
             musicbrainzMetadataAdded: expect.any(Object),
             musicbrainzID: expect.any(Object),
-            mainArtist: expect.any(Object),
+            mainArtists: expect.any(Object),
           })
         );
       });
@@ -59,7 +59,7 @@ describe('Album Form Service', () => {
             dateLastModified: expect.any(Object),
             musicbrainzMetadataAdded: expect.any(Object),
             musicbrainzID: expect.any(Object),
-            mainArtist: expect.any(Object),
+            mainArtists: expect.any(Object),
           })
         );
       });

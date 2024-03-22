@@ -101,8 +101,9 @@
     {
       "otherEntityName": "mainArtist",
       "otherEntityRelationshipName": "album",
+      "ownerSide": false,
       "relationshipName": "mainArtist",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

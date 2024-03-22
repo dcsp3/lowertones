@@ -56,6 +56,13 @@
             <a [routerLink]="['/related-artists', mainArtist.relatedArtists.id, 'view']">{{ mainArtist.relatedArtists.id }}</a>
           </div>
         </dd>
+        <dt><span>Album</span></dt>
+        <dd>
+          <span *ngFor="let album of mainArtist.albums; let last = last">
+            <a [routerLink]="['/album', album.id, 'view']">{{ album.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

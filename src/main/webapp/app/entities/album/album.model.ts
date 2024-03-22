@@ -19,7 +19,7 @@ export interface IAlbum {
   dateLastModified?: dayjs.Dayjs | null;
   musicbrainzMetadataAdded?: boolean | null;
   musicbrainzID?: string | null;
-  mainArtist?: Pick<IMainArtist, 'id'> | null;
+  mainArtists?: Pick<IMainArtist, 'id'>[] | null;
 }
 
 export type NewAlbum = Omit<IAlbum, 'id'> & { id: null };

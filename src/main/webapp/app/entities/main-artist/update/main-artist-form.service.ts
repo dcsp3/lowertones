@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type MainArtistFormGroupInput = IMainArtist | PartialWithRequiredKeyOf<NewMainArtist>;
 
-type MainArtistFormDefaults = Pick<NewMainArtist, 'id'>;
+type MainArtistFormDefaults = Pick<NewMainArtist, 'id' | 'albums'>;
 
 type MainArtistFormGroupContent = {
   id: FormControl<IMainArtist['id'] | NewMainArtist['id']>;
@@ -28,6 +28,7 @@ type MainArtistFormGroupContent = {
   dateAddedToDB: FormControl<IMainArtist['dateAddedToDB']>;
   dateLastModified: FormControl<IMainArtist['dateLastModified']>;
   relatedArtists: FormControl<IMainArtist['relatedArtists']>;
+  albums: FormControl<IMainArtist['albums']>;
 };
 
 export type MainArtistFormGroup = FormGroup<MainArtistFormGroupContent>;
@@ -69,6 +70,7 @@ export class MainArtistFormService {
       dateAddedToDB: new FormControl(mainArtistRawValue.dateAddedToDB),
       dateLastModified: new FormControl(mainArtistRawValue.dateLastModified),
       relatedArtists: new FormControl(mainArtistRawValue.relatedArtists),
+      albums: new FormControl(mainArtistRawValue.albums ?? []),
     });
   }
 
@@ -89,6 +91,7 @@ export class MainArtistFormService {
   private getFormDefaults(): MainArtistFormDefaults {
     return {
       id: null,
+      albums: [],
     };
   }
 }
