@@ -15,6 +15,10 @@ stages:
 before_script:
   - export NG_CLI_ANALYTICS="false"
   - export MAVEN_USER_HOME=`pwd`/.maven
+  - echo $GOOGLE_APPLICATION_CREDENTIALS_CONTENT > /tmp/gcloud.json
+  - export GOOGLE_APPLICATION_CREDENTIALS='/tmp/gcloud.json'
+  - apt-get update && apt-get install -y python3 python3-pip
+  - pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 nohttp:
   stage: check
@@ -24,6 +28,7 @@ nohttp:
 maven-compile:
   stage: build
   script:
+    - python3 src\main\resources\config\DB_Downloader.py
     - ./mvnw -ntp compile -P-webapp -Dmaven.repo.local=$MAVEN_USER_HOME
   artifacts:
     paths:
