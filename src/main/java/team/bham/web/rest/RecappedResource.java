@@ -12,7 +12,7 @@ import team.bham.service.dto.RecappedDTO;
 import team.bham.service.dto.RecappedRequest;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/recapped")
 public class RecappedResource {
 
     private final RecappedService recappedService;
