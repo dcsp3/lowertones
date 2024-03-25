@@ -27,7 +27,7 @@ nohttp:
 maven-compile:
   stage: build
   script:
-    - echo $GOOGLE_APPLICATION_CREDENTIALS_CONTENT > /tmp/gcloud.json
+    - cat $GOOGLE_APPLICATION_CREDENTIALS_CONTENT > /tmp/gcloud.json
     - export GOOGLE_APPLICATION_CREDENTIALS='/tmp/gcloud.json'
     - cat /tmp/gcloud.json
     - echo "works"
