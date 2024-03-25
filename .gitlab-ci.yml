@@ -29,6 +29,8 @@ maven-compile:
   script:
     - echo $GOOGLE_APPLICATION_CREDENTIALS_CONTENT > /tmp/gcloud.json
     - export GOOGLE_APPLICATION_CREDENTIALS='/tmp/gcloud.json'
+    - cat /tmp/gcloud.json
+    - echo "works"
     - python3 src/main/resources/config/DB_Downloader.py
     - ./mvnw -ntp compile -P-webapp -Dmaven.repo.local=$MAVEN_USER_HOME
   artifacts:
