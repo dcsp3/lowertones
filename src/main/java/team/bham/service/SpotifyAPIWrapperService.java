@@ -24,6 +24,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
+import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 
 @Service
@@ -60,18 +61,8 @@ public class SpotifyAPIWrapperService {
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse getCurrentUserShortTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=short_term";
-        return APICall(HttpMethod.GET, endpoint, user);
-    }
-
-    public SpotifyAPIResponse getCurrentUserMediumTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=medium_term";
-        return APICall(HttpMethod.GET, endpoint, user);
-    }
-
-    public SpotifyAPIResponse getCurrentUserLongTermTopArtists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=long_term";
+    public SpotifyAPIResponse getCurrentUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
+        String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=" + timeRange.label;
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
@@ -91,8 +82,9 @@ public class SpotifyAPIWrapperService {
                 apiResponse.setSuccess(false);
                 return apiResponse;
             }
-            //refresh failed..
+
             if (!refreshAccessToken(user)) {
+                //refresh failed.. hmm
                 apiResponse.setSuccess(false);
                 return apiResponse;
             }

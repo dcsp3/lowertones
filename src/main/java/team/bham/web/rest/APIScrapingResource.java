@@ -25,6 +25,7 @@ import team.bham.domain.AppUser;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -84,7 +85,7 @@ public class APIScrapingResource {
     @GetMapping("/top-artists-short-term")
     public ResponseEntity<List<Object>> getShortTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserShortTermTopArtists(appUser).getData();
+        JSONObject topArtists = apiWrapper.getCurrentUserTopArtists(appUser, SpotifyTimeRange.SHORT_TERM).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
@@ -117,7 +118,7 @@ public class APIScrapingResource {
     @GetMapping("/top-artists-medium-term")
     public ResponseEntity<List<Object>> getMediumTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserMediumTermTopArtists(appUser).getData();
+        JSONObject topArtists = apiWrapper.getCurrentUserTopArtists(appUser, SpotifyTimeRange.MEDIUM_TERM).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
@@ -150,7 +151,7 @@ public class APIScrapingResource {
     @GetMapping("/top-artists-long-term")
     public ResponseEntity<List<Object>> getLongTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserLongTermTopArtists(appUser).getData();
+        JSONObject topArtists = apiWrapper.getCurrentUserTopArtists(appUser, SpotifyTimeRange.LONG_TERM).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
