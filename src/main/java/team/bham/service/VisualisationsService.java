@@ -7,6 +7,7 @@ import team.bham.domain.AppUser;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.SpotifyAPIWrapperService;
 
 @Service
@@ -30,6 +31,6 @@ public class VisualisationsService {
         User user = userRepository.findOneByLogin(authentication.getName()).get();
         AppUser appUser = appUserRepository.findByUserId(user.getId()).get();
 
-        return spotifyAPIWrapperService.getCurrentUserShortTermTopArtists(appUser);
+        return spotifyAPIWrapperService.getCurrentUserShortTermTopArtists(appUser).getData();
     }
 }

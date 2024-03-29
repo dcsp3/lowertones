@@ -25,6 +25,7 @@ import team.bham.domain.AppUser;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -60,24 +61,30 @@ public class APIScrapingResource {
     @GetMapping("/get-user-details")
     public ResponseEntity<String> getUserID(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        return new ResponseEntity<>(apiWrapper.getUserDetails(appUser).toString(), HttpStatus.OK);
+        SpotifyAPIResponse response = apiWrapper.getUserDetails(appUser);
+        if (response.getSuccess()) {
+            return new ResponseEntity<>(response.getData().toString(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    //huge sham job - should be removed in the near future
+    //huge bodge job - should be removed in the near future
     @GetMapping("/playlist-tracks")
     public ResponseEntity<String> getPlaylistTracks(Authentication authentication) {
+        //handle errors here...
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser);
+        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
         JSONArray playlistItems = playlistInfo.getJSONArray("items");
         JSONObject firstPlaylist = playlistItems.getJSONObject(0);
-        JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id"));
+        JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id")).getData();
         return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/top-artists-short-term")
     public ResponseEntity<List<Object>> getShortTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserShortTermTopArtists(appUser);
+        JSONObject topArtists = apiWrapper.getCurrentUserShortTermTopArtists(appUser).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
@@ -110,7 +117,7 @@ public class APIScrapingResource {
     @GetMapping("/top-artists-medium-term")
     public ResponseEntity<List<Object>> getMediumTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserMediumTermTopArtists(appUser);
+        JSONObject topArtists = apiWrapper.getCurrentUserMediumTermTopArtists(appUser).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
@@ -143,7 +150,7 @@ public class APIScrapingResource {
     @GetMapping("/top-artists-long-term")
     public ResponseEntity<List<Object>> getLongTermTopArtists(Authentication authentication) {
         AppUser appUser = resolveAppUser(authentication.getName());
-        JSONObject topArtists = apiWrapper.getCurrentUserLongTermTopArtists(appUser);
+        JSONObject topArtists = apiWrapper.getCurrentUserLongTermTopArtists(appUser).getData();
         JSONArray artists = topArtists.getJSONArray("items");
 
         List<Object> result = new ArrayList<>();
@@ -211,7 +218,17 @@ public class APIScrapingResource {
             // AppUser not found, handle accordingly
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        boolean isLinked = appUser.getSpotifyRefreshToken() != null && !appUser.getSpotifyRefreshToken().isEmpty();
-        return new ResponseEntity<>(isLinked, HttpStatus.OK);
+
+        //no refresh - not linked
+        if (appUser.getSpotifyRefreshToken() == null || appUser.getSpotifyRefreshToken().isEmpty()) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+
+        //attempt dummy API call
+        SpotifyAPIResponse userDetails = apiWrapper.getUserDetails(appUser);
+
+        //call failing (i.e. success=false) implies user revoked access
+        //(or rate limit, need to handle that)
+        return new ResponseEntity<>(userDetails.getSuccess(), HttpStatus.OK);
     }
 }
