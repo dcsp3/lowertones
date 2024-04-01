@@ -1,5 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 
+//Depricated definitions for old advanced search
+
+/*
+interface SongEntry {
+  [key: string]: boolean | number | string;
+  selected: boolean;
+  title: string;
+  artist: string;
+  length: string;
+  explicit: boolean;
+  popularity: number;
+  release: string;
+}
+
+type Filter = { operator: string; value: string | boolean };
+*/
+
 @Component({
   selector: 'jhi-tableview',
   templateUrl: './tableview.component.html',
@@ -8,6 +25,8 @@ import { Component, OnInit } from '@angular/core';
 export class TableviewComponent implements OnInit {
   songData: SongEntry[];
   filteredSongData: SongEntry[] = [];
+  searchQuery: string = '';
+  searchType: string = 'both'; // Default to searching both titles and artists
   jsonBlob: any;
 
   constructor() {
@@ -18,6 +37,24 @@ export class TableviewComponent implements OnInit {
     this.genSongList();
     this.filteredSongData = this.songData;
   }
+
+  applySearch(): void {
+    this.filteredSongData = this.songData.filter(song => {
+      const query = this.searchQuery.toLowerCase();
+      const matchesTitle = song.title.toLowerCase().includes(query);
+      const matchesArtist = song.artist.toLowerCase().includes(query);
+
+      if (this.searchType === 'both') return matchesTitle || matchesArtist;
+      if (this.searchType === 'title') return matchesTitle;
+      if (this.searchType === 'artist') return matchesArtist;
+
+      return false; // Fallback case
+    });
+  }
+
+  //old code for side filters
+
+  /*
 
   applyFilter(filterValue: string, property: keyof SongEntry) {
     if (!filterValue) {
@@ -31,7 +68,76 @@ export class TableviewComponent implements OnInit {
         return valueString.toLowerCase().includes(filterValue.toLowerCase());
       });
     }
+  }*/
+
+  //code for advanced search
+
+  /*
+  applyAdvancedFilter(query: string): void {
+    const filters = this.parseQuery(query);
+    this.filteredSongData = this.songData.filter(song => 
+      Object.entries(filters).every(([key, {operator, value}]) => 
+        this.applyCondition(song[key], operator, value)
+      )
+    );
   }
+
+  parseQuery(query: string): Record<string, Filter> {
+    const regex = /(\w+):([^:\s]+)\s?/g;
+    let match;
+    const filters: Record<string, Filter> = {};
+    while ((match = regex.exec(query)) !== null) {
+      const [, field, value] = match;
+      let operator: string = '=';
+      let val: string | boolean = value;
+  
+      // Check if the value starts with an operator
+      if (value.match(/^([<>=])/)) {
+        operator = value[0];
+        val = value.substring(1);
+      }
+  
+      // Convert "true" or "false" to boolean values
+      if (val.toLowerCase() === 'true') {
+        val = true;
+      } else if (val.toLowerCase() === 'false') {
+        val = false;
+      }
+  
+      filters[field] = { operator, value: val };
+    }
+    return filters;
+  }
+  
+
+  applyCondition(songValue: string | number | boolean | undefined, operator: string, value: string | boolean): boolean {
+    // Check if songValue is undefined
+    if (typeof songValue === 'undefined') {
+      return false;
+    }
+  
+    // Handle comparison logic based on the type of songValue and value
+    if (typeof songValue === 'boolean' && typeof value === 'boolean') {
+      return operator === '=' ? songValue === value : false;
+    }
+  
+    // Assuming songValue is not boolean or undefined at this point,
+    // convert songValue to string for comparison with non-boolean values
+    let songValueStr = songValue.toString();
+  
+    // Continue with the existing comparison logic for strings and numbers,
+    // making sure to convert value to a string if it's not already
+    switch (operator) {
+      case '<': return parseFloat(songValueStr) < parseFloat(value.toString());
+      case '>': return parseFloat(songValueStr) > parseFloat(value.toString());
+      case '=': 
+        // For string comparison, ensure both are treated as strings
+        return songValueStr.toLowerCase().includes(value.toString().toLowerCase());
+      default: return false;
+    }
+  }
+  
+  */
 
   genSongList(): void {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
