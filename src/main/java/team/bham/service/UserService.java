@@ -213,6 +213,15 @@ public class UserService {
         return user;
     }
 
+    public AppUser resolveAppUser(String username) {
+        User user = userRepository
+            .findOneByLogin(username)
+            .orElseThrow(() -> new RuntimeException("User not found with login: " + username));
+        return appUserRepository
+            .findByUserId(user.getId())
+            .orElseThrow(() -> new RuntimeException("AppUser not found for user id: " + user.getId()));
+    }
+
     /**
      * Update all information for a specific user, and return the modified user.
      *
