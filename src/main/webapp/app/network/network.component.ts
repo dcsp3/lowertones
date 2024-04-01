@@ -1,6 +1,18 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
+interface Artist {
+  distance: number;
+  name: string;
+  id: string;
+  genres: string[];
+  imageUrl: string;
+}
+
+interface ApiResponse {
+  graphData: Artist[];
+}
+
 @Component({
   selector: 'jhi-network',
   templateUrl: './network.component.html',
@@ -13,48 +25,43 @@ export class NetworkComponent implements OnInit {
   topArtistImage: string = '';
   topArtistName: string = '';
   topGenre: string = '';
+  averagePopularity: string = '';
+  tasteCategory: string = '';
 
   ngOnInit(): void {
-    this.fetchAndRenderGraph(this.timeRange); // Fetch and render graph on component init
+    this.fetchAndRenderGraph(this.timeRange);
   }
 
-  fetchTopArtists(timeRange: string): Promise<any> {
-    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1); // Adjust as necessary for token format
+  fetchTopArtists(timeRange: string): Promise<Artist[]> {
+    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
-    // Adjust the request URL to your local endpoint that handles the top artists
-    const request: RequestInfo = new Request('/api/top-artists-' + timeRange, {
+    const request: RequestInfo = new Request(`/api/top-artists-${timeRange}`, {
       method: 'GET',
       headers: headers,
     });
 
     return fetch(request)
       .then(response => response.json())
-      .then(data => {
-        const topArtist = data[0]; // Get the first artist in the list
-        this.topArtistName = topArtist[1]; // Artist's name
-        this.topArtistImage = topArtist[4]; // Artist's image URL
+      .then((data: { graphData: Artist[]; stats: any }) => {
+        if (!data.graphData || data.graphData.length === 0) {
+          throw new Error('No artist data found');
+        }
 
-        // Assuming each artist's genres are now included in the data and is a list of strings
-        let genreCounts = new Map<string, number>();
-        data.forEach((artist: any) => {
-          artist[3].forEach((genre: string) => {
-            genreCounts.set(genre, (genreCounts.get(genre) || 0) + 1);
-          });
-        });
+        // Directly use the stats from the response
+        this.topArtistName = data.stats.topArtistName;
+        this.topArtistImage = data.stats.topArtistImage;
+        this.topGenre = data.stats.topGenre;
 
-        // Determine the top genre
-        let topGenreCount = 0;
-        genreCounts.forEach((count, genre) => {
-          if (count > topGenreCount) {
-            topGenreCount = count;
-            this.topGenre = genre;
-          }
-        });
+        this.averagePopularity = data.stats.averagePopularity;
+        this.tasteCategory = data.stats.tasteCategory;
 
-        return data;
+        return data.graphData;
       })
-      .catch(error => console.error('Error fetching top artists:', error));
+      .catch(error => {
+        console.error('Error fetching top artists:', error);
+        throw error;
+      });
   }
 
   fetchUserImage(): Promise<any> {
@@ -96,16 +103,10 @@ export class NetworkComponent implements OnInit {
 
   private async fetchAndRenderGraph(timeRange: string): Promise<void> {
     try {
-      // Clear the existing graph
       clearGraph(this.graphContainer.nativeElement);
-
-      // Get user image
       const userImageUrl = await this.fetchUserImage();
-
-      // Fetch new data
-      const data = await this.fetchTopArtists(timeRange);
-      const elements = getElements(data, userImageUrl);
-
+      const artistsData = await this.fetchTopArtists(timeRange);
+      const elements = getElements(artistsData, userImageUrl); // Ensure getElements accepts Artist[] as per the corrected structure
       renderGraph(this.graphContainer.nativeElement, 850, 600, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
