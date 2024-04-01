@@ -15,21 +15,33 @@ interface Link extends d3.SimulationLinkDatum<Node> {
   distance: number;
 }
 
-function getElements(termArray: [number, string, Array<string>, string, string][], userImg: string): { nodes: Node[]; links: Link[] } {
-  const nodes: Node[] = [
-    { id: 'user', type: 'user', img: userImg, rank: 0 }, // Assuming the user has rank 0 initially
-  ];
+interface Artist {
+  distance: number; // Assuming this maps to 'rank' in Node
+  name: string;
+  genres: string[];
+  imageUrl: string;
+  id: string;
+}
 
-  for (const [rank, artist, genres, id, img] of termArray) {
-    nodes.push({ id: artist, type: 'artist', img, rank });
+function getElements(artists: Artist[], userImg: string): { nodes: Node[]; links: Link[] } {
+  const nodes: Node[] = [{ id: 'user', type: 'user', img: userImg, rank: 0 }];
+
+  // Add artist nodes
+  for (const artist of artists) {
+    nodes.push({
+      id: artist.name, // Assuming the artist's name is unique enough for an ID; consider using artist.id if not
+      type: 'artist',
+      img: artist.imageUrl,
+      rank: artist.distance,
+    });
   }
 
-  const links: Link[] = [];
-
-  for (const node of nodes) {
-    if (node.type === 'user') continue; // Skip the user node
-    links.push({ source: 'user', target: node.id, distance: node.rank });
-  }
+  // Generate links from the user to each artist
+  const links: Link[] = artists.map(artist => ({
+    source: 'user',
+    target: artist.name, // Or artist.id, matching the choice above
+    distance: artist.distance,
+  }));
 
   return { nodes, links };
 }
@@ -103,27 +115,6 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       d3.forceY(height / 2).strength((d: any) => (d.type === 'user' ? 1 : 0))
     );
 
-  function drag(simulation: d3.Simulation<Node, undefined>) {
-    function dragstarted(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
-    }
-
-    function dragged(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
-    }
-
-    function dragended(event: d3.D3DragEvent<SVGCircleElement, any, any>) {
-      if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
-    }
-
-    return d3.drag<SVGCircleElement, any>().on('start', dragstarted).on('drag', dragged).on('end', dragended);
-  }
-
   const link = svg
     .selectAll('line')
     .data(links)
@@ -142,8 +133,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
     .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`)
     .style('stroke', 'black')
-    .style('stroke-width', 0.75)
-    .call(drag(simulation));
+    .style('stroke-width', 0.75);
   //.on('mouseenter', handleMouseOver)
   //.on('mouseleave', handleMouseOut);
 
