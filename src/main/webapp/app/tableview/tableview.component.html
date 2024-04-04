@@ -1,6 +1,6 @@
 <div class="container">
-  <!--<h1 class="title">Organize your Tracks</h1>
-  <h2 class="subtitle">Filter through your music to find the songs you enjoy</h2>-->
+  <h1 class="title">Organize your Tracks</h1>
+  <h2 class="subtitle">Filter through your music to find the songs you enjoy</h2>
 
   <!--
     
@@ -10,22 +10,21 @@
     <h2>Advanced Search</h2>
     <input style="width: 80%;" #advancedSearch type="text" placeholder="e.g., artist:Drake duration:<5" (keydown.enter)="applyAdvancedFilter(advancedSearch.value)" />
     <button (click)="applyAdvancedFilter(advancedSearch.value)">Apply</button>  -->
-
-  <h2>Search and Filter</h2>
-  <div class="search-container">
-    <select [(ngModel)]="searchType" class="search-type-dropdown">
-      <option value="both">Titles & Artists</option>
-      <option value="title">Titles</option>
-      <option value="artist">Artists</option>
-    </select>
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Search..." />
-    <button (click)="applySearch()">Search</button>
-  </div>
 </div>
 
 <div id="tableview-wrapper">
   <div id="sidebar" class="tbv-divs">
-    <h2>Playlists</h2>
+    <h2>Filters</h2>
+
+    <div class="search-container">
+      <select [(ngModel)]="searchType" class="search-type-dropdown">
+        <option value="both">Titles & Artists</option>
+        <option value="title">Titles</option>
+        <option value="artist">Artists</option>
+      </select>
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Search..." (keydown.enter)="applySearch()" />
+      <button (click)="applySearch()">Search</button>
+    </div>
 
     <!--
 

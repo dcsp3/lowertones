@@ -79,6 +79,7 @@ public class APIScrapingResource {
     }
 
     //huge bodge job - should be removed in the near future
+    //No longer used by tableview, own service and resource has been made
     @GetMapping("/playlist-tracks")
     public ResponseEntity<String> getPlaylistTracks(Authentication authentication) {
         //handle errors here...

@@ -143,7 +143,7 @@ export class TableviewComponent implements OnInit {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
-    const request: RequestInfo = new Request('/api/playlist-tracks', {
+    const request: RequestInfo = new Request('/api/top-playlist', {
       method: 'GET',
       headers: headers,
     });
