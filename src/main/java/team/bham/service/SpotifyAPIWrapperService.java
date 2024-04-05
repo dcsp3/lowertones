@@ -46,28 +46,28 @@ public class SpotifyAPIWrapperService {
         this.appUserRepository = appUserRepository;
     }
 
-    public SpotifyAPIResponse getUserDetails(AppUser user) {
+    public SpotifyAPIResponse<JSONObject> getUserDetails(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse getCurrentUserPlaylists(AppUser user) {
+    public SpotifyAPIResponse<JSONObject> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=1&offset=0";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse getPlaylistTracks(AppUser user, String playlistId) {
+    public SpotifyAPIResponse<JSONObject> getPlaylistTracks(AppUser user, String playlistId) {
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse getCurrentUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
+    public SpotifyAPIResponse<JSONObject> getCurrentUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
         String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=" + timeRange.label;
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    private SpotifyAPIResponse APICall(HttpMethod method, String endpoint, AppUser user) {
-        SpotifyAPIResponse apiResponse = new SpotifyAPIResponse();
+    private SpotifyAPIResponse<JSONObject> APICall(HttpMethod method, String endpoint, AppUser user) {
+        SpotifyAPIResponse<JSONObject> apiResponse = new SpotifyAPIResponse<>();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);

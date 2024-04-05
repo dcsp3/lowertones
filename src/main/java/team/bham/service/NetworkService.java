@@ -104,8 +104,8 @@ public class NetworkService {
         }
 
         SpotifyTimeRange short_term = SpotifyTimeRange.SHORT_TERM;
-        SpotifyAPIResponse shortTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, short_term);
-        JSONArray artists = shortTermArtists.getData().getJSONArray("items");
+        JSONObject shortTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, short_term).getData();
+        JSONArray artists = shortTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));
@@ -121,8 +121,8 @@ public class NetworkService {
         }
 
         SpotifyTimeRange medium_term = SpotifyTimeRange.MEDIUM_TERM;
-        SpotifyAPIResponse mediumTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, medium_term);
-        JSONArray artists = mediumTermArtists.getData().getJSONArray("items");
+        JSONObject mediumTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, medium_term).getData();
+        JSONArray artists = mediumTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));
@@ -138,8 +138,8 @@ public class NetworkService {
         }
 
         SpotifyTimeRange long_term = SpotifyTimeRange.LONG_TERM;
-        SpotifyAPIResponse longTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, long_term);
-        JSONArray artists = longTermArtists.getData().getJSONArray("items");
+        JSONObject longTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, long_term).getData();
+        JSONArray artists = longTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));

@@ -3,17 +3,17 @@ package team.bham.service.APIWrapper;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
-public class SpotifyAPIResponse {
+public class SpotifyAPIResponse<T> {
 
     private boolean success;
     private HttpStatus status;
-    private JSONObject data;
+    private T data;
 
     public void setSuccess(boolean success) {
         this.success = success;
     }
 
-    public void setData(JSONObject data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -25,7 +25,7 @@ public class SpotifyAPIResponse {
         return success;
     }
 
-    public JSONObject getData() {
+    public T getData() {
         return data;
     }
 

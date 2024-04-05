@@ -70,7 +70,7 @@ public class APIScrapingResource {
     @GetMapping("/get-user-details")
     public ResponseEntity<String> getUserID(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
-        SpotifyAPIResponse response = apiWrapper.getUserDetails(appUser);
+        SpotifyAPIResponse<JSONObject> response = apiWrapper.getUserDetails(appUser);
         if (response.getSuccess()) {
             return new ResponseEntity<>(response.getData().toString(), HttpStatus.OK);
         } else {
@@ -103,9 +103,9 @@ public class APIScrapingResource {
         SpotifyTimeRange long_term = SpotifyTimeRange.LONG_TERM;
 
         try {
-            SpotifyAPIResponse shortTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, short_term);
-            SpotifyAPIResponse mediumTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, medium_term);
-            SpotifyAPIResponse longTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, long_term);
+            SpotifyAPIResponse<JSONObject> shortTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, short_term);
+            SpotifyAPIResponse<JSONObject> mediumTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, medium_term);
+            SpotifyAPIResponse<JSONObject> longTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, long_term);
 
             JSONObject result = new JSONObject();
             result.put("shortTerm", shortTermArtists.getData());
@@ -132,7 +132,7 @@ public class APIScrapingResource {
         }
 
         //attempt dummy API call
-        SpotifyAPIResponse userDetails = apiWrapper.getUserDetails(appUser);
+        SpotifyAPIResponse<JSONObject> userDetails = apiWrapper.getUserDetails(appUser);
 
         //call failing (i.e. success=false) implies user revoked access
         //(or rate limit, need to handle that)
