@@ -44,17 +44,12 @@ def download_file(file_id, output_directory):
     
     return file_name
 
-def print_directory_structure(rootdir):
-    for subdir, dirs, files in os.walk(rootdir):
-        for file in files:
-            full_path = os.path.join(subdir, file)
-            print(full_path)
-
 if __name__ == '__main__':
     output_directory = './downloaded_files'
+    absolute_path = os.path.abspath(output_directory)
+    print(f"The absolute path to the downloaded files is: {absolute_path}")
     for file_id in FILE_IDS:
         file_name = download_file(file_id, output_directory)
         print(f'File {file_name} has been downloaded and saved in {output_directory}')
     
-    print("Current directory structure:")
-    print_directory_structure(output_directory)
+ 
