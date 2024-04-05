@@ -1,44 +1,27 @@
-<div class="container">
-  <h1 class="title">Organize your Tracks</h1>
-  <h2 class="subtitle">Filter through your music to find the songs you enjoy</h2>
-
-  <!--
-    
-    ADVANCED SEARCH (DEPRICATED)
-
-
-    <h2>Advanced Search</h2>
-    <input style="width: 80%;" #advancedSearch type="text" placeholder="e.g., artist:Drake duration:<5" (keydown.enter)="applyAdvancedFilter(advancedSearch.value)" />
-    <button (click)="applyAdvancedFilter(advancedSearch.value)">Apply</button>  -->
-</div>
-
 <div id="tableview-wrapper">
   <div id="sidebar" class="tbv-divs">
     <h2>Filters</h2>
 
-    <div class="search-container">
+    <!--
       <select [(ngModel)]="searchType" class="search-type-dropdown">
         <option value="both">Titles & Artists</option>
         <option value="title">Titles</option>
         <option value="artist">Artists</option>
       </select>
-      <input type="text" [(ngModel)]="searchQuery" placeholder="Search..." (keydown.enter)="applySearch()" />
-      <button (click)="applySearch()">Search</button>
-    </div>
+
+      -->
+
+    <p-dropdown [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label"></p-dropdown>
+
+    <input style="width: 80%" type="text" pInputText [(ngModel)]="searchQuery" placeholder="Search..." (keydown.enter)="applySearch()" />
+    <p-button style="width: 20%" icon="pi pi-search" (click)="applySearch()"></p-button>
 
     <!--
 
-      old code for side filters
-
-    <input #titleFilter type="text" placeholder="Filter by title" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
-    <button (click)="applyFilter(titleFilter.value, 'title')">Apply</button>
-
-    <input #artistFilter type="text" placeholder="Filter by artist" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
-    <button (click)="applyFilter(artistFilter.value, 'artist')">Apply</button>
-
-    <input #explicitFilter type="text" placeholder="Filter by explicitness" (keydown.enter)="applyFilter(titleFilter.value, 'title')" />
-    <button (click)="applyFilter(explicitFilter.value, 'explicit')">Apply</button>
-
+        tree code for filters to be done
+      <div class="card flex flex-column align-items-center justify-content-center">
+        <p-tree [value]="files" selectionMode="checkbox" class="w-full md:w-30rem" [(selection)]="selectedFiles"></p-tree>
+    </div>
     -->
   </div>
   <div id="table-content" class="tbv-divs">
