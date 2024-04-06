@@ -29,6 +29,7 @@ describe('MainArtist Form Service', () => {
             artistFollowers: expect.any(Object),
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
+            musicbrainzID: expect.any(Object),
             relatedArtists: expect.any(Object),
             albums: expect.any(Object),
           })
@@ -50,6 +51,7 @@ describe('MainArtist Form Service', () => {
             artistFollowers: expect.any(Object),
             dateAddedToDB: expect.any(Object),
             dateLastModified: expect.any(Object),
+            musicbrainzID: expect.any(Object),
             relatedArtists: expect.any(Object),
             albums: expect.any(Object),
           })

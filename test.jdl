@@ -25,7 +25,9 @@ entity Song (songTable) {
 
     //application attributes
     songDateAddedToDB LocalDate required,
-    songDateLastModified LocalDate required
+    songDateLastModified LocalDate required,
+	
+	recordingMBID String
 }
 enum AlbumType {
     ALBUM, SINGLE, COMPILATION
@@ -64,14 +66,15 @@ entity MainArtist (artistsTable) {
     artistSpotifyID String required,
     artistName String required,
     artistPopularity Integer required,
-    artistImageSmall String required,
-    artistImageMedium String required,
-    artistImageLarge String required,
+    artistImageSmall String,
+    artistImageMedium String,
+    artistImageLarge String,
     artistFollowers Integer,
 
     //application attributes
     dateAddedToDB LocalDate,
-    dateLastModified LocalDate
+    dateLastModified LocalDate,
+	musicbrainzID String
 }
 
 //defines individual contributors (e.g. John Lennon)

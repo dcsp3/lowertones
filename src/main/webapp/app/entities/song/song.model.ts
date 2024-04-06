@@ -27,6 +27,7 @@ export interface ISong {
   songTimeSignature?: number | null;
   songDateAddedToDB?: dayjs.Dayjs | null;
   songDateLastModified?: dayjs.Dayjs | null;
+  recordingMBID?: string | null;
   contributors?: Pick<IContributor, 'id'>[] | null;
   album?: Pick<IAlbum, 'id'> | null;
 }

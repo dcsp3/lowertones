@@ -92,6 +92,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="musicbrainzID">
+            <div class="d-flex">
+              <span>Musicbrainz ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="relatedArtists.id">
             <div class="d-flex">
               <span>Related Artists</span>
@@ -121,6 +127,7 @@
           <td>{{ mainArtist.artistFollowers }}</td>
           <td>{{ mainArtist.dateAddedToDB | formatMediumDate }}</td>
           <td>{{ mainArtist.dateLastModified | formatMediumDate }}</td>
+          <td>{{ mainArtist.musicbrainzID }}</td>
           <td>
             <div *ngIf="mainArtist.relatedArtists">
               <a [routerLink]="['/related-artists', mainArtist.relatedArtists.id, 'view']">{{ mainArtist.relatedArtists.id }}</a>

@@ -102,6 +102,10 @@
         <dd>
           <span>{{ song.songDateLastModified | formatMediumDate }}</span>
         </dd>
+        <dt><span>Recording MBID</span></dt>
+        <dd>
+          <span>{{ song.recordingMBID }}</span>
+        </dd>
         <dt><span>Contributor</span></dt>
         <dd>
           <span *ngFor="let contributor of song.contributors; let last = last">

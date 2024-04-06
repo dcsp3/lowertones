@@ -80,6 +80,9 @@
             <column name="song_date_last_modified" type="date">
                 <constraints nullable="false" />
             </column>
+            <column name="recording_mbid" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="album_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -140,6 +143,7 @@
             <column name="song_time_signature" type="numeric"/>
             <column name="song_date_added_to_db" type="date"/>
             <column name="song_date_last_modified" type="date"/>
+            <column name="recording_mbid" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

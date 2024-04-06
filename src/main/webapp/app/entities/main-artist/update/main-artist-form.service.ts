@@ -27,6 +27,7 @@ type MainArtistFormGroupContent = {
   artistFollowers: FormControl<IMainArtist['artistFollowers']>;
   dateAddedToDB: FormControl<IMainArtist['dateAddedToDB']>;
   dateLastModified: FormControl<IMainArtist['dateLastModified']>;
+  musicbrainzID: FormControl<IMainArtist['musicbrainzID']>;
   relatedArtists: FormControl<IMainArtist['relatedArtists']>;
   albums: FormControl<IMainArtist['albums']>;
 };
@@ -57,18 +58,13 @@ export class MainArtistFormService {
       artistPopularity: new FormControl(mainArtistRawValue.artistPopularity, {
         validators: [Validators.required],
       }),
-      artistImageSmall: new FormControl(mainArtistRawValue.artistImageSmall, {
-        validators: [Validators.required],
-      }),
-      artistImageMedium: new FormControl(mainArtistRawValue.artistImageMedium, {
-        validators: [Validators.required],
-      }),
-      artistImageLarge: new FormControl(mainArtistRawValue.artistImageLarge, {
-        validators: [Validators.required],
-      }),
+      artistImageSmall: new FormControl(mainArtistRawValue.artistImageSmall),
+      artistImageMedium: new FormControl(mainArtistRawValue.artistImageMedium),
+      artistImageLarge: new FormControl(mainArtistRawValue.artistImageLarge),
       artistFollowers: new FormControl(mainArtistRawValue.artistFollowers),
       dateAddedToDB: new FormControl(mainArtistRawValue.dateAddedToDB),
       dateLastModified: new FormControl(mainArtistRawValue.dateLastModified),
+      musicbrainzID: new FormControl(mainArtistRawValue.musicbrainzID),
       relatedArtists: new FormControl(mainArtistRawValue.relatedArtists),
       albums: new FormControl(mainArtistRawValue.albums ?? []),
     });

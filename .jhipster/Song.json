@@ -103,6 +103,10 @@
       "fieldName": "songDateLastModified",
       "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "recordingMBID",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

@@ -189,6 +189,9 @@ public class SongResource {
                 if (song.getSongDateLastModified() != null) {
                     existingSong.setSongDateLastModified(song.getSongDateLastModified());
                 }
+                if (song.getRecordingMBID() != null) {
+                    existingSong.setRecordingMBID(song.getRecordingMBID());
+                }
 
                 return existingSong;
             })

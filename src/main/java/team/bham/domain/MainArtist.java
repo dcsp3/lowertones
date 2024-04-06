@@ -39,16 +39,13 @@ public class MainArtist implements Serializable {
     @Column(name = "artist_popularity", nullable = false)
     private Integer artistPopularity;
 
-    @NotNull
-    @Column(name = "artist_image_small", nullable = false)
+    @Column(name = "artist_image_small")
     private String artistImageSmall;
 
-    @NotNull
-    @Column(name = "artist_image_medium", nullable = false)
+    @Column(name = "artist_image_medium")
     private String artistImageMedium;
 
-    @NotNull
-    @Column(name = "artist_image_large", nullable = false)
+    @Column(name = "artist_image_large")
     private String artistImageLarge;
 
     @Column(name = "artist_followers")
@@ -59,6 +56,9 @@ public class MainArtist implements Serializable {
 
     @Column(name = "date_last_modified")
     private LocalDate dateLastModified;
+
+    @Column(name = "musicbrainz_id")
+    private String musicbrainzID;
 
     @JsonIgnoreProperties(value = { "mainArtist" }, allowSetters = true)
     @OneToOne
@@ -220,6 +220,19 @@ public class MainArtist implements Serializable {
 
     public void setDateLastModified(LocalDate dateLastModified) {
         this.dateLastModified = dateLastModified;
+    }
+
+    public String getMusicbrainzID() {
+        return this.musicbrainzID;
+    }
+
+    public MainArtist musicbrainzID(String musicbrainzID) {
+        this.setMusicbrainzID(musicbrainzID);
+        return this;
+    }
+
+    public void setMusicbrainzID(String musicbrainzID) {
+        this.musicbrainzID = musicbrainzID;
     }
 
     public RelatedArtists getRelatedArtists() {
@@ -386,6 +399,7 @@ public class MainArtist implements Serializable {
             ", artistFollowers=" + getArtistFollowers() +
             ", dateAddedToDB='" + getDateAddedToDB() + "'" +
             ", dateLastModified='" + getDateLastModified() + "'" +
+            ", musicbrainzID='" + getMusicbrainzID() + "'" +
             "}";
     }
 }
