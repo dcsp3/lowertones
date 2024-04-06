@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { DropdownModule } from 'primeng/dropdown'; // Import DropdownModule
-import { ButtonModule } from 'primeng/button'; // Import ButtonModule
 import { TreeNode } from 'primeng/api';
 
 interface searchType {
