@@ -86,9 +86,18 @@ public class APIScrapingResource {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
         JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
         JSONArray playlistItems = playlistInfo.getJSONArray("items");
-        JSONObject firstPlaylist = playlistItems.getJSONObject(0);
+
+        JSONArray tracks = new JSONArray();
+        for (int i = 0; i < playlistItems.length(); i++) {
+            JSONObject playlist = playlistItems.getJSONObject(i);
+            //tracks.add(apiWrapper.getPlaylistTracks(appUser, playlist.getString("id")).getData());
+            tracks.put(apiWrapper.getPlaylistTracks(appUser, playlist.getString("id")).getData());
+        }
+
+        return new ResponseEntity<>(tracks.toString(), HttpStatus.OK);
+        /*JSONObject firstPlaylist = playlistItems.getJSONObject(0);
         JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id")).getData();
-        return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);*/
     }
 
     @GetMapping("/top-artists")

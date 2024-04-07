@@ -1,6 +1,5 @@
 package team.bham.service.APIWrapper;
 
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 public class SpotifyAPIResponse<T> {

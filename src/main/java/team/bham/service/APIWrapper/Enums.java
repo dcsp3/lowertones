@@ -13,4 +13,16 @@ public class Enums {
             this.label = label;
         }
     }
+
+    public enum SpotifyReleasePrecision {
+        DAY("day"),
+        MONTH("month"),
+        YEAR("year");
+
+        public final String label;
+
+        private SpotifyReleasePrecision(String label) {
+            this.label = label;
+        }
+    }
 }
