@@ -76,7 +76,7 @@ export class TableviewComponent implements OnInit {
   }
 
   fillSongTable(): void {
-    const numTracks = this.jsonBlob.total;
+    const numTracks = 55; //this.jsonBlob.total;
     for (let i = 0; i < numTracks; i++) {
       let songEntry: SongEntry = {
         selected: false,
@@ -87,14 +87,15 @@ export class TableviewComponent implements OnInit {
         popularity: 0,
         release: 'N/A',
       };
-      songEntry.title = this.jsonBlob.items[i].track.name;
-      songEntry.artist = this.jsonBlob.items[i].track.artists[0].name;
-      songEntry.explicit = this.jsonBlob.items[i].track.explicit;
-      songEntry.popularity = this.jsonBlob.items[i].track.popularity;
-      songEntry.release = this.jsonBlob.items[i].track.album.release_date;
+
+      songEntry.title = this.jsonBlob.tracks[i].name;
+      songEntry.artist = this.jsonBlob.tracks[i].artist.name;
+      songEntry.explicit = this.jsonBlob.tracks[i].explicit;
+      songEntry.popularity = this.jsonBlob.tracks[i].popularity;
+      songEntry.release = this.jsonBlob.tracks[i].album.releaseDate;
 
       //handle length
-      let length = this.jsonBlob.items[i].track.duration_ms;
+      let length = this.jsonBlob.tracks[i].duration;
       const lenFormatted = new Date(length).toISOString().substr(11, 8);
       songEntry.length = lenFormatted;
 
