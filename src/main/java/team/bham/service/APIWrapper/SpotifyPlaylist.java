@@ -6,7 +6,12 @@ public class SpotifyPlaylist {
 
     private String playlistId;
     private String snapshotId;
+    private String name;
     private ArrayList<SpotifyTrack> tracks;
+
+    public SpotifyPlaylist() {
+        tracks = new ArrayList<SpotifyTrack>();
+    }
 
     public void setPlaylistId(String playlistId) {
         this.playlistId = playlistId;
@@ -14,6 +19,10 @@ public class SpotifyPlaylist {
 
     public void setSnapshotId(String snapshotId) {
         this.snapshotId = snapshotId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addTrack(SpotifyTrack track) {
@@ -26,6 +35,10 @@ public class SpotifyPlaylist {
 
     public String getSnapshotId() {
         return snapshotId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ArrayList<SpotifyTrack> getTracks() {

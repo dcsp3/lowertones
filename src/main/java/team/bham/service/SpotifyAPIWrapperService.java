@@ -2,6 +2,7 @@ package team.bham.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
-import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
-import team.bham.service.APIWrapper.SpotifyAPIResponse;
+import team.bham.service.APIWrapper.*;
+import team.bham.service.APIWrapper.Enums.*;
 
 @Service
 @Transactional
@@ -59,6 +60,28 @@ public class SpotifyAPIWrapperService {
     public SpotifyAPIResponse<JSONObject> getPlaylistTracks(AppUser user, String playlistId) {
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
         return APICall(HttpMethod.GET, endpoint, user);
+    }
+
+    public SpotifyAPIResponse<SpotifyPlaylist> getPlaylistDetails(AppUser user, String playlistId) {
+        String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId;
+
+        JSONObject playlistJSON = APICall(HttpMethod.GET, endpoint, user).getData();
+        SpotifyPlaylist playlist = new SpotifyPlaylist();
+        playlist.setPlaylistId(playlistJSON.getString("id"));
+        playlist.setSnapshotId(playlistJSON.getString("snapshot_id"));
+
+        JSONObject trackInfo = playlistJSON.getJSONObject("tracks");
+        JSONArray tracks = trackInfo.getJSONArray("items");
+
+        for (int i = 0; i < tracks.length(); i++) {
+            JSONObject trackJSON = ((JSONObject) tracks.get(i)).getJSONObject("track");
+            playlist.addTrack(genTrackFromJSON(trackJSON));
+        }
+
+        SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
+        res.setData(playlist);
+        res.setSuccess(true);
+        return res;
     }
 
     public SpotifyAPIResponse<JSONObject> getCurrentUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
@@ -126,5 +149,48 @@ public class SpotifyAPIWrapperService {
         } catch (HttpStatusCodeException e) {
             return false;
         }
+    }
+
+    private SpotifyTrack genTrackFromJSON(JSONObject trackJSON) {
+        SpotifyTrack track = new SpotifyTrack();
+
+        //misc track info (name,...)
+        //todo: preview url, etc., check obj type
+        track.setName(trackJSON.getString("name"));
+        track.setDuration(trackJSON.getInt("duration_ms"));
+        track.setExplicit(trackJSON.getBoolean("explicit"));
+        track.setPopularity(trackJSON.getInt("popularity"));
+        track.setId(trackJSON.getString("id"));
+
+        //album
+        JSONObject albumJSON = trackJSON.getJSONObject("album");
+        SpotifyAlbum album = new SpotifyAlbum();
+        album.setAlbumType(albumJSON.getString("album_type"));
+        album.setNumTracks(albumJSON.getInt("total_tracks"));
+        album.setSpotifyId(albumJSON.getString("id"));
+        album.setName(albumJSON.getString("name"));
+        album.setReleaseDate(albumJSON.getString("release_date"));
+        switch (albumJSON.getString("release_date_precision")) {
+            case "year":
+                album.setReleasePrecision(SpotifyReleasePrecision.YEAR);
+                break;
+            case "month":
+                album.setReleasePrecision(SpotifyReleasePrecision.MONTH);
+                break;
+            case "day":
+                album.setReleasePrecision(SpotifyReleasePrecision.DAY);
+                break;
+        }
+
+        track.setAlbum(album);
+
+        //only care about main artist
+        JSONObject mainArtistJSON = trackJSON.getJSONArray("artists").getJSONObject(0);
+        SpotifyArtist mainArtist = new SpotifyArtist();
+        mainArtist.setName(mainArtistJSON.getString("name"));
+
+        track.setMainArtist(mainArtist);
+
+        return track;
     }
 }

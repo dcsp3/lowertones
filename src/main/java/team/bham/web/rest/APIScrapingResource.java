@@ -29,8 +29,8 @@ import team.bham.domain.AppUser;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.UserRepository;
-import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
-import team.bham.service.APIWrapper.SpotifyAPIResponse;
+import team.bham.service.APIWrapper.*;
+import team.bham.service.APIWrapper.Enums.*;
 import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.service.UserService;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -98,6 +98,18 @@ public class APIScrapingResource {
         /*JSONObject firstPlaylist = playlistItems.getJSONObject(0);
         JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id")).getData();
         return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);*/
+    }
+
+    @GetMapping("/testing-api-stuff-hello")
+    public ResponseEntity<SpotifyPlaylist> getPlaylistStuff(Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+
+        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
+        JSONArray playlistItems = playlistInfo.getJSONArray("items");
+        JSONObject playlist = playlistItems.getJSONObject(0);
+
+        SpotifyPlaylist helo = apiWrapper.getPlaylistDetails(appUser, playlist.getString("id")).getData();
+        return new ResponseEntity<>(helo, HttpStatus.OK);
     }
 
     @GetMapping("/top-artists")
