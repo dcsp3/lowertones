@@ -105,6 +105,9 @@ public class Song implements Serializable {
     @Column(name = "song_date_last_modified", nullable = false)
     private LocalDate songDateLastModified;
 
+    @Column(name = "recording_mbid")
+    private String recordingMBID;
+
     @OneToMany(mappedBy = "song")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "song", "album", "mainArtist" }, allowSetters = true)
@@ -126,7 +129,7 @@ public class Song implements Serializable {
     private Set<Contributor> contributors = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "songs", "spotifyGenreEntities", "musicbrainzGenreEntities", "mainArtist" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "songs", "spotifyGenreEntities", "musicbrainzGenreEntities", "mainArtists" }, allowSetters = true)
     private Album album;
 
     @OneToMany(mappedBy = "song")
@@ -440,6 +443,19 @@ public class Song implements Serializable {
         this.songDateLastModified = songDateLastModified;
     }
 
+    public String getRecordingMBID() {
+        return this.recordingMBID;
+    }
+
+    public Song recordingMBID(String recordingMBID) {
+        this.setRecordingMBID(recordingMBID);
+        return this;
+    }
+
+    public void setRecordingMBID(String recordingMBID) {
+        this.recordingMBID = recordingMBID;
+    }
+
     public Set<SpotifyGenreEntity> getSpotifyGenreEntities() {
         return this.spotifyGenreEntities;
     }
@@ -648,6 +664,7 @@ public class Song implements Serializable {
             ", songTimeSignature=" + getSongTimeSignature() +
             ", songDateAddedToDB='" + getSongDateAddedToDB() + "'" +
             ", songDateLastModified='" + getSongDateLastModified() + "'" +
+            ", recordingMBID='" + getRecordingMBID() + "'" +
             "}";
     }
 }

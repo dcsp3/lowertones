@@ -170,6 +170,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="recordingMBID">
+            <div class="d-flex">
+              <span>Recording MBID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="contributor.id">
             <div class="d-flex">
               <span>Contributor</span>
@@ -212,6 +218,7 @@
           <td>{{ song.songTimeSignature }}</td>
           <td>{{ song.songDateAddedToDB | formatMediumDate }}</td>
           <td>{{ song.songDateLastModified | formatMediumDate }}</td>
+          <td>{{ song.recordingMBID }}</td>
           <td>
             <span *ngFor="let contributor of song.contributors; let last = last">
               <a class="form-control-static" [routerLink]="['/contributor', contributor.id, 'view']">{{ contributor.id }}</a

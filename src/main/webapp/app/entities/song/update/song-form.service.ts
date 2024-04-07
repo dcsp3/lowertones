@@ -40,6 +40,7 @@ type SongFormGroupContent = {
   songTimeSignature: FormControl<ISong['songTimeSignature']>;
   songDateAddedToDB: FormControl<ISong['songDateAddedToDB']>;
   songDateLastModified: FormControl<ISong['songDateLastModified']>;
+  recordingMBID: FormControl<ISong['recordingMBID']>;
   contributors: FormControl<ISong['contributors']>;
   album: FormControl<ISong['album']>;
 };
@@ -103,6 +104,7 @@ export class SongFormService {
       songDateLastModified: new FormControl(songRawValue.songDateLastModified, {
         validators: [Validators.required],
       }),
+      recordingMBID: new FormControl(songRawValue.recordingMBID),
       contributors: new FormControl(songRawValue.contributors ?? []),
       album: new FormControl(songRawValue.album),
     });

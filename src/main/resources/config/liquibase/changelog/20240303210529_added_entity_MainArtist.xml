@@ -24,13 +24,13 @@
                 <constraints nullable="false" />
             </column>
             <column name="artist_image_small" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="artist_image_medium" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="artist_image_large" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="artist_followers" type="integer">
                 <constraints nullable="true" />
@@ -39,6 +39,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="date_last_modified" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="musicbrainz_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="related_artists_id" type="bigint">
@@ -88,6 +91,7 @@
             <column name="artist_followers" type="numeric"/>
             <column name="date_added_to_db" type="date"/>
             <column name="date_last_modified" type="date"/>
+            <column name="musicbrainz_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -152,6 +152,9 @@ public class MainArtistResource {
                 if (mainArtist.getDateLastModified() != null) {
                     existingMainArtist.setDateLastModified(mainArtist.getDateLastModified());
                 }
+                if (mainArtist.getMusicbrainzID() != null) {
+                    existingMainArtist.setMusicbrainzID(mainArtist.getMusicbrainzID());
+                }
 
                 return existingMainArtist;
             })

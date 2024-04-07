@@ -22,18 +22,15 @@
     },
     {
       "fieldName": "artistImageSmall",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "String"
     },
     {
       "fieldName": "artistImageMedium",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "String"
     },
     {
       "fieldName": "artistImageLarge",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "String"
     },
     {
       "fieldName": "artistFollowers",
@@ -46,6 +43,10 @@
     {
       "fieldName": "dateLastModified",
       "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "musicbrainzID",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

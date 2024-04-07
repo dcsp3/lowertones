@@ -50,6 +50,10 @@
         <dd>
           <span>{{ mainArtist.dateLastModified | formatMediumDate }}</span>
         </dd>
+        <dt><span>Musicbrainz ID</span></dt>
+        <dd>
+          <span>{{ mainArtist.musicbrainzID }}</span>
+        </dd>
         <dt><span>Related Artists</span></dt>
         <dd>
           <div *ngIf="mainArtist.relatedArtists">

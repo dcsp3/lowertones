@@ -107,6 +107,9 @@ class SongResourceIT {
     private static final LocalDate DEFAULT_SONG_DATE_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_SONG_DATE_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
 
+    private static final String DEFAULT_RECORDING_MBID = "AAAAAAAAAA";
+    private static final String UPDATED_RECORDING_MBID = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/songs";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -156,7 +159,8 @@ class SongResourceIT {
             .songKey(DEFAULT_SONG_KEY)
             .songTimeSignature(DEFAULT_SONG_TIME_SIGNATURE)
             .songDateAddedToDB(DEFAULT_SONG_DATE_ADDED_TO_DB)
-            .songDateLastModified(DEFAULT_SONG_DATE_LAST_MODIFIED);
+            .songDateLastModified(DEFAULT_SONG_DATE_LAST_MODIFIED)
+            .recordingMBID(DEFAULT_RECORDING_MBID);
         return song;
     }
 
@@ -189,7 +193,8 @@ class SongResourceIT {
             .songKey(UPDATED_SONG_KEY)
             .songTimeSignature(UPDATED_SONG_TIME_SIGNATURE)
             .songDateAddedToDB(UPDATED_SONG_DATE_ADDED_TO_DB)
-            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED);
+            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED)
+            .recordingMBID(UPDATED_RECORDING_MBID);
         return song;
     }
 
@@ -233,6 +238,7 @@ class SongResourceIT {
         assertThat(testSong.getSongTimeSignature()).isEqualTo(DEFAULT_SONG_TIME_SIGNATURE);
         assertThat(testSong.getSongDateAddedToDB()).isEqualTo(DEFAULT_SONG_DATE_ADDED_TO_DB);
         assertThat(testSong.getSongDateLastModified()).isEqualTo(DEFAULT_SONG_DATE_LAST_MODIFIED);
+        assertThat(testSong.getRecordingMBID()).isEqualTo(DEFAULT_RECORDING_MBID);
     }
 
     @Test
@@ -456,7 +462,8 @@ class SongResourceIT {
             .andExpect(jsonPath("$.[*].songKey").value(hasItem(DEFAULT_SONG_KEY)))
             .andExpect(jsonPath("$.[*].songTimeSignature").value(hasItem(DEFAULT_SONG_TIME_SIGNATURE)))
             .andExpect(jsonPath("$.[*].songDateAddedToDB").value(hasItem(DEFAULT_SONG_DATE_ADDED_TO_DB.toString())))
-            .andExpect(jsonPath("$.[*].songDateLastModified").value(hasItem(DEFAULT_SONG_DATE_LAST_MODIFIED.toString())));
+            .andExpect(jsonPath("$.[*].songDateLastModified").value(hasItem(DEFAULT_SONG_DATE_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].recordingMBID").value(hasItem(DEFAULT_RECORDING_MBID)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -509,7 +516,8 @@ class SongResourceIT {
             .andExpect(jsonPath("$.songKey").value(DEFAULT_SONG_KEY))
             .andExpect(jsonPath("$.songTimeSignature").value(DEFAULT_SONG_TIME_SIGNATURE))
             .andExpect(jsonPath("$.songDateAddedToDB").value(DEFAULT_SONG_DATE_ADDED_TO_DB.toString()))
-            .andExpect(jsonPath("$.songDateLastModified").value(DEFAULT_SONG_DATE_LAST_MODIFIED.toString()));
+            .andExpect(jsonPath("$.songDateLastModified").value(DEFAULT_SONG_DATE_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.recordingMBID").value(DEFAULT_RECORDING_MBID));
     }
 
     @Test
@@ -553,7 +561,8 @@ class SongResourceIT {
             .songKey(UPDATED_SONG_KEY)
             .songTimeSignature(UPDATED_SONG_TIME_SIGNATURE)
             .songDateAddedToDB(UPDATED_SONG_DATE_ADDED_TO_DB)
-            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED);
+            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED)
+            .recordingMBID(UPDATED_RECORDING_MBID);
 
         restSongMockMvc
             .perform(
@@ -589,6 +598,7 @@ class SongResourceIT {
         assertThat(testSong.getSongTimeSignature()).isEqualTo(UPDATED_SONG_TIME_SIGNATURE);
         assertThat(testSong.getSongDateAddedToDB()).isEqualTo(UPDATED_SONG_DATE_ADDED_TO_DB);
         assertThat(testSong.getSongDateLastModified()).isEqualTo(UPDATED_SONG_DATE_LAST_MODIFIED);
+        assertThat(testSong.getRecordingMBID()).isEqualTo(UPDATED_RECORDING_MBID);
     }
 
     @Test
@@ -704,6 +714,7 @@ class SongResourceIT {
         assertThat(testSong.getSongTimeSignature()).isEqualTo(DEFAULT_SONG_TIME_SIGNATURE);
         assertThat(testSong.getSongDateAddedToDB()).isEqualTo(DEFAULT_SONG_DATE_ADDED_TO_DB);
         assertThat(testSong.getSongDateLastModified()).isEqualTo(DEFAULT_SONG_DATE_LAST_MODIFIED);
+        assertThat(testSong.getRecordingMBID()).isEqualTo(DEFAULT_RECORDING_MBID);
     }
 
     @Test
@@ -740,7 +751,8 @@ class SongResourceIT {
             .songKey(UPDATED_SONG_KEY)
             .songTimeSignature(UPDATED_SONG_TIME_SIGNATURE)
             .songDateAddedToDB(UPDATED_SONG_DATE_ADDED_TO_DB)
-            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED);
+            .songDateLastModified(UPDATED_SONG_DATE_LAST_MODIFIED)
+            .recordingMBID(UPDATED_RECORDING_MBID);
 
         restSongMockMvc
             .perform(
@@ -776,6 +788,7 @@ class SongResourceIT {
         assertThat(testSong.getSongTimeSignature()).isEqualTo(UPDATED_SONG_TIME_SIGNATURE);
         assertThat(testSong.getSongDateAddedToDB()).isEqualTo(UPDATED_SONG_DATE_ADDED_TO_DB);
         assertThat(testSong.getSongDateLastModified()).isEqualTo(UPDATED_SONG_DATE_LAST_MODIFIED);
+        assertThat(testSong.getRecordingMBID()).isEqualTo(UPDATED_RECORDING_MBID);
     }
 
     @Test

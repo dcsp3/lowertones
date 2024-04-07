@@ -13,6 +13,7 @@ export interface IMainArtist {
   artistFollowers?: number | null;
   dateAddedToDB?: dayjs.Dayjs | null;
   dateLastModified?: dayjs.Dayjs | null;
+  musicbrainzID?: string | null;
   relatedArtists?: Pick<IRelatedArtists, 'id'> | null;
   albums?: Pick<IAlbum, 'id'>[] | null;
 }

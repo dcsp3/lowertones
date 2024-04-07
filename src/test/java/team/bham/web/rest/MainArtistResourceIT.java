@@ -67,6 +67,9 @@ class MainArtistResourceIT {
     private static final LocalDate DEFAULT_DATE_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
 
+    private static final String DEFAULT_MUSICBRAINZ_ID = "AAAAAAAAAA";
+    private static final String UPDATED_MUSICBRAINZ_ID = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/main-artists";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -103,7 +106,8 @@ class MainArtistResourceIT {
             .artistImageLarge(DEFAULT_ARTIST_IMAGE_LARGE)
             .artistFollowers(DEFAULT_ARTIST_FOLLOWERS)
             .dateAddedToDB(DEFAULT_DATE_ADDED_TO_DB)
-            .dateLastModified(DEFAULT_DATE_LAST_MODIFIED);
+            .dateLastModified(DEFAULT_DATE_LAST_MODIFIED)
+            .musicbrainzID(DEFAULT_MUSICBRAINZ_ID);
         return mainArtist;
     }
 
@@ -123,7 +127,8 @@ class MainArtistResourceIT {
             .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
-            .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
+            .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
+            .musicbrainzID(UPDATED_MUSICBRAINZ_ID);
         return mainArtist;
     }
 
@@ -154,6 +159,7 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(DEFAULT_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(DEFAULT_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(DEFAULT_DATE_LAST_MODIFIED);
+        assertThat(testMainArtist.getMusicbrainzID()).isEqualTo(DEFAULT_MUSICBRAINZ_ID);
     }
 
     @Test
@@ -227,57 +233,6 @@ class MainArtistResourceIT {
 
     @Test
     @Transactional
-    void checkArtistImageSmallIsRequired() throws Exception {
-        int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
-        // set the field null
-        mainArtist.setArtistImageSmall(null);
-
-        // Create the MainArtist, which fails.
-
-        restMainArtistMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(mainArtist)))
-            .andExpect(status().isBadRequest());
-
-        List<MainArtist> mainArtistList = mainArtistRepository.findAll();
-        assertThat(mainArtistList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkArtistImageMediumIsRequired() throws Exception {
-        int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
-        // set the field null
-        mainArtist.setArtistImageMedium(null);
-
-        // Create the MainArtist, which fails.
-
-        restMainArtistMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(mainArtist)))
-            .andExpect(status().isBadRequest());
-
-        List<MainArtist> mainArtistList = mainArtistRepository.findAll();
-        assertThat(mainArtistList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkArtistImageLargeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = mainArtistRepository.findAll().size();
-        // set the field null
-        mainArtist.setArtistImageLarge(null);
-
-        // Create the MainArtist, which fails.
-
-        restMainArtistMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(mainArtist)))
-            .andExpect(status().isBadRequest());
-
-        List<MainArtist> mainArtistList = mainArtistRepository.findAll();
-        assertThat(mainArtistList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllMainArtists() throws Exception {
         // Initialize the database
         mainArtistRepository.saveAndFlush(mainArtist);
@@ -296,7 +251,8 @@ class MainArtistResourceIT {
             .andExpect(jsonPath("$.[*].artistImageLarge").value(hasItem(DEFAULT_ARTIST_IMAGE_LARGE)))
             .andExpect(jsonPath("$.[*].artistFollowers").value(hasItem(DEFAULT_ARTIST_FOLLOWERS)))
             .andExpect(jsonPath("$.[*].dateAddedToDB").value(hasItem(DEFAULT_DATE_ADDED_TO_DB.toString())))
-            .andExpect(jsonPath("$.[*].dateLastModified").value(hasItem(DEFAULT_DATE_LAST_MODIFIED.toString())));
+            .andExpect(jsonPath("$.[*].dateLastModified").value(hasItem(DEFAULT_DATE_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].musicbrainzID").value(hasItem(DEFAULT_MUSICBRAINZ_ID)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -336,7 +292,8 @@ class MainArtistResourceIT {
             .andExpect(jsonPath("$.artistImageLarge").value(DEFAULT_ARTIST_IMAGE_LARGE))
             .andExpect(jsonPath("$.artistFollowers").value(DEFAULT_ARTIST_FOLLOWERS))
             .andExpect(jsonPath("$.dateAddedToDB").value(DEFAULT_DATE_ADDED_TO_DB.toString()))
-            .andExpect(jsonPath("$.dateLastModified").value(DEFAULT_DATE_LAST_MODIFIED.toString()));
+            .andExpect(jsonPath("$.dateLastModified").value(DEFAULT_DATE_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.musicbrainzID").value(DEFAULT_MUSICBRAINZ_ID));
     }
 
     @Test
@@ -367,7 +324,8 @@ class MainArtistResourceIT {
             .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
-            .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
+            .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
+            .musicbrainzID(UPDATED_MUSICBRAINZ_ID);
 
         restMainArtistMockMvc
             .perform(
@@ -390,6 +348,7 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(UPDATED_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(UPDATED_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
+        assertThat(testMainArtist.getMusicbrainzID()).isEqualTo(UPDATED_MUSICBRAINZ_ID);
     }
 
     @Test
@@ -486,6 +445,7 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(DEFAULT_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(DEFAULT_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
+        assertThat(testMainArtist.getMusicbrainzID()).isEqualTo(DEFAULT_MUSICBRAINZ_ID);
     }
 
     @Test
@@ -509,7 +469,8 @@ class MainArtistResourceIT {
             .artistImageLarge(UPDATED_ARTIST_IMAGE_LARGE)
             .artistFollowers(UPDATED_ARTIST_FOLLOWERS)
             .dateAddedToDB(UPDATED_DATE_ADDED_TO_DB)
-            .dateLastModified(UPDATED_DATE_LAST_MODIFIED);
+            .dateLastModified(UPDATED_DATE_LAST_MODIFIED)
+            .musicbrainzID(UPDATED_MUSICBRAINZ_ID);
 
         restMainArtistMockMvc
             .perform(
@@ -532,6 +493,7 @@ class MainArtistResourceIT {
         assertThat(testMainArtist.getArtistFollowers()).isEqualTo(UPDATED_ARTIST_FOLLOWERS);
         assertThat(testMainArtist.getDateAddedToDB()).isEqualTo(UPDATED_DATE_ADDED_TO_DB);
         assertThat(testMainArtist.getDateLastModified()).isEqualTo(UPDATED_DATE_LAST_MODIFIED);
+        assertThat(testMainArtist.getMusicbrainzID()).isEqualTo(UPDATED_MUSICBRAINZ_ID);
     }
 
     @Test
