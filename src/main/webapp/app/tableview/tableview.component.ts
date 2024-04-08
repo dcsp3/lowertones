@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
+import { TableviewTreeService } from '../../../java/team/bham/service/TableviewTreeService';
 
 interface searchType {
   label: string;
@@ -20,6 +21,7 @@ export class TableviewComponent implements OnInit {
   selectedFiles!: TreeNode[];
   searchTypes: searchType[];
   selectedSearchType: searchType;
+  private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
 
   constructor() {
     this.songData = new Array(100);
@@ -36,6 +38,7 @@ export class TableviewComponent implements OnInit {
   ngOnInit(): void {
     this.genSongList();
     this.filteredSongData = this.songData;
+    this.tableviewTreeService.getFiles().then(data => (this.files = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
     if (defaultSearchType) {
@@ -52,8 +55,6 @@ export class TableviewComponent implements OnInit {
       if (this.selectedSearchType.value === 'both') return matchesTitle || matchesArtist;
       else if (this.selectedSearchType.value === 'title') return matchesTitle;
       else return matchesArtist;
-
-      return false; // Fallback case
     });
   }
 
