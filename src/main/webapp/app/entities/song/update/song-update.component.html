@@ -35,6 +35,9 @@
           <input type="text" class="form-control" name="songTitle" id="field_songTitle" data-cy="songTitle" formControlName="songTitle" />
           <div *ngIf="editForm.get('songTitle')!.invalid && (editForm.get('songTitle')!.dirty || editForm.get('songTitle')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('songTitle')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('songTitle')?.errors?.maxlength">
+              This field cannot be longer than 1000 characters.
+            </small>
           </div>
         </div>
 

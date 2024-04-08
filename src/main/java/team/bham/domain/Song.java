@@ -33,7 +33,8 @@ public class Song implements Serializable {
     private String songSpotifyID;
 
     @NotNull
-    @Column(name = "song_title", nullable = false)
+    @Size(max = 1000)
+    @Column(name = "song_title", length = 1000, nullable = false)
     private String songTitle;
 
     @NotNull

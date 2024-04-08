@@ -13,7 +13,8 @@
     {
       "fieldName": "songTitle",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
     },
     {
       "fieldName": "songDuration",

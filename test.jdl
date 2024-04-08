@@ -1,7 +1,7 @@
 entity Song (songTable) {
     //attributes from spotify get_track call
     songSpotifyID String required,
-    songTitle String required,
+    songTitle String required maxlength (1000),
     songDuration Integer required,
     songAlbumType AlbumType required,
     songAlbumID String required,

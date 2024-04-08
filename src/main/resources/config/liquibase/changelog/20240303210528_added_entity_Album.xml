@@ -72,7 +72,7 @@
     -->
     <changeSet id="20240303210528-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/album_table.csv"
+                  file="/downloaded_files/album_table.csv"
                   separator=";"
                   tableName="album_table"
                   usePreparedStatements="true">

@@ -66,7 +66,7 @@ export class SongFormService {
         validators: [Validators.required],
       }),
       songTitle: new FormControl(songRawValue.songTitle, {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.maxLength(1000)],
       }),
       songDuration: new FormControl(songRawValue.songDuration, {
         validators: [Validators.required],
