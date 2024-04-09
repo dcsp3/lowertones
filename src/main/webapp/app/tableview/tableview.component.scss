@@ -18,6 +18,10 @@
   position: relative;
 }
 
+:host ::ng-deep .p-tree-wrapper {
+  overflow: visible;
+}
+
 .p-hidden-accessible {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px) !important;
@@ -32,6 +36,26 @@
 .p-sortable-column:hover {
   background: rgba(53, 63, 77, 1) !important;
   cursor: pointer;
+}
+
+.p-tree {
+  border: 1px solid #3f4b5b;
+  background: #2a323d;
+  color: rgba(255, 255, 255, 0.87);
+  /*padding: 1.25rem;*/
+  border-radius: 4px;
+  min-height: 100%;
+}
+
+.p-tree .p-tree-container .p-treenode {
+  padding: 0.12rem; /*changed from 0.143*/
+}
+
+.p-tree .p-tree-container .p-treenode .p-treenode-content {
+  border-radius: 4px;
+  transition: box-shadow 0.15s;
+  height: fit-content;
+  /*padding: 0.286rem;*/
 }
 
 .tbv-divs {

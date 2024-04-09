@@ -1,18 +1,21 @@
 <div id="tableview-wrapper">
   <div id="sidebar" class="tbv-divs">
-    <h2>Filters</h2>
+    <!-- FILTERS START -->
 
-    <!--
-      <select [(ngModel)]="searchType" class="search-type-dropdown">
-        <option value="both">Titles & Artists</option>
-        <option value="title">Titles</option>
-        <option value="artist">Artists</option>
-      </select>
+    <div style="width: 95%; margin: auto">
+      <div class="p-inputgroup">
+        <input
+          style="width: 80%"
+          type="text"
+          pInputText
+          [(ngModel)]="searchQuery"
+          placeholder="Search..."
+          (keydown.enter)="applySearch()"
+        />
+        <button type="button" pButton pRipple icon="pi pi-search" (click)="applySearch()"></button>
+      </div>
+    </div>
 
-      -->
-
-    <input style="width: 80%" type="text" pInputText [(ngModel)]="searchQuery" placeholder="Search..." (keydown.enter)="applySearch()" />
-    <p-button style="width: 20%" icon="pi pi-search" (click)="applySearch()"></p-button>
     <p-dropdown
       [options]="searchTypes"
       [(ngModel)]="selectedSearchType"
@@ -21,13 +24,60 @@
       [style]="{ minWidth: '60%' }"
     ></p-dropdown>
 
-    <!--
+    <p-tree [value]="files" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem" [(selection)]="selectedFiles">
+      <ng-template let-node pTemplate="default">
+        {{ node.label }}
+      </ng-template>
 
-        tree code for filters to be done
-        
-    -->
+      <ng-template let-node pTemplate="YearsElement">
+        <div style="display: flex; justify-content: space-between">
+          <input
+            style="width: 25%; padding: 0rem; text-align: center"
+            type="text"
+            pInputText
+            [(ngModel)]="yearValues[0]"
+            (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+            class="w-full"
+          />
+          <input
+            style="width: 25%; padding: 0rem; text-align: center"
+            type="text"
+            pInputText
+            [(ngModel)]="yearValues[1]"
+            (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+            class="w-full"
+          />
+        </div>
+      </ng-template>
 
-    <p-tree [value]="files" selectionMode="checkbox" class="w-full md:w-30rem" [(selection)]="selectedFiles"></p-tree>
+      <ng-template let-node pTemplate="SliderElement">
+        <div style="width: 80%; margin: auto; margin-top: 5%">
+          <div style="display: flex; justify-content: space-between">
+            <input
+              style="width: 25%; padding: 0rem; text-align: center"
+              type="text"
+              pInputText
+              [(ngModel)]="rangeValues[0]"
+              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              class="w-full"
+            />
+            <input
+              style="width: 25%; padding: 0rem; text-align: center"
+              type="text"
+              pInputText
+              [(ngModel)]="rangeValues[1]"
+              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              class="w-full"
+            />
+          </div>
+          <div style="padding-top: 5%">
+            <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
+          </div>
+        </div>
+      </ng-template>
+    </p-tree>
+
+    <!-- FILTERS END -->
   </div>
   <div id="table-content" class="tbv-divs">
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->

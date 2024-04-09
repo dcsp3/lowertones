@@ -20,6 +20,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { TreeModule } from 'primeng/tree';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { ChipsModule } from 'primeng/chips';
+import { FormsModule } from '@angular/forms';
+
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -49,6 +52,8 @@ import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
     BrowserAnimationsModule,
     TreeModule,
     TreeSelectModule,
+    ChipsModule,
+    FormsModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
