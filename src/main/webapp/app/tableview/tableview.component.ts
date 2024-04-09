@@ -22,7 +22,6 @@ export class TableviewComponent implements OnInit {
   searchTypes: searchType[];
   selectedSearchType: searchType;
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
-  rangeValues: number[] = [25, 75];
 
   constructor() {
     this.songData = new Array(100);
@@ -45,11 +44,6 @@ export class TableviewComponent implements OnInit {
     if (defaultSearchType) {
       this.selectedSearchType = defaultSearchType;
     }
-  }
-
-  onChange() {
-    // Logic to execute when the value changes
-    console.log(this.rangeValues);
   }
 
   applySearch(): void {
@@ -83,7 +77,7 @@ export class TableviewComponent implements OnInit {
   }
 
   fillSongTable(): void {
-    const numTracks = this.jsonBlob.tracks.length;
+    const numTracks = 55; //this.jsonBlob.total;
     for (let i = 0; i < numTracks; i++) {
       let songEntry: SongEntry = {
         selected: false,

@@ -17,7 +17,7 @@
             <column name="song_spotify_id" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="song_title" type="varchar(1000)">
+            <column name="song_title" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="song_duration" type="integer">
@@ -114,9 +114,9 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="song-load-1" author="jhipster" context="faker">
+    <changeSet id="20240303210527-1-data" author="jhipster" context="faker">
         <loadData
-                  file="/downloaded_files/tracks_testing_data_not_full.csv"
+                  file="config/liquibase/fake-data/song_table.csv"
                   separator=";"
                   tableName="song_table"
                   usePreparedStatements="true">

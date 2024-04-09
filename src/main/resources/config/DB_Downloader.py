@@ -9,7 +9,7 @@ import os
 SERVICE_ACCOUNT_FILE = '/tmp/gcloud.json'  # Or the path where you saved the credentials in your CI/CD environment
 
 # The ID of the file you want to download from Google Drive
-FILE_IDS = ['1Ok-54kVJGkFfU0F8JwHZ0ZgtgJtNpmIy', '1GS1hrmtg-WykOaza-HySNqSbxUV4Jem9', '1iitulF-befScIR51kQu_FZpM4Nu3Ast3', '1AJGBrXprWlDmeXOpH_cBE4gs2ZLuKwEO']
+FILE_IDS = ['1Ok-54kVJGkFfU0F8JwHZ0ZgtgJtNpmIy', '1EL3QJpty_DwZp3ZoPx5efV4TgQwbQ60x', '1iitulF-befScIR51kQu_FZpM4Nu3Ast3', '1AJGBrXprWlDmeXOpH_cBE4gs2ZLuKwEO']
 
 
 def download_file(file_id, output_directory):
@@ -45,7 +45,7 @@ def download_file(file_id, output_directory):
     return file_name
 
 if __name__ == '__main__':
-    output_directory = './src/main/resources/downloaded_files'
+    output_directory = './downloaded_files'
     absolute_path = os.path.abspath(output_directory)
     print(f"The absolute path to the downloaded files is: {absolute_path}")
     for file_id in FILE_IDS:

@@ -23,9 +23,8 @@ logging:
 spring:
   devtools:
     restart:
-      enabled: false
-      #enabled: true
-      #additional-exclude: static/**,.h2.server.properties,downloaded_files/**
+      enabled: true
+      additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   jackson:
