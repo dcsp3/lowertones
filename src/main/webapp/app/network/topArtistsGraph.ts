@@ -222,6 +222,7 @@ function updateGraph(node: any, link: any, label: any, width: number, height: nu
 function clearGraph(graphContainer: any): void {
   // Use D3 to select and remove all child elements of the graph container
   d3.select(graphContainer).selectAll('*').remove();
+  d3.selectAll('.node-card').remove(); // Assumes node cards have 'node-card' class
 }
 
 export { getElements, renderGraph, clearGraph };
