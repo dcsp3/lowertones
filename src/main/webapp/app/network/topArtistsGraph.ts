@@ -1,8 +1,10 @@
 import * as d3 from 'd3';
 
 interface Node extends d3.SimulationNodeDatum {
-  id: string;
+  id: number;
+  name: string; // Added field for the artist's name
   type: string;
+  genre: string;
   img: string;
   rank: number;
   x?: number;
@@ -10,8 +12,8 @@ interface Node extends d3.SimulationNodeDatum {
 }
 
 interface Link extends d3.SimulationLinkDatum<Node> {
-  source: string;
-  target: string;
+  source: number | string; // Support number for numeric IDs, string for 'user'
+  target: number | string;
   distance: number;
 }
 
@@ -24,44 +26,40 @@ interface Artist {
 }
 
 function getElements(artists: Artist[], userImg: string): { nodes: Node[]; links: Link[] } {
-  const nodes: Node[] = [{ id: 'user', type: 'user', img: userImg, rank: 0 }];
+  let nextId = 1; // Start ID counter for artists
+  const nodes: Node[] = [{ id: 0, name: 'User', type: 'user', genre: '', img: userImg, rank: 0 }];
 
-  // Add artist nodes
   for (const artist of artists) {
+    const genre = artist.genres[0];
     nodes.push({
-      id: artist.name, // Assuming the artist's name is unique enough for an ID; consider using artist.id if not
+      id: nextId++,
+      name: artist.name,
       type: 'artist',
+      genre: genre,
       img: artist.imageUrl,
       rank: artist.distance,
     });
   }
 
-  // Generate links from the user to each artist
-  const links: Link[] = artists.map(artist => ({
-    source: 'user',
-    target: artist.name, // Or artist.id, matching the choice above
+  const links: Link[] = artists.map((artist, index) => ({
+    source: 0, // User node ID
+    target: index + 1,
     distance: artist.distance,
   }));
 
   return { nodes, links };
 }
 
-// On hover functions
-// Get these working
+function applyVisualOscillationToNodes(svg: any, nodes: any, frequency = 7000) {
+  const amplitude = 0.25; // Maximum distance from the original position
 
-/*
-function handleMouseOver(event: any, d: Node) {
-  const currentNode = d3.select(event.currentTarget);
-  currentNode.attr('r', (d.type === 'user' ? 28 : 23));
-  d3.select(`#label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`).style('display', 'block');
+  d3.timer(elapsed => {
+    svg
+      .selectAll('circle')
+      .attr('cx', (d: any) => d.x + Math.sin((elapsed / frequency) * d.id) * amplitude)
+      .attr('cy', (d: any) => d.y + Math.cos((elapsed / frequency) * d.id) * amplitude);
+  });
 }
-
-function handleMouseOut(event: any, d: Node) {
-  const currentNode = d3.select(event.currentTarget);
-  currentNode.attr('r', (d.type === 'user' ? 25 : 20));
-  d3.select(`#label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`).style('display', 'none');
-}
-*/
 
 function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
   const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
@@ -83,6 +81,38 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       .attr('width', imageSize)
       .attr('height', imageSize)
       .attr('preserveAspectRatio', 'xMidYMid slice');
+  });
+
+  nodes.forEach((node, index) => {
+    if (node.type === 'artist') {
+      // Sanitize the ID for consistent usage
+      const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, '');
+      const nodeCard = d3
+        .select('body')
+        .append('div')
+        .attr('class', 'node-card')
+        // Use the sanitized ID here
+        .attr('id', `node-card-${sanitizedId}`)
+        .html(
+          `
+          <center><img src="${node.img}" alt="Artist Image" style="width: 80px; height: 80px;"></center>
+          <div><center><strong>${node.name}</strong></center></div>
+          <div><center><strong>${node.genre}</strong></center></div>
+          <br>
+          <div><strong><u>Connections</u>: 3</strong></div>
+          <div><strong><u>Songs in Your Library</u>: 25</strong></div>
+        `
+        )
+        .style('color', 'white')
+        .style('position', 'absolute')
+        .style('visibility', 'hidden')
+        .style('background-color', '#383838')
+        .style('backdrop-filter', 'blur(10px)') // Adjusted value
+        .style('padding', '10px')
+        .style('border-radius', '8px')
+        .style('pointer-events', 'none')
+        .style('z-index', '1000');
+    }
   });
 
   const simulation = d3
@@ -133,16 +163,31 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
     .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`)
     .style('stroke', 'black')
-    .style('stroke-width', 0.75);
-  //.on('mouseenter', handleMouseOver)
-  //.on('mouseleave', handleMouseOut);
+    .style('stroke-width', 0.75)
+    // When setting the event listeners
+    .on('mouseover', (event, d) => {
+      const cardSelector = `#node-card-${d.id}`; // d.id is now numeric, which simplifies selectors
+
+      d3.select(cardSelector)
+        .style('left', function () {
+          return d.x! + 12.5 + 'px';
+        })
+        .style('top', function () {
+          return d.y! - 80 + 'px';
+        })
+        .style('visibility', 'visible');
+    })
+    .on('mouseleave', (event, d) => {
+      const cardSelector = `#node-card-${d.id}`;
+      d3.select(cardSelector).style('visibility', 'hidden');
+    });
 
   const label = svg
     .selectAll('text')
     .data(nodes)
     .enter()
     .append('text')
-    .text(d => (d.id !== 'user' ? d.id : ''))
+    .text(d => (d.name !== 'user' ? d.id : ''))
     .attr('text-anchor', 'middle')
     .attr('alignment-baseline', 'middle')
     .style('font-size', '12px')
@@ -151,6 +196,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('id', d => `label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`);
 
   simulation.on('tick', () => updateGraph(node, link, label, width, height));
+  // applyVisualOscillationToNodes(svg, nodes);
 }
 
 function updateGraph(node: any, link: any, label: any, width: number, height: number) {
