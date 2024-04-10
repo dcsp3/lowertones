@@ -26,6 +26,14 @@
   background: rgba(53, 63, 77, 1);
 }
 
+:host ::ng-deep .p-chips-input-token {
+  max-width: 100% !important;
+}
+
+.p-chips-input-token input {
+  max-width: 100% !important;
+}
+
 .p-hidden-accessible {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px) !important;

@@ -727,6 +727,19 @@ p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
   border-color: #151515;
 }
 
+.p-chips {
+  padding: 0.2rem 0rem;
+  width: 97% !important;
+}
+.p-chips-multiple-container{
+  overflow: hidden !important; 
+  width: 100%;
+}/*
+.p-chips-multiple-container {
+  flex-wrap: wrap;
+  align-content: space-between;
+  padding-bottom: 0;
+}*/
 .p-chips .p-chips-multiple-container {
   padding: 0.25rem 0.75rem;
   gap: 0.5rem;
@@ -741,7 +754,7 @@ p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
   border-color: #8dd0ff;
 }
 .p-chips .p-chips-multiple-container .p-chips-token {
-  padding: 0.25rem 0.75rem;
+  padding: 0.10rem 0.30rem; /*originally padding: 0.25rem 0.75rem;*/
   background: #8dd0ff;
   color: #151515;
   border-radius: 4px;
@@ -3747,7 +3760,6 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 .p-treenode-label{
   width: 100% !important;
 }
-
 span.p-treenode-label{  
   text-align: left;
 }

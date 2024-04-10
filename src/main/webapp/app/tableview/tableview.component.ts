@@ -17,13 +17,14 @@ export class TableviewComponent implements OnInit {
   filteredSongData: SongEntry[] = [];
   searchQuery: string = '';
   jsonBlob: any;
-  files!: TreeNode[];
-  selectedFiles!: TreeNode[];
+  filters!: TreeNode[];
   searchTypes: searchType[];
   selectedSearchType: searchType;
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
   rangeValues: number[] = [0, 100];
+  artistChips: string[] = [];
+  producerChips: string[] = [];
 
   constructor() {
     this.songData = new Array(100);
@@ -40,7 +41,7 @@ export class TableviewComponent implements OnInit {
   ngOnInit(): void {
     this.genSongList();
     this.filteredSongData = this.songData;
-    this.tableviewTreeService.getTreeNodes().then(data => (this.files = data));
+    this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
     if (defaultSearchType) {

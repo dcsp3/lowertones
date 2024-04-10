@@ -36,13 +36,41 @@ export class TableviewTreeService {
         key: '2',
         label: 'Popularity',
         data: 'Popularity',
-        icon: 'pi pi-fw pi-users',
+        icon: 'pi pi-fw pi-globe',
         children: [
           {
             key: '2-1',
             label: 'Slider',
             data: 'Slider',
             type: 'SliderElement',
+          },
+        ],
+      },
+      {
+        key: '3',
+        label: 'Artist Search',
+        data: 'ArtistSearch',
+        icon: 'pi pi-fw pi-users',
+        children: [
+          {
+            key: '3-1',
+            label: 'ArtistChip',
+            data: 'ArtistChip',
+            type: 'ArtistChipElement',
+          },
+        ],
+      },
+      {
+        key: '4',
+        label: 'Producer Search',
+        data: 'ProducerSearch',
+        icon: 'pi pi-fw pi-users',
+        children: [
+          {
+            key: '4-1',
+            label: 'ProducerChip',
+            data: 'ProducerChip',
+            type: 'ProducerChipElement',
           },
         ],
       },

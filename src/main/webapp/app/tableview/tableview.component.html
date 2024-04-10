@@ -1,3 +1,19 @@
+<!--<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Attach the event listener to a known parent or the document
+      document.querySelector('.p-chips-input-token').addEventListener('input', function(event) {
+          // Ensure the event originated from an input element
+          if (event.target.tagName === 'INPUT') {
+              adjustWidth(event.target);
+          }
+      });
+  });
+  
+  function adjustWidth(input) {
+      input.style.width = ((input.value.length + 1) * 8) + 'px';
+  }
+  </script>-->
+
 <div id="tableview-wrapper">
   <div id="sidebar" class="tbv-divs">
     <!-- FILTERS START -->
@@ -16,15 +32,17 @@
       </div>
     </div>
 
-    <p-tree [value]="files" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem" [(selection)]="selectedFiles">
+    <p-tree [value]="filters" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem">
       <ng-template let-node pTemplate="default">
         {{ node.label }}
       </ng-template>
 
+      <!--Search Type-->
       <ng-template let-node pTemplate="SearchElement">
         <p-listbox [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label" autoWidth="false"></p-listbox>
       </ng-template>
 
+      <!--Release Years-->
       <ng-template let-node pTemplate="YearsElement">
         <div style="display: flex; justify-content: space-between">
           <b>Min: </b>
@@ -48,30 +66,46 @@
         </div>
       </ng-template>
 
+      <!--Popularity-->
       <ng-template let-node pTemplate="SliderElement">
-        <div style="width: 80%; margin: auto; margin-top: 5%">
-          <div style="display: flex; justify-content: space-between">
-            <input
-              style="width: 25%; padding: 0rem; text-align: center"
-              type="text"
-              pInputText
-              [(ngModel)]="rangeValues[0]"
-              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-              class="w-full"
-            />
-            <input
-              style="width: 25%; padding: 0rem; text-align: center"
-              type="text"
-              pInputText
-              [(ngModel)]="rangeValues[1]"
-              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-              class="w-full"
-            />
-          </div>
+        <!--
+        <div style="width: 80%; margin: auto; margin-top: 5%">-->
+        <div style="display: flex; justify-content: space-between">
+          <b>Min: </b>
+          <input
+            style="width: 25%; padding: 0rem; text-align: center"
+            type="text"
+            pInputText
+            [(ngModel)]="rangeValues[0]"
+            (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+            class="w-full"
+          />
+          <b>Max: </b>
+          <input
+            style="width: 25%; padding: 0rem; text-align: center"
+            type="text"
+            pInputText
+            [(ngModel)]="rangeValues[1]"
+            (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+            class="w-full"
+          />
+        </div>
+        <!--
           <div style="padding-top: 5%; padding-bottom: 10%">
             <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
           </div>
-        </div>
+          
+        </div>-->
+      </ng-template>
+
+      <!--Artist Search-->
+      <ng-template let-node pTemplate="ArtistChipElement">
+        <p-chips [(ngModel)]="artistChips"></p-chips>
+      </ng-template>
+
+      <!--Producer Search-->
+      <ng-template let-node pTemplate="ProducerChipElement">
+        <p-chips [(ngModel)]="producerChips"></p-chips>
       </ng-template>
     </p-tree>
 
