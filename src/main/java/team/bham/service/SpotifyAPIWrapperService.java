@@ -84,6 +84,11 @@ public class SpotifyAPIWrapperService {
         return res;
     }
 
+    public SpotifyAPIResponse<JSONObject> getCurrentUserTopTracks(AppUser user, SpotifyTimeRange timeRange) {
+        String endpoint = "https://api.spotify.com/v1/me/top/tracks?offset=0&limit=50&time_range=" + timeRange.label;
+        return APICall(HttpMethod.GET, endpoint, user);
+    }
+
     public SpotifyAPIResponse<JSONObject> getCurrentUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
         String endpoint = "https://api.spotify.com/v1/me/top/artists?offset=0&limit=35&time_range=" + timeRange.label;
         return APICall(HttpMethod.GET, endpoint, user);
