@@ -95,14 +95,15 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
         .attr('id', `node-card-${sanitizedId}`)
         .html(
           `
-          <center><img src="${node.img}" alt="Artist Image" style="width: 80px; height: 80px;"></center>
+          <center><img src="${node.img}" alt="Artist Image" style="width: 80px; height: 80px; border-radius: 0.375rem; box-shadow: 0 0 1px white;"></center>
           <div><center><strong>${node.name}</strong></center></div>
           <div><center><strong>${node.genre}</strong></center></div>
           <br>
-          <div><strong><u>Connections</u>: 3</strong></div>
-          <div><strong><u>Songs in Your Library</u>: 25</strong></div>
+          <div style="font-size: 25px; text-align: center;"><strong>25</strong></div>
+          <div><center>Songs in Library</center></div>
         `
         )
+        .style('width', '200px')
         .style('color', 'white')
         .style('position', 'absolute')
         .style('visibility', 'hidden')
@@ -167,13 +168,12 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     // When setting the event listeners
     .on('mouseover', (event, d) => {
       const cardSelector = `#node-card-${d.id}`; // d.id is now numeric, which simplifies selectors
-
       d3.select(cardSelector)
         .style('left', function () {
           return d.x! + 12.5 + 'px';
         })
         .style('top', function () {
-          return d.y! - 80 + 'px';
+          return d.y! - 95 + 'px';
         })
         .style('visibility', 'visible');
     })
