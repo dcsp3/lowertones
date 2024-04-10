@@ -727,19 +727,6 @@ p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
   border-color: #151515;
 }
 
-.p-chips {
-  padding: 0.2rem 0rem;
-  width: 97% !important;
-}
-.p-chips-multiple-container{
-  overflow: hidden !important; 
-  width: 100%;
-}/*
-.p-chips-multiple-container {
-  flex-wrap: wrap;
-  align-content: space-between;
-  padding-bottom: 0;
-}*/
 .p-chips .p-chips-multiple-container {
   padding: 0.25rem 0.75rem;
   gap: 0.5rem;
@@ -754,7 +741,7 @@ p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
   border-color: #8dd0ff;
 }
 .p-chips .p-chips-multiple-container .p-chips-token {
-  padding: 0.10rem 0.30rem; /*originally padding: 0.25rem 0.75rem;*/
+  padding: 0.25rem 0.75rem;
   background: #8dd0ff;
   color: #151515;
   border-radius: 4px;
@@ -1272,9 +1259,6 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   border: 1px solid #3f4b5b;
   border-radius: 4px;
 }
-div.p-listbox{
-  border: 0px; /*this affects all p-listboxes*/
-}
 .p-listbox .p-listbox-header {
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid #3f4b5b;
@@ -1295,7 +1279,7 @@ div.p-listbox{
   margin-right: 0.5rem;
 }
 .p-listbox .p-listbox-list {
-  padding: 0.8rem 0.4rem 0.8rem 0rem;
+  padding: 0.5rem 0;
 }
 .p-listbox .p-listbox-list .p-listbox-item {
   margin: 0;
@@ -1304,10 +1288,6 @@ div.p-listbox{
   color: rgba(255, 255, 255, 0.87);
   transition: box-shadow 0.15s;
   border-radius: 0;
-  background: rgba(53, 63, 77, 1);
-}
-.p-listbox .p-listbox-list .p-listbox-item span{ /*to align list text in the center*/
-  margin: auto;
 }
 .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
   color: #151515;
@@ -3734,43 +3714,21 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 .p-timeline.p-timeline-horizontal .p-timeline-event-connector {
   height: 2px;
 }
+
 .p-tree {
   border: 1px solid #3f4b5b;
   background: #2a323d;
   color: rgba(255, 255, 255, 0.87);
-  /*padding: 1.25rem;*/
-  /*border-radius: 4px;*/  
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  min-height: 94% !important;
-}
-.p-tree-wrapper .p-tree-container{
-  overflow: visible !important;
+  padding: 1.25rem;
+  border-radius: 4px;
 }
 .p-tree .p-tree-container .p-treenode {
-  padding: 0.12rem; /*changed from 0.143*/
+  padding: 0.143rem;
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content {
   border-radius: 4px;
   transition: box-shadow 0.15s;
-  height: fit-content;
-  width: 100%;
-  /*padding: 0.286rem;*/
-}
-.p-treenode-label{
-  width: 100% !important;
-}
-span.p-treenode-label{  
-  text-align: left;
-}
-.p-treenode-leaf>.p-treenode-content .p-tree-toggler{
-  width:0rem !important;
-}
-.p-treenode-leaf>.p-treenode-content .p-listbox{
-  width:100% !important;
-}
-ul.p-treenode-children{
-  background: rgba(53, 63, 77, 1) !important;
+  padding: 0.286rem;
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler {
   margin-right: 0.5rem;
@@ -3839,7 +3797,7 @@ ul.p-treenode-children{
   color: rgba(255, 255, 255, 0.6);
 }
 .p-tree .p-treenode-children {
-  padding: 0 0 0 0rem; /*originally padding: 0 0 0 1rem;*/
+  padding: 0 0 0 1rem;
 }
 .p-tree .p-tree-loading-icon {
   font-size: 2rem;
