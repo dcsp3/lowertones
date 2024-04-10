@@ -55,7 +55,28 @@ public class NetworkService {
         return graphDataArray;
     }
 
-    private JSONObject calculateStats(JSONArray artists) {
+    private JSONObject getTopTrackByTopArtist(JSONObject topArtist, AppUser user, SpotifyTimeRange timeRange) {
+        JSONObject topTrack = new JSONObject();
+        SpotifyAPIResponse<JSONObject> response = apiWrapper.getCurrentUserTopTracks(user, timeRange);
+
+        JSONArray tracks = response.getData().getJSONArray("items");
+        for (int i = 0; i < tracks.length(); i++) {
+            JSONObject track = tracks.getJSONObject(i);
+            JSONArray artists = track.getJSONArray("artists");
+            for (int j = 0; j < artists.length(); j++) {
+                JSONObject trackArtist = artists.getJSONObject(j);
+                if (trackArtist.getString("id").equals(topArtist.getString("id"))) {
+                    topTrack.put("trackName", track.getString("name"));
+                    topTrack.put("previewUrl", track.getString("preview_url"));
+                    return topTrack;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private JSONObject calculateStats(JSONArray artists, AppUser user, SpotifyTimeRange timeRange) {
         JSONObject stats = new JSONObject();
         int totalPopularity = 0;
         Map<String, Integer> genreCounts = new HashMap<>();
@@ -73,28 +94,58 @@ public class NetworkService {
 
         double averagePopularity = artists.length() > 0 ? (double) totalPopularity / artists.length() : 0;
         String topGenre = Collections.max(genreCounts.entrySet(), Map.Entry.comparingByValue()).getKey();
-        String tasteCategory = calculateTasteCategory(averagePopularity);
+
+        Map<String, Object> tasteCategoryDetails = calculateTasteCategory(averagePopularity);
 
         if (artists.length() > 0) {
             JSONObject topArtist = artists.getJSONObject(0);
             stats.put("topArtistName", topArtist.getString("name"));
             stats.put("topArtistImage", topArtist.getJSONArray("images").getJSONObject(0).getString("url"));
+
+            // Now fetch the top track by the top artist.
+            JSONObject topTrackByTopArtist = getTopTrackByTopArtist(topArtist, user, timeRange);
+            if (topTrackByTopArtist != null) {
+                stats.put("topTrackByTopArtist", topTrackByTopArtist);
+            }
         }
 
         stats.put("topGenre", topGenre);
         stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
-        stats.put("tasteCategory", tasteCategory);
+        stats.put("tasteCategory", tasteCategoryDetails);
 
         return stats;
     }
 
-    private String calculateTasteCategory(double averagePopularity) {
-        if (averagePopularity < 20) return "Underground🤘";
-        if (averagePopularity < 40) return "Rising📈";
-        if (averagePopularity < 60) return "Cool😎";
-        if (averagePopularity < 80) return "Trending🔥";
-        if (averagePopularity < 90) return "Mainstream🌍";
-        return "Superstar⭐";
+    private Map<String, Object> calculateTasteCategory(double averagePopularity) {
+        Map<String, Object> categoryDetails = new HashMap<>();
+
+        if (averagePopularity < 20) {
+            categoryDetails.put("name", "Underground🤘");
+            categoryDetails.put("colorDark", "#2c3e50");
+            categoryDetails.put("colorLight", "#34495e");
+        } else if (averagePopularity < 40) {
+            categoryDetails.put("name", "Rising📈");
+            categoryDetails.put("colorDark", "#27ae60");
+            categoryDetails.put("colorLight", "#2ecc71");
+        } else if (averagePopularity < 60) {
+            categoryDetails.put("name", "Cool😎");
+            categoryDetails.put("colorDark", "#2980b9");
+            categoryDetails.put("colorLight", "#3498db");
+        } else if (averagePopularity < 80) {
+            categoryDetails.put("name", "Trending🔥");
+            categoryDetails.put("colorDark", "#d35400");
+            categoryDetails.put("colorLight", "#e67e22");
+        } else if (averagePopularity < 90) {
+            categoryDetails.put("name", "Mainstream🌍");
+            categoryDetails.put("colorDark", "#c0392b");
+            categoryDetails.put("colorLight", "#e74c3c");
+        } else {
+            categoryDetails.put("name", "Superstar⭐");
+            categoryDetails.put("colorDark", "#f1c40f");
+            categoryDetails.put("colorLight", "#f39c12");
+        }
+
+        return categoryDetails;
     }
 
     public ResponseEntity<String> getShortTermTopArtists(Authentication authentication) {
@@ -109,7 +160,7 @@ public class NetworkService {
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));
-        result.put("stats", calculateStats(artists));
+        result.put("stats", calculateStats(artists, appUser, short_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
@@ -126,7 +177,7 @@ public class NetworkService {
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));
-        result.put("stats", calculateStats(artists));
+        result.put("stats", calculateStats(artists, appUser, medium_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
@@ -143,7 +194,7 @@ public class NetworkService {
 
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists));
-        result.put("stats", calculateStats(artists));
+        result.put("stats", calculateStats(artists, appUser, long_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
