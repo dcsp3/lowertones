@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'DMSans';
+  src: url('../../content/fonts/DMSans-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .container {
   text-align: center;
   position: relative;
@@ -181,7 +188,7 @@
   backdrop-filter: blur(5000px);
   color: white;
   align-items: center;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: 'DMSans';
   box-shadow: 0 0 2px black;
   border-radius: 0.375rem;
 }
@@ -210,10 +217,57 @@
 
 .mainstream-score-container {
   flex-direction: column;
+  justify-content: center; /* Centers children vertically in the container */
+  align-items: center; /* Centers children horizontally in the container */
+}
+
+.score-bar {
+  position: relative;
+  width: 60%; /* Full width of the container */
+  height: 25px; /* Height of the bar */
+  background-color: #ddd; /* Background of the unfilled bar */
+  border-radius: 5px;
+  overflow: hidden; /* Ensures that the inner div doesn't spill out of the border radius */
+}
+
+.score-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #4caf50; /* Example color, you will set this based on category */
+  text-align: center;
+  line-height: 20px; /* Aligns text vertically */
+  color: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+}
+
+.popularity-score {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.taste-category {
+  margin-top: 5px;
+  font-size: 25px;
 }
 
 #topArtistName {
-  font-size: larger;
+  font-size: 30px;
+}
+
+.top-genre-container {
+  padding: 5px;
+  margin: 5px;
+}
+
+#topGenre {
+  font-size: 25px;
 }
 
 .stats-header {

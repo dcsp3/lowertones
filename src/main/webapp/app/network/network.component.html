@@ -49,18 +49,20 @@
         </div>
 
         <div class="top-genre-container">
-          <span>{{ topGenre }}</span>
+          <div id="topGenre">{{ topGenre }}</div>
         </div>
       </div>
 
       <div class="mainstream-score">
         <div class="stats-header">
-          <span>Mainstream Score</span>
+          <span>Mainstream Factor</span>
         </div>
-
-        <div class="mainstream-score-container">
-          <span>{{ averagePopularity }}</span>
-          <span>{{ tasteCategory }}</span>
+        <div class="mainstream-score-container" *ngIf="tasteCategoryDetails">
+          <div class="score-bar" [ngStyle]="{ 'background-color': tasteCategoryDetails.colorDark }">
+            <div class="score-fill" [ngStyle]="{ width: averagePopularity, 'background-color': tasteCategoryDetails.colorLight }"></div>
+            <span class="popularity-score">{{ averagePopularity }}</span>
+          </div>
+          <span class="taste-category">{{ tasteCategoryDetails.name }}</span>
         </div>
       </div>
 

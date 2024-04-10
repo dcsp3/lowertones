@@ -9,6 +9,12 @@ interface Artist {
   imageUrl: string;
 }
 
+interface TasteCategoryDetails {
+  name: string;
+  colorDark: string;
+  colorLight: string;
+}
+
 interface ApiResponse {
   graphData: Artist[];
 }
@@ -26,7 +32,7 @@ export class NetworkComponent implements OnInit {
   topArtistName: string = '';
   topGenre: string = '';
   averagePopularity: string = '';
-  tasteCategory: string = '';
+  tasteCategoryDetails: TasteCategoryDetails | null = null;
 
   ngOnInit(): void {
     this.fetchAndRenderGraph(this.timeRange);
@@ -54,7 +60,15 @@ export class NetworkComponent implements OnInit {
         this.topGenre = data.stats.topGenre;
 
         this.averagePopularity = data.stats.averagePopularity;
-        this.tasteCategory = data.stats.tasteCategory;
+
+        const tasteCategoryDetails = data.stats.tasteCategory;
+        if (tasteCategoryDetails) {
+          this.tasteCategoryDetails = {
+            name: tasteCategoryDetails.name,
+            colorDark: tasteCategoryDetails.colorDark,
+            colorLight: tasteCategoryDetails.colorLight,
+          };
+        }
 
         return data.graphData;
       })
