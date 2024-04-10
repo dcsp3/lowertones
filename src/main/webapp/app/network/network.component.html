@@ -23,15 +23,19 @@
   <div class="content">
     <div class="graph" #graphContainer></div>
     <div class="stats">
-      <div class="highlights">
-        <h3>Network Stats</h3>
+      <div class="main-header">
+        <div class="highlights">
+          <h3>Your Network</h3>
+        </div>
       </div>
 
       <div class="top-artist">
-        <h5>Top Artist</h5>
+        <div class="stats-header">
+          <span>Top Artist</span>
+        </div>
 
         <div class="top-artist-container">
-          <img [src]="topArtistImage" width="100px" height="100px" alt="Top Artist Image" id="topArtistImage" />
+          <img [src]="topArtistImage" width="80px" height="80px" alt="Top Artist Image" id="topArtistImage" />
           <div class="top-artist-text">
             <div id="topArtistName">{{ topArtistName }}</div>
             << top track name >>
@@ -40,18 +44,28 @@
       </div>
 
       <div class="top-genre">
-        <h5>Top Genre</h5>
-        <p>{{ topGenre }}</p>
+        <div class="stats-header">
+          <span>Top Genre</span>
+        </div>
+
+        <div class="top-genre-container">
+          <span>{{ topGenre }}</span>
+        </div>
       </div>
 
       <div class="mainstream-score">
-        <h5>Mainstream Score</h5>
-        <p>{{ averagePopularity }}</p>
-        <p>{{ tasteCategory }}</p>
+        <div class="stats-header">
+          <span>Mainstream Score</span>
+        </div>
+
+        <div class="mainstream-score-container">
+          <span>{{ averagePopularity }}</span>
+          <span>{{ tasteCategory }}</span>
+        </div>
       </div>
 
       <div class="share">
-        <button>Share</button>
+        <button>Share Network...</button>
       </div>
     </div>
   </div>

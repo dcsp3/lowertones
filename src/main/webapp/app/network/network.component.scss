@@ -131,7 +131,8 @@
 .stats {
   display: flex;
   flex-direction: column;
-  background: radial-gradient(transparent, rgb(103, 104, 104));
+  background: transparent;
+  backdrop-filter: blur(5000px);
   align-self: flex-end;
   border-radius: 0.375rem;
   margin: 10px;
@@ -140,58 +141,92 @@
   width: 400px;
   height: 600px;
   box-shadow: 0 0 5px black;
+  gap: 5px; /* Space between children */
 }
 
-h5 {
-  text-decoration: underline;
-}
-
-.highlights,
-.top-artist,
-.top-genre,
-.share {
+.main-header {
+  display: flex;
   text-align: center;
-  padding: 10px;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Align children vertically */
+  font-size: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.highlights {
+  width: 95%;
   border-radius: 0.375rem;
-  margin: 10px;
-  background-color: #383838;
-  backdrop-filter: blur(5000px);
+  backdrop-filter: blur(500px);
   color: white;
   align-items: center;
   font-family: 'Dela Gothic One', cursive;
   box-shadow: 0 0 2px black;
 }
 
-.top-artist {
+.share {
+  text-align: center;
+  align-items: center;
+  border-radius: 0.375rem;
+  backdrop-filter: blur(500px);
+  color: white;
+  font-family: 'Dela Gothic One', cursive;
+}
+
+.top-artist,
+.top-genre {
+  margin-top: 10px;
+  text-align: center;
+  background-color: #383838;
+  backdrop-filter: blur(5000px);
+  color: white;
+  align-items: center;
+  font-family: 'Dela Gothic One', cursive;
+  box-shadow: 0 0 2px black;
+  border-radius: 0.375rem;
 }
 
 .mainstream-score {
+  margin-top: 10px;
   text-align: center;
-  padding: 10px;
   border-radius: 0.375rem;
-  margin: 10px;
   background-color: #383838;
   backdrop-filter: blur(5000px);
   color: white;
   align-items: center;
   font-family: 'Dela Gothic One', cursive;
   box-shadow: 0 0 2px black;
-  height: 50%;
+}
+
+.top-artist-container,
+.top-genre-container,
+.mainstream-score-container {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px;
+  justify-content: center;
+}
+
+.mainstream-score-container {
+  flex-direction: column;
+}
+
+#topArtistName {
+  font-size: larger;
+}
+
+.stats-header {
+  background-color: #202020;
+  border-radius: 0.375rem 0.375rem 0 0;
+  padding: 10px;
+  font-size: 20px;
 }
 
 .share {
   margin: auto;
   justify-content: center;
-  width: 25%;
-}
-
-.top-artist-container {
-  display: flex;
-  flex-direction: row;
-}
-
-#topArtistName {
-  font-size: large;
+  width: 75%;
 }
 
 #topArtistImage {
