@@ -22,6 +22,7 @@ import { TreeModule } from 'primeng/tree';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { ChipsModule } from 'primeng/chips';
 import { FormsModule } from '@angular/forms';
+import { ListboxModule } from 'primeng/listbox';
 
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -54,6 +55,7 @@ import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
     TreeSelectModule,
     ChipsModule,
     FormsModule,
+    ListboxModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here

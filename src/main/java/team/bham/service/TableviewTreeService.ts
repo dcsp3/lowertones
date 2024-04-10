@@ -6,12 +6,26 @@ export class TableviewTreeService {
     return [
       {
         key: '0',
+        label: 'Search Type',
+        data: 'SearchType',
+        icon: 'pi pi-fw pi-search',
+        children: [
+          {
+            key: '0-1',
+            label: 'SearchTypeSelection',
+            data: 'SearchTypeSelection',
+            type: 'SearchElement',
+          },
+        ],
+      },
+      {
+        key: '1',
         label: 'Release Years',
         data: 'ReleaseYears',
         icon: 'pi pi-fw pi-calendar',
         children: [
           {
-            key: '0-0',
+            key: '1-1',
             label: 'Years',
             data: 'Years',
             type: 'YearsElement',
@@ -19,13 +33,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '1',
+        key: '2',
         label: 'Popularity',
         data: 'Popularity',
         icon: 'pi pi-fw pi-users',
         children: [
           {
-            key: '1-1',
+            key: '2-1',
             label: 'Slider',
             data: 'Slider',
             type: 'SliderElement',

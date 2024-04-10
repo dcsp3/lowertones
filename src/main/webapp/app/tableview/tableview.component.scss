@@ -14,12 +14,16 @@
 
 #tableview-wrapper {
   display: flex;
-  overflow: auto !important;
+  overflow: visible !important;
   position: relative;
 }
 
 :host ::ng-deep .p-tree-wrapper {
   overflow: visible;
+}
+
+:host ::ng-deep .p-listbox-list-wrapper {
+  background: rgba(53, 63, 77, 1);
 }
 
 .p-hidden-accessible {

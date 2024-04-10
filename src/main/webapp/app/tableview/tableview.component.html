@@ -2,35 +2,32 @@
   <div id="sidebar" class="tbv-divs">
     <!-- FILTERS START -->
 
-    <div style="width: 95%; margin: auto">
+    <div style="width: 100%; margin: auto">
       <div class="p-inputgroup">
         <input
-          style="width: 80%"
+          style="width: 80%; border-bottom-left-radius: 0px"
           type="text"
           pInputText
           [(ngModel)]="searchQuery"
           placeholder="Search..."
           (keydown.enter)="applySearch()"
         />
-        <button type="button" pButton pRipple icon="pi pi-search" (click)="applySearch()"></button>
+        <button style="border-bottom-right-radius: 0px" type="button" pButton pRipple icon="pi pi-search" (click)="applySearch()"></button>
       </div>
     </div>
-
-    <p-dropdown
-      [options]="searchTypes"
-      [(ngModel)]="selectedSearchType"
-      optionLabel="label"
-      autoWidth="false"
-      [style]="{ minWidth: '60%' }"
-    ></p-dropdown>
 
     <p-tree [value]="files" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem" [(selection)]="selectedFiles">
       <ng-template let-node pTemplate="default">
         {{ node.label }}
       </ng-template>
 
+      <ng-template let-node pTemplate="SearchElement">
+        <p-listbox [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label" autoWidth="false"></p-listbox>
+      </ng-template>
+
       <ng-template let-node pTemplate="YearsElement">
         <div style="display: flex; justify-content: space-between">
+          <b>Min: </b>
           <input
             style="width: 25%; padding: 0rem; text-align: center"
             type="text"
@@ -39,6 +36,7 @@
             (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
             class="w-full"
           />
+          <b>Max: </b>
           <input
             style="width: 25%; padding: 0rem; text-align: center"
             type="text"
@@ -70,7 +68,7 @@
               class="w-full"
             />
           </div>
-          <div style="padding-top: 5%">
+          <div style="padding-top: 5%; padding-bottom: 10%">
             <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
           </div>
         </div>

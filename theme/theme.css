@@ -1259,6 +1259,9 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   border: 1px solid #3f4b5b;
   border-radius: 4px;
 }
+div.p-listbox{
+  border: 0px; /*this affects all p-listboxes*/
+}
 .p-listbox .p-listbox-header {
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid #3f4b5b;
@@ -1279,7 +1282,7 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   margin-right: 0.5rem;
 }
 .p-listbox .p-listbox-list {
-  padding: 0.5rem 0;
+  padding: 0.8rem 0.4rem 0.8rem 0rem;
 }
 .p-listbox .p-listbox-list .p-listbox-item {
   margin: 0;
@@ -1288,6 +1291,10 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   color: rgba(255, 255, 255, 0.87);
   transition: box-shadow 0.15s;
   border-radius: 0;
+  background: rgba(53, 63, 77, 1);
+}
+.p-listbox .p-listbox-list .p-listbox-item span{ /*to align list text in the center*/
+  margin: auto;
 }
 .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
   color: #151515;
@@ -3719,8 +3726,10 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   background: #2a323d;
   color: rgba(255, 255, 255, 0.87);
   /*padding: 1.25rem;*/
-  border-radius: 4px;
-  min-height: 100%;
+  /*border-radius: 4px;*/  
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  min-height: 94% !important;
 }
 .p-tree-wrapper .p-tree-container{
   overflow: visible !important;
@@ -3732,7 +3741,24 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border-radius: 4px;
   transition: box-shadow 0.15s;
   height: fit-content;
+  width: 100%;
   /*padding: 0.286rem;*/
+}
+.p-treenode-label{
+  width: 100% !important;
+}
+
+span.p-treenode-label{  
+  text-align: left;
+}
+.p-treenode-leaf>.p-treenode-content .p-tree-toggler{
+  width:0rem !important;
+}
+.p-treenode-leaf>.p-treenode-content .p-listbox{
+  width:100% !important;
+}
+ul.p-treenode-children{
+  background: rgba(53, 63, 77, 1) !important;
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler {
   margin-right: 0.5rem;
@@ -3801,7 +3827,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   color: rgba(255, 255, 255, 0.6);
 }
 .p-tree .p-treenode-children {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 0rem; /*originally padding: 0 0 0 1rem;*/
 }
 .p-tree .p-tree-loading-icon {
   font-size: 2rem;
