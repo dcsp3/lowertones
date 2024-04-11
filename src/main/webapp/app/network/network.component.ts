@@ -30,6 +30,13 @@ export class NetworkComponent implements OnInit {
   timeRange: string = 'short-term';
   topArtistImage: string = '';
   topArtistName: string = '';
+
+  topTrackName: string | null = null;
+  topTrackPreviewUrl: string | null = null;
+
+  isPlaying: boolean = false;
+  currentAudio: HTMLAudioElement | null = null;
+
   topGenre: string = '';
   averagePopularity: string = '';
   tasteCategoryDetails: TasteCategoryDetails | null = null;
@@ -57,6 +64,14 @@ export class NetworkComponent implements OnInit {
         // Directly use the stats from the response
         this.topArtistName = data.stats.topArtistName;
         this.topArtistImage = data.stats.topArtistImage;
+
+        this.topTrackName = data.stats.topTrackByTopArtist.trackName;
+        this.topTrackPreviewUrl = data.stats.topTrackByTopArtist.previewUrl;
+
+        // Since we have new top track info, reset current audio and playback status
+        this.isPlaying = false;
+        this.currentAudio = null;
+
         this.topGenre = data.stats.topGenre;
 
         this.averagePopularity = data.stats.averagePopularity;
@@ -76,6 +91,25 @@ export class NetworkComponent implements OnInit {
         console.error('Error fetching top artists:', error);
         throw error;
       });
+  }
+
+  playPreview() {
+    if (!this.currentAudio) {
+      if (this.topTrackPreviewUrl) {
+        this.currentAudio = new Audio(this.topTrackPreviewUrl);
+        this.currentAudio.onended = () => (this.isPlaying = false); // Update isPlaying when audio ends
+        this.currentAudio.volume = 0.025; // Set volume to half
+      }
+    }
+
+    if (this.currentAudio) {
+      if (this.isPlaying) {
+        this.currentAudio.pause();
+      } else {
+        this.currentAudio.play().catch(error => console.error('Playback failed', error));
+      }
+      this.isPlaying = !this.isPlaying; // Toggle playback status
+    }
   }
 
   fetchUserImage(): Promise<any> {
@@ -105,13 +139,20 @@ export class NetworkComponent implements OnInit {
   }
 
   changeTimeRange(newTimeRange: string): void {
-    // Only change the time range if the new time range isn't the same as the current time range (to avoid unnecessary API calls)
     if (newTimeRange !== this.timeRange) {
       this.timeRange = newTimeRange;
-      // console.log(`New Time Range: ${this.timeRange}`);
+
+      // Stop and reset the current audio if it's playing
+      if (this.currentAudio && !this.currentAudio.paused) {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0; // Reset audio playback to the start
+      }
+      // Reset playback status and current audio
+      this.isPlaying = false;
+      this.currentAudio = null;
+
+      // Fetch new data for the selected time range
       this.fetchAndRenderGraph(this.timeRange);
-    } else {
-      return; // Exit early if the time range hasn't changed
     }
   }
 

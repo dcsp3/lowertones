@@ -23,12 +23,6 @@
   <div class="content">
     <div class="graph" #graphContainer></div>
     <div class="stats">
-      <div class="main-header">
-        <div class="highlights">
-          <h3>Your Network</h3>
-        </div>
-      </div>
-
       <div class="top-artist">
         <div class="stats-header">
           <span>Top Artist</span>
@@ -37,8 +31,12 @@
         <div class="top-artist-container">
           <img [src]="topArtistImage" width="80px" height="80px" alt="Top Artist Image" id="topArtistImage" />
           <div class="top-artist-text">
-            <div id="topArtistName">{{ topArtistName }}</div>
-            << top track name >>
+            <div>{{ topArtistName }}</div>
+            <!-- Display top track name and play button if available -->
+            <div *ngIf="topTrackName && topTrackPreviewUrl">
+              <div>{{ topTrackName }}</div>
+              <button (click)="playPreview()">{{ isPlaying ? 'Pause' : 'Play' }}</button>
+            </div>
           </div>
         </div>
       </div>
