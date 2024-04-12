@@ -1,0 +1,20 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// TODO: fix the margins
+.container {
+  width: 500px;
+  length: 500px;
+}
+
+.chart {
+  width: 500px;
+  length: 500px;
+  text-align: center;
+}

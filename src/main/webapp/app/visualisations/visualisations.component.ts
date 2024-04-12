@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -7,7 +7,9 @@ import * as d3 from 'd3';
   styleUrls: ['./visualisations.component.scss'],
 })
 export class VisualisationsComponent implements OnInit {
-  constructor(private elementRef: ElementRef) {}
+  @ViewChild('chartSvg', { static: true }) private chartSvg!: ElementRef;
+
+  constructor() {}
 
   ngOnInit() {
     this.createPieChart();
@@ -26,7 +28,7 @@ export class VisualisationsComponent implements OnInit {
       .range(d3.schemeCategory10);
 
     const svg = d3
-      .select(this.elementRef.nativeElement)
+      .select(this.chartSvg.nativeElement)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
