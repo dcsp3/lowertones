@@ -41,14 +41,27 @@
   width: 40%;
 }
 
-.textWithInputField {
+.custom-dropdown {
+  padding: 0.3%;
+  :focus {
+    color: white;
+  }
+}
+
+.preferenceTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.checkbox input[type='checkbox'] {
-  transform: scale(1.5);
+.preferenceSubtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.668);
+}
+
+input[type='checkbox'] {
+  transform: scale(1.9);
+  background-color: black;
 }
 
 .title,

@@ -1,7 +1,6 @@
 jest.mock('app/core/auth/account.service');
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { throwError, of } from 'rxjs';
@@ -56,13 +55,12 @@ describe('PreferencesComponent', () => {
 
     // WHEN
     comp.ngOnInit();
-    comp.save();
+    comp.saveUser();
 
     // THEN
     expect(mockAccountService.identity).toHaveBeenCalled();
     expect(mockAccountService.save).toHaveBeenCalledWith(account);
     expect(mockAccountService.authenticate).toHaveBeenCalledWith(account);
-    expect(comp.nameForm.value).toMatchObject(expect.objectContaining(nameFormValues));
   });
 
   it('should notify of success upon successful save', () => {
@@ -71,7 +69,7 @@ describe('PreferencesComponent', () => {
 
     // WHEN
     comp.ngOnInit();
-    comp.save();
+    comp.saveUser();
 
     // THEN
     expect(comp.success).toBe(true);
@@ -83,7 +81,7 @@ describe('PreferencesComponent', () => {
 
     // WHEN
     comp.ngOnInit();
-    comp.save();
+    comp.saveUser();
 
     // THEN
     expect(comp.success).toBe(false);

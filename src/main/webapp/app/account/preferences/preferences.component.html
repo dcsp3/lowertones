@@ -6,46 +6,33 @@
 <div class="content">
   <div class="text-container">
     <h2>Additional features</h2>
-    <div class="textWithInputField">
+    <div class="preferenceTitle">
       <label>Email updates</label>
       <input type="checkbox" name="emailUpdates" />
     </div>
+    <div class="preferenceSubtitle">Get notified when there is an update to Lowertones.</div>
 
     <br />
     <h2>Accessibility</h2>
-    <div class="textWithInputField">
+    <div class="preferenceTitle">
       <label>High colour contrast</label>
-      <input type="checkbox" id="highContrastToggle" [(ngModel)]="isHighContrastMode" (change)="toggleHighContrast()" />
+      <input type="checkbox" id="toggleHighContrast" (change)="toggleHighContrast()" />
     </div>
+    <div class="preferenceSubtitle">Simplify colour scheme for better readability.</div>
 
-    <div class="textWithInputField">
+    <br />
+    <div class="preferenceTitle">
       <label>Text size</label>
-      <select id="dropdown">
+      <select id="dropdown" class="custom-dropdown">
         <option value="option1">Normal</option>
         <option value="option2">Large</option>
         <option value="option3">Extra Large</option>
       </select>
     </div>
+    <div class="preferenceSubtitle">Increase text size for better readability.</div>
     <br />
 
-    <h2>Discover Weekly Buffer</h2>
-    <div class="textWithInputField">
-      <label>Enable Discover Weekly Buffer</label>
-      <input type="checkbox" id="discoverWeeklyToggle" (change)="toggleDiscoverWeeklyBuffer()" />
-    </div>
-
-    <div class="textWithInputField">
-      <label>Buffer Style</label>
-      <select id="dropdown">
-        <option value="option1">Weekly</option>
-        <option value="option2">Monthly</option>
-        <option value="option3">All</option>
-      </select>
-    </div>
-
-    <br />
-
-    <h2 *ngIf="nameForm.value.login">Account details</h2>
+    <h2 *ngIf="userForm.value.login">Account details</h2>
 
     <div class="alert alert-success" *ngIf="success">
       <strong>Preferences saved!</strong>
@@ -53,89 +40,40 @@
 
     <jhi-alert-error></jhi-alert-error>
 
-    <form name="form" role="form" (ngSubmit)="save()" [formGroup]="nameForm" *ngIf="nameForm.value.login" novalidate>
-      <div class="mb-3">
-        <label class="form-label" for="firstName">First Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="firstName"
-          name="firstName"
-          placeholder="Your first name"
-          formControlName="firstName"
-          data-cy="firstname"
-        />
-
-        <div *ngIf="nameForm.get('firstName')!.invalid && (nameForm.get('firstName')!.dirty || nameForm.get('firstName')!.touched)">
-          <small class="form-text text-danger" *ngIf="nameForm.get('firstName')?.errors?.required"> Your first name is required. </small>
-
-          <small class="form-text text-danger" *ngIf="nameForm.get('firstName')?.errors?.minlength">
-            Your first name is required to be at least 1 character
-          </small>
-
-          <small class="form-text text-danger" *ngIf="nameForm.get('firstName')?.errors?.maxlength">
-            Your first name cannot be longer than 50 characters
-          </small>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label" for="lastName">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="lastName"
-          name="lastName"
-          placeholder="Your last name"
-          formControlName="lastName"
-          data-cy="lastname"
-        />
-
-        <div *ngIf="nameForm.get('lastName')!.invalid && (nameForm.get('lastName')!.dirty || nameForm.get('lastName')!.touched)">
-          <small class="form-text text-danger" *ngIf="nameForm.get('lastName')?.errors?.required"> Your last name is required. </small>
-
-          <small class="form-text text-danger" *ngIf="nameForm.get('lastName')?.errors?.minlength">
-            Your last name is required to be at least 1 character
-          </small>
-
-          <small class="form-text text-danger" *ngIf="nameForm.get('lastName')?.errors?.maxlength">
-            Your last name cannot be longer than 50 characters
-          </small>
-        </div>
-      </div>
-
+    <form name="form" role="form" (ngSubmit)="saveUser()" [formGroup]="userForm" *ngIf="userForm.value.login" novalidate>
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Your email" formControlName="email" data-cy="email" />
 
-        <div *ngIf="nameForm.get('email')!.invalid && (nameForm.get('email')!.dirty || nameForm.get('email')!.touched)">
-          <small class="form-text text-danger" *ngIf="nameForm.get('email')?.errors?.required"> Your email is required. </small>
+        <div *ngIf="userForm.get('email')!.invalid && (userForm.get('email')!.dirty || userForm.get('email')!.touched)">
+          <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.required"> Your email is required. </small>
 
-          <small class="form-text text-danger" *ngIf="nameForm.get('email')?.errors?.email"> Your email is invalid. </small>
+          <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.email"> Your email is invalid. </small>
 
-          <small class="form-text text-danger" *ngIf="nameForm.get('email')?.errors?.minlength">
+          <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.minlength">
             Your email is required to be at least 5 characters.
           </small>
 
-          <small class="form-text text-danger" *ngIf="nameForm.get('email')?.errors?.maxlength">
+          <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.maxlength">
             Your email cannot be longer than 50 characters.
           </small>
         </div>
       </div>
 
-      <button type="submit" [disabled]="nameForm.invalid" class="btn btn-primary" data-cy="submit">Save</button>
+      <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary" data-cy="submit">Save</button>
     </form>
 
     <br />
-    <p>Password</p>
+    <div class="preferenceTitle">Password</div>
     <div class="button-container">
       <a href="account/password" class="btn btn-primary">Change password</a>
     </div>
 
     <br />
-    <p>Spotify account</p>
+    <div class="preferenceTitle">Spotify account</div>
+    <div class="preferenceSubtitle">The Spotify account linked to your Lowertones account.</div>
     <div class="button-container">
-      <a href="account/password" class="btn btn-primary">Link to a different Spotify account</a>
+      <a href="" class="btn btn-primary">Link to a different Spotify account</a>
     </div>
 
     <br />

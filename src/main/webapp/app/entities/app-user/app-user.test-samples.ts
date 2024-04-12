@@ -23,7 +23,7 @@ export const sampleWithPartialData: IAppUser = {
   discoverWeeklyBufferSettings: 46955,
   discoverWeeklyBufferPlaylistID: 'pixel',
   highContrastMode: false,
-  textSize: 45124,
+  textSize: 100,
 };
 
 export const sampleWithFullData: IAppUser = {
@@ -40,7 +40,7 @@ export const sampleWithFullData: IAppUser = {
   discoverWeeklyBufferSettings: 39733,
   discoverWeeklyBufferPlaylistID: 'up projection',
   highContrastMode: false,
-  textSize: 99478,
+  textSize: 115,
 };
 
 export const sampleWithNewData: NewAppUser = {
@@ -50,7 +50,7 @@ export const sampleWithNewData: NewAppUser = {
   lastLoginDate: dayjs('2024-03-03'),
   discoverWeeklyBufferSettings: 45764,
   highContrastMode: true,
-  textSize: 65800,
+  textSize: 125,
   id: null,
 };
 
