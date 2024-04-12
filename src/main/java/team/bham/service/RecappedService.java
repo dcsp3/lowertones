@@ -79,7 +79,7 @@ public class RecappedService {
         return topSongs;
     }
 
-    private List<Song> getPlaylistSongs(AppUser user, String playlistId, LocalDate startDate, LocalDate endDate) {
+    private List<Song> getPlaylistSongs(AppUser user, String playlistId) {
         List<Song> playlistSongs = new ArrayList<>();
 
         //MAKE CALLS TO USERS PLAYLIST SONGS
@@ -104,7 +104,7 @@ public class RecappedService {
         } else if (request.isScanTopSongs()) {
             songs = getUserTopSongs(appUser, request.getDateRange());
         } else if (request.isScanSpecificPlaylist()) {
-            songs = getPlaylistSongs(appUser, request.getPlaylistId(), request.getStartDate(), request.getEndDate());
+            songs = getPlaylistSongs(appUser, request.getPlaylistId());
         } else {
             // No songs to scan
             return dto;
@@ -129,7 +129,7 @@ public class RecappedService {
 
         // 6. Construct the DTO with the gathered information
         //constructRecappedDTO(dto, sortedContributors, imageUrl, additionalAlbumCovers);
-
+        dto.setNumOneArtistName("Artist 1");
         return dto;
     }
     // Add additional service methods as needed

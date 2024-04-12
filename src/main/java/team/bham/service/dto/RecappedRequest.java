@@ -1,17 +1,13 @@
 package team.bham.service.dto;
 
-import java.time.LocalDate;
-
 public class RecappedRequest {
 
-    private LocalDate startDate;
-    private LocalDate endDate;
     private String dateRange;
     private MusicianType musicianType;
     private boolean scanEntireLibrary;
     private boolean scanTopSongs;
     private boolean scanSpecificPlaylist;
-    private String playlistId; // Assuming playlist ID is a string, adjust as necessary for your application
+    private String playlistId;
 
     public enum MusicianType {
         PRODUCER,
@@ -25,8 +21,6 @@ public class RecappedRequest {
     public RecappedRequest() {}
 
     public RecappedRequest(
-        LocalDate startDate,
-        LocalDate endDate,
         String dateRange,
         MusicianType musicianType,
         boolean scanEntireLibrary,
@@ -34,30 +28,12 @@ public class RecappedRequest {
         boolean scanSpecificPlaylist,
         String playlistId
     ) {
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.dateRange = dateRange;
         this.musicianType = musicianType;
         this.scanEntireLibrary = scanEntireLibrary;
         this.scanTopSongs = scanTopSongs;
         this.scanSpecificPlaylist = scanSpecificPlaylist;
         this.playlistId = playlistId;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
     }
 
     public MusicianType getMusicianType() {

@@ -12,7 +12,7 @@ import team.bham.service.dto.RecappedDTO;
 import team.bham.service.dto.RecappedRequest;
 
 @RestController
-@RequestMapping("/recapped")
+@RequestMapping("/api")
 public class RecappedResource {
 
     private final RecappedService recappedService;
@@ -24,7 +24,7 @@ public class RecappedResource {
     // POST method to accept criteria and return the recapped information
     @PostMapping("/recapped")
     public ResponseEntity<RecappedDTO> getRecappedInfo(@RequestBody RecappedRequest request, Authentication authentication) {
-        // Here, you would use the request parameters to perform your business logic
+        // Here, we would use the request parameters to perform the business logic
         // For simplicity, I'm directly calling a hypothetical method in the service
         RecappedDTO result = recappedService.calculateRecappedInfo(request, authentication);
         return ResponseEntity.ok(result);

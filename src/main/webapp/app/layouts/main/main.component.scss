@@ -1,16 +1,16 @@
 .container-fluid {
-  padding-top: 30px; // Adjust this value based on the actual height of your navbar
+  padding-top: 30px;
   background-color: transparent !important;
 }
 
 .card {
   background-color: transparent !important;
+  min-height: 89.8vh !important;
 }
 
 body {
   display: flex;
   flex-direction: column;
-  /* Arrange children (content and footer) in a column */
   min-height: 100vh;
   font-family: 'Poiret One', 'Roboto', 'Helvetica';
   overflow-x: hidden;
