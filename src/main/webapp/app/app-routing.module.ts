@@ -13,6 +13,7 @@ import { VisualisationsComponent } from './visualisations/visualisations.compone
 import { GDPRComponent } from './gdpr/gdpr.component';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { PasswordComponent } from './account/password/password.component';
+import { DataMethodologyComponent } from './data-methodology/data-methodology.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,15 @@ import { PasswordComponent } from './account/password/password.component';
           component: RecappedComponent,
           data: {
             pageTitle: 'Recapped',
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'data-methodology',
+          component: DataMethodologyComponent,
+          data: {
+            pageTitle: 'Data Methodology',
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],

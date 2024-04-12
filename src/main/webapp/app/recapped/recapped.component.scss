@@ -10,7 +10,7 @@
 */
 
 .container {
-  min-height: 82vh;
+  min-height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,9 +26,7 @@
 h2 {
   font-family: 'alro' !important;
   font-size: 3.438rem;
-  font-weight: 700;
   color: #ffffff;
-  font-stretch: ultra-expanded;
 }
 
 h4 {
@@ -43,6 +41,7 @@ h5 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
   color: #ffffff;
+  font-weight: 100;
 }
 
 /*
@@ -262,7 +261,6 @@ p {
 */
 
 .description-center-content {
-  padding-top: 6rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -270,8 +268,16 @@ p {
   height: 100%;
 }
 
+a {
+  color: -webkit-link;
+}
+
 .title-photo {
   max-width: 27rem;
+}
+
+.title-shift-left {
+  margin-left: -2.5rem; /* Move the title to the left */
 }
 
 .description-padding {

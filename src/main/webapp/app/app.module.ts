@@ -46,6 +46,7 @@ import { TableviewComponent } from './tableview/tableview.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
 import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
+import { DataMethodologyComponent } from './data-methodology/data-methodology.component';
 
 @NgModule({
   imports: [
@@ -93,6 +94,7 @@ import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
     VisualisationsComponent,
     GDPRComponent,
     LinkSpotifyComponent,
+    DataMethodologyComponent,
   ],
   bootstrap: [MainComponent],
 })
