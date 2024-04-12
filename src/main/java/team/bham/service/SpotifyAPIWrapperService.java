@@ -193,6 +193,10 @@ public class SpotifyAPIWrapperService {
         JSONObject mainArtistJSON = trackJSON.getJSONArray("artists").getJSONObject(0);
         SpotifyArtist mainArtist = new SpotifyArtist();
         mainArtist.setName(mainArtistJSON.getString("name"));
+        mainArtist.setSpotifyId(mainArtistJSON.getString("id"));
+
+        //popularity doesn't seem to exist for some artists... wtf?
+        mainArtist.setPopularity(0);
 
         track.setMainArtist(mainArtist);
 
