@@ -53,18 +53,19 @@ public class SpotifyAPIWrapperService {
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse<ArrayList<String>> getCurrentUserPlaylists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/playlists?limit=1&offset=0";
+    public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/me/playlists";
         JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
-        JSONArray playlists = response.getJSONArray("items");
-        ArrayList<String> playlistIds = new ArrayList<String>();
-        for (int i = 0; i < playlists.length(); i++) {
-            playlistIds.add(playlists.getJSONObject(i).getString("id"));
+        JSONArray playlistEntriesJSON = response.getJSONArray("items");
+        ArrayList<SpotifySimplifiedPlaylist> playlists = new ArrayList<SpotifySimplifiedPlaylist>();
+        for (int i = 0; i < playlistEntriesJSON.length(); i++) {
+            JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(i);
+            playlists.add(new SpotifySimplifiedPlaylist(playlistEntry.getString("name"), playlistEntry.getString("id")));
         }
 
-        SpotifyAPIResponse<ArrayList<String>> res = new SpotifyAPIResponse<>();
+        SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> res = new SpotifyAPIResponse<>();
         res.setSuccess(true);
-        res.setData(playlistIds);
+        res.setData(playlists);
         return res;
     }
 
