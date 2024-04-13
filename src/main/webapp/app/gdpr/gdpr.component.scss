@@ -1,15 +1,18 @@
 .container {
+  //box containing title and subtitle
   text-align: center;
   position: relative;
   color: white;
-  padding: 10px 20px;
+  padding: 15px;
   margin: auto;
   background-color: transparent;
   border-radius: 0.375rem;
   align-items: center;
-  width: 61%;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  margin-top: 22px;
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
 
 .title,
@@ -34,13 +37,12 @@
 
 .text-containers {
   align-self: center;
-  background: transparent;
-  backdrop-filter: blur(20000px);
+  background: #6c559b38;
   padding: 20px;
   margin-bottom: 25px;
   border-radius: 0.375rem;
   box-shadow: 0 0 5px #272727;
-  width: 62.5%;
+  width: 65%;
 }
 
 a {
@@ -64,4 +66,17 @@ td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
 }
