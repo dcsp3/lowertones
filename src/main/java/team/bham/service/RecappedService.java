@@ -1,10 +1,12 @@
 package team.bham.service;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.mapstruct.control.MappingControl.Use;
 import org.springframework.security.core.Authentication;
@@ -129,7 +131,30 @@ public class RecappedService {
 
         // 6. Construct the DTO with the gathered information
         //constructRecappedDTO(dto, sortedContributors, imageUrl, additionalAlbumCovers);
-        dto.setNumOneArtistName("Artist 1");
+        dto.setNumOneArtistName("Kenny Beats");
+        dto.setNumOneAristNumSongs(134);
+        dto.setNumTwoArtistName("Kaytranada");
+        dto.setNumTwoAristNumSongs(100);
+        dto.setNumThreeArtistName("Kanye West");
+        dto.setNumThreeAristNumSongs(90);
+        dto.setNumFourArtistName("Boi-1da");
+        dto.setNumFourAristNumSongs(80);
+        dto.setNumFiveArtistName("JPEGMAFIA");
+        dto.setNumFiveAristNumSongs(70);
+        dto.setNumOneHeroImg("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
+        dto.setNumOneFirstCoverImg("https://i.scdn.co/image/ab67616d0000b2735c2bbb4d4a66a70310705a26");
+        dto.setNumOneFirstSongTitle("Leonard");
+        dto.setNumOneFirstSongMainArtist("Kenny Beats");
+        dto.setNumOneSecondCoverImg("https://i.scdn.co/image/ab67616d0000b273922a12ba0b5a66f034dc9959");
+        dto.setNumOneSecondSongTitle("Lay_Up.m4a");
+        dto.setNumOneSecondSongMainArtist("Denzel Curry");
+
+        try {
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return dto;
     }
     // Add additional service methods as needed

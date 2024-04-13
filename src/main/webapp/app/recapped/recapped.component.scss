@@ -277,11 +277,62 @@ a {
 }
 
 .title-shift-left {
-  margin-left: -2.5rem; /* Move the title to the left */
+  margin-left: -2.5rem;
 }
 
 .description-padding {
   padding-right: 40px;
   padding-left: 40px;
   padding-bottom: 40px;
+}
+
+/*
+** Styling for the loading screen
+*/
+
+@keyframes growAndFadeIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  animation: growAndFadeIn 1s ease-out forwards;
+}
+
+.loading-wheel {
+  border: 8px solid #f3f3f3;
+  margin-bottom: 29px;
+  border-top: 8px solid #64479d;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

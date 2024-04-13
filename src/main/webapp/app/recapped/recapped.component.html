@@ -1,4 +1,4 @@
-<div *ngIf="currentScreen === 'title'" class="title-screen">
+<div *ngIf="currentScreen === 'title'" [@suckInAnimation]="animationState" class="title-screen">
   <div class="container">
     <div class="card left-card">
       <ul class="Words">
@@ -89,8 +89,8 @@
                   </p-dropdown>
                 </div>
 
-                <button class="btn btn-secondary" (click)="goToResultsScreen()">
-                  <span cwwwlass="text">Confirm</span>
+                <button class="btn btn-secondary" (click)="onSubmit()">
+                  <span class="text">Confirm</span>
                 </button>
               </div>
             </div>
@@ -138,6 +138,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-container">
+  <div class="loading-wheel"></div>
+  <p>{{ currentFlavorText }}</p>
 </div>
 
 <div *ngIf="currentScreen === 'results'" class="results-screen"></div>

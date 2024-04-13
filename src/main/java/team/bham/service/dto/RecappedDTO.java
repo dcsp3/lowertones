@@ -5,10 +5,15 @@ import java.io.File;
 public class RecappedDTO {
 
     private String numOneArtistName;
+    private int numOneAristNumSongs;
     private String numTwoArtistName;
+    private int numTwoAristNumSongs;
     private String numThreeArtistName;
+    private int numThreeAristNumSongs;
     private String numFourArtistName;
+    private int numFourAristNumSongs;
     private String numFiveArtistName;
+    private int numFiveAristNumSongs;
 
     private String numOneHeroImg;
 
@@ -126,5 +131,45 @@ public class RecappedDTO {
 
     public void setTransparentPngOverlay(File transparentPngOverlay) {
         this.transparentPngOverlay = transparentPngOverlay;
+    }
+
+    public int getNumOneAristNumSongs() {
+        return numOneAristNumSongs;
+    }
+
+    public void setNumOneAristNumSongs(int numOneAristNumSongs) {
+        this.numOneAristNumSongs = numOneAristNumSongs;
+    }
+
+    public int getNumTwoAristNumSongs() {
+        return numTwoAristNumSongs;
+    }
+
+    public void setNumTwoAristNumSongs(int numTwoAristNumSongs) {
+        this.numTwoAristNumSongs = numTwoAristNumSongs;
+    }
+
+    public int getNumThreeAristNumSongs() {
+        return numThreeAristNumSongs;
+    }
+
+    public void setNumThreeAristNumSongs(int numThreeAristNumSongs) {
+        this.numThreeAristNumSongs = numThreeAristNumSongs;
+    }
+
+    public int getNumFourAristNumSongs() {
+        return numFourAristNumSongs;
+    }
+
+    public void setNumFourAristNumSongs(int numFourAristNumSongs) {
+        this.numFourAristNumSongs = numFourAristNumSongs;
+    }
+
+    public int getNumFiveAristNumSongs() {
+        return numFiveAristNumSongs;
+    }
+
+    public void setNumFiveAristNumSongs(int numFiveAristNumSongs) {
+        this.numFiveAristNumSongs = numFiveAristNumSongs;
     }
 }
