@@ -85,13 +85,11 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
 
   nodes.forEach((node, index) => {
     if (node.type === 'artist') {
-      // Sanitize the ID for consistent usage
       const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, '');
       const nodeCard = d3
-        .select('body')
+        .select(graphContainer)
         .append('div')
         .attr('class', 'node-card')
-        // Use the sanitized ID here
         .attr('id', `node-card-${sanitizedId}`)
         .html(
           `
@@ -108,11 +106,17 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
         .style('position', 'absolute')
         .style('visibility', 'hidden')
         .style('background-color', '#383838')
-        .style('backdrop-filter', 'blur(10px)') // Adjusted value
         .style('padding', '10px')
         .style('border-radius', '8px')
         .style('pointer-events', 'none')
-        .style('z-index', '1000');
+        .style('z-index', '1000')
+        .each(function () {
+          const card = d3.select(this);
+          const bbox = this.getBoundingClientRect();
+          const x = bbox.x + bbox.width > window.innerWidth ? window.innerWidth - bbox.width : bbox.x;
+          const y = bbox.y + bbox.height > window.innerHeight ? window.innerHeight - bbox.height : bbox.y;
+          card.style('left', `${x}px`).style('top', `${y}px`);
+        });
     }
   });
 
@@ -170,10 +174,10 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       const cardSelector = `#node-card-${d.id}`; // d.id is now numeric, which simplifies selectors
       d3.select(cardSelector)
         .style('left', function () {
-          return d.x! + 12.5 + 'px';
+          return d.x! + 'px';
         })
         .style('top', function () {
-          return d.y! - 95 + 'px';
+          return d.y! - 145 + 'px';
         })
         .style('visibility', 'visible');
     })
