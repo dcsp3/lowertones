@@ -16,7 +16,7 @@
 .subtitle {
   opacity: 0;
   transform: translateY(20px);
-  font-family: 'Dela Gothic One', cursive;
+  font-family: 'DMSans';
   transition: opacity 0.8s cubic-bezier(0.42, 0, 0.58, 1), transform 0.8s cubic-bezier(0.42, 0, 0.58, 1);
   animation: fadeInUp 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
@@ -160,7 +160,7 @@
   backdrop-filter: blur(500px);
   color: white;
   align-items: center;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: 'DMSans';
   box-shadow: 0 0 2px black;
 }
 
@@ -170,7 +170,7 @@
   border-radius: 0.375rem;
   backdrop-filter: blur(500px);
   color: white;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: 'DMSans';
 }
 
 .top-artist,
@@ -194,7 +194,7 @@
   backdrop-filter: blur(5000px);
   color: white;
   align-items: center;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: 'DMSans';
   box-shadow: 0 0 2px black;
 }
 
@@ -205,7 +205,177 @@
   flex-direction: row;
   padding: 10px;
   margin: 10px;
+}
+
+.top-genre-container,
+.mainstream-score-container {
   justify-content: center;
+}
+
+.top-artist-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  align-items: start;
+}
+
+.artist-controls {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap: 10px; /* Maintains a consistent space between elements */
+}
+
+#topArtistName {
+  font-size: 35px;
+}
+
+#playButton {
+  width: 35px; /* Fixed width */
+  height: 35px; /* Fixed height */
+  border-radius: 50%; /* Circle shape */
+  background-color: #202020; /* Dark background for button */
+  color: white; /* Ensures text/icon is visible */
+  border: none; /* Removes the border for a cleaner look */
+  cursor: pointer; /* Cursor indicates clickable button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0; /* Reset padding to prevent size adjustments */
+  font-size: 20px; /* Adjust font size as needed but keep it consistent */
+  line-height: 1; /* Ensures the icons don't affect the button's line height */
+}
+
+#topArtistImage {
+  border-radius: 0.375rem; /* Rounded corners */
+  box-shadow: 0 0 2px white; /* Subtle white shadow for emphasis */
+}
+
+.sound-wave {
+  display: flex;
+  justify-content: center; /* Adjusted for better distribution */
+  align-items: flex-end;
+  width: 100%;
+  height: 30px; /* Height of the wave area */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: hidden; /* Prevents bars from flowing out of the container */
+}
+
+.bar {
+  width: 5px; /* Adjust the width of each bar if needed */
+  height: 10px; /* Initial height of each bar */
+  margin: 0 1px; /* Adjust the spacing between bars if needed */
+  background-color: white;
+  border-radius: 2px; /* Rounds the bars */
+  animation: sound-wave-animation 1s infinite ease-in-out;
+}
+
+.bar:nth-child(1) {
+  animation-delay: 0.81s;
+}
+.bar:nth-child(2) {
+  animation-delay: 0.93s;
+}
+.bar:nth-child(3) {
+  animation-delay: 0.7s;
+}
+.bar:nth-child(4) {
+  animation-delay: 0.27s;
+}
+.bar:nth-child(5) {
+  animation-delay: 0.94s;
+}
+.bar:nth-child(6) {
+  animation-delay: 0.92s;
+}
+.bar:nth-child(7) {
+  animation-delay: 0.36s;
+}
+.bar:nth-child(8) {
+  animation-delay: 0.28s;
+}
+.bar:nth-child(9) {
+  animation-delay: 0.36s;
+}
+.bar:nth-child(10) {
+  animation-delay: 0.49s;
+}
+.bar:nth-child(11) {
+  animation-delay: 0.66s;
+}
+.bar:nth-child(12) {
+  animation-delay: 0.64s;
+}
+.bar:nth-child(13) {
+  animation-delay: 0.77s;
+}
+.bar:nth-child(14) {
+  animation-delay: 0.54s;
+}
+.bar:nth-child(15) {
+  animation-delay: 0.01s;
+}
+.bar:nth-child(16) {
+  animation-delay: 0.24s;
+}
+.bar:nth-child(17) {
+  animation-delay: 0.96s;
+}
+.bar:nth-child(18) {
+  animation-delay: 0s;
+}
+.bar:nth-child(19) {
+  animation-delay: 0.98s;
+}
+.bar:nth-child(20) {
+  animation-delay: 0.53s;
+}
+.bar:nth-child(21) {
+  animation-delay: 0.5s;
+}
+.bar:nth-child(22) {
+  animation-delay: 0.04s;
+}
+.bar:nth-child(23) {
+  animation-delay: 0.61s;
+}
+.bar:nth-child(24) {
+  animation-delay: 0.13s;
+}
+.bar:nth-child(25) {
+  animation-delay: 0.64s;
+}
+.bar:nth-child(26) {
+  animation-delay: 0.04s;
+}
+.bar:nth-child(27) {
+  animation-delay: 0.53s;
+}
+.bar:nth-child(28) {
+  animation-delay: 0.59s;
+}
+.bar:nth-child(29) {
+  animation-delay: 0.39s;
+}
+.bar:nth-child(30) {
+  animation-delay: 0.86s;
+}
+
+@keyframes sound-wave-animation {
+  0%,
+  100% {
+    height: 5px;
+  }
+  50% {
+    height: 20px;
+  } /* Adjust the height to how tall you want the bars to go */
+}
+
+.artist-track {
+  font-size: 20px;
+  margin-top: 5px; /* Space between controls and track name */
 }
 
 .mainstream-score-container {
@@ -250,10 +420,6 @@
   font-size: 25px;
 }
 
-#topArtistName {
-  font-size: 30px;
-}
-
 .top-genre-container {
   padding: 5px;
   margin: 5px;
@@ -267,32 +433,11 @@
   background-color: #202020;
   border-radius: 0.375rem 0.375rem 0 0;
   padding: 10px;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .share {
   margin: auto;
   justify-content: center;
   width: 75%;
-}
-
-#topArtistImage {
-  border-radius: 0.375rem;
-  box-shadow: 0 0 2px white;
-}
-
-.top-artist-text {
-  margin-left: 10px;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

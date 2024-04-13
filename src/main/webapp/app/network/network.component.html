@@ -29,13 +29,51 @@
         </div>
 
         <div class="top-artist-container">
-          <img [src]="topArtistImage" width="80px" height="80px" alt="Top Artist Image" id="topArtistImage" />
+          <img [src]="topArtistImage" width="100px" height="100px" alt="Top Artist Image" id="topArtistImage" />
+          <div class="sound-wave" *ngIf="isPlaying">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <!-- Add as many bars as you like -->
+          </div>
           <div class="top-artist-text">
-            <div>{{ topArtistName }}</div>
-            <!-- Display top track name and play button if available -->
-            <div *ngIf="topTrackName && topTrackPreviewUrl">
-              <div>{{ topTrackName }}</div>
-              <button (click)="playPreview()">{{ isPlaying ? 'Pause' : 'Play' }}</button>
+            <!-- Artist and Play Button -->
+            <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-controls">
+              <span id="topArtistName">{{ topArtistName }}</span>
+              <button (click)="playPreview()" id="playButton">{{ isPlaying ? '❚❚' : '▶' }}</button>
+            </div>
+            <!-- Separate Track Name -->
+            <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-track">
+              <span id="topArtistTopTrack">{{ topTrackName }}</span>
+            </div>
+            <!-- Fallback if no track information is available -->
+            <div *ngIf="!topTrackName || !topTrackPreviewUrl" class="artist-name-only">
+              <span id="topArtistName">{{ topArtistName }}</span>
             </div>
           </div>
         </div>
