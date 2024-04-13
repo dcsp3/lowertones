@@ -35,12 +35,8 @@ public class TableviewResource {
     @GetMapping("/top-playlist")
     public ResponseEntity<SpotifyPlaylist> getPlaylistTracks(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
-        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
-        JSONArray playlistItems = playlistInfo.getJSONArray("items");
-        JSONObject firstPlaylist = playlistItems.getJSONObject(0);
-        SpotifyPlaylist p = apiWrapper.getPlaylistDetails(appUser, firstPlaylist.getString("id")).getData();
+        ArrayList<String> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
+        SpotifyPlaylist p = apiWrapper.getPlaylistDetails(appUser, playlistIds.get(0)).getData();
         return new ResponseEntity<>(p, HttpStatus.OK);
-        //JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id")).getData();
-        //return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);
     }
 }

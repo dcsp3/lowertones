@@ -78,40 +78,6 @@ public class APIScrapingResource {
         }
     }
 
-    //huge bodge job - should be removed in the near future
-    //No longer used by tableview, own service and resource has been made
-    @GetMapping("/playlist-tracks")
-    public ResponseEntity<String> getPlaylistTracks(Authentication authentication) {
-        //handle errors here...
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
-        JSONArray playlistItems = playlistInfo.getJSONArray("items");
-
-        JSONArray tracks = new JSONArray();
-        for (int i = 0; i < playlistItems.length(); i++) {
-            JSONObject playlist = playlistItems.getJSONObject(i);
-            //tracks.add(apiWrapper.getPlaylistTracks(appUser, playlist.getString("id")).getData());
-            tracks.put(apiWrapper.getPlaylistTracks(appUser, playlist.getString("id")).getData());
-        }
-
-        return new ResponseEntity<>(tracks.toString(), HttpStatus.OK);
-        /*JSONObject firstPlaylist = playlistItems.getJSONObject(0);
-        JSONObject trackInfo = apiWrapper.getPlaylistTracks(appUser, firstPlaylist.getString("id")).getData();
-        return new ResponseEntity<>(trackInfo.toString(), HttpStatus.OK);*/
-    }
-
-    @GetMapping("/testing-api-stuff-hello")
-    public ResponseEntity<SpotifyPlaylist> getPlaylistStuff(Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-
-        JSONObject playlistInfo = apiWrapper.getCurrentUserPlaylists(appUser).getData();
-        JSONArray playlistItems = playlistInfo.getJSONArray("items");
-        JSONObject playlist = playlistItems.getJSONObject(0);
-
-        SpotifyPlaylist helo = apiWrapper.getPlaylistDetails(appUser, playlist.getString("id")).getData();
-        return new ResponseEntity<>(helo, HttpStatus.OK);
-    }
-
     @GetMapping("/top-artists")
     public ResponseEntity<String> getCurrentUserTopArtists(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());

@@ -1,5 +1,6 @@
 package team.bham.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.json.JSONArray;
@@ -52,9 +53,19 @@ public class SpotifyAPIWrapperService {
         return APICall(HttpMethod.GET, endpoint, user);
     }
 
-    public SpotifyAPIResponse<JSONObject> getCurrentUserPlaylists(AppUser user) {
+    public SpotifyAPIResponse<ArrayList<String>> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=1&offset=0";
-        return APICall(HttpMethod.GET, endpoint, user);
+        JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        JSONArray playlists = response.getJSONArray("items");
+        ArrayList<String> playlistIds = new ArrayList<String>();
+        for (int i = 0; i < playlists.length(); i++) {
+            playlistIds.add(playlists.getJSONObject(i).getString("id"));
+        }
+
+        SpotifyAPIResponse<ArrayList<String>> res = new SpotifyAPIResponse<>();
+        res.setSuccess(true);
+        res.setData(playlistIds);
+        return res;
     }
 
     public SpotifyAPIResponse<JSONObject> getPlaylistTracks(AppUser user, String playlistId) {
