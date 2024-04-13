@@ -60,7 +60,13 @@ public class SpotifyAPIWrapperService {
         ArrayList<SpotifySimplifiedPlaylist> playlists = new ArrayList<SpotifySimplifiedPlaylist>();
         for (int i = 0; i < playlistEntriesJSON.length(); i++) {
             JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(i);
-            playlists.add(new SpotifySimplifiedPlaylist(playlistEntry.getString("name"), playlistEntry.getString("id")));
+            playlists.add(
+                new SpotifySimplifiedPlaylist(
+                    playlistEntry.getString("name"),
+                    playlistEntry.getString("id"),
+                    playlistEntry.getString("snapshot_id")
+                )
+            );
         }
 
         SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> res = new SpotifyAPIResponse<>();
@@ -81,6 +87,7 @@ public class SpotifyAPIWrapperService {
         SpotifyPlaylist playlist = new SpotifyPlaylist();
         playlist.setPlaylistId(playlistJSON.getString("id"));
         playlist.setSnapshotId(playlistJSON.getString("snapshot_id"));
+        playlist.setName(playlistJSON.getString("name"));
 
         JSONObject trackInfo = playlistJSON.getJSONObject("tracks");
         JSONArray tracks = trackInfo.getJSONArray("items");

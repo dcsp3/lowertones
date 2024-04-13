@@ -28,4 +28,7 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
     default Page<Song> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Query("SELECT s FROM Song s WHERE s.songSpotifyID = ?1")
+    Song findSongBySpotifyId(String spotifyId);
 }

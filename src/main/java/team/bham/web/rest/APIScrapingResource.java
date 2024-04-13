@@ -3,6 +3,7 @@ package team.bham.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,10 +26,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import team.bham.domain.AppUser;
-import team.bham.domain.User;
-import team.bham.repository.AppUserRepository;
-import team.bham.repository.UserRepository;
+import team.bham.domain.*;
+import team.bham.domain.enumeration.AlbumType;
+import team.bham.domain.enumeration.ReleaseDatePrecision;
+import team.bham.repository.*;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
 import team.bham.service.SpotifyAPIWrapperService;
@@ -46,6 +47,12 @@ public class APIScrapingResource {
 
     private final UserRepository userRepository;
     private final AppUserRepository appUserRepository;
+    private final AlbumRepository albumRepository;
+    private final MainArtistRepository mainArtistRepository;
+    private final PlaylistRepository playlistRepository;
+    private final PlaylistSongJoinRepository playlistSongJoinRepository;
+    private final SongArtistJoinRepository songArtistJoinRepository;
+    private final SongRepository songRepository;
     private final UserService userService;
     private final SpotifyAPIWrapperService apiWrapper;
 
@@ -54,17 +61,90 @@ public class APIScrapingResource {
         UserRepository userRepository,
         AppUserRepository appUserRepository,
         UserService userService,
-        SpotifyAPIWrapperService apiWrapperService
+        SpotifyAPIWrapperService apiWrapperService,
+        AlbumRepository albumRepository,
+        MainArtistRepository mainArtistRepository,
+        PlaylistRepository playlistRepository,
+        PlaylistSongJoinRepository playlistSongJoinRepository,
+        SongArtistJoinRepository songArtistJoinRepository,
+        SongRepository songRepository
     ) {
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
         this.userService = userService;
         this.apiWrapper = apiWrapperService;
+        this.albumRepository = albumRepository;
+        this.mainArtistRepository = mainArtistRepository;
+        this.playlistRepository = playlistRepository;
+        this.playlistSongJoinRepository = playlistSongJoinRepository;
+        this.songArtistJoinRepository = songArtistJoinRepository;
+        this.songRepository = songRepository;
     }
 
     @PostMapping("/scrape")
-    public ResponseEntity<Boolean> ScrapeUserPlaylists() {
+    public ResponseEntity<Boolean> ScrapeUserPlaylists(Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        ArrayList<SpotifySimplifiedPlaylist> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
+
+        //scrape playlist info, create playlist object, store in repo and add to appuser (store appuser again), ...
+        for (int i = 0; i < playlistIds.size(); i++) {
+            //check if we've already scraped this playlist
+            Playlist playlist = playlistRepository.findPlaylistBySpotifyId(playlistIds.get(i).getSpotifyId());
+            if (playlist != null) {
+                //same snapshot id - no need to redo scraping
+                if (playlist.getPlaylistSnapshotID() == playlistIds.get(i).getSnapshotId()) {
+                    continue;
+                }
+            } else playlist = new Playlist();
+
+            SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, playlistIds.get(i).getSpotifyId()).getData();
+            playlist.setAppUser(appUser);
+            playlist.setDateAddedToDB(LocalDate.now());
+            playlist.setDateLastModified(LocalDate.now());
+            playlist.setPlaylistSpotifyID(curPlaylist.getPlaylistId());
+            playlist.setPlaylistSnapshotID(curPlaylist.getSnapshotId());
+            playlist.setPlaylistName(curPlaylist.getName());
+            playlistRepository.save(playlist);
+
+            ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
+            for (int j = 0; j < tracks.size(); j++) {
+                Song s = storeTrack(tracks.get(j));
+
+                PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin();
+                playlistSongJoin.setPlaylist(playlist);
+                playlistSongJoin.setSong(s);
+                playlistSongJoin.setSongOrderIndex(0); //what??
+                playlistSongJoin.setSongDateAdded(LocalDate.now());
+                playlistSongJoinRepository.save(playlistSongJoin);
+            }
+
+            playlistRepository.save(playlist);
+        }
+
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    //todo: move this all to service
+    public Song storeTrack(SpotifyTrack track) {
+        Song s = songRepository.findSongBySpotifyId(track.getId());
+        if (s != null) {
+            return s;
+        }
+
+        Song song = new Song();
+        song.setSongSpotifyID(track.getId());
+        song.setSongTitle(track.getName());
+        song.setSongAlbumID(track.getAlbum().getSpotifyId());
+        song.setSongExplicit(track.getExplicit());
+        song.setSongDuration(track.getDuration());
+        song.setSongAlbumType(AlbumType.ALBUM);
+        song.setSongPopularity(track.getPopularity());
+        song.setSongDateAddedToDB(LocalDate.now());
+        song.setSongDateLastModified(LocalDate.now());
+        song.setSongTrackFeaturesAdded(false);
+
+        songRepository.save(song);
+        return song;
     }
 
     @GetMapping("/get-user-details")

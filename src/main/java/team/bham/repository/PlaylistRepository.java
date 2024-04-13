@@ -9,4 +9,7 @@ import team.bham.domain.Playlist;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PlaylistRepository extends JpaRepository<Playlist, Long> {}
+public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
+    @Query("SELECT p FROM Playlist p WHERE p.playlistSpotifyID = ?1")
+    Playlist findPlaylistBySpotifyId(String spotifyId);
+}
