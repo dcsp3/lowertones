@@ -8,10 +8,15 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 
 interface RecappedDTO {
   numOneArtistName: string;
+  numOneAristNumSongs: number;
   numTwoArtistName: string;
+  numTwoArtistNumSongs: number;
   numThreeArtistName: string;
+  numThreeArtistNumSongs: number;
   numFourArtistName: string;
+  numFourArtistNumSongs: number;
   numFiveArtistName: string;
+  numFiveArtistNumSongs: number;
   numOneHeroImg: string;
   numOneFirstCoverImg: string;
   numOneFirstSongTitle: string;
@@ -85,7 +90,7 @@ class RecappedService {
   ],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
-  currentScreen: 'title' | 'results' = 'title';
+  currentScreen: 'title' | 'error' | 'results' = 'title';
   topMusicians: any[] = [];
   recappedForm: FormGroup;
   selectedTimeframe: string = '';
@@ -97,6 +102,8 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   highlightScanType: boolean = false;
   highlightTimeframe: boolean = false;
   highlightMusician: boolean = false;
+  response: any;
+  animatedNumSongs: number = 0;
 
   constructor(
     private elementRef: ElementRef,
@@ -133,7 +140,22 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    /*
+    // REMOVE THIS WHEN YOU ARE DONE TESTING
+    this.recappedForm.setValue({
+      scanType: 'entireLibrary', // Replace with your default value
+      timeframe: 'LAST_MONTH', // Replace with your default value
+      musicianType: 'PRODUCER', // Replace with your default value
+      scanEntireLibrary: true, // Replace with your default value
+      scanTopSongs: false, // Replace with your default value
+      scanSpecificPlaylist: false, // Replace with your default value
+      playlistId: '', // Replace with your default value or leave empty if not needed
+    });
+    this.goToResultsScreen(this.recappedForm.value);
+    ///^^^^^^^^^^^^^^ REMOVE THIS WHEN YOU ARE DONE TESTING
+    */
+  }
 
   ngAfterViewInit(): void {
     this.initVanillaTiltTitleScreen();
@@ -143,7 +165,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    console.log('submitting form');
     if (this.recappedForm.valid) {
       const formValue = this.recappedForm.value;
       const request: RecappedRequest = {
@@ -239,12 +260,15 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       next: response => {
         this.isLoading = false;
         this.stopFlavorTextRotation();
+        this.response = response;
         this.currentScreen = 'results';
+        this.animateNumber(response.numOneAristNumSongs);
         this.initVanillaTiltOnResultsScreen();
       },
       error: error => {
         this.isLoading = false;
         this.stopFlavorTextRotation();
+        this.currentScreen = 'error';
         console.error('Error fetching recapped info:', error);
       },
     });
@@ -317,5 +341,27 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   stopFlavorTextRotation() {
     clearInterval(this.flavorTextInterval);
+  }
+
+  animateNumber(target: number): void {
+    this.animatedNumSongs = 0;
+    const duration = 3000;
+    let currentStep = 0;
+    const steps = 100;
+    const interval = duration / steps;
+    setTimeout(() => {
+      const timer = setInterval(() => {
+        currentStep++;
+        this.animatedNumSongs = this.easeOutExpo(currentStep, 0, target, steps);
+        if (currentStep >= steps) {
+          this.animatedNumSongs = target;
+          clearInterval(timer);
+        }
+      }, interval);
+    }, 50);
+  }
+
+  easeOutExpo(t: number, b: number, c: number, d: number) {
+    return t === d ? b + c : c * (-Math.pow(2, (-10 * t) / d) + 1) + b;
   }
 }

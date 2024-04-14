@@ -114,27 +114,29 @@
       <!-- Column 2 -->
       <div class="col-md-6 description-padding d-flex flex-column justify-content-center align-items-center">
         <h2 class="how-it-works-title title-shift-left">How It Works</h2>
-        <h5>
-          ReCAPD allows you to find the musicians and <br />artists behind the music you love. <br /><br />
-          We scan your Spotify library, and use our <br />
-          proprietary dataset to find the tracks you love <br />
-          on the MusicBrainz database. <br />
-          <br />
-          We then scan this data to find the producers, <br />
-          guitarists, bassists (and more) that are credited <br />
-          in the most songs in your library.<br />
-          <br />
-          Simply select the type of artist you want to <br />
-          find, select the timeframe, and from where <br />
-          you want to scan, and we do the rest! <br />
-          <br />
-          Your favourite musician isn't in the list? <br />
-          Consider contributing to MusicBrainz and <br />
-          get them recognised! <br />
-          <br />
-          Click <a href="/data-methodology" style="text-decoration: none">here</a> to learn more about our data <br />
-          methodology and download our dataset. <br />
-        </h5>
+        <div class="description-text">
+          <h5>
+            ReCAPD allows you to find the musicians and <br />artists behind the music you love. <br /><br />
+            We scan your Spotify library, and use our <br />
+            proprietary dataset to find the tracks you love <br />
+            on the MusicBrainz database. <br />
+            <br />
+            We then scan this data to find the producers, <br />
+            guitarists, bassists (and more) that are credited <br />
+            in the most songs in your library.<br />
+            <br />
+            Simply select the type of artist you want to <br />
+            find, select the timeframe, and from where <br />
+            you want to scan, and we do the rest! <br />
+            <br />
+            Your favourite musician isn't in the list? <br />
+            Consider contributing to MusicBrainz and <br />
+            get them recognised! <br />
+            <br />
+            Click <a href="/data-methodology" style="text-decoration: none">here</a> to learn more about our data <br />
+            methodology and download our dataset. <br />
+          </h5>
+        </div>
       </div>
     </div>
   </div>
@@ -145,4 +147,35 @@
   <p>{{ currentFlavorText }}</p>
 </div>
 
-<div *ngIf="currentScreen === 'results'" class="results-screen"></div>
+<div *ngIf="currentScreen === 'error'" class="error-container">
+  <p>error getting recapped</p>
+</div>
+
+<div *ngIf="currentScreen === 'results'" class="results-screen">
+  <div class="results-container">
+    <div class="top-producers">
+      <div class="your-top-title">Your Top Producers from the Past Year</div>
+      <div class="producer-hero">
+        <div class="num1artist">
+          <div class="num1 left">#1</div>
+          <div class="num1artisttext">{{ response.numOneArtistName }}</div>
+        </div>
+        <img [src]="response.numOneHeroImg" alt="{{ response.numOneArtistName }}" class="hero-img" />
+        <div class="hero-text-right-1">You’ve saved</div>
+        <div class="hero-text-right-2">{{ animatedNumSongs | number: '1.0-0' }}</div>
+        <div class="hero-text-right-3">songs of theirs</div>
+      </div>
+      <ul class="producer-list">
+        <li>
+          <span>#2 {{ response.numTwoArtistName }}</span>
+          <span>{{ response.numTwoAristNumSongs }} songs</span>
+        </li>
+        <li>
+          <span>#3 {{ response.numThreeArtistName }}</span>
+          <span>{{ response.numThreeAristNumSongs }} songs</span>
+        </li>
+        <!-- ... Add other producers -->
+      </ul>
+    </div>
+  </div>
+</div>

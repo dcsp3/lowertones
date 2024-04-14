@@ -4,6 +4,18 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'neue-plak';
+  src: url('../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'hollow';
+  src: url('../../content/fonts/custom-hollow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /*
 ** Styling for entire page
@@ -23,25 +35,13 @@
   background-color: #ffffff00;
 }
 
-h2 {
-  font-family: 'alro' !important;
-  font-size: 3.438rem;
-  color: #ffffff;
-}
-
 h4 {
-  font-family: 'helvetica' !important;
+  font-family: 'neue-plak' !important;
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   color: #ffffff;
-}
-
-h5 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-  color: #ffffff;
-  font-weight: 100;
+  letter-spacing: 1px;
 }
 
 /*
@@ -156,6 +156,12 @@ p {
     background: #ffffff00 !important;
     color: #ffffff !important;
   }
+  .p-inputtext {
+    font-family: 'neue-plak' !important;
+  }
+  .ng-star-inserted {
+    font-family: 'neue-plak' !important;
+  }
 }
 
 .scan-selection {
@@ -268,6 +274,26 @@ p {
   height: 100%;
 }
 
+h5 {
+  font-family: 'neue-plak', sans-serif;
+  color: #ffffff;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+
+  font-weight: 100;
+}
+
+h2 {
+  font-family: 'neue-plak' !important;
+  font-size: 4.1rem;
+  color: #ffffff;
+}
+
+.description-text {
+  margin-top: 0rem;
+  letter-spacing: 1px;
+}
+
 a {
   color: -webkit-link;
 }
@@ -277,7 +303,7 @@ a {
 }
 
 .title-shift-left {
-  margin-left: -2.5rem;
+  margin-left: -5.4rem;
 }
 
 .description-padding {
@@ -335,4 +361,114 @@ a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/*
+** Styling for the results screen
+*/
+
+.results-screen {
+  font-family: 'Your font', sans-serif;
+  color: #fff;
+  padding: 20px;
+}
+
+.results-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.your-top-title {
+  font-family: 'neue-plak' !important;
+  font-size: 3.6rem;
+  color: #ffffff;
+  text-align: center;
+  margin-top: -2.3rem;
+}
+.num1 {
+  margin-top: 2rem;
+  margin-right: 5rem;
+  font-size: 4rem;
+  font-family: 'hollow';
+  text-align: right;
+  position: absolute;
+  left: 18.5%;
+  margin-top: -12rem;
+}
+.num1artisttext {
+  font-size: 4rem;
+  position: absolute;
+  top: 4rem;
+  right: 70%;
+  max-width: 30rem;
+  text-align: right;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+.hero-text-right-1 {
+  font-size: 3rem;
+  position: absolute;
+  top: 15rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.hero-text-right-2 {
+  font-family: 'hollow' !important;
+  font-size: 5rem;
+  position: absolute;
+  top: 19rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.hero-text-right-3 {
+  font-size: 3rem;
+  position: absolute;
+  top: 24rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.top-producers h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.producer-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 28rem;
+}
+
+.hero-img {
+  width: 28rem;
+  height: 28rem;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.producer-hero .left {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.producer-hero .right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
