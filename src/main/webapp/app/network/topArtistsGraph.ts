@@ -50,20 +50,9 @@ function getElements(artists: Artist[], userImg: string): { nodes: Node[]; links
   return { nodes, links };
 }
 
-function applyVisualOscillationToNodes(svg: any, nodes: any, frequency = 7000) {
-  const amplitude = 0.25; // Maximum distance from the original position
-
-  d3.timer(elapsed => {
-    svg
-      .selectAll('circle')
-      .attr('cx', (d: any) => d.x + Math.sin((elapsed / frequency) * d.id) * amplitude)
-      .attr('cy', (d: any) => d.y + Math.cos((elapsed / frequency) * d.id) * amplitude);
-  });
-}
-
 function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
   const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
-
+  //.style('animation', 'subtle-zoom 10s infinite alternate ease-in-out')
   // Defining patterns for each node based on imageUrl
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
@@ -150,14 +139,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       d3.forceY(height / 2).strength((d: any) => (d.type === 'user' ? 1 : 0))
     );
 
-  const link = svg
-    .selectAll('line')
-    .data(links)
-    .enter()
-    .append('line')
-    .style('stroke', 'white')
-    .style('stroke-width', 0.25)
-    .style('stroke-dasharray', '2,2');
+  const link = svg.selectAll('line').data(links).enter().append('line').style('stroke', 'black').style('stroke-width', 0.2);
 
   const node = svg
     .selectAll('circle')
