@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
 interface Artist {
@@ -44,6 +44,12 @@ export class NetworkComponent implements OnInit {
   ngOnInit(): void {
     this.fetchAndRenderGraph(this.timeRange);
   }
+
+  // @HostListener('window:resize', ['$event'])
+  //   onResize(event: any) {
+  //     clearGraph(this.graphContainer.nativeElement)
+  //     this.fetchAndRenderGraph(this.timeRange); // Re-fetch and re-render the graph on window resize
+  //   }
 
   fetchTopArtists(timeRange: string): Promise<Artist[]> {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
@@ -159,10 +165,14 @@ export class NetworkComponent implements OnInit {
   private async fetchAndRenderGraph(timeRange: string): Promise<void> {
     try {
       clearGraph(this.graphContainer.nativeElement);
+
+      const containerWidth = this.graphContainer.nativeElement.offsetWidth;
+      const containerHeight = this.graphContainer.nativeElement.offsetHeight;
+
       const userImageUrl = await this.fetchUserImage();
       const artistsData = await this.fetchTopArtists(timeRange);
       const elements = getElements(artistsData, userImageUrl); // Ensure getElements accepts Artist[] as per the corrected structure
-      renderGraph(this.graphContainer.nativeElement, 850, 600, elements.nodes, elements.links);
+      renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
     }

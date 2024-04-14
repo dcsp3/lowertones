@@ -51,8 +51,12 @@ function getElements(artists: Artist[], userImg: string): { nodes: Node[]; links
 }
 
 function renderGraph(graphContainer: any, width: number, height: number, nodes: Node[], links: Link[]): void {
-  const svg = d3.select(graphContainer).append('svg').attr('width', width).attr('height', height);
-  //.style('animation', 'subtle-zoom 10s infinite alternate ease-in-out')
+  const svg = d3
+    .select(graphContainer)
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .style('animation', 'subtle-zoom 3s infinite alternate ease-in-out');
   // Defining patterns for each node based on imageUrl
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
@@ -111,8 +115,8 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
 
   const simulation = d3
     .forceSimulation(nodes)
-    .alpha(0.5)
-    .alphaDecay(0.1)
+    .alpha(0.095) // Start with a higher initial alpha for more initial motion
+    .alphaDecay(0.02) // Lower decay rate to prolong the simulation
     .velocityDecay(0.9)
     .force(
       'charge',
@@ -121,7 +125,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force(
       'collision',
-      d3.forceCollide().radius((d: any) => (d.type === 'user' ? 0 : 25))
+      d3.forceCollide().radius((d: any) => (d.type === 'user' ? 0 : 15))
     )
     .force(
       'link',
