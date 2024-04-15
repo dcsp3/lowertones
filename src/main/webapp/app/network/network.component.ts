@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
 interface Artist {
@@ -23,6 +25,13 @@ interface ApiResponse {
   selector: 'jhi-network',
   templateUrl: './network.component.html',
   styleUrls: ['./network.component.scss'],
+  animations: [
+    trigger('fillAnimation', [
+      state('start', style({ width: '0%' })),
+      state('end', style({ width: '{{ fillPercentage }}%' }), { params: { fillPercentage: 0 } }),
+      transition('start => end', animate('20s ease-out')),
+    ]),
+  ],
 })
 export class NetworkComponent implements OnInit {
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
@@ -41,8 +50,25 @@ export class NetworkComponent implements OnInit {
   averagePopularity: string = '';
   tasteCategoryDetails: TasteCategoryDetails | null = null;
 
+  fillPercentage = 0;
+  displayScore: string = '0.00';
+
   ngOnInit(): void {
     this.fetchAndRenderGraph(this.timeRange);
+  }
+
+  animateScore(finalScore: number): void {
+    this.fillPercentage = finalScore; // Set the final score percentage for animation
+    let currentScore = 0;
+    const increment = finalScore / 100;
+    const interval = setInterval(() => {
+      currentScore += increment;
+      if (currentScore >= finalScore) {
+        currentScore = finalScore;
+        clearInterval(interval);
+      }
+      this.displayScore = currentScore.toFixed(2);
+    }, 25); // Adjust timing based on preference
   }
 
   // @HostListener('window:resize', ['$event'])
@@ -172,6 +198,7 @@ export class NetworkComponent implements OnInit {
       const userImageUrl = await this.fetchUserImage();
       const artistsData = await this.fetchTopArtists(timeRange);
       const elements = getElements(artistsData, userImageUrl); // Ensure getElements accepts Artist[] as per the corrected structure
+      this.animateScore(parseFloat(this.averagePopularity)); // Call to start animation once data is loaded
       renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
