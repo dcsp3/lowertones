@@ -95,8 +95,12 @@
         </div>
         <div class="mainstream-score-container" *ngIf="tasteCategoryDetails">
           <div class="score-bar" [ngStyle]="{ 'background-color': tasteCategoryDetails.colorDark }">
-            <div class="score-fill" [ngStyle]="{ width: averagePopularity, 'background-color': tasteCategoryDetails.colorLight }"></div>
-            <span class="popularity-score">{{ averagePopularity }}</span>
+            <div
+              class="score-fill"
+              [@fillAnimation]="{ value: 'end', params: { fillPercentage: displayScore } }"
+              [ngStyle]="{ 'background-color': tasteCategoryDetails.colorLight }"
+            ></div>
+            <span class="popularity-score">{{ displayScore }}%</span>
           </div>
           <span class="taste-category">{{ tasteCategoryDetails.name }}</span>
         </div>

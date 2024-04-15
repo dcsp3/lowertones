@@ -56,7 +56,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .append('svg')
     .attr('width', width)
     .attr('height', height)
-    .style('animation', 'subtle-zoom 3s infinite alternate ease-in-out');
+    .style('animation', 'subtle-zoom 5s infinite alternate ease-in-out');
   // Defining patterns for each node based on imageUrl
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
