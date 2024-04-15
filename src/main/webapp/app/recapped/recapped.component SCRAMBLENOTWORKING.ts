@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, Injectable, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, Injectable, HostListener, ViewChild } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -24,16 +24,7 @@ interface RecappedDTO {
   numOneSecondCoverImg: string;
   numOneSecondSongTitle: string;
   numOneSecondSongMainArtist: string;
-  totalSongs: number;
-  totalDuration: number;
-  totalArtists: number;
-  totalContributors: number;
-  topUnder1kName: string;
-  topUnder10kName: string;
-  topUnder100kName: string;
-  topUnder1kImage: string;
-  topUnder10kImage: string;
-  topUnder100kImage: string;
+  transparentPngOverlay: string;
 }
 
 enum MusicianType {
@@ -57,12 +48,20 @@ interface RecappedRequest {
   scanEntireLibrary: boolean;
   scanTopSongs: boolean;
   scanSpecificPlaylist: boolean;
-  playlistId?: string;
+  playlistId?: string; // Optional, based on scanSpecificPlaylist
 }
 
 interface choice {
   label: string;
   value: string;
+}
+
+interface ScrambleQueueItem {
+  from: string;
+  to: string;
+  start: number;
+  end: number;
+  char: string;
 }
 
 @Injectable({
@@ -96,13 +95,10 @@ class RecappedService {
       ),
       transition('default => sucked', animate('800ms ease-in-out')),
     ]),
-    trigger('fadeInOut', [
-      transition(':enter', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]),
-      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
-    ]),
   ],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
+  @ViewChild('scrambleText', { static: false }) scrambleText!: ElementRef;
   currentScreen: 'title' | 'error' | 'results' = 'title';
   topMusicians: any[] = [];
   recappedForm: FormGroup;
@@ -119,10 +115,12 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   animatedNumSongs: number = 0;
 
   currentPage = 0;
-  totalPages = 4;
+  totalPages = 4; // Replace with your actual total pages
   scrolling = false;
   scrollUpAccumulator = 0;
   scrollDownAccumulator = 0;
+
+  private frameRequest: number | undefined;
 
   constructor(
     private elementRef: ElementRef,
@@ -176,6 +174,10 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initVanillaTiltTitleScreen();
+    this.checkAndAnimateText();
+  }
+  ngAfterViewChecked(): void {
+    this.checkAndAnimateText();
   }
   ngOnDestroy(): void {
     this.stopFlavorTextRotation();
@@ -386,78 +388,108 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   navigateDown() {
     if (this.currentPage < this.totalPages - 1) {
-      this.animatePageTransition(() => {
-        this.currentPage++;
-        if (this.currentPage === 0) {
-          this.animateNumber(this.response?.totalSongs);
-        }
-        if (this.currentPage === 1) {
-          this.animateNumber(this.response?.numOneAristNumSongs);
-        }
-      });
-    }
-  }
-
-  navigateUp() {
-    if (this.currentPage > 0) {
-      this.animatePageTransition(() => {
-        this.currentPage--;
-        if (this.currentPage === 0) {
-          this.animateNumber(this.response?.totalSongs);
-        }
-        if (this.currentPage === 1) {
-          this.animateNumber(this.response?.numOneAristNumSongs);
-        }
-      });
-    }
-  }
-
-  animatePageTransition(callback: () => void) {
-    this.scrolling = true;
-    setTimeout(() => {
-      callback();
-      this.scrolling = false;
-    }, 300);
-  }
-
-  navigateToPage(pageNumber: number): void {
-    if (!this.scrolling && pageNumber >= 0 && pageNumber < this.totalPages) {
-      this.currentPage = pageNumber;
-      if (this.currentPage === 0) {
-        this.animateNumber(this.response?.totalSongs);
-      }
+      this.currentPage++;
+      this.animatePageTransition();
+      console.log('Current page is', this.currentPage);
       if (this.currentPage === 1) {
+        console.log('Current page is 1, starting animations.');
+        this.animateText(this.response.numOneArtistName);
         this.animateNumber(this.response?.numOneAristNumSongs);
       }
     }
   }
 
-  getTimeframeLabel(): string {
-    const selectedTimeframeValue = this.recappedForm.get('timeframe')?.value;
-    const selectedTimeframe = this.timeframes.find(timeframe => timeframe.value === selectedTimeframeValue);
-    return selectedTimeframe ? selectedTimeframe.label.toLowerCase() : 'N/A';
-  }
-  getTotalLibraryDuration(): string {
-    const totalDuration = this.response?.totalDuration;
-    if (totalDuration > 60) {
-      return `${(totalDuration / 60).toFixed(1)} hours`;
-    } else if (totalDuration > 1440) {
-      return `${(totalDuration / 1440).toFixed(3)} days`;
-    } else if (totalDuration > 10080) {
-      return `${(totalDuration / 10080).toFixed(3)} weeks`;
-    } else {
-      return `${(totalDuration / 43800).toFixed(3)} months`;
+  navigateUp() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.animatePageTransition();
+      console.log('Current page is', this.currentPage);
+      if (this.currentPage === 1) {
+        console.log('Current page is 1, starting animations.');
+        this.animateText(this.response.numOneArtistName);
+        this.animateNumber(this.response?.numOneAristNumSongs);
+      }
     }
   }
 
-  getPercentageOfSpotifyLibrary(): string {
-    const totalSongs = this.response?.totalSongs;
-    const totalArtists = this.response?.totalArtists;
-    const totalSpotifySongs = 1000000000;
-    const totalSpotifyArtists = 11000000;
-    const songPercentage = (totalSongs / totalSpotifySongs) * 100;
-    const artistPercentage = (totalArtists / totalSpotifyArtists) * 100;
-    return `${songPercentage.toFixed(7)}% of songs and ${artistPercentage.toFixed(7)}% of artists`;
+  navigateToPage(pageNumber: number): void {
+    if (!this.scrolling && pageNumber >= 0 && pageNumber < this.totalPages) {
+      this.currentPage = pageNumber;
+      this.animatePageTransition();
+      console.log('Current page is', this.currentPage);
+      if (this.currentPage === 1) {
+        console.log('Current page is 1, starting animations.');
+        this.animateText(this.response.numOneArtistName);
+        this.animateNumber(this.response?.numOneAristNumSongs);
+      }
+    }
+  }
+
+  animatePageTransition() {
+    // Use Angular's animation framework to transition between pages
+    this.scrolling = true;
+    setTimeout(() => (this.scrolling = false), 300);
+  }
+
+  goToPage(pageNumber: number) {
+    if (!this.scrolling && pageNumber >= 0 && pageNumber <= this.totalPages) {
+      this.currentPage = pageNumber;
+      this.animatePageTransition();
+    }
+  }
+
+  private checkAndAnimateText() {
+    if (this.currentScreen === 'results' && this.currentPage === 1 && this.scrambleText) {
+      this.animateText('Dynamic text here based on response');
+    }
+  }
+
+  animateText(newText: string) {
+    const element = this.scrambleText.nativeElement;
+    const chars = '!<>-_\\/[]{}—=+*^?#________';
+    let oldText = element.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    let queue: ScrambleQueueItem[] = [];
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || '';
+      const to = newText[i] || '';
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      queue.push({ from, to, start, end, char: '' });
+    }
+    let frame = 0;
+
+    const update = () => {
+      let output = '';
+      let complete = 0;
+      for (let i = 0, n = queue.length; i < n; i++) {
+        let { from, to, start, end, char } = queue[i];
+        if (frame >= end) {
+          complete++;
+          output += to;
+        } else if (frame >= start) {
+          if (!char || Math.random() < 0.28) {
+            char = randomChar();
+            queue[i].char = char;
+          }
+          output += `<span class="dud">${char}</span>`;
+        } else {
+          output += from;
+        }
+      }
+      element.innerHTML = output;
+      if (complete < queue.length) {
+        this.frameRequest = requestAnimationFrame(update);
+        frame++;
+      } else {
+        if (this.frameRequest !== undefined) {
+          cancelAnimationFrame(this.frameRequest);
+        }
+      }
+    };
+
+    const randomChar = () => chars[Math.floor(Math.random() * chars.length)];
+    update();
   }
 
   animateNumber(target: number): void {

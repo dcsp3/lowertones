@@ -4,6 +4,16 @@ import java.io.File;
 
 public class RecappedDTO {
 
+    private int totalSongs;
+    private int totalDuration;
+    private int totalArtists;
+    private int totalContributors;
+    private String topUnder1kName;
+    private String topUnder10kName;
+    private String topUnder100kName;
+    private String topUnder1kImage;
+    private String topUnder10kImage;
+    private String topUnder100kImage;
     private String numOneArtistName;
     private int numOneAristNumSongs;
     private String numTwoArtistName;
@@ -14,18 +24,13 @@ public class RecappedDTO {
     private int numFourAristNumSongs;
     private String numFiveArtistName;
     private int numFiveAristNumSongs;
-
     private String numOneHeroImg;
-
     private String numOneFirstCoverImg;
     private String numOneFirstSongTitle;
     private String numOneFirstSongMainArtist;
-
     private String numOneSecondCoverImg;
     private String numOneSecondSongTitle;
     private String numOneSecondSongMainArtist;
-
-    private File transparentPngOverlay;
 
     public RecappedDTO() {}
 
@@ -125,14 +130,6 @@ public class RecappedDTO {
         this.numOneSecondSongMainArtist = numOneSecondSongMainArtist;
     }
 
-    public File getTransparentPngOverlay() {
-        return transparentPngOverlay;
-    }
-
-    public void setTransparentPngOverlay(File transparentPngOverlay) {
-        this.transparentPngOverlay = transparentPngOverlay;
-    }
-
     public int getNumOneAristNumSongs() {
         return numOneAristNumSongs;
     }
@@ -171,5 +168,85 @@ public class RecappedDTO {
 
     public void setNumFiveAristNumSongs(int numFiveAristNumSongs) {
         this.numFiveAristNumSongs = numFiveAristNumSongs;
+    }
+
+    public int getTotalSongs() {
+        return totalSongs;
+    }
+
+    public void setTotalSongs(int totalSongs) {
+        this.totalSongs = totalSongs;
+    }
+
+    public int getTotalArtists() {
+        return totalArtists;
+    }
+
+    public void setTotalArtists(int totalArtists) {
+        this.totalArtists = totalArtists;
+    }
+
+    public int getTotalContributors() {
+        return totalContributors;
+    }
+
+    public void setTotalContributors(int totalContributors) {
+        this.totalContributors = totalContributors;
+    }
+
+    public String getTopUnder1kName() {
+        return topUnder1kName;
+    }
+
+    public void setTopUnder1kName(String topUnder1kName) {
+        this.topUnder1kName = topUnder1kName;
+    }
+
+    public String getTopUnder10kName() {
+        return topUnder10kName;
+    }
+
+    public void setTopUnder10kName(String topUnder10kName) {
+        this.topUnder10kName = topUnder10kName;
+    }
+
+    public String getTopUnder100kName() {
+        return topUnder100kName;
+    }
+
+    public void setTopUnder100kName(String topUnder100kName) {
+        this.topUnder100kName = topUnder100kName;
+    }
+
+    public String getTopUnder1kImage() {
+        return topUnder1kImage;
+    }
+
+    public void setTopUnder1kImage(String topUnder1kImage) {
+        this.topUnder1kImage = topUnder1kImage;
+    }
+
+    public String getTopUnder10kImage() {
+        return topUnder10kImage;
+    }
+
+    public void setTopUnder10kImage(String topUnder10kImage) {
+        this.topUnder10kImage = topUnder10kImage;
+    }
+
+    public String getTopUnder100kImage() {
+        return topUnder100kImage;
+    }
+
+    public void setTopUnder100kImage(String topUnder100kImage) {
+        this.topUnder100kImage = topUnder100kImage;
+    }
+
+    public int getTotalDuration() {
+        return totalDuration;
+    }
+
+    public void setTotalDuration(int totalDuration) {
+        this.totalDuration = totalDuration;
     }
 }

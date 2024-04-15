@@ -131,9 +131,19 @@ public class RecappedService {
 
         // 6. Construct the DTO with the gathered information
         //constructRecappedDTO(dto, sortedContributors, imageUrl, additionalAlbumCovers);
+        dto.setTotalSongs(9524);
+        dto.setTotalDuration(42012);
+        dto.setTotalArtists(1245);
+        dto.setTotalContributors(100);
+        dto.setTopUnder1kName("1kartist");
+        dto.setTopUnder1kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
+        dto.setTopUnder10kName("10kartist");
+        dto.setTopUnder10kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
+        dto.setTopUnder100kName("100kartist");
+        dto.setTopUnder100kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setNumOneArtistName("Kenny Beats");
         dto.setNumOneAristNumSongs(1344);
-        dto.setNumTwoArtistName("Kaytranada");
+        dto.setNumTwoArtistName("KaytranadaKaytranadaKaytranadaKaytranada");
         dto.setNumTwoAristNumSongs(100);
         dto.setNumThreeArtistName("Kanye West");
         dto.setNumThreeAristNumSongs(90);
@@ -150,7 +160,7 @@ public class RecappedService {
         dto.setNumOneSecondSongMainArtist("Denzel Curry");
 
         try {
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(0);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

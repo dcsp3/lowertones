@@ -4,12 +4,14 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'neue-plak';
   src: url('../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'hollow';
   src: url('../../content/fonts/custom-hollow.ttf') format('truetype');
@@ -138,27 +140,34 @@ p {
     height: 50px !important;
     color: #ffffff !important;
   }
+
   .p-listbox .p-listbox-list {
     padding: 0rem 0rem 0rem 0rem !important;
   }
+
   .p-dropdown .p-dropdown-label.p-placeholder {
     color: #ffffff !important;
   }
+
   .p-dropdown {
     background: #ffffff00 !important;
     border: 0px !important;
   }
+
   .p-listbox {
     background: #ffffff00 !important;
     border: 0px !important;
   }
+
   .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
     background: #ffffff00 !important;
     color: #ffffff !important;
   }
+
   .p-inputtext {
     font-family: 'neue-plak' !important;
   }
+
   .ng-star-inserted {
     font-family: 'neue-plak' !important;
   }
@@ -182,13 +191,16 @@ p {
   border-radius: 5px;
   animation: flashBorder 0.7s ease-out;
 }
+
 @keyframes flashBorder {
   0% {
     border-color: transparent;
   }
+
   10% {
     border-color: rgba(255, 255, 255, 0.488);
   }
+
   100% {
     border-color: transparent;
   }
@@ -238,6 +250,7 @@ p {
 .btn {
   z-index: 1000;
 }
+
 .btn-secondary {
   background-color: #ffffff00;
 }
@@ -321,6 +334,7 @@ a {
     transform: scale(0.5);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -358,6 +372,7 @@ a {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -367,15 +382,45 @@ a {
 ** Styling for the results screen
 */
 
-.results-screen {
+.resultsScreen {
   font-family: 'Your font', sans-serif;
   color: #fff;
   padding: 20px;
 }
 
-.results-container {
+.results-container-page1 {
   max-width: 1200px;
   margin: 0 auto;
+  max-height: 70vh;
+}
+
+.page-selector {
+  position: fixed; // Fixed positioning relative to the viewport
+  right: 10px; // Adjust as needed for spacing from the right edge
+  top: 50%; // Centers it vertically, adjust as needed
+  transform: translateY(-50%); // Adjust vertical centering
+  z-index: 1000; // Ensures it's above other elements
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+  }
+
+  span {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
 }
 
 .your-top-title {
@@ -385,6 +430,7 @@ a {
   text-align: center;
   margin-top: -2.3rem;
 }
+
 .num1 {
   margin-top: 2rem;
   margin-right: 5rem;
@@ -395,6 +441,7 @@ a {
   left: 18.5%;
   margin-top: -12rem;
 }
+
 .num1artisttext {
   font-size: 4rem;
   position: absolute;
@@ -471,4 +518,104 @@ a {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.two-to-five-producer-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  position: absolute;
+
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.two-to-five-producer-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  height: 100%;
+  min-width: 37vw;
+}
+
+.position {
+  font-family: 'hollow';
+  font-size: 3rem;
+}
+
+.twofiveartistname {
+  font-size: 2.7rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  max-width: 27rem;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.numOfSongs {
+  font-family: 'hollow' !important;
+  font-size: 2rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  text-align: right;
+  line-height: 100%;
+}
+
+.twoFiveContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.song-text {
+  font-family: 'neue-plak';
+  font-size: 1.2rem;
+  position: relative;
+  bottom: 0.3rem;
+  text-align: right;
+  line-height: 100%;
+}
+
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.summary-textlarge {
+  font-family: 'neue-plak';
+  font-size: 4rem;
+}
+
+.summary-textsmall {
+  font-family: 'neue-plak';
+  margin-top: 2rem;
+  font-size: 1.6rem;
+}
+
+.summary-textsmaller {
+  font-family: 'neue-plak';
+  font-size: 1.1rem;
+}
+
+.summary-number {
+  font-family: 'hollow';
+  font-weight: 300;
+  font-size: 6rem;
+  margin-top: 0.5rem;
+  margin-bottom: -1.5rem;
 }
