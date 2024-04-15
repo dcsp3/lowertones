@@ -115,15 +115,18 @@
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
     <p-table
       [value]="filteredSongData"
+      [(selection)]="selectedSongs"
       [paginator]="true"
       [rows]="10"
       [resizableColumns]="true"
       styleClass="p-datatable-striped"
       sortMode="multiple"
-      [tableStyle]="{ 'min-width': '50rem' }"
     >
       <ng-template pTemplate="header">
         <tr>
+          <th style="width: 0.5rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pResizableColumn pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
           <th pResizableColumn pSortableColumn="artist">Artist<p-sortIcon field="artist"></p-sortIcon></th>
           <th pResizableColumn pSortableColumn="length">Length<p-sortIcon field="length"></p-sortIcon></th>
@@ -134,6 +137,9 @@
       </ng-template>
       <ng-template pTemplate="body" let-song>
         <tr class="p-selectable-row">
+          <td>
+            <p-tableCheckbox></p-tableCheckbox>
+          </td>
           <td>{{ song.title }}</td>
           <td>{{ song.artist }}</td>
           <td>{{ song.length }}</td>

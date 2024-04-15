@@ -15,6 +15,7 @@ interface searchType {
 export class TableviewComponent implements OnInit {
   songData: SongEntry[];
   filteredSongData: SongEntry[] = [];
+  selectedSongs: SongEntry[] = [];
   searchQuery: string = '';
   jsonBlob: any;
   filters!: TreeNode[];

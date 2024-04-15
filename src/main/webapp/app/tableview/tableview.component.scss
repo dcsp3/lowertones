@@ -198,4 +198,8 @@
     color: #151515 !important;
     background: #8dd0ff !important;
   }
+  td:has(p-tablecheckbox),
+  th:has(p-tableheadercheckbox) {
+    padding: 1rem 1rem 1rem 1rem !important;
+  }
 }
