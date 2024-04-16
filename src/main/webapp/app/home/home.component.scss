@@ -82,3 +82,350 @@ Main page styles
     opacity: 0.6;
   }
 }
+
+.card {
+  background: #e7e7e76d;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 90%;
+  height: 95%; /* You might need to adjust this to 'auto' if content overflows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Make sure it’s relative for absolute children */
+  z-index: 0;
+  overflow: visible;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 15px;
+}
+
+.network-image {
+  width: 60%; /* Adjust width as needed */
+  height: 103%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 20px; /* Adds spacing between the image and the info card */
+}
+
+.info-card {
+  position: absolute; /* Adjust if the card needs to be within the flow instead */
+  top: 10%; /* Align to the top of the parent container */
+  width: 30vw;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  text-align: center;
+  z-index: 2; /* Make sure it's above other elements if needed */
+}
+
+.card-header {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.stats-cards {
+  width: 80vw; /* Adjust width as necessary */
+  height: 60vh; /* Adjust height as necessary */
+  margin: 20px auto; /* Center the container */
+  overflow: hidden; /* Keeps child elements within the container */
+}
+
+.top-artist,
+.top-genre,
+.mainstream-score {
+  position: absolute;
+  width: 25vw; /* Adjust width if necessary */
+  transform-origin: center; /* Ensures rotation happens centrally */
+  transition: transform 0.3s ease-in-out; /* Smooth transformation */
+  scale: 0.8;
+  box-shadow: 2px 20px 30px rgba(0, 0, 0, 0.2); /* Increased box shadow for more depth */
+  background: linear-gradient(to bottom, #8578e2, #8676a6); /* Gradient from purple to white */
+  border-radius: 10px;
+  color: white;
+}
+
+.top-artist {
+  top: 51%;
+  left: 52%;
+  transform: rotate(-3deg); /* Tilt left */
+  z-index: 6;
+}
+
+.mainstream-score {
+  top: 55%;
+  left: 75%;
+  transform: rotate(3deg); /* Tilt right */
+  z-index: 6;
+  opacity: 100%;
+}
+
+.top-genre {
+  top: 76%;
+  left: 63%;
+  z-index: 5;
+}
+
+/* Optional: Hover effect to lift card on hover */
+.top-artist:hover,
+.top-genre:hover,
+.mainstream-score:hover {
+  transform: scale(1.05) rotate(0deg); /* Un-rotate and scale up slightly */
+}
+
+.top-artist-container,
+.top-genre-container,
+.mainstream-score-container {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px;
+}
+
+.top-genre-container,
+.mainstream-score-container {
+  justify-content: center;
+}
+
+.top-artist-text {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  align-items: start;
+}
+
+.artist-controls {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap: 10px; /* Maintains a consistent space between elements */
+}
+
+#topArtistName {
+  font-size: 35px;
+}
+
+#playButton {
+  width: 35px; /* Fixed width */
+  height: 35px; /* Fixed height */
+  border-radius: 50%; /* Circle shape */
+  background-color: #202020; /* Dark background for button */
+  color: white; /* Ensures text/icon is visible */
+  border: none; /* Removes the border for a cleaner look */
+  cursor: pointer; /* Cursor indicates clickable button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0; /* Reset padding to prevent size adjustments */
+  font-size: 20px; /* Adjust font size as needed but keep it consistent */
+  line-height: 1; /* Ensures the icons don't affect the button's line height */
+}
+
+#topArtistImage {
+  border-radius: 0.375rem; /* Rounded corners */
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.sound-wave {
+  display: flex;
+  justify-content: center; /* Adjusted for better distribution */
+  align-items: flex-end;
+  width: 100%;
+  height: 30px; /* Height of the wave area */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: hidden; /* Prevents bars from flowing out of the container */
+  z-index: 1000;
+}
+
+.bar {
+  width: 5px; /* Adjust the width of each bar if needed */
+  height: 10px; /* Initial height of each bar */
+  margin: 0 1px; /* Adjust the spacing between bars if needed */
+  background-color: white;
+  border-radius: 2px; /* Rounds the bars */
+  animation: sound-wave-animation 1s infinite ease-in-out;
+}
+
+.bar:nth-child(1) {
+  animation-delay: 0.81s;
+}
+.bar:nth-child(2) {
+  animation-delay: 0.93s;
+}
+.bar:nth-child(3) {
+  animation-delay: 0.7s;
+}
+.bar:nth-child(4) {
+  animation-delay: 0.27s;
+}
+.bar:nth-child(5) {
+  animation-delay: 0.94s;
+}
+.bar:nth-child(6) {
+  animation-delay: 0.92s;
+}
+.bar:nth-child(7) {
+  animation-delay: 0.36s;
+}
+.bar:nth-child(8) {
+  animation-delay: 0.28s;
+}
+.bar:nth-child(9) {
+  animation-delay: 0.36s;
+}
+.bar:nth-child(10) {
+  animation-delay: 0.49s;
+}
+.bar:nth-child(11) {
+  animation-delay: 0.66s;
+}
+.bar:nth-child(12) {
+  animation-delay: 0.64s;
+}
+.bar:nth-child(13) {
+  animation-delay: 0.77s;
+}
+.bar:nth-child(14) {
+  animation-delay: 0.54s;
+}
+.bar:nth-child(15) {
+  animation-delay: 0.01s;
+}
+.bar:nth-child(16) {
+  animation-delay: 0.24s;
+}
+.bar:nth-child(17) {
+  animation-delay: 0.96s;
+}
+.bar:nth-child(18) {
+  animation-delay: 0s;
+}
+.bar:nth-child(19) {
+  animation-delay: 0.98s;
+}
+.bar:nth-child(20) {
+  animation-delay: 0.53s;
+}
+.bar:nth-child(21) {
+  animation-delay: 0.5s;
+}
+.bar:nth-child(22) {
+  animation-delay: 0.04s;
+}
+.bar:nth-child(23) {
+  animation-delay: 0.61s;
+}
+.bar:nth-child(24) {
+  animation-delay: 0.13s;
+}
+.bar:nth-child(25) {
+  animation-delay: 0.64s;
+}
+.bar:nth-child(26) {
+  animation-delay: 0.04s;
+}
+.bar:nth-child(27) {
+  animation-delay: 0.53s;
+}
+.bar:nth-child(28) {
+  animation-delay: 0.59s;
+}
+.bar:nth-child(29) {
+  animation-delay: 0.39s;
+}
+.bar:nth-child(30) {
+  animation-delay: 0.86s;
+}
+
+@keyframes sound-wave-animation {
+  0%,
+  100% {
+    height: 5px;
+  }
+  50% {
+    height: 20px;
+  } /* Adjust the height to how tall you want the bars to go */
+}
+
+.artist-track {
+  font-size: 20px;
+  margin-top: 5px; /* Space between controls and track name */
+}
+
+.mainstream-score-container {
+  flex-direction: column;
+  justify-content: center; /* Centers children vertically in the container */
+  align-items: center; /* Centers children horizontally in the container */
+}
+
+.score-bar {
+  position: relative;
+  width: 60%; /* Full width of the container */
+  height: 25px; /* Height of the bar */
+  background-color: #ddd; /* Background of the unfilled bar */
+  border-radius: 5px;
+  overflow: hidden; /* Ensures that the inner div doesn't spill out of the border radius */
+  background-color: #d35400;
+}
+
+.score-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 66.97%;
+  background-color: #e67e22;
+  text-align: center;
+  line-height: 20px; /* Aligns text vertically */
+  color: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+}
+
+.popularity-score {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.taste-category {
+  margin-top: 5px;
+  font-size: 25px;
+}
+
+.top-genre-container {
+  padding: 5px;
+  margin: 5px;
+}
+
+#topGenre {
+  font-size: 25px;
+}
+
+.stats-header {
+  background-color: rgb(26, 20, 37);
+  color: white;
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
+  font-size: 25px;
+  text-align: center;
+}
