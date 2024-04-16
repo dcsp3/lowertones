@@ -153,7 +153,7 @@
   <p>error getting recapped</p>
 </div>
 
-<div *ngIf="currentScreen === 'results'" class="page-1" [ngClass]="getActivePageClass()" [@fadeInOut]="currentPage">
+<div *ngIf="currentScreen === 'results'" class="page-1" [ngClass]="getActivePageClass()">
   <div *ngIf="currentPage === 0">
     <div class="summary-container">
       <div class="summary-textlarge">Over the last {{ getTimeframeLabel() }} you added</div>
@@ -166,7 +166,7 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 1" [@fadeInOut]="currentPage" class="page2">QUIZ - TOP PRODUCER</div>
+  <div *ngIf="currentPage === 1" class="page2">QUIZ - TOP PRODUCER</div>
 
   <div *ngIf="currentPage === 2" class="page3">
     <div class="results-container-page3">

@@ -29,7 +29,7 @@ class PlaylistService {
 @Component({
   selector: 'jhi-recapped',
   templateUrl: './recapped.component.html',
-  styleUrls: ['./recapped.component.scss'],
+  styleUrls: ['./recapped.selections.scss', './recapped.results.scss'],
   animations: [suckInAnimation, fadeInOut],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
