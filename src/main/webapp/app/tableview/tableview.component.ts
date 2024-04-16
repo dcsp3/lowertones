@@ -62,6 +62,13 @@ export class TableviewComponent implements OnInit {
     });
   }
 
+  /*
+  printSelectedSongs(): void {
+    this.selectedSongs.forEach(song => {
+      console.log(song.title);
+    });
+  }*/
+
   genSongList(): void {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();

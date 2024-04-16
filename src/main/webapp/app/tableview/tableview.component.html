@@ -109,6 +109,8 @@
       </ng-template>
     </p-tree>
 
+    <!--<button (click)="printSelectedSongs()">Print Selected Songs</button>-->
+
     <!-- FILTERS END -->
   </div>
   <div id="table-content" class="tbv-divs">
@@ -138,7 +140,7 @@
       <ng-template pTemplate="body" let-song>
         <tr class="p-selectable-row">
           <td>
-            <p-tableCheckbox></p-tableCheckbox>
+            <p-tableCheckbox [value]="song"></p-tableCheckbox>
           </td>
           <td>{{ song.title }}</td>
           <td>{{ song.artist }}</td>
