@@ -13,4 +13,5 @@ import team.bham.domain.User;
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByUserId(Long userId);
+    Optional<AppUser> findByUserLogin(String login);
 }

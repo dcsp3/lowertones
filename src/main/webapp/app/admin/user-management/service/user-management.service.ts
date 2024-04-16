@@ -10,7 +10,6 @@ import { IUser } from '../user-management.model';
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
   private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
-
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   create(user: IUser): Observable<IUser> {

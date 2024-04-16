@@ -23,6 +23,7 @@ import team.bham.repository.AuthorityRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.AuthoritiesConstants;
 import team.bham.security.SecurityUtils;
+import team.bham.service.AppUserService;
 import team.bham.service.dto.AdminUserDTO;
 import team.bham.service.dto.UserDTO;
 import tech.jhipster.security.RandomUtil;
@@ -46,18 +47,22 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
+    private final AppUserService appUserService;
+
     public UserService(
         UserRepository userRepository,
         AppUserRepository appUserRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        AppUserService appUserService
     ) {
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.appUserService = appUserService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -261,6 +266,7 @@ public class UserService {
     }
 
     public void deleteUser(String login) {
+        appUserService.deleteUser(login);
         userRepository
             .findOneByLogin(login)
             .ifPresent(user -> {

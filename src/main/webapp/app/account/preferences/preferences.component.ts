@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { UserManagementService } from 'app/admin/user-management/service/user-management.service';
+import { Observable } from 'rxjs';
 
 const initialAccount: Account = {} as Account;
 
@@ -15,12 +17,18 @@ export class PreferencesComponent implements OnInit {
   success = false;
   isHighContrastMode = false;
   isDiscoverWeeklyBuffer = false;
+  login = '';
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder) {}
+  constructor(
+    private accountService: AccountService,
+    private formBuilder: FormBuilder,
+    private userManagementService: UserManagementService
+  ) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
+        this.login = account.login;
         this.userForm.patchValue(account);
       }
     });
@@ -82,6 +90,23 @@ export class PreferencesComponent implements OnInit {
       this.success = true;
 
       this.accountService.authenticate(account);
+    });
+  }
+
+  deleteUser(): Observable<void> {
+    // broken, WIP
+    return new Observable<void>(observer => {
+      this.userManagementService.delete(this.login).subscribe(
+        () => {
+          console.log('User deleted successfully');
+          observer.next(); // Notify the observer about successful deletion
+          observer.complete(); // Complete the observer
+        },
+        error => {
+          console.error('Error deleting user:', error);
+          observer.error(error); // Notify the observer about the error
+        }
+      );
     });
   }
 }
