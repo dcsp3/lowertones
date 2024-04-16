@@ -9,7 +9,7 @@ import os
 SERVICE_ACCOUNT_FILE = '/tmp/gcloud.json'  # Or the path where you saved the credentials in your CI/CD environment
 
 # The ID of the file you want to download from Google Drive
-FILE_IDS = ['1Ok-54kVJGkFfU0F8JwHZ0ZgtgJtNpmIy', '1iitulF-befScIR51kQu_FZpM4Nu3Ast3', '1AJGBrXprWlDmeXOpH_cBE4gs2ZLuKwEO']
+FILE_IDS = ['1hug_mcHZBN4MV8ndu_hGJYyv2YjkCUL4', '1Qnm-_9asISA892kR1vbWi0WNnEwDFSiF', '1x_xGab6-YkzXIOLlfxg7JbiE41HO-gF2', '1X4Mv5sszyDDR01k2OyyZsObJgMLHvZQC']
 
 
 def download_file(file_id, output_directory):
