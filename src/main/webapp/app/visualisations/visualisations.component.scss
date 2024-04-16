@@ -7,14 +7,16 @@ body {
   align-items: center;
 }
 
-// TODO: fix the margins
 .container {
   width: 500px;
   height: 500px;
 }
 
 .chart {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
   text-align: center;
+  background-color: lightblue;
+  border-radius: 80px;
+  overflow: hidden;
 }
