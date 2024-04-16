@@ -52,8 +52,10 @@
                 <div class="scan-selection">
                   <p-dropdown
                     [options]="scanType"
-                    [ngModel]="recappedForm.get('scanType')?.value"
+                    [ngModel]="selectedScanType"
                     (ngModelChange)="setScanTypeValue($event)"
+                    [filter]="true"
+                    filterBy="label"
                     optionLabel="label"
                     [style]="{ width: '15rem' }"
                     [showClear]="true"
@@ -66,7 +68,7 @@
                 <div class="timeframe-selection" [class.highlight]="highlightTimeframe">
                   <p-listbox
                     [options]="timeframes"
-                    [ngModel]="recappedForm.get('timeframe')?.value"
+                    [ngModel]="selectedTimeframe"
                     (ngModelChange)="setTimeframeValue($event)"
                     optionLabel="label"
                     [style]="{ width: '15rem' }"
@@ -78,7 +80,7 @@
                 <div class="musician-selection">
                   <p-dropdown
                     [options]="musicianType"
-                    [ngModel]="recappedForm.get('musicianType')?.value"
+                    [ngModel]="selectedMusician"
                     (ngModelChange)="setMusicianTypeValue($event)"
                     optionLabel="label"
                     [style]="{ width: '15rem' }"
@@ -151,7 +153,7 @@
   <p>error getting recapped</p>
 </div>
 
-<div *ngIf="currentScreen === 'results'" class="resultsScreen" [ngClass]="getActivePageClass()" [@fadeInOut]="currentPage">
+<div *ngIf="currentScreen === 'results'" class="page-1" [ngClass]="getActivePageClass()" [@fadeInOut]="currentPage">
   <div *ngIf="currentPage === 0">
     <div class="summary-container">
       <div class="summary-textlarge">Over the last {{ getTimeframeLabel() }} you added</div>
@@ -164,8 +166,10 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 1" [@fadeInOut]="currentPage">
-    <div class="results-container-page1">
+  <div *ngIf="currentPage === 1" [@fadeInOut]="currentPage" class="page2">QUIZ - TOP PRODUCER</div>
+
+  <div *ngIf="currentPage === 2" class="page3">
+    <div class="results-container-page3">
       <div class="your-top-title">Your Top Producers from the Past Year</div>
       <div class="top-producers">
         <div class="producer-hero">
@@ -224,9 +228,28 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 2" [@fadeInOut]="currentPage">ELEMENTS</div>
+  <div *ngIf="currentPage === 3">
+    <div class="smaller-artist-container">
+      <div class="smaller-artist-textlarge">By follower count, these were your favourite artists under..</div>
+      <div class="smaller-artist-subcontainer">
+        <div class="smaller-artist-card">
+          <div class="smaller-artist-textmed">1k followers</div>
+          <div class="smaller-artist-artistname">1k followers</div>
+        </div>
+        <div class="smaller-artist-card">
+          <div class="smaller-artist-textmed">10k followers</div>
 
-  <div *ngIf="currentPage === 3" [@fadeInOut]="currentPage">ELEMENTS</div>
+          <div class="smaller-artist-artistname">10k followers</div>
+        </div>
+        <div class="smaller-artist-card">
+          <div class="smaller-artist-textmed">100k followers</div>
+          <div class="smaller-artist-artistname">100k followers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentPage === 4">TABLE HERE</div>
 
   <div class="page-selector">
     <button (click)="navigateUp()" [disabled]="currentPage <= 0" class="arrow up-arrow">&#9650;</button>

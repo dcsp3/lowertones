@@ -139,6 +139,7 @@ p {
   .p-listbox .p-listbox-list .p-listbox-item {
     height: 50px !important;
     color: #ffffff !important;
+    border-radius: 10px !important;
   }
 
   .p-listbox .p-listbox-list {
@@ -162,14 +163,31 @@ p {
   .p-listbox .p-listbox-list .p-listbox-item.p-highlight {
     background: #ffffff00 !important;
     color: #ffffff !important;
+    box-shadow: inset 0 0 0 0.15rem #e3f3fe;
+    border-radius: 10px !important;
+  }
+  .p-listbox .p-listbox-list .p-listbox-item:focus {
+    border-radius: 10px !important;
   }
 
   .p-inputtext {
     font-family: 'neue-plak' !important;
   }
 
-  .ng-star-inserted {
+  span.ng-star-inserted {
     font-family: 'neue-plak' !important;
+  }
+  i.ng-star-inserted {
+    font-family: 'primeicons';
+  }
+  .p-dropdown-items-wrapper {
+    max-width: 15rem;
+  }
+  .p-dropdown-filter-container .p-dropdown-filter {
+    max-height: 30px;
+  }
+  .p-dropdown-panel .p-dropdown-header {
+    padding: 0.7rem !important;
   }
 }
 
@@ -382,13 +400,13 @@ a {
 ** Styling for the results screen
 */
 
-.resultsScreen {
+.page-1 {
   font-family: 'Your font', sans-serif;
   color: #fff;
   padding: 20px;
 }
 
-.results-container-page1 {
+.results-container-page3 {
   max-width: 1200px;
   margin: 0 auto;
   max-height: 70vh;
@@ -618,4 +636,47 @@ a {
   font-size: 6rem;
   margin-top: 0.5rem;
   margin-bottom: -1.5rem;
+}
+
+.smaller-artist-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-subcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-textlarge {
+  font-family: 'neue-plak';
+  font-size: 4rem;
+}
+
+.smaller-artist-artistname {
+  font-family: 'neue-plak';
+  font-size: 2.7rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  max-width: 27rem;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }

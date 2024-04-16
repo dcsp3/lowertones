@@ -5,74 +5,24 @@ import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { RecappedService } from './recapped.service';
+import { suckInAnimation, fadeInOut } from './animations';
+import { RecappedRequest, RecappedDTO, MusicianType, DateRange, choice } from './models';
 
-interface RecappedDTO {
-  numOneArtistName: string;
-  numOneAristNumSongs: number;
-  numTwoArtistName: string;
-  numTwoArtistNumSongs: number;
-  numThreeArtistName: string;
-  numThreeArtistNumSongs: number;
-  numFourArtistName: string;
-  numFourArtistNumSongs: number;
-  numFiveArtistName: string;
-  numFiveArtistNumSongs: number;
-  numOneHeroImg: string;
-  numOneFirstCoverImg: string;
-  numOneFirstSongTitle: string;
-  numOneFirstSongMainArtist: string;
-  numOneSecondCoverImg: string;
-  numOneSecondSongTitle: string;
-  numOneSecondSongMainArtist: string;
-  totalSongs: number;
-  totalDuration: number;
-  totalArtists: number;
-  totalContributors: number;
-  topUnder1kName: string;
-  topUnder10kName: string;
-  topUnder100kName: string;
-  topUnder1kImage: string;
-  topUnder10kImage: string;
-  topUnder100kImage: string;
-}
-
-enum MusicianType {
-  PRODUCER = 'PRODUCER',
-  MIXING_ENGINEER = 'MIXING_ENGINEER',
-  GUITARIST = 'GUITARIST',
-  DRUMMER = 'DRUMMER',
-  BASSIST = 'BASSIST',
-  VOCALIST = 'VOCALIST',
-}
-
-enum DateRange {
-  LAST_MONTH = 'LAST_MONTH',
-  LAST_6_MONTHS = 'LAST_6_MONTHS',
-  LAST_FEW_YEARS = 'LAST_FEW_YEARS',
-}
-
-interface RecappedRequest {
-  dateRange: DateRange;
-  musicianType: MusicianType;
-  scanEntireLibrary: boolean;
-  scanTopSongs: boolean;
-  scanSpecificPlaylist: boolean;
-  playlistId?: string;
-}
-
-interface choice {
-  label: string;
-  value: string;
+interface Playlist {
+  name: string;
+  spotifyId: string;
+  snapshotId: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-class RecappedService {
-  private apiUrl = '/api/recapped';
+class PlaylistService {
+  private apiUrl = '/api/get-user-playlists';
   constructor(private http: HttpClient) {}
-  submitRecappedRequest(request: RecappedRequest): Observable<RecappedDTO> {
-    return this.http.post<RecappedDTO>(this.apiUrl, request);
+  getPlaylists(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 }
 
@@ -80,32 +30,16 @@ class RecappedService {
   selector: 'jhi-recapped',
   templateUrl: './recapped.component.html',
   styleUrls: ['./recapped.component.scss'],
-  animations: [
-    trigger('suckInAnimation', [
-      state(
-        'default',
-        style({
-          transform: 'translateX(0)',
-        })
-      ),
-      state(
-        'sucked',
-        style({
-          transform: 'translateX(100%)',
-        })
-      ),
-      transition('default => sucked', animate('800ms ease-in-out')),
-    ]),
-    trigger('fadeInOut', [
-      transition(':enter', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]),
-      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
-    ]),
-  ],
+  animations: [suckInAnimation, fadeInOut],
 })
 export class RecappedComponent implements OnInit, AfterViewInit {
+  //different screens
   currentScreen: 'title' | 'error' | 'results' = 'title';
-  topMusicians: any[] = [];
+
+  animationState: 'default' | 'sucked' = 'default';
+  isLoading: boolean = false;
   recappedForm: FormGroup;
+
   selectedTimeframe: string = '';
   selectedMusician: string = '';
   selectedScanType: string = '';
@@ -115,11 +49,12 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   highlightScanType: boolean = false;
   highlightTimeframe: boolean = false;
   highlightMusician: boolean = false;
+
   response: any;
   animatedNumSongs: number = 0;
 
   currentPage = 0;
-  totalPages = 4;
+  totalPages = 5;
   scrolling = false;
   scrollUpAccumulator = 0;
   scrollDownAccumulator = 0;
@@ -128,7 +63,8 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private recappedService: RecappedService
+    private recappedService: RecappedService,
+    private playlistService: PlaylistService
   ) {
     this.timeframes = [
       { label: 'Month', value: 'LAST_MONTH' },
@@ -143,9 +79,8 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       { label: 'Drummers', value: 'drummer' },
     ];
     this.scanType = [
-      { label: 'Entire Library', value: 'entireLibrary' },
-      { label: 'Top Songs', value: 'topSongs' },
-      { label: 'Specific Playlist', value: 'specificPlaylist' },
+      { label: 'My Entire Library', value: 'entireLibrary' },
+      { label: 'My Top Songs', value: 'topSongs' },
     ];
 
     this.recappedForm = this.fb.group({
@@ -161,19 +96,21 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     /*
-    // REMOVE THIS WHEN YOU ARE DONE TESTING
-    this.recappedForm.setValue({
-      scanType: 'entireLibrary', // Replace with your default value
-      timeframe: 'LAST_MONTH', // Replace with your default value
-      musicianType: 'PRODUCER', // Replace with your default value
-      scanEntireLibrary: true, // Replace with your default value
-      scanTopSongs: false, // Replace with your default value
-      scanSpecificPlaylist: false, // Replace with your default value
-      playlistId: '', // Replace with your default value or leave empty if not needed
-    });
-    this.goToResultsScreen(this.recappedForm.value);
-    ///^^^^^^^^^^^^^^ REMOVE THIS WHEN YOU ARE DONE TESTING
-    */
+        // REMOVE THIS WHEN YOU ARE DONE TESTING
+        this.recappedForm.setValue({
+            scanType: 'entireLibrary', // Replace with your default value
+            timeframe: 'LAST_MONTH', // Replace with your default value
+            musicianType: 'PRODUCER', // Replace with your default value
+            scanEntireLibrary: true, // Replace with your default value
+            scanTopSongs: false, // Replace with your default value
+            scanSpecificPlaylist: false, // Replace with your default value
+            playlistId: '', // Replace with your default value or leave empty if not needed
+        });
+        this.goToResultsScreen(this.recappedForm.value);
+        ///^^^^^^^^^^^^^^ REMOVE THIS WHEN YOU ARE DONE TESTING
+        */
+
+    this.fetchPlaylists();
   }
 
   ngAfterViewInit(): void {
@@ -196,6 +133,22 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       };
       this.goToResultsScreen(request);
     }
+  }
+
+  fetchPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (response: Playlist[]) => {
+        // Assuming the response is an array of Playlist objects
+        const playlistOptions = response.map((playlist: Playlist) => ({
+          label: playlist.name,
+          value: playlist.spotifyId,
+        }));
+        this.scanType = [...this.scanType, ...playlistOptions];
+      },
+      error: error => {
+        console.error('Error fetching playlists:', error);
+      },
+    });
   }
 
   setScanTypeValue(value: any): void {
@@ -255,9 +208,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   goToSelectionScreen(): void {
     this.currentScreen = 'title';
   }
-
-  animationState: 'default' | 'sucked' = 'default';
-  isLoading: boolean = false;
 
   goToResultsScreen(request: RecappedRequest): void {
     const isSelectionComplete =
@@ -352,12 +302,10 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       this.updateFlavorText();
     }, 5000);
   }
-
   updateFlavorText() {
     const randomIndex = Math.floor(Math.random() * this.flavorTexts.length);
     this.currentFlavorText = this.flavorTexts[randomIndex];
   }
-
   stopFlavorTextRotation() {
     clearInterval(this.flavorTextInterval);
   }
@@ -393,7 +341,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
         if (this.currentPage === 0) {
           this.animateNumber(this.response?.totalSongs);
         }
-        if (this.currentPage === 1) {
+        if (this.currentPage === 2) {
           this.animateNumber(this.response?.numOneAristNumSongs);
         }
       });
@@ -407,7 +355,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
         if (this.currentPage === 0) {
           this.animateNumber(this.response?.totalSongs);
         }
-        if (this.currentPage === 1) {
+        if (this.currentPage === 2) {
           this.animateNumber(this.response?.numOneAristNumSongs);
         }
       });
@@ -428,7 +376,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       if (this.currentPage === 0) {
         this.animateNumber(this.response?.totalSongs);
       }
-      if (this.currentPage === 1) {
+      if (this.currentPage === 2) {
         this.animateNumber(this.response?.numOneAristNumSongs);
       }
     }

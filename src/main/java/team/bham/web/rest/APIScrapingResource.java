@@ -158,6 +158,17 @@ public class APIScrapingResource {
         }
     }
 
+    @GetMapping("/get-user-playlists")
+    public ResponseEntity<ArrayList<SpotifySimplifiedPlaylist>> getUserPlaylists(Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> response = apiWrapper.getCurrentUserPlaylists(appUser);
+        if (response.getSuccess()) {
+            return new ResponseEntity<>(response.getData(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/top-artists")
     public ResponseEntity<String> getCurrentUserTopArtists(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
