@@ -224,9 +224,9 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 2">ELEMENTS</div>
+  <div *ngIf="currentPage === 2" [@fadeInOut]="currentPage">ELEMENTS</div>
 
-  <div *ngIf="currentPage === 3">ELEMENTS</div>
+  <div *ngIf="currentPage === 3" [@fadeInOut]="currentPage">ELEMENTS</div>
 
   <div class="page-selector">
     <button (click)="navigateUp()" [disabled]="currentPage <= 0" class="arrow up-arrow">&#9650;</button>

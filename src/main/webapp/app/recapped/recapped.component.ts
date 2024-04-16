@@ -160,6 +160,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    /*
     // REMOVE THIS WHEN YOU ARE DONE TESTING
     this.recappedForm.setValue({
       scanType: 'entireLibrary', // Replace with your default value
@@ -172,6 +173,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     });
     this.goToResultsScreen(this.recappedForm.value);
     ///^^^^^^^^^^^^^^ REMOVE THIS WHEN YOU ARE DONE TESTING
+    */
   }
 
   ngAfterViewInit(): void {
