@@ -1,5 +1,6 @@
 package team.bham.service;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import team.bham.repository.UserRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.SpotifyAPIWrapperService;
+import team.bham.service.dto.VisualisationsDTO;
 
 @Service
 public class VisualisationsService {
@@ -28,10 +30,44 @@ public class VisualisationsService {
         this.appUserRepository = appUserRepository;
     }
 
-    public JSONObject getShortTermArtists(Authentication authentication) {
+    public VisualisationsDTO getShortTermArtists(Authentication authentication) {
+        VisualisationsDTO dto = new VisualisationsDTO();
+
         User user = userRepository.findOneByLogin(authentication.getName()).get();
         AppUser appUser = appUserRepository.findByUserId(user.getId()).get();
 
-        return spotifyAPIWrapperService.getCurrentUserTopArtists(appUser, SpotifyTimeRange.SHORT_TERM).getData();
+        JSONArray topArtists = spotifyAPIWrapperService
+            .getCurrentUserTopArtists(appUser, SpotifyTimeRange.SHORT_TERM)
+            .getData()
+            .getJSONArray("items");
+
+        int count = Math.min(5, topArtists.length());
+
+        for (int i = 0; i < count; i++) {
+            JSONObject artist = topArtists.getJSONObject(i);
+            String name = artist.getString("name");
+
+            switch (i) {
+                case 0:
+                    dto.setTopArtist1Name(name);
+                    break;
+                case 1:
+                    dto.setTopArtist2Name(name);
+                    break;
+                case 2:
+                    dto.setTopArtist3Name(name);
+                    break;
+                case 3:
+                    dto.setTopArtist4Name(name);
+                    break;
+                case 4:
+                    dto.setTopArtist5Name(name);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return dto;
     }
 }

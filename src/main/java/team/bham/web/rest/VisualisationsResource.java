@@ -1,5 +1,6 @@
 package team.bham.web.rest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.bham.service.VisualisationsService;
+import team.bham.service.dto.VisualisationsDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -21,8 +23,8 @@ public class VisualisationsResource {
     }
 
     @GetMapping("/visualisations")
-    public ResponseEntity<JSONObject> getVisualisations(Authentication authentication) {
-        JSONObject response = visualisationsService.getShortTermArtists(authentication);
+    public ResponseEntity<VisualisationsDTO> getVisualisations(Authentication authentication) {
+        VisualisationsDTO response = visualisationsService.getShortTermArtists(authentication);
         return ResponseEntity.ok().body(response);
     }
 }

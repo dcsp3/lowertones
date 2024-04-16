@@ -1,5 +1,35 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Injectable } from '@angular/core';
 import * as d3 from 'd3';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+// takes the data from the backend VisualisationsDTO
+interface VisualisationsDTO {
+  topArtist1Percent: number;
+  topArtist2Percent: number;
+  topArtist3Percent: number;
+  topArtist4Percent: number;
+  topArtist5Percent: number;
+  topArtist6Percent: number;
+
+  topArtist1Name: String;
+  topArtist2Name: String;
+  topArtist3Name: String;
+  topArtist4Name: String;
+  topArtist5Name: String;
+  topArtist6Name: String;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class VisualisationsService {
+  private apiUrl = '/api/visualisations';
+  constructor(private http: HttpClient) {}
+  getShortTermArtists(): Observable<VisualisationsDTO> {
+    return this.http.get<VisualisationsDTO>(this.apiUrl);
+  }
+}
 
 @Component({
   selector: 'jhi-visualisations',
@@ -7,12 +37,19 @@ import * as d3 from 'd3';
   styleUrls: ['./visualisations.component.scss'],
 })
 export class VisualisationsComponent implements OnInit {
+  response: any;
   @ViewChild('chartSvg', { static: true }) private chartSvg!: ElementRef;
 
-  constructor() {}
+  constructor(private visualisationsService: VisualisationsService) {}
 
   ngOnInit() {
     this.createPieChart();
+    this.visualisationsService.getShortTermArtists().subscribe({
+      next: response => {
+        this.response = response;
+      },
+    });
+    console.log('RESPONSE', this.response);
   }
 
   private createPieChart() {
@@ -58,13 +95,4 @@ export class VisualisationsComponent implements OnInit {
       .attr('dy', '0.35em')
       .text((d: any) => d.data);
   }
-
-  // method to perform api call to get top mid term artists - refer to testMedTermTopArtists.json to see the response
-
-  // TODO: implement html, css, ts for the top artists genre pie chart
-  // You'll be getting the data from the backend from a GET request to /api/top-artists-medium-term
-  // the response will be the same format as testMedTermTopArtists.json but may differ from user to user
-
-  // GET request to /api/top-artists-medium-term
-  // response will be in the format of testMedTermTopArtists.json
 }
