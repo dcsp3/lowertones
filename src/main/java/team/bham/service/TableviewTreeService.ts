@@ -40,9 +40,9 @@ export class TableviewTreeService {
         children: [
           {
             key: '2-1',
-            label: 'Slider',
-            data: 'Slider',
-            type: 'SliderElement',
+            label: 'Popularity',
+            data: 'Popularity',
+            type: 'PopularityElement',
           },
         ],
       },
@@ -71,6 +71,20 @@ export class TableviewTreeService {
             label: 'ProducerChip',
             data: 'ProducerChip',
             type: 'ProducerChipElement',
+          },
+        ],
+      },
+      {
+        key: '5',
+        label: 'Column Selection',
+        data: 'ColumnSelection',
+        icon: 'pi pi-fw pi-table',
+        children: [
+          {
+            key: '4-1',
+            label: 'ColumnSelectionList',
+            data: 'ColumnSelectionList',
+            type: 'ColumnSelectionListElement',
           },
         ],
       },

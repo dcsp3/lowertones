@@ -2,9 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { TableviewTreeService } from '../../../java/team/bham/service/TableviewTreeService';
 
+interface SongEntry {
+  selected: boolean;
+  title: string;
+  artist: string;
+  length: string;
+  explicit: boolean;
+  popularity: number;
+  release: string;
+}
+
 interface searchType {
   label: string;
   value: string;
+}
+
+interface Column {
+  value: string;
+  label: string;
 }
 
 @Component({
@@ -20,6 +35,8 @@ export class TableviewComponent implements OnInit {
   jsonBlob: any;
   filters!: TreeNode[];
   searchTypes: searchType[];
+  cols!: Column[];
+  selectedColumns!: Column[];
   selectedSearchType: searchType;
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
@@ -42,6 +59,16 @@ export class TableviewComponent implements OnInit {
   ngOnInit(): void {
     this.genSongList();
     this.filteredSongData = this.songData;
+    this.cols = [
+      { value: 'title', label: 'Title' },
+      { value: 'artist', label: 'Artist' },
+      { value: 'length', label: 'Length' },
+      { value: 'release', label: 'Release Date' },
+      { value: 'popularity', label: 'Popularity' },
+      { value: 'explicit', label: 'Explicit' },
+    ];
+
+    this.selectedColumns = this.cols;
     this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
@@ -116,14 +143,4 @@ export class TableviewComponent implements OnInit {
 
     this.songData = this.songData.slice(0, numTracks);
   }
-}
-
-interface SongEntry {
-  selected: boolean;
-  title: string;
-  artist: string;
-  length: string;
-  explicit: boolean;
-  popularity: number;
-  release: string;
 }

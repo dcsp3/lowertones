@@ -67,7 +67,7 @@
       </ng-template>
 
       <!--Popularity-->
-      <ng-template let-node pTemplate="SliderElement">
+      <ng-template let-node pTemplate="PopularityElement">
         <!--
         <div style="width: 80%; margin: auto; margin-top: 5%">-->
         <div style="display: flex; justify-content: space-between">
@@ -107,6 +107,18 @@
       <ng-template let-node pTemplate="ProducerChipElement">
         <p-chips [(ngModel)]="producerChips"></p-chips>
       </ng-template>
+
+      <!--Column Selection-->
+      <ng-template let-node pTemplate="ColumnSelectionListElement">
+        <p-listbox
+          [options]="cols"
+          [(ngModel)]="selectedColumns"
+          [multiple]="true"
+          [metaKeySelection]="false"
+          optionLabel="label"
+          autoWidth="false"
+        ></p-listbox>
+      </ng-template>
     </p-tree>
 
     <!--<button (click)="printSelectedSongs()">Print Selected Songs</button>-->
@@ -116,6 +128,7 @@
   <div id="table-content" class="tbv-divs">
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
     <p-table
+      [columns]="selectedColumns"
       [value]="filteredSongData"
       [(selection)]="selectedSongs"
       [paginator]="true"
@@ -124,30 +137,24 @@
       styleClass="p-datatable-striped"
       sortMode="multiple"
     >
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="width: 0.5rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th pResizableColumn pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
-          <th pResizableColumn pSortableColumn="artist">Artist<p-sortIcon field="artist"></p-sortIcon></th>
-          <th pResizableColumn pSortableColumn="length">Length<p-sortIcon field="length"></p-sortIcon></th>
-          <th pResizableColumn pSortableColumn="release">Release Date<p-sortIcon field="release"></p-sortIcon></th>
-          <th pResizableColumn pSortableColumn="popularity">Popularity<p-sortIcon field="popularity"></p-sortIcon></th>
-          <th pResizableColumn pSortableColumn="explicit">Explicit<p-sortIcon field="explicit"></p-sortIcon></th>
+          <th *ngFor="let col of columns" pResizableColumn pSortableColumn="{{ col.value }}">
+            {{ col.label }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
+          </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-song>
+      <ng-template pTemplate="body" let-song let-columns="columns">
         <tr class="p-selectable-row">
           <td>
             <p-tableCheckbox [value]="song"></p-tableCheckbox>
           </td>
-          <td>{{ song.title }}</td>
-          <td>{{ song.artist }}</td>
-          <td>{{ song.length }}</td>
-          <td>{{ song.release }}</td>
-          <td>{{ song.popularity }}</td>
-          <td>{{ song.explicit }}</td>
+          <td *ngFor="let col of columns">
+            {{ song[col.value] }}
+          </td>
         </tr>
       </ng-template>
     </p-table>
