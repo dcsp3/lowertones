@@ -45,7 +45,7 @@ def download_file(file_id, output_directory):
     return file_name
 
 if __name__ == '__main__':
-    output_directory = './downloaded_files'
+    output_directory = './src/resources/downloaded_files'
     absolute_path = os.path.abspath(output_directory)
     print(f"The absolute path to the downloaded files is: {absolute_path}")
     for file_id in FILE_IDS:
