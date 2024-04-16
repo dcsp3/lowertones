@@ -23,9 +23,11 @@
   <section id="network-tab" class="et-slide">
     <div style="height: 60px"></div>
     <div class="card">
-      <h1>network</h1>
+      <h1 id="networkHeading">network</h1>
       <div class="card-content">
-        <img id="networkPreview" src="content/images/network.png" alt="Network visualization" class="network-image" />
+        <div class="graph-container">
+          <div #graphContainer class="graph"></div>
+        </div>
         <div class="content">
           <div class="info-card">
             <h5 class="card-text">
