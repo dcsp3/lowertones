@@ -92,7 +92,7 @@ public class APIScrapingResource {
             Playlist playlist = playlistRepository.findPlaylistBySpotifyId(playlistIds.get(i).getSpotifyId());
             if (playlist != null) {
                 //same snapshot id - no need to redo scraping
-                if (playlist.getPlaylistSnapshotID() == playlistIds.get(i).getSnapshotId()) {
+                if (playlist.getPlaylistSnapshotID().equals(playlistIds.get(i).getSnapshotId())) {
                     continue;
                 }
             } else playlist = new Playlist();
@@ -108,6 +108,7 @@ public class APIScrapingResource {
 
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
             for (int j = 0; j < tracks.size(); j++) {
+                MainArtist a = storeArtist(tracks.get(j).getArtist());
                 Song s = storeTrack(tracks.get(j));
 
                 PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin();
@@ -116,15 +117,38 @@ public class APIScrapingResource {
                 playlistSongJoin.setSongOrderIndex(0); //what??
                 playlistSongJoin.setSongDateAdded(LocalDate.now());
                 playlistSongJoinRepository.save(playlistSongJoin);
-            }
 
-            playlistRepository.save(playlist);
+                //song artist join
+                SongArtistJoin songArtistJoin = new SongArtistJoin();
+                songArtistJoin.setSong(s);
+                songArtistJoin.setMainArtist(a);
+                songArtistJoin.setTopTrackIndex(0); //????
+                songArtistJoinRepository.save(songArtistJoin);
+                //todo: genre stuff.
+            }
         }
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     //todo: move this all to service
+
+    public MainArtist storeArtist(SpotifyArtist artist) {
+        MainArtist a = mainArtistRepository.findArtistBySpotifyId(artist.getSpotifyId());
+        if (a != null) {
+            return a;
+        }
+
+        MainArtist mainArtist = new MainArtist();
+        mainArtist.setArtistSpotifyID(artist.getSpotifyId());
+        mainArtist.setArtistName(artist.getName());
+        mainArtist.setArtistPopularity(artist.getPopularity());
+
+        //todo: images
+        mainArtistRepository.save(mainArtist);
+        return mainArtist;
+    }
+
     public Song storeTrack(SpotifyTrack track) {
         Song s = songRepository.findSongBySpotifyId(track.getId());
         if (s != null) {
