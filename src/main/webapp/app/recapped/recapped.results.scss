@@ -1,0 +1,305 @@
+@font-face {
+  font-family: 'alro';
+  src: url('../../content/fonts/alro-alro-bold-700.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'neue-plak';
+  src: url('../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'hollow';
+  src: url('../../content/fonts/custom-hollow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*
+** Styling for the results screen
+*/
+
+.page-1 {
+  font-family: 'Your font', sans-serif;
+  color: #fff;
+  padding: 20px;
+}
+
+.results-container-page3 {
+  max-width: 1200px;
+  margin: 0 auto;
+  max-height: 70vh;
+}
+
+.page-selector {
+  position: fixed; // Fixed positioning relative to the viewport
+  right: 10px; // Adjust as needed for spacing from the right edge
+  top: 50%; // Centers it vertically, adjust as needed
+  transform: translateY(-50%); // Adjust vertical centering
+  z-index: 1000; // Ensures it's above other elements
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+  }
+
+  span {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+}
+
+.your-top-title {
+  font-family: 'neue-plak' !important;
+  font-size: 3.6rem;
+  color: #ffffff;
+  text-align: center;
+  margin-top: -2.3rem;
+}
+
+.num1 {
+  margin-top: 2rem;
+  margin-right: 5rem;
+  font-size: 4rem;
+  font-family: 'hollow';
+  text-align: right;
+  position: absolute;
+  left: 18.5%;
+  margin-top: -12rem;
+}
+
+.num1artisttext {
+  font-size: 4rem;
+  position: absolute;
+  top: 4rem;
+  right: 70%;
+  max-width: 30rem;
+  text-align: right;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+.hero-text-right-1 {
+  font-size: 3rem;
+  position: absolute;
+  top: 15rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.hero-text-right-2 {
+  font-family: 'hollow' !important;
+  font-size: 5rem;
+  position: absolute;
+  top: 19rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.hero-text-right-3 {
+  font-size: 3rem;
+  position: absolute;
+  top: 24rem;
+  left: 70%;
+  text-align: left;
+  line-height: 100%;
+}
+
+.top-producers h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.producer-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 28rem;
+}
+
+.hero-img {
+  width: 28rem;
+  height: 28rem;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.producer-hero .left {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.producer-hero .right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.two-to-five-producer-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  position: absolute;
+
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.two-to-five-producer-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  height: 100%;
+  min-width: 37vw;
+}
+
+.position {
+  font-family: 'hollow';
+  font-size: 3rem;
+}
+
+.twofiveartistname {
+  font-size: 2.7rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  max-width: 27rem;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.numOfSongs {
+  font-family: 'hollow' !important;
+  font-size: 2rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  text-align: right;
+  line-height: 100%;
+}
+
+.twoFiveContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.song-text {
+  font-family: 'neue-plak';
+  font-size: 1.2rem;
+  position: relative;
+  bottom: 0.3rem;
+  text-align: right;
+  line-height: 100%;
+}
+
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.summary-textlarge {
+  font-family: 'neue-plak';
+  font-size: 4rem;
+}
+
+.summary-textsmall {
+  font-family: 'neue-plak';
+  margin-top: 2rem;
+  font-size: 1.6rem;
+}
+
+.summary-textsmaller {
+  font-family: 'neue-plak';
+  font-size: 1.1rem;
+}
+
+.summary-number {
+  font-family: 'hollow';
+  font-weight: 300;
+  font-size: 6rem;
+  margin-top: 0.5rem;
+  margin-bottom: -1.5rem;
+}
+
+.smaller-artist-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-subcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.smaller-artist-textlarge {
+  font-family: 'neue-plak';
+  font-size: 4rem;
+}
+
+.smaller-artist-artistname {
+  font-family: 'neue-plak';
+  font-size: 2.7rem;
+  position: relative;
+  bottom: 0.3rem;
+  margin-left: 0.5rem;
+  max-width: 27rem;
+  line-height: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
