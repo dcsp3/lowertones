@@ -222,10 +222,24 @@ public class APIScrapingResource {
 
     @GetMapping("/is-spotify-linked")
     public ResponseEntity<Boolean> isSpotifyLinked(Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        if (appUser == null) {
-            // AppUser not found, handle accordingly
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        AppUser appUser = null;
+        try {
+            appUser = userService.resolveAppUser(authentication.getName());
+        } catch (Exception e) {
+            //whoops (default admin/user), let's fix that
+
+            appUser = new AppUser();
+            User user = userRepository.findOneByLogin(authentication.getName()).get();
+            appUser.setUser(user);
+            appUser.setDiscoverWeeklyBufferPlaylistID(new String());
+            appUser.setDiscoverWeeklyBufferSettings(0);
+            appUser.setEmail(user.getEmail());
+            appUser.setName("test");
+            appUser.setSpotifyUserID(new String());
+            appUser.setLastLoginDate(LocalDate.now());
+            appUser.setHighContrastMode(false);
+            appUser.setTextSize(0);
+            appUserRepository.save(appUser);
         }
 
         //no refresh - not linked
