@@ -42,12 +42,36 @@
         <p-listbox [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label" autoWidth="false"></p-listbox>
       </ng-template>
 
+      <!--Duration-->
+
+      <ng-template let-node pTemplate="DurationElement">
+        <div style="display: flex; justify-content: space-between">
+          <b>Min: </b>
+          <p-inputMask
+            mask="99:99"
+            placeholder="mm:ss"
+            type="text"
+            [(ngModel)]="durationValues[0]"
+            (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
+          ></p-inputMask>
+          <b>Max: </b>
+          <p-inputMask
+            mask="99:99"
+            placeholder="mm:ss"
+            type="text"
+            [(ngModel)]="durationValues[1]"
+            (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
+          ></p-inputMask>
+        </div>
+      </ng-template>
+
       <!--Release Years-->
       <ng-template let-node pTemplate="YearsElement">
         <div style="display: flex; justify-content: space-between">
           <b>Min: </b>
           <input
-            style="width: 25%; padding: 0rem; text-align: center"
+            style="width: 8vh; padding: 0rem; text-align: center"
+            placeholder="1900"
             type="text"
             pInputText
             [(ngModel)]="yearValues[0]"
@@ -56,7 +80,8 @@
           />
           <b>Max: </b>
           <input
-            style="width: 25%; padding: 0rem; text-align: center"
+            style="width: 8vh; padding: 0rem; text-align: center"
+            placeholder="2030"
             type="text"
             pInputText
             [(ngModel)]="yearValues[1]"
@@ -73,7 +98,8 @@
         <div style="display: flex; justify-content: space-between">
           <b>Min: </b>
           <input
-            style="width: 25%; padding: 0rem; text-align: center"
+            style="width: 8vh; padding: 0rem; text-align: center"
+            placeholder="0"
             type="text"
             pInputText
             [(ngModel)]="rangeValues[0]"
@@ -82,7 +108,8 @@
           />
           <b>Max: </b>
           <input
-            style="width: 25%; padding: 0rem; text-align: center"
+            style="width: 8vh; padding: 0rem; text-align: center"
+            placeholder="100"
             type="text"
             pInputText
             [(ngModel)]="rangeValues[1]"
@@ -106,6 +133,17 @@
       <!--Producer Search-->
       <ng-template let-node pTemplate="ProducerChipElement">
         <p-chips [(ngModel)]="producerChips"></p-chips>
+      </ng-template>
+
+      <!--Explicitness-->
+
+      <ng-template let-node pTemplate="ExplicitnessElement">
+        <div class="center-container">
+          <p-triStateCheckbox [(ngModel)]="Explicitness" inputId="tricheckbox"></p-triStateCheckbox>
+          <label style="padding-top: 0.5vh" for="tricheckbox">{{
+            Explicitness === null ? 'All Songs' : Explicitness ? 'Explicit Songs' : 'Non-explicit Songs'
+          }}</label>
+        </div>
       </ng-template>
 
       <!--Column Selection-->
@@ -153,7 +191,14 @@
             <p-tableCheckbox [value]="song"></p-tableCheckbox>
           </td>
           <td *ngFor="let col of columns">
-            {{ song[col.value] }}
+            <ng-container *ngIf="col.value === 'explicit'; else normalField">
+              <div class="center-image">
+                <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
+              </div>
+            </ng-container>
+            <ng-template #normalField>
+              {{ song[col.value] }}
+            </ng-template>
           </td>
         </tr>
       </ng-template>

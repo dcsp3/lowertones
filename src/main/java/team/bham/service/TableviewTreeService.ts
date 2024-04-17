@@ -20,12 +20,26 @@ export class TableviewTreeService {
       },
       {
         key: '1',
+        label: 'Song Duration',
+        data: 'SongDuration',
+        icon: 'pi pi-fw pi-clock',
+        children: [
+          {
+            key: '1-1',
+            label: 'SongDuration',
+            data: 'SongDuration',
+            type: 'DurationElement',
+          },
+        ],
+      },
+      {
+        key: '2',
         label: 'Release Years',
         data: 'ReleaseYears',
         icon: 'pi pi-fw pi-calendar',
         children: [
           {
-            key: '1-1',
+            key: '2-1',
             label: 'Years',
             data: 'Years',
             type: 'YearsElement',
@@ -33,13 +47,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '2',
+        key: '3',
         label: 'Popularity',
         data: 'Popularity',
         icon: 'pi pi-fw pi-globe',
         children: [
           {
-            key: '2-1',
+            key: '3-1',
             label: 'Popularity',
             data: 'Popularity',
             type: 'PopularityElement',
@@ -47,13 +61,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '3',
+        key: '4',
         label: 'Artist Search',
         data: 'ArtistSearch',
         icon: 'pi pi-fw pi-users',
         children: [
           {
-            key: '3-1',
+            key: '4-1',
             label: 'ArtistChip',
             data: 'ArtistChip',
             type: 'ArtistChipElement',
@@ -61,13 +75,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '4',
+        key: '5',
         label: 'Producer Search',
         data: 'ProducerSearch',
         icon: 'pi pi-fw pi-users',
         children: [
           {
-            key: '4-1',
+            key: '5-1',
             label: 'ProducerChip',
             data: 'ProducerChip',
             type: 'ProducerChipElement',
@@ -75,13 +89,27 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '5',
+        key: '6',
+        label: 'Explicitness',
+        data: 'Explicitness',
+        icon: 'pi pi-fw pi-exclamation-triangle',
+        children: [
+          {
+            key: '6-1',
+            label: 'Explicit',
+            data: 'Explicitness',
+            type: 'ExplicitnessElement',
+          },
+        ],
+      },
+      {
+        key: '7',
         label: 'Column Selection',
         data: 'ColumnSelection',
         icon: 'pi pi-fw pi-table',
         children: [
           {
-            key: '4-1',
+            key: '7-1',
             label: 'ColumnSelectionList',
             data: 'ColumnSelectionList',
             type: 'ColumnSelectionListElement',

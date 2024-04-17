@@ -41,8 +41,10 @@ export class TableviewComponent implements OnInit {
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
   rangeValues: number[] = [0, 100];
+  durationValues: string[] = ['', ''];
   artistChips: string[] = [];
   producerChips: string[] = [];
+  Explicitness: boolean | null = null;
 
   constructor() {
     this.songData = new Array(100);

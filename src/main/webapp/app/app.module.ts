@@ -23,6 +23,9 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { ChipsModule } from 'primeng/chips';
 import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { InputMaskModule } from 'primeng/inputmask';
 
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -57,6 +60,9 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
     ChipsModule,
     FormsModule,
     ListboxModule,
+    CheckboxModule,
+    TriStateCheckboxModule,
+    InputMaskModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
