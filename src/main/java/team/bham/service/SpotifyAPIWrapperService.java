@@ -120,7 +120,10 @@ public class SpotifyAPIWrapperService {
 
         for (int i = 0; i < tracks.length(); i++) {
             JSONObject trackJSON = ((JSONObject) tracks.get(i)).getJSONObject("track");
-            playlist.addTrack(genTrackFromJSON(trackJSON));
+            //todo: handle episodes separately
+            if (trackJSON.getString("type").equals("track")) {
+                playlist.addTrack(genTrackFromJSON(trackJSON));
+            }
         }
 
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
