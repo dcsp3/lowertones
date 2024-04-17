@@ -10,6 +10,7 @@ public class SpotifyAlbum {
     private String name;
     private String releaseDate;
     private SpotifyReleasePrecision releasePrecision;
+    private String coverArtURL;
 
     //extended info - e.g. artist info, tracks ???
     //tracks only seem accessible from explicit GET album calls - i.e. not from querying a track or playlist etc.
@@ -38,6 +39,10 @@ public class SpotifyAlbum {
         this.releasePrecision = releasePrecision;
     }
 
+    public void setCoverArtURL(String coverArtURL) {
+        this.coverArtURL = coverArtURL;
+    }
+
     public String getAlbumType() {
         return albumType;
     }
@@ -60,5 +65,9 @@ public class SpotifyAlbum {
 
     public SpotifyReleasePrecision getReleasePrecision() {
         return releasePrecision;
+    }
+
+    public String getCoverArtURL() {
+        return coverArtURL;
     }
 }

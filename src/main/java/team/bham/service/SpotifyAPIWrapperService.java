@@ -48,9 +48,35 @@ public class SpotifyAPIWrapperService {
         this.appUserRepository = appUserRepository;
     }
 
-    public SpotifyAPIResponse<JSONObject> getUserDetails(AppUser user) {
+    public SpotifyAPIResponse<SpotifyUser> getUserDetails(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me";
-        return APICall(HttpMethod.GET, endpoint, user);
+        SpotifyAPIResponse<SpotifyUser> res = new SpotifyAPIResponse<>();
+        SpotifyAPIResponse<JSONObject> userDataResponse = APICall(HttpMethod.GET, endpoint, user);
+        if (!userDataResponse.getSuccess()) {
+            res.setSuccess(false);
+            res.setStatus(userDataResponse.getStatus());
+            return res;
+        }
+        JSONObject userData = userDataResponse.getData();
+        SpotifyUser spotifyUser = new SpotifyUser();
+        spotifyUser.setDisplayName(userData.getString("display_name"));
+        spotifyUser.setEmail(userData.getString("email"));
+        spotifyUser.setSpotifyId(userData.getString("id"));
+
+        JSONArray images = userData.getJSONArray("images");
+        for (int i = 0; i < images.length(); i++) {
+            JSONObject imageJSON = images.getJSONObject(i);
+            SpotifyImage image = new SpotifyImage();
+            image.setUrl(imageJSON.getString("url"));
+            image.setWidth(imageJSON.getInt("width"));
+            image.setHeight(imageJSON.getInt("height"));
+            spotifyUser.addImage(image);
+        }
+
+        res.setSuccess(true);
+        res.setStatus(userDataResponse.getStatus());
+        res.setData(spotifyUser);
+        return res;
     }
 
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
@@ -205,6 +231,8 @@ public class SpotifyAPIWrapperService {
                 album.setReleasePrecision(SpotifyReleasePrecision.DAY);
                 break;
         }
+
+        album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
 
         track.setAlbum(album);
 

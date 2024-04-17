@@ -21,6 +21,8 @@ import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.SpotifyExchangeCodeRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.APIWrapper.*;
+import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.service.SpotifyExchangeCodeService;
 import team.bham.service.SpotifyExchangeCodeService;
 import team.bham.service.dto.SpotifyExchangeCodeDTO;
@@ -44,6 +46,8 @@ public class SpotifyExchangeCodeResource {
 
     private final SpotifyExchangeCodeService spotifyExchangeCodeService;
 
+    private final SpotifyAPIWrapperService apiWrapperService;
+
     private final SpotifyExchangeCodeRepository spotifyExchangeCodeRepository;
 
     private final UserRepository userRepository;
@@ -52,11 +56,13 @@ public class SpotifyExchangeCodeResource {
 
     public SpotifyExchangeCodeResource(
         SpotifyExchangeCodeService spotifyExchangeCodeService,
+        SpotifyAPIWrapperService apiWrapperService,
         SpotifyExchangeCodeRepository spotifyExchangeCodeRepository,
         UserRepository userRepository,
         AppUserRepository appUserRepository
     ) {
         this.spotifyExchangeCodeService = spotifyExchangeCodeService;
+        this.apiWrapperService = apiWrapperService;
         this.spotifyExchangeCodeRepository = spotifyExchangeCodeRepository;
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
@@ -97,6 +103,13 @@ public class SpotifyExchangeCodeResource {
                     // Update AppUser with accessToken and refreshToken
                     appUser.setSpotifyAuthToken(accessToken);
                     appUser.setSpotifyRefreshToken(refreshToken);
+
+                    // Fetch user's Spotify details
+                    SpotifyUser userDetails = apiWrapperService.getUserDetails(appUser).getData();
+                    appUser.setSpotifyUserID(userDetails.getSpotifyId());
+                    appUser.setEmail(userDetails.getEmail());
+                    appUser.setName(userDetails.getDisplayName());
+
                     appUserRepository.save(appUser); // Save the updated AppUser
                 }
             }

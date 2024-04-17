@@ -181,11 +181,11 @@ public class APIScrapingResource {
     }
 
     @GetMapping("/get-user-details")
-    public ResponseEntity<String> getUserID(Authentication authentication) {
+    public ResponseEntity<SpotifyUser> getUserID(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
-        SpotifyAPIResponse<JSONObject> response = apiWrapper.getUserDetails(appUser);
+        SpotifyAPIResponse<SpotifyUser> response = apiWrapper.getUserDetails(appUser);
         if (response.getSuccess()) {
-            return new ResponseEntity<>(response.getData().toString(), HttpStatus.OK);
+            return new ResponseEntity<>(response.getData(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -257,7 +257,7 @@ public class APIScrapingResource {
         }
 
         //attempt dummy API call
-        SpotifyAPIResponse<JSONObject> userDetails = apiWrapper.getUserDetails(appUser);
+        SpotifyAPIResponse<SpotifyUser> userDetails = apiWrapper.getUserDetails(appUser);
 
         //call failing (i.e. success=false) implies user revoked access
         //(or rate limit, need to handle that)
