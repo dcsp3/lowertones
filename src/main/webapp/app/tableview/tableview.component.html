@@ -72,21 +72,21 @@
           <input
             style="width: 8vh; padding: 0rem; text-align: center"
             placeholder="1900"
-            type="text"
+            type="number"
             pInputText
             [(ngModel)]="yearValues[0]"
             (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
-            class="w-full"
+            class="w-full no-spinners"
           />
           <b>Max: </b>
           <input
             style="width: 8vh; padding: 0rem; text-align: center"
             placeholder="2030"
-            type="text"
+            type="number"
             pInputText
             [(ngModel)]="yearValues[1]"
             (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
-            class="w-full"
+            class="w-full no-spinners"
           />
         </div>
       </ng-template>
@@ -100,21 +100,21 @@
           <input
             style="width: 8vh; padding: 0rem; text-align: center"
             placeholder="0"
-            type="text"
+            type="number"
             pInputText
             [(ngModel)]="rangeValues[0]"
             (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-            class="w-full"
+            class="w-full no-spinners"
           />
           <b>Max: </b>
           <input
             style="width: 8vh; padding: 0rem; text-align: center"
             placeholder="100"
-            type="text"
+            type="number"
             pInputText
             [(ngModel)]="rangeValues[1]"
             (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-            class="w-full"
+            class="w-full no-spinners"
           />
         </div>
         <!--
