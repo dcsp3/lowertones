@@ -36,11 +36,11 @@
 }
 
 .page-selector {
-  position: fixed; // Fixed positioning relative to the viewport
-  right: 10px; // Adjust as needed for spacing from the right edge
-  top: 50%; // Centers it vertically, adjust as needed
-  transform: translateY(-50%); // Adjust vertical centering
-  z-index: 1000; // Ensures it's above other elements
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
 
   display: flex;
   flex-direction: column;
@@ -229,6 +229,90 @@
   line-height: 100%;
 }
 
+.quiz-textlarge {
+  font-family: 'neue-plak';
+  font-size: 4rem;
+  font-weight: 400;
+}
+
+.quiz-img {
+  max-width: 25vw;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.quiz-card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin: 5vh 0;
+}
+
+.quiz-card {
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 18vw;
+  margin: 0 1rem;
+  overflow: hidden;
+  outline: 1px solid transparent;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.quiz-card-img {
+  width: 18.1vw;
+  height: 18.1vw;
+  border-bottom: 2px solid black;
+}
+
+.correct {
+  box-shadow: 0 0 20px 4px green;
+}
+
+.incorrect {
+  box-shadow: 0 0 20px 4px red;
+}
+
+.quiz-card-text {
+  color: black;
+  font-family: 'neue-plak';
+  font-size: 1.5rem;
+  font-weight: 800;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leftquiz {
+  transform: rotate(4deg) translate3d(0, 0, 0) translateX(-3vh);
+}
+
+.centerquiz {
+  transform: translateY(3vh) translate3d(0, 0, 0);
+}
+
+.rightquiz {
+  transform: rotate(-5deg) translate3d(0, 0, 0) translateX(3vh);
+}
+
 .summary-container {
   display: flex;
   flex-direction: column;
@@ -240,6 +324,7 @@
 .summary-textlarge {
   font-family: 'neue-plak';
   font-size: 4rem;
+  font-weight: 900;
 }
 
 .summary-textsmall {

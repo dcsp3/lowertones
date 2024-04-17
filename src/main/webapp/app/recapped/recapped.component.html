@@ -166,7 +166,26 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 1" class="page2">QUIZ - TOP PRODUCER</div>
+  <div *ngIf="currentPage === 1" class="page2">
+    <div class="quiz-container">
+      <img src="../../content/images/quiz.png" alt="Quiz" class="quiz-img" />
+      <div class="quiz-textlarge">Which was your top {{ getMusicianTypeLabel() }} from the last {{ getTimeframeLabel() }}?</div>
+      <div class="quiz-card-container">
+        <div class="quiz-card leftquiz" [ngClass]="cardClass('left')" (click)="selectCard('left')">
+          <img src="{{ quizCardLeft.image }}" alt="{{ quizCardLeft.name }}" class="quiz-card-img" />
+          <div class="quiz-card-text">{{ quizCardLeft.name }}</div>
+        </div>
+        <div class="quiz-card centerquiz" [ngClass]="cardClass('center')" (click)="selectCard('center')">
+          <img src="{{ quizCardCenter.image }}" alt="{{ quizCardCenter.name }}" class="quiz-card-img" />
+          <div class="quiz-card-text">{{ quizCardCenter.name }}</div>
+        </div>
+        <div class="quiz-card rightquiz" [ngClass]="cardClass('right')" (click)="selectCard('right')">
+          <img src="{{ quizCardRight.image }}" alt="{{ quizCardRight.name }}" class="quiz-card-img" />
+          <div class="quiz-card-text">{{ quizCardRight.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div *ngIf="currentPage === 2" class="page3">
     <div class="results-container-page3">
@@ -177,7 +196,7 @@
             <div class="num1 left">#1</div>
             <div class="num1artisttext">{{ response.numOneArtistName }}</div>
           </div>
-          <img [src]="response.numOneHeroImg" alt="{{ response.numOneArtistName }}" class="hero-img" />
+          <img [src]="response.numOneArtistImage" alt="{{ response.numOneArtistName }}" class="hero-img" />
           <div class="hero-text-right-1">You’ve saved</div>
           <div class="hero-text-right-2">{{ animatedNumSongs | number: '1.0-0' }}</div>
           <div class="hero-text-right-3">songs of theirs</div>

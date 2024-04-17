@@ -15,6 +15,11 @@ interface Playlist {
   snapshotId: string;
 }
 
+interface QuizCard {
+  name: string;
+  image: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -58,6 +63,10 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   scrolling = false;
   scrollUpAccumulator = 0;
   scrollDownAccumulator = 0;
+
+  quizCardLeft: QuizCard = { name: '', image: '' };
+  quizCardCenter: QuizCard = { name: '', image: '' };
+  quizCardRight: QuizCard = { name: '', image: '' };
 
   constructor(
     private elementRef: ElementRef,
@@ -233,6 +242,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
         this.currentScreen = 'results';
         this.navigateToPage(0);
         this.initVanillaTiltOnResultsScreen();
+        this.quizRandomizer();
       },
       error: error => {
         this.isLoading = false;
@@ -387,6 +397,12 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     const selectedTimeframe = this.timeframes.find(timeframe => timeframe.value === selectedTimeframeValue);
     return selectedTimeframe ? selectedTimeframe.label.toLowerCase() : 'N/A';
   }
+
+  getMusicianTypeLabel(): string {
+    const selectedMusicianTypeValue = this.recappedForm.get('musicianType')?.value;
+    return selectedMusicianTypeValue;
+  }
+
   getTotalLibraryDuration(): string {
     const totalDuration = this.response?.totalDuration;
     if (totalDuration > 60) {
@@ -408,6 +424,68 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     const songPercentage = (totalSongs / totalSpotifySongs) * 100;
     const artistPercentage = (totalArtists / totalSpotifyArtists) * 100;
     return `${songPercentage.toFixed(7)}% of songs and ${artistPercentage.toFixed(7)}% of artists`;
+  }
+
+  randomNumbers: (number | undefined)[] = [undefined, undefined, undefined];
+
+  quizRandomizer() {
+    let indices = [0, 1, 2];
+    let randomIndex = indices.splice(Math.floor(Math.random() * 3), 1)[0];
+    this.randomNumbers[randomIndex] = 1;
+    while (this.randomNumbers.includes(undefined)) {
+      let randomNum = Math.floor(Math.random() * 5) + 1; //
+      if (!this.randomNumbers.includes(randomNum) || this.randomNumbers.filter(x => x === randomNum).length < (randomNum === 1 ? 1 : 0)) {
+        let firstUndefinedIndex = this.randomNumbers.indexOf(undefined);
+        if (firstUndefinedIndex !== -1) {
+          this.randomNumbers[firstUndefinedIndex] = randomNum;
+        }
+      }
+    }
+    this.quizCardLeft = this.getQuizCard(this.randomNumbers[0]!);
+    this.quizCardCenter = this.getQuizCard(this.randomNumbers[1]!);
+    this.quizCardRight = this.getQuizCard(this.randomNumbers[2]!);
+  }
+
+  getQuizCard(randomNumber: number): QuizCard {
+    switch (randomNumber) {
+      case 1:
+        return { name: this.response?.numOneArtistName || '', image: this.response?.numOneArtistImage || '' };
+      case 2:
+        return { name: this.response?.numTwoArtistName || '', image: this.response?.numTwoArtistImage || '' };
+      case 3:
+        return { name: this.response?.numThreeArtistName || '', image: this.response?.numThreeArtistImage || '' };
+      case 4:
+        return { name: this.response?.numFourArtistName || '', image: this.response?.numFourArtistImage || '' };
+      case 5:
+        return { name: this.response?.numFiveArtistName || '', image: this.response?.numFiveArtistImage || '' };
+      default:
+        return { name: '', image: '' };
+    }
+  }
+
+  selectedCard: 'left' | 'center' | 'right' | null = null;
+  isSelectionCorrect: boolean | null = null;
+
+  selectCard(position: 'left' | 'center' | 'right') {
+    const selectedIndex = position === 'left' ? 0 : position === 'center' ? 1 : 2;
+    this.isSelectionCorrect = this.randomNumbers[selectedIndex] === 1;
+    this.selectedCard = position;
+
+    if (!this.isSelectionCorrect) {
+      setTimeout(() => {
+        const correctIndex = this.randomNumbers.indexOf(1);
+        const correctPosition = correctIndex === 0 ? 'left' : correctIndex === 1 ? 'center' : 'right';
+        this.selectedCard = correctPosition;
+        this.isSelectionCorrect = true;
+      }, 1000);
+    }
+  }
+
+  cardClass(position: 'left' | 'center' | 'right'): string {
+    if (this.selectedCard === position) {
+      return this.isSelectionCorrect ? 'correct' : 'incorrect';
+    }
+    return '';
   }
 
   animateNumber(target: number): void {

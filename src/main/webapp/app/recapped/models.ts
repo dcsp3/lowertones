@@ -10,15 +10,24 @@ export enum MusicianType {
 export interface RecappedDTO {
   numOneArtistName: string;
   numOneAristNumSongs: number;
+  numOneArtistImage: string;
+
   numTwoArtistName: string;
   numTwoArtistNumSongs: number;
+  numTwoArtistImage: string;
+
   numThreeArtistName: string;
   numThreeArtistNumSongs: number;
+  numThreeArtistImage: string;
+
   numFourArtistName: string;
   numFourArtistNumSongs: number;
+  numFourArtistImage: string;
+
   numFiveArtistName: string;
   numFiveArtistNumSongs: number;
-  numOneHeroImg: string;
+  numFiveArtistImage: string;
+
   numOneFirstCoverImg: string;
   numOneFirstSongTitle: string;
   numOneFirstSongMainArtist: string;

@@ -1,30 +1,39 @@
 package team.bham.service.dto;
 
-import java.io.File;
-
 public class RecappedDTO {
 
     private int totalSongs;
     private int totalDuration;
     private int totalArtists;
     private int totalContributors;
+
     private String topUnder1kName;
     private String topUnder10kName;
     private String topUnder100kName;
     private String topUnder1kImage;
     private String topUnder10kImage;
     private String topUnder100kImage;
+
     private String numOneArtistName;
+    private String numOneArtistImage;
     private int numOneAristNumSongs;
+
     private String numTwoArtistName;
+    private String numTwoArtistImage;
     private int numTwoAristNumSongs;
+
     private String numThreeArtistName;
+    private String numThreeArtistImage;
     private int numThreeAristNumSongs;
+
     private String numFourArtistName;
+    private String numFourArtistImage;
     private int numFourAristNumSongs;
+
     private String numFiveArtistName;
+    private String numFiveArtistImage;
     private int numFiveAristNumSongs;
-    private String numOneHeroImg;
+
     private String numOneFirstCoverImg;
     private String numOneFirstSongTitle;
     private String numOneFirstSongMainArtist;
@@ -72,14 +81,6 @@ public class RecappedDTO {
 
     public void setNumFiveArtistName(String numFiveArtistName) {
         this.numFiveArtistName = numFiveArtistName;
-    }
-
-    public String getNumOneHeroImg() {
-        return numOneHeroImg;
-    }
-
-    public void setNumOneHeroImg(String numOneHeroImg) {
-        this.numOneHeroImg = numOneHeroImg;
     }
 
     public String getNumOneFirstCoverImg() {
@@ -248,5 +249,45 @@ public class RecappedDTO {
 
     public void setTotalDuration(int totalDuration) {
         this.totalDuration = totalDuration;
+    }
+
+    public String getNumOneArtistImage() {
+        return numOneArtistImage;
+    }
+
+    public void setNumOneArtistImage(String numOneArtistImage) {
+        this.numOneArtistImage = numOneArtistImage;
+    }
+
+    public String getNumTwoArtistImage() {
+        return numTwoArtistImage;
+    }
+
+    public void setNumTwoArtistImage(String numTwoArtistImage) {
+        this.numTwoArtistImage = numTwoArtistImage;
+    }
+
+    public String getNumThreeArtistImage() {
+        return numThreeArtistImage;
+    }
+
+    public void setNumThreeArtistImage(String numThreeArtistImage) {
+        this.numThreeArtistImage = numThreeArtistImage;
+    }
+
+    public String getNumFourArtistImage() {
+        return numFourArtistImage;
+    }
+
+    public void setNumFourArtistImage(String numFourArtistImage) {
+        this.numFourArtistImage = numFourArtistImage;
+    }
+
+    public String getNumFiveArtistImage() {
+        return numFiveArtistImage;
+    }
+
+    public void setNumFiveArtistImage(String numFiveArtistImage) {
+        this.numFiveArtistImage = numFiveArtistImage;
     }
 }

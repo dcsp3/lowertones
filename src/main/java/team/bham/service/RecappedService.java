@@ -151,7 +151,11 @@ public class RecappedService {
         dto.setNumFourAristNumSongs(80);
         dto.setNumFiveArtistName("JPEGMAFIA");
         dto.setNumFiveAristNumSongs(70);
-        dto.setNumOneHeroImg("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
+        dto.setNumOneArtistImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
+        dto.setNumTwoArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
+        dto.setNumThreeArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
+        dto.setNumFourArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
+        dto.setNumFiveArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
         dto.setNumOneFirstCoverImg("https://i.scdn.co/image/ab67616d0000b2735c2bbb4d4a66a70310705a26");
         dto.setNumOneFirstSongTitle("Leonard");
         dto.setNumOneFirstSongMainArtist("Kenny Beatseasedae");
