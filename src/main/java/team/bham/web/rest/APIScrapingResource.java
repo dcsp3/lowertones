@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.*;
 import team.bham.domain.enumeration.AlbumType;
@@ -81,23 +82,31 @@ public class APIScrapingResource {
         this.songRepository = songRepository;
     }
 
+    @Transactional
     @PostMapping("/scrape")
     public ResponseEntity<Boolean> ScrapeUserPlaylists(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
         ArrayList<SpotifySimplifiedPlaylist> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
-
+        Set<Playlist> userPlaylists = appUser.getPlaylists();
         //scrape playlist info, create playlist object, store in repo and add to appuser (store appuser again), ...
         for (int i = 0; i < playlistIds.size(); i++) {
             //check if we've already scraped this playlist
-            Playlist playlist = playlistRepository.findPlaylistBySpotifyId(playlistIds.get(i).getSpotifyId());
+            SpotifySimplifiedPlaylist curSimplePlaylist = playlistIds.get(i);
+            Playlist playlist = userPlaylists
+                .stream()
+                .filter(p -> p.getPlaylistSpotifyID().equals(curSimplePlaylist.getSpotifyId()))
+                .findFirst()
+                .orElse(null);
             if (playlist != null) {
-                //same snapshot id - no need to redo scraping
+                //snapshot id same - skip
                 if (playlist.getPlaylistSnapshotID().equals(playlistIds.get(i).getSnapshotId())) {
                     continue;
                 }
+                //otherwise - maybe just delete all playlist-song joins???? todo
             } else playlist = new Playlist();
 
-            SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, playlistIds.get(i).getSpotifyId()).getData();
+            //grab full playlist details from simple playlist id
+            SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, curSimplePlaylist.getSpotifyId()).getData();
             playlist.setAppUser(appUser);
             playlist.setDateAddedToDB(LocalDate.now());
             playlist.setDateLastModified(LocalDate.now());
