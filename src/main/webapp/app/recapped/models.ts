@@ -4,7 +4,15 @@ export enum MusicianType {
   GUITARIST = 'GUITARIST',
   DRUMMER = 'DRUMMER',
   BASSIST = 'BASSIST',
-  VOCALIST = 'VOCALIST',
+  SINGER = 'SINGER',
+  SAXOPHONIST = 'SAXOPHONIST',
+  PIANIST = 'PIANIST',
+  TRUMPETER = 'TRUMPETER',
+  VIOLINIST = 'VIOLINIST',
+  DJ = 'DJ',
+  RAPPER = 'RAPPER',
+  SONGWRITER = 'SONGWRITER',
+  COMPOSER = 'COMPOSER',
 }
 
 export interface RecappedDTO {
@@ -47,7 +55,7 @@ export interface RecappedDTO {
 }
 
 export interface RecappedRequest {
-  dateRange: string;
+  timeframe: string;
   musicianType: MusicianType;
   scanEntireLibrary: boolean;
   scanTopSongs: boolean;
@@ -55,7 +63,7 @@ export interface RecappedRequest {
   playlistId?: string;
 }
 
-export enum DateRange {
+export enum Timeframe {
   LAST_MONTH = 'LAST_MONTH',
   LAST_6_MONTHS = 'LAST_6_MONTHS',
   LAST_FEW_YEARS = 'LAST_FEW_YEARS',

@@ -4,17 +4,24 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import liquibase.integration.commandline.Main;
 import org.mapstruct.control.MappingControl.Use;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.AppUser;
 import team.bham.domain.Contributor;
+import team.bham.domain.MainArtist;
+import team.bham.domain.Playlist;
+import team.bham.domain.PlaylistSongJoin;
 import team.bham.domain.Song;
+import team.bham.domain.SongArtistJoin;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.ContributorRepository;
@@ -22,6 +29,8 @@ import team.bham.repository.MainArtistRepository;
 import team.bham.repository.PlaylistRepository;
 import team.bham.repository.SongRepository;
 import team.bham.repository.UserRepository;
+import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
+import team.bham.service.UtilService;
 import team.bham.service.dto.RecappedDTO;
 import team.bham.service.dto.RecappedRequest;
 
@@ -34,6 +43,7 @@ public class RecappedService {
     private final MainArtistRepository mainArtistRepository;
     private final ContributorRepository contributorRepository;
     private final SongRepository songRepository;
+    private final UtilService utilService;
 
     public RecappedService(
         AppUserRepository appUserRepository,
@@ -41,7 +51,8 @@ public class RecappedService {
         PlaylistRepository playlistRepository,
         MainArtistRepository mainArtistRepository,
         ContributorRepository contributorRepository,
-        SongRepository songRepository
+        SongRepository songRepository,
+        UtilService utilService
     ) {
         this.appUserRepository = appUserRepository;
         this.userRepository = userRepository;
@@ -49,6 +60,7 @@ public class RecappedService {
         this.mainArtistRepository = mainArtistRepository;
         this.contributorRepository = contributorRepository;
         this.songRepository = songRepository;
+        this.utilService = utilService;
     }
 
     @Transactional(readOnly = true)
@@ -62,7 +74,7 @@ public class RecappedService {
         return contributorCountMap;
     }
 
-    private List<Song> getUserTopSongs(AppUser user, String dateRange) {
+    private List<Song> getUserTopSongs(AppUser user, SpotifyTimeRange timeRange) {
         List<Song> topSongs = new ArrayList<>();
         //MAKE CALLS TO USERS TOP SONGS FOR PERIOD
         /*
@@ -88,28 +100,49 @@ public class RecappedService {
         return playlistSongs;
     }
 
-    private List<Song> getEntireLibrarySongs(AppUser user) {
-        List<Song> entireLibrarySongs = new ArrayList<>();
-        //MAKE CALLS TO USERS ENTIRE LIBRARY SONGS
-        return entireLibrarySongs;
-    }
-
+    @Transactional
     public RecappedDTO calculateRecappedInfo(RecappedRequest request, Authentication authentication) {
-        // Placeholder for logic to generate RecappedDTO based on the request
         RecappedDTO dto = new RecappedDTO();
         User user = userRepository.findOneByLogin(authentication.getName()).get();
         AppUser appUser = appUserRepository.findByUserId(user.getId()).get();
+        long appUserId = appUser.getId();
         List<Song> songs = new ArrayList<>();
+        int duration = 0;
+        SpotifyTimeRange timeRange = null;
+        String requestTimeframe = request.getTimeframe();
+        //case statement to set timeRange
+        switch (requestTimeframe) {
+            case "LAST_MONTH":
+                timeRange = SpotifyTimeRange.SHORT_TERM;
+                break;
+            case "LAST_6_MONTHS":
+                timeRange = SpotifyTimeRange.MEDIUM_TERM;
+                break;
+            case "LAST_FEW_YEARS":
+                timeRange = SpotifyTimeRange.LONG_TERM;
+                break;
+            default:
+                break;
+        }
 
         if (request.isScanEntireLibrary()) {
-            songs = getEntireLibrarySongs(appUser);
+            songs = utilService.getEntireLibrarySongsAddedInTimeframe(appUser, timeRange);
         } else if (request.isScanTopSongs()) {
-            songs = getUserTopSongs(appUser, request.getDateRange());
+            songs = getUserTopSongs(appUser, timeRange);
         } else if (request.isScanSpecificPlaylist()) {
             songs = getPlaylistSongs(appUser, request.getPlaylistId());
         } else {
             // No songs to scan
             return dto;
+        }
+
+        Set<MainArtist> mainArtists = new HashSet<>();
+        for (int i = 0; i < songs.size(); i++) {
+            //sum duration
+            duration = duration + songs.get(i).getSongDuration();
+            //sum artists
+            Set<SongArtistJoin> joins = songs.get(i).getSongArtistJoins();
+            mainArtists.addAll(joins.stream().map(SongArtistJoin::getMainArtist).collect(Collectors.toSet()));
         }
 
         // 3. Get Contributors for each song, count the number of occurrences, and save the top 5
@@ -131,9 +164,13 @@ public class RecappedService {
 
         // 6. Construct the DTO with the gathered information
         //constructRecappedDTO(dto, sortedContributors, imageUrl, additionalAlbumCovers);
-        dto.setTotalSongs(9524);
-        dto.setTotalDuration(42012);
-        dto.setTotalArtists(1245);
+
+        System.out.println("duration: " + duration);
+        System.out.println("mainArtists: " + mainArtists.size());
+
+        dto.setTotalSongs(songs.size());
+        dto.setTotalDuration(duration / 60000);
+        dto.setTotalArtists(mainArtists.size());
         dto.setTotalContributors(100);
         dto.setTopUnder1kName("1kartist");
         dto.setTopUnder1kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");

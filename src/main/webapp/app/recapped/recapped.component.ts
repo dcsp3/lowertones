@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RecappedService } from './recapped.service';
 import { suckInAnimation, fadeInOut } from './animations';
-import { RecappedRequest, RecappedDTO, MusicianType, DateRange, choice } from './models';
+import { RecappedRequest, RecappedDTO, MusicianType, Timeframe, choice } from './models';
 
 interface Playlist {
   name: string;
@@ -82,10 +82,19 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     ];
     this.musicianType = [
       { label: 'Producers', value: 'producer' },
+      { label: 'Mixing Engineers', value: 'mixing_engineer' },
       { label: 'Singers', value: 'singer' },
+      { label: 'Rappers', value: 'rapper' },
       { label: 'Guitarists', value: 'guitarist' },
       { label: 'Bassists', value: 'bassist' },
       { label: 'Drummers', value: 'drummer' },
+      { label: 'Pianists', value: 'pianist' },
+      { label: 'Violinists', value: 'violinist' },
+      { label: 'Trumpeters', value: 'trumpeter' },
+      { label: 'Saxophonists', value: 'saxophonist' },
+      { label: 'DJs', value: 'dj' },
+      { label: 'Songwriters', value: 'songwriter' },
+      { label: 'Composers', value: 'composer' },
     ];
     this.scanType = [
       { label: 'My Entire Library', value: 'entireLibrary' },
@@ -133,7 +142,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     if (this.recappedForm.valid) {
       const formValue = this.recappedForm.value;
       const request: RecappedRequest = {
-        dateRange: formValue.timeframe.toUpperCase().replace(' ', '_') as DateRange,
+        timeframe: formValue.timeframe.toUpperCase().replace(' ', '_') as Timeframe,
         musicianType: formValue.musicianType.toUpperCase() as MusicianType,
         scanEntireLibrary: formValue.scanType === 'entireLibrary',
         scanTopSongs: formValue.scanType === 'topSongs',

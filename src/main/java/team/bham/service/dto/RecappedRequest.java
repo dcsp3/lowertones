@@ -2,7 +2,7 @@ package team.bham.service.dto;
 
 public class RecappedRequest {
 
-    private String dateRange;
+    private String timeframe;
     private MusicianType musicianType;
     private boolean scanEntireLibrary;
     private boolean scanTopSongs;
@@ -15,20 +15,28 @@ public class RecappedRequest {
         GUITARIST,
         DRUMMER,
         BASSIST,
-        VOCALIST,
+        SINGER,
+        SAXOPHONIST,
+        PIANIST,
+        TRUMPETER,
+        VIOLINIST,
+        DJ,
+        RAPPER,
+        SONGWRITER,
+        COMPOSER,
     }
 
     public RecappedRequest() {}
 
     public RecappedRequest(
-        String dateRange,
+        String timeframe,
         MusicianType musicianType,
         boolean scanEntireLibrary,
         boolean scanTopSongs,
         boolean scanSpecificPlaylist,
         String playlistId
     ) {
-        this.dateRange = dateRange;
+        this.timeframe = timeframe;
         this.musicianType = musicianType;
         this.scanEntireLibrary = scanEntireLibrary;
         this.scanTopSongs = scanTopSongs;
@@ -76,11 +84,11 @@ public class RecappedRequest {
         this.playlistId = playlistId;
     }
 
-    public String getDateRange() {
-        return dateRange;
+    public String getTimeframe() {
+        return timeframe;
     }
 
-    public void setDateRange(String dateRange) {
-        this.dateRange = dateRange;
+    public void setTimeframe(String timeframe) {
+        this.timeframe = timeframe;
     }
 }
