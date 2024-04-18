@@ -50,6 +50,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   selectedScanType: string = '';
   musicianType: choice[];
   timeframes: choice[];
+  rangeDates!: Date[];
   scanType: choice[];
   highlightScanType: boolean = false;
   highlightTimeframe: boolean = false;
@@ -170,23 +171,25 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   setScanTypeValue(value: any): void {
-    const scantypeValue = value.value;
+    this.selectedScanType = value;
     const scantypeControl = this.recappedForm.get('scanType');
     if (scantypeControl) {
-      scantypeControl.setValue(scantypeValue);
+      scantypeControl.setValue(this.selectedScanType);
       this.highlightScanType = false;
+      // Reset the rangeDates when scan type changes, if needed
+      this.rangeDates = [];
+      this.selectedTimeframe = '';
+      this.recappedForm.get('timeframe')?.setValue('');
     }
   }
 
   setTimeframeValue(value: any): void {
-    const timeframeValue = value.value;
     const timeframeControl = this.recappedForm.get('timeframe');
     if (timeframeControl) {
-      timeframeControl.setValue(timeframeValue);
+      timeframeControl.setValue(value);
       this.highlightTimeframe = false;
     }
   }
-
   setMusicianTypeValue(value: any): void {
     const musicianTypeValue = value.value;
     const musicianTypeControl = this.recappedForm.get('musicianType');

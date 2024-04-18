@@ -4,24 +4,44 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.bham.domain.AppUser;
+import team.bham.domain.MainArtist;
 import team.bham.domain.Playlist;
 import team.bham.domain.PlaylistSongJoin;
 import team.bham.domain.Song;
+import team.bham.domain.SongArtistJoin;
 import team.bham.repository.PlaylistRepository;
+import team.bham.repository.SongRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
+import team.bham.service.APIWrapper.SpotifyAPIResponse;
+import team.bham.service.APIWrapper.SpotifyTrack;
+import team.bham.service.SpotifyAPIWrapperService;
+import team.bham.web.rest.APIScrapingResource;
 
 @Service
 public class UtilService {
 
     private final PlaylistRepository playlistRepository;
+    private final SpotifyAPIWrapperService spotifyAPIWrapperService;
+    private final SongRepository songRepository;
+    private final APIScrapingResource apiScrapingResource;
 
     @Autowired
-    public UtilService(PlaylistRepository playlistRepository) {
+    public UtilService(
+        PlaylistRepository playlistRepository,
+        SpotifyAPIWrapperService spotifyAPIWrapperService,
+        SongRepository songRepository,
+        APIScrapingResource apiScrapingResource
+    ) {
         this.playlistRepository = playlistRepository;
+        this.spotifyAPIWrapperService = spotifyAPIWrapperService;
+        this.songRepository = songRepository;
+        this.apiScrapingResource = apiScrapingResource;
     }
 
     @Transactional
@@ -41,6 +61,19 @@ public class UtilService {
     }
 
     @Transactional
+    public List<Song> getPlaylistSongs(String playlistId) {
+        Set<Song> playlistSongsSet = new HashSet<>();
+        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
+        playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
+        for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
+            playlistSongsSet.add(playlistSongJoin.getSong());
+        }
+        List<Song> entireLibrarySongsList = new ArrayList<>(playlistSongsSet);
+        return entireLibrarySongsList;
+    }
+
+    @Transactional
     public List<Song> getEntireLibrarySongsAddedInTimeframe(AppUser user, SpotifyTimeRange timeRange) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
@@ -54,5 +87,40 @@ public class UtilService {
         }
         List<Song> entireLibrarySongsList = new ArrayList<>(entireLibrarySongsSet);
         return entireLibrarySongsList;
+    }
+
+    @Transactional
+    public List<Song> getUserTopSongs(AppUser user, SpotifyTimeRange timeRange) {
+        List<Song> topSongs = new ArrayList<>();
+        SpotifyAPIResponse<JSONObject> topSongsJson = spotifyAPIWrapperService.getCurrentUserTopTracks(user, timeRange);
+        for (int i = 0; topSongsJson.getData().getJSONArray("items").length() > i; i++) {
+            String currID = topSongsJson.getData().getJSONArray("items").getJSONObject(i).getString("id");
+            if (songRepository.findSongBySpotifyId(currID) != null) {
+                Song song = songRepository.findSongBySpotifyId(currID);
+                topSongs.add(song);
+                System.out.println("Song added to list: " + song.getSongTitle());
+            } else {
+                // Song not found - add song
+                // causes lots of exceptions currently
+                SpotifyTrack track = new SpotifyTrack();
+                //NEED TO ADD THE REST OF THE TRACK INFO
+                //apiScrapingResource.storeTrack(track);
+            }
+        }
+        return topSongs;
+    }
+
+    @Transactional
+    public Set<MainArtist> getMainArtistsFromSongs(List<Song> songs) {
+        Set<MainArtist> mainArtists = new HashSet<>();
+        for (int i = 0; i < songs.size(); i++) {
+            try {
+                Set<SongArtistJoin> joins = songs.get(i).getSongArtistJoins();
+                mainArtists.addAll(joins.stream().map(SongArtistJoin::getMainArtist).collect(Collectors.toSet()));
+            } catch (Exception e) {
+                System.out.println("Error getting main artists from songs");
+            }
+        }
+        return mainArtists;
     }
 }

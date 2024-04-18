@@ -74,32 +74,6 @@ public class RecappedService {
         return contributorCountMap;
     }
 
-    private List<Song> getUserTopSongs(AppUser user, SpotifyTimeRange timeRange) {
-        List<Song> topSongs = new ArrayList<>();
-        //MAKE CALLS TO USERS TOP SONGS FOR PERIOD
-        /*
-        if (dateRange.equals("LAST_MONTH")) {
-
-        }
-        else if (dateRange.equals("LAST_6_MONTHs")) {
-
-        }
-        else if (dateRange.equals("LAST_FEW_YEARS")) { 
-
-        } else {
-
-        }
-        */
-        return topSongs;
-    }
-
-    private List<Song> getPlaylistSongs(AppUser user, String playlistId) {
-        List<Song> playlistSongs = new ArrayList<>();
-
-        //MAKE CALLS TO USERS PLAYLIST SONGS
-        return playlistSongs;
-    }
-
     @Transactional
     public RecappedDTO calculateRecappedInfo(RecappedRequest request, Authentication authentication) {
         RecappedDTO dto = new RecappedDTO();
@@ -125,24 +99,32 @@ public class RecappedService {
                 break;
         }
 
+        //get song list based on request
         if (request.isScanEntireLibrary()) {
             songs = utilService.getEntireLibrarySongsAddedInTimeframe(appUser, timeRange);
+            System.out.println("scan entire library /n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n");
+            System.out.println("songs: " + songs.size());
         } else if (request.isScanTopSongs()) {
-            songs = getUserTopSongs(appUser, timeRange);
+            songs = utilService.getUserTopSongs(appUser, timeRange);
+            System.out.println("scan Top Songs");
+            System.out.println("songs: " + songs.size());
         } else if (request.isScanSpecificPlaylist()) {
-            songs = getPlaylistSongs(appUser, request.getPlaylistId());
+            songs = utilService.getPlaylistSongs(request.getPlaylistId());
+            System.out.println("scan Playlist");
+            System.out.println("songs: " + songs.size());
         } else {
             // No songs to scan
             return dto;
         }
 
-        Set<MainArtist> mainArtists = new HashSet<>();
+        //get main artists from songs
+        Set<MainArtist> mainArtists = utilService.getMainArtistsFromSongs(songs);
+
+        //get total duration of songs in milliseconds
         for (int i = 0; i < songs.size(); i++) {
-            //sum duration
+            System.out.println("song duration scanning: " + songs.get(i).getSongTitle() + " + duration: " + songs.get(i).getSongDuration());
+            System.out.println("current i is: " + i);
             duration = duration + songs.get(i).getSongDuration();
-            //sum artists
-            Set<SongArtistJoin> joins = songs.get(i).getSongArtistJoins();
-            mainArtists.addAll(joins.stream().map(SongArtistJoin::getMainArtist).collect(Collectors.toSet()));
         }
 
         // 3. Get Contributors for each song, count the number of occurrences, and save the top 5

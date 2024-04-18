@@ -136,6 +136,11 @@ p {
 }
 
 :host ::ng-deep {
+  .ui-state-disabled {
+    opacity: 0.3 !important;
+    filter: Alpha(Opacity=70) !important;
+    background-image: none;
+  }
   .p-listbox .p-listbox-list .p-listbox-item {
     height: 50px !important;
     color: #ffffff !important;

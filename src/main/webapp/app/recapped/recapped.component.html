@@ -66,15 +66,29 @@
                 </div>
                 <h4>What time frame?</h4>
                 <div class="timeframe-selection" [class.highlight]="highlightTimeframe">
-                  <p-listbox
-                    [options]="timeframes"
-                    [ngModel]="selectedTimeframe"
-                    (ngModelChange)="setTimeframeValue($event)"
-                    optionLabel="label"
+                  <p-calendar
+                    *ngIf="selectedScanType !== 'specificType'; else otherComponent"
+                    [(ngModel)]="rangeDates"
+                    selectionMode="range"
+                    [readonlyInput]="true"
+                    [disabled]="!selectedScanType"
                     [style]="{ width: '15rem' }"
-                    [listStyle]="{ 'max-height': '220px' }"
                   >
-                  </p-listbox>
+                  </p-calendar>
+
+                  <!-- Conditional rendering of p-listbox -->
+                  <ng-template #otherComponent>
+                    <p-listbox
+                      [options]="timeframes"
+                      [ngModel]="selectedTimeframe"
+                      (ngModelChange)="setTimeframeValue($event)"
+                      optionLabel="label"
+                      [style]="{ width: '15rem' }"
+                      [disabled]="!selectedScanType"
+                      [listStyle]="{ 'max-height': '220px' }"
+                    >
+                    </p-listbox>
+                  </ng-template>
                 </div>
                 <h4>What type of artist?</h4>
                 <div class="musician-selection">
