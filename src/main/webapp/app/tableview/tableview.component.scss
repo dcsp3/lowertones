@@ -149,7 +149,7 @@
     border: 0px !important; /*this affects all p-listboxes*/
   }
   .p-listbox .p-listbox-list {
-    padding: 0.8rem 0.4rem 0.8rem 0rem !important;
+    padding: 0.8vh 1vh 0.8vh 0vh !important;
   }
   .p-listbox .p-listbox-list .p-listbox-item {
     background: rgba(53, 63, 77, 1) !important;
@@ -246,4 +246,23 @@
 
 .no-spinners {
   -moz-appearance: textfield;
+}
+
+.coltitle {
+  width: 10%;
+}
+.colartist {
+  width: 10%;
+}
+.collength {
+  width: 1%;
+}
+.colrelease {
+  width: 1%;
+}
+.colpopularity {
+  width: 1%;
+}
+.colexplicit {
+  width: 1%;
 }

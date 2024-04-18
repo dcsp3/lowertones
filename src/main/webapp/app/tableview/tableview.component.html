@@ -177,10 +177,22 @@
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 0.5rem">
+          <th style="width: 3%" pResizableColumn>
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th *ngFor="let col of columns" pResizableColumn pSortableColumn="{{ col.value }}">
+          <th
+            *ngFor="let col of columns"
+            pResizableColumn
+            pSortableColumn="{{ col.value }}"
+            [ngClass]="{
+              coltitle: col.value === 'title',
+              colartist: col.value === 'artist',
+              collength: col.value === 'length',
+              colrelease: col.value === 'release',
+              colpopularity: col.value === 'popularity',
+              colexplicit: col.value === 'explicit'
+            }"
+          >
             {{ col.label }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
           </th>
         </tr>
