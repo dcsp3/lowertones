@@ -235,7 +235,14 @@ public class SpotifyAPIWrapperService {
                 break;
         }
 
-        album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
+        JSONArray albumArt = albumJSON.getJSONArray("images");
+        if (albumArt.length() > 0) {
+            album.setCoverArtURL(albumArt.getJSONObject(0).getString("url"));
+        } else {
+            //hacky
+            album.setCoverArtURL("");
+        }
+        //album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
 
         track.setAlbum(album);
 
