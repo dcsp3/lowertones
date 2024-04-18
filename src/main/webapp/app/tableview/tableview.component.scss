@@ -153,10 +153,30 @@
   }
   .p-listbox .p-listbox-list .p-listbox-item {
     background: rgba(53, 63, 77, 1) !important;
+    padding: 1vh 1vh !important;
   }
   .p-listbox .p-listbox-list .p-listbox-item span {
     /*to align list text in the center*/
     margin: auto !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+  .p-listbox .p-listbox-list .p-listbox-item div {
+    /*to align list text in the center*/
+    margin: none !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+  .p-listbox .p-listbox-header {
+    padding: 0.1vh;
+    border-bottom: none;
+  }
+  .p-listbox-filter-container {
+    background: none;
   }
   .p-tree {
     padding: 0rem !important;
