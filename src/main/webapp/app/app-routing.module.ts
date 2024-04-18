@@ -10,6 +10,7 @@ import { TableviewComponent } from 'app/tableview/tableview.component';
 import { LinkSpotifyComponent } from 'app/link-spotify/link-spotify.component';
 import { NetworkComponent } from './network/network.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
+import { PlaylistVaultComponent } from './playlist-vault/playlist-vault.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { PasswordComponent } from './account/password/password.component';
@@ -80,6 +81,15 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
           component: VisualisationsComponent,
           data: {
             pageTitle: 'Visualisations',
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+        },
+        {
+          path: 'playlist-vault',
+          component: PlaylistVaultComponent,
+          data: {
+            pageTitle: 'Playlist Vault',
             authorities: [Authority.ADMIN, Authority.USER],
           },
           canActivate: [UserRouteAccessService],

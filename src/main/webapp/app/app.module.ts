@@ -47,6 +47,7 @@ import { RecappedComponent } from './recapped/recapped.component';
 import { NetworkComponent } from './network/network.component';
 import { TableviewComponent } from './tableview/tableview.component';
 import { VisualisationsComponent } from './visualisations/visualisations.component';
+import { PlaylistVaultComponent } from './playlist-vault/playlist-vault.component';
 import { GDPRComponent } from './gdpr/gdpr.component';
 import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
 import { DataMethodologyComponent } from './data-methodology/data-methodology.component';
@@ -98,6 +99,7 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
     NetworkComponent,
     TableviewComponent,
     VisualisationsComponent,
+    PlaylistVaultComponent,
     GDPRComponent,
     LinkSpotifyComponent,
     DataMethodologyComponent,

@@ -56,6 +56,18 @@
             <span>Visualisations</span>
           </a>
         </li>
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a
+            class="nav-link underline-link"
+            routerLink="/playlist-vault"
+            (click)="navigateIfAuthenticated('/playlist-vault', 'playlist-vault-tab')"
+            [class.active-nav-link]="currentSection === 'playlist-vault-tab'"
+          >
+            <span>
+              <span>Vault</span>
+            </span>
+          </a>
+        </li>
       </div>
     </div>
 
