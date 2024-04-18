@@ -1,27 +1,22 @@
 package team.bham.service;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import liquibase.integration.commandline.Main;
-import org.mapstruct.control.MappingControl.Use;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.AppUser;
 import team.bham.domain.Contributor;
 import team.bham.domain.MainArtist;
-import team.bham.domain.Playlist;
-import team.bham.domain.PlaylistSongJoin;
 import team.bham.domain.Song;
-import team.bham.domain.SongArtistJoin;
 import team.bham.domain.User;
 import team.bham.repository.AppUserRepository;
 import team.bham.repository.ContributorRepository;
@@ -30,7 +25,6 @@ import team.bham.repository.PlaylistRepository;
 import team.bham.repository.SongRepository;
 import team.bham.repository.UserRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
-import team.bham.service.UtilService;
 import team.bham.service.dto.RecappedDTO;
 import team.bham.service.dto.RecappedRequest;
 
@@ -83,8 +77,10 @@ public class RecappedService {
         List<Song> songs = new ArrayList<>();
         int duration = 0;
         SpotifyTimeRange timeRange = null;
+        LocalDate startDate = null;
+        LocalDate endDate = null;
         String requestTimeframe = request.getTimeframe();
-        //case statement to set timeRange
+        // case statement to set timeRange
         switch (requestTimeframe) {
             case "LAST_MONTH":
                 timeRange = SpotifyTimeRange.SHORT_TERM;
@@ -96,38 +92,52 @@ public class RecappedService {
                 timeRange = SpotifyTimeRange.LONG_TERM;
                 break;
             default:
+                if (requestTimeframe.matches("\\d{4}-\\d{2}-\\d{2} - \\d{4}-\\d{2}-\\d{2}")) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    try {
+                        String[] dates = requestTimeframe.split(" - ");
+                        startDate = LocalDate.parse(dates[0], formatter);
+                        endDate = LocalDate.parse(dates[1], formatter);
+                    } catch (DateTimeParseException e) {
+                        System.err.println("Invalid date format: " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Unknown timeframe format");
+                }
                 break;
         }
-
-        //get song list based on request
-        if (request.isScanEntireLibrary()) {
-            songs = utilService.getEntireLibrarySongsAddedInTimeframe(appUser, timeRange);
-            System.out.println("scan entire library /n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n/n");
+        System.out.println("scantype is here      :" + request.getScanType());
+        // get song list based on request
+        if (request.getScanType().equals("entireLibrary")) {
+            songs = utilService.getEntireLibrarySongsAddedInTimeframe(appUser, startDate, endDate);
+            System.out.println("scan entire library");
             System.out.println("songs: " + songs.size());
-        } else if (request.isScanTopSongs()) {
+        } else if (request.getScanType().equals("topSongs")) {
             songs = utilService.getUserTopSongs(appUser, timeRange);
             System.out.println("scan Top Songs");
             System.out.println("songs: " + songs.size());
-        } else if (request.isScanSpecificPlaylist()) {
-            songs = utilService.getPlaylistSongs(request.getPlaylistId());
+        } else if (request.getScanType().length() == 22) {
+            songs = utilService.getPlaylistSongsInTimeframe(request.getScanType(), startDate, endDate);
             System.out.println("scan Playlist");
             System.out.println("songs: " + songs.size());
         } else {
             // No songs to scan
+            System.err.println("Unknown scan type, maybe playlistID is invalid");
             return dto;
         }
 
-        //get main artists from songs
+        // get main artists from songs
         Set<MainArtist> mainArtists = utilService.getMainArtistsFromSongs(songs);
 
-        //get total duration of songs in milliseconds
+        // get total duration of songs in milliseconds
         for (int i = 0; i < songs.size(); i++) {
             System.out.println("song duration scanning: " + songs.get(i).getSongTitle() + " + duration: " + songs.get(i).getSongDuration());
             System.out.println("current i is: " + i);
             duration = duration + songs.get(i).getSongDuration();
         }
 
-        // 3. Get Contributors for each song, count the number of occurrences, and save the top 5
+        // 3. Get Contributors for each song, count the number of occurrences, and save
+        // the top 5
         Map<Contributor, Long> topContributors = countContributorsByRoleAndSongs(request.getMusicianType().name(), songs);
 
         // Sort the map by value and pick the top 5 contributors
@@ -139,13 +149,15 @@ public class RecappedService {
             .collect(Collectors.toList());
 
         // 4. For the top contributor, check for a Spotify image or an album cover
-        //String imageUrl = getContributorImageUrl(sortedContributors.get(0).getKey());
+        // String imageUrl = getContributorImageUrl(sortedContributors.get(0).getKey());
 
         // 5. Get 2 other album covers for top songs by the top contributor
-        //List<String> additionalAlbumCovers = getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
+        // List<String> additionalAlbumCovers =
+        // getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
 
         // 6. Construct the DTO with the gathered information
-        //constructRecappedDTO(dto, sortedContributors, imageUrl, additionalAlbumCovers);
+        // constructRecappedDTO(dto, sortedContributors, imageUrl,
+        // additionalAlbumCovers);
 
         System.out.println("duration: " + duration);
         System.out.println("mainArtists: " + mainArtists.size());

@@ -4,10 +4,7 @@ public class RecappedRequest {
 
     private String timeframe;
     private MusicianType musicianType;
-    private boolean scanEntireLibrary;
-    private boolean scanTopSongs;
-    private boolean scanSpecificPlaylist;
-    private String playlistId;
+    private String scanType;
 
     public enum MusicianType {
         PRODUCER,
@@ -28,20 +25,10 @@ public class RecappedRequest {
 
     public RecappedRequest() {}
 
-    public RecappedRequest(
-        String timeframe,
-        MusicianType musicianType,
-        boolean scanEntireLibrary,
-        boolean scanTopSongs,
-        boolean scanSpecificPlaylist,
-        String playlistId
-    ) {
+    public RecappedRequest(String timeframe, MusicianType musicianType, String scanType) {
         this.timeframe = timeframe;
         this.musicianType = musicianType;
-        this.scanEntireLibrary = scanEntireLibrary;
-        this.scanTopSongs = scanTopSongs;
-        this.scanSpecificPlaylist = scanSpecificPlaylist;
-        this.playlistId = playlistId;
+        this.scanType = scanType;
     }
 
     public MusicianType getMusicianType() {
@@ -52,36 +39,12 @@ public class RecappedRequest {
         this.musicianType = musicianType;
     }
 
-    public boolean isScanEntireLibrary() {
-        return scanEntireLibrary;
+    public String getScanType() {
+        return scanType;
     }
 
-    public void setScanEntireLibrary(boolean scanEntireLibrary) {
-        this.scanEntireLibrary = scanEntireLibrary;
-    }
-
-    public boolean isScanTopSongs() {
-        return scanTopSongs;
-    }
-
-    public void setScanTopSongs(boolean scanTopSongs) {
-        this.scanTopSongs = scanTopSongs;
-    }
-
-    public boolean isScanSpecificPlaylist() {
-        return scanSpecificPlaylist;
-    }
-
-    public void setScanSpecificPlaylist(boolean scanSpecificPlaylist) {
-        this.scanSpecificPlaylist = scanSpecificPlaylist;
-    }
-
-    public String getPlaylistId() {
-        return playlistId;
-    }
-
-    public void setPlaylistId(String playlistId) {
-        this.playlistId = playlistId;
+    public void setScanType(String scanType) {
+        this.scanType = scanType;
     }
 
     public String getTimeframe() {

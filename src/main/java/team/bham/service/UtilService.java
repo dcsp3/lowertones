@@ -1,5 +1,6 @@
 package team.bham.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import team.bham.domain.AppUser;
 import team.bham.domain.MainArtist;
@@ -61,7 +63,7 @@ public class UtilService {
     }
 
     @Transactional
-    public List<Song> getPlaylistSongs(String playlistId) {
+    public List<Song> getPlaylistSongsInTimeframe(String playlistId, LocalDate startDate, LocalDate endDate) {
         Set<Song> playlistSongsSet = new HashSet<>();
         Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
@@ -74,7 +76,7 @@ public class UtilService {
     }
 
     @Transactional
-    public List<Song> getEntireLibrarySongsAddedInTimeframe(AppUser user, SpotifyTimeRange timeRange) {
+    public List<Song> getEntireLibrarySongsAddedInTimeframe(AppUser user, LocalDate startDate, LocalDate endDate) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
         ArrayList<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUserId);
