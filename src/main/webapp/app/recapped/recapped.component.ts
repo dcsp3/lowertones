@@ -8,6 +8,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { RecappedService } from './recapped.service';
 import { suckInAnimation, fadeInOut } from './animations';
 import { RecappedRequest, RecappedDTO, MusicianType, Timeframe, choice } from './models';
+import { formatDate } from '@angular/common';
 
 interface Playlist {
   name: string;
@@ -106,10 +107,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       scanType: [''],
       timeframe: [''],
       musicianType: [''],
-      scanEntireLibrary: [false],
-      scanTopSongs: [false],
-      scanSpecificPlaylist: [false],
-      playlistId: [''],
     });
   }
 
@@ -120,9 +117,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
             scanType: 'entireLibrary', // Replace with your default value
             timeframe: 'LAST_MONTH', // Replace with your default value
             musicianType: 'PRODUCER', // Replace with your default value
-            scanEntireLibrary: true, // Replace with your default value
-            scanTopSongs: false, // Replace with your default value
-            scanSpecificPlaylist: false, // Replace with your default value
             playlistId: '', // Replace with your default value or leave empty if not needed
         });
         this.goToResultsScreen(this.recappedForm.value);
@@ -141,14 +135,21 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     if (this.recappedForm.valid) {
+      console.log('Form submitted:', this.recappedForm.value);
       const formValue = this.recappedForm.value;
+      let timeframeValue = formValue.timeframe;
+      if (typeof timeframeValue === 'string') {
+        timeframeValue = timeframeValue.toUpperCase().replace(' ', '_');
+      } else if (this.rangeDates && this.rangeDates.length === 2) {
+        const startDate = formatDate(this.rangeDates[0], 'yyyy-MM-dd', 'en-US');
+        const endDate = formatDate(this.rangeDates[1], 'yyyy-MM-dd', 'en-US');
+        timeframeValue = `${startDate} - ${endDate}`;
+        console.log('Timeframe:', timeframeValue);
+      }
       const request: RecappedRequest = {
-        timeframe: formValue.timeframe.toUpperCase().replace(' ', '_') as Timeframe,
+        timeframe: timeframeValue,
         musicianType: formValue.musicianType.toUpperCase() as MusicianType,
-        scanEntireLibrary: formValue.scanType === 'entireLibrary',
-        scanTopSongs: formValue.scanType === 'topSongs',
-        scanSpecificPlaylist: formValue.scanType === 'specificPlaylist',
-        playlistId: formValue.scanType === 'specificPlaylist' ? formValue.playlistId : undefined,
+        scanType: formValue.scanType,
       };
       this.goToResultsScreen(request);
     }
@@ -157,7 +158,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   fetchPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (response: Playlist[]) => {
-        // Assuming the response is an array of Playlist objects
         const playlistOptions = response.map((playlist: Playlist) => ({
           label: playlist.name,
           value: playlist.spotifyId,
@@ -171,12 +171,12 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   setScanTypeValue(value: any): void {
-    this.selectedScanType = value;
+    this.selectedScanType = value.value;
+    console.log('Selected Scan Type:', this.selectedScanType);
     const scantypeControl = this.recappedForm.get('scanType');
     if (scantypeControl) {
       scantypeControl.setValue(this.selectedScanType);
       this.highlightScanType = false;
-      // Reset the rangeDates when scan type changes, if needed
       this.rangeDates = [];
       this.selectedTimeframe = '';
       this.recappedForm.get('timeframe')?.setValue('');
@@ -188,6 +188,17 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     if (timeframeControl) {
       timeframeControl.setValue(value);
       this.highlightTimeframe = false;
+    }
+  }
+
+  onDateRangeChange(dates: Date[]): void {
+    if (dates && dates.length === 2) {
+      const startDate = formatDate(dates[0], 'yyyy-MM-dd', 'en-US');
+      const endDate = formatDate(dates[1], 'yyyy-MM-dd', 'en-US');
+      const formattedRange = `${startDate} - ${endDate}`;
+      this.recappedForm.get('timeframe')!.setValue(formattedRange);
+    } else {
+      this.recappedForm.get('timeframe')!.setValue('');
     }
   }
   setMusicianTypeValue(value: any): void {
@@ -445,7 +456,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     let randomIndex = indices.splice(Math.floor(Math.random() * 3), 1)[0];
     this.randomNumbers[randomIndex] = 1;
     while (this.randomNumbers.includes(undefined)) {
-      let randomNum = Math.floor(Math.random() * 5) + 1; //
+      let randomNum = Math.floor(Math.random() * 5) + 1;
       if (!this.randomNumbers.includes(randomNum) || this.randomNumbers.filter(x => x === randomNum).length < (randomNum === 1 ? 1 : 0)) {
         let firstUndefinedIndex = this.randomNumbers.indexOf(undefined);
         if (firstUndefinedIndex !== -1) {

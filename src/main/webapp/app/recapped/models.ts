@@ -55,12 +55,9 @@ export interface RecappedDTO {
 }
 
 export interface RecappedRequest {
-  timeframe: string;
+  timeframe?: string;
   musicianType: MusicianType;
-  scanEntireLibrary: boolean;
-  scanTopSongs: boolean;
-  scanSpecificPlaylist: boolean;
-  playlistId?: string;
+  scanType: string;
 }
 
 export enum Timeframe {

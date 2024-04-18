@@ -67,16 +67,17 @@
                 <h4>What time frame?</h4>
                 <div class="timeframe-selection" [class.highlight]="highlightTimeframe">
                   <p-calendar
-                    *ngIf="selectedScanType !== 'specificType'; else otherComponent"
+                    *ngIf="selectedScanType !== 'topSongs'; else otherComponent"
                     [(ngModel)]="rangeDates"
                     selectionMode="range"
                     [readonlyInput]="true"
                     [disabled]="!selectedScanType"
-                    [style]="{ width: '15rem' }"
+                    (ngModelChange)="onDateRangeChange($event)"
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
                   >
                   </p-calendar>
 
-                  <!-- Conditional rendering of p-listbox -->
                   <ng-template #otherComponent>
                     <p-listbox
                       [options]="timeframes"
