@@ -159,6 +159,44 @@ public class SpotifyAPIWrapperService {
         return res;
     }
 
+    public SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> getTrackAudioFeatures(ArrayList<String> trackIds, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/audio-features?ids=";
+        //append all ids to endpoint
+        //todo: split this into batches of 100 ids
+        for (int i = 0; i < trackIds.size(); i++) {
+            endpoint += trackIds.get(i);
+            if (i != trackIds.size() - 1) {
+                endpoint += ",";
+            }
+        }
+
+        JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        JSONArray audioFeaturesListJSON = response.getJSONArray("audio_features");
+
+        ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
+        for (int i = 0; i < audioFeaturesListJSON.length(); i++) {
+            JSONObject audioFeaturesJSON = audioFeaturesListJSON.getJSONObject(i);
+            SpotifyTrackAudioFeatures audioFeatures = new SpotifyTrackAudioFeatures();
+            audioFeatures.setAcousticness(audioFeaturesJSON.getFloat("acousticness"));
+            audioFeatures.setDanceability(audioFeaturesJSON.getFloat("danceability"));
+            audioFeatures.setEnergy(audioFeaturesJSON.getFloat("energy"));
+            audioFeatures.setInstrumentalness(audioFeaturesJSON.getFloat("instrumentalness"));
+            audioFeatures.setKey(audioFeaturesJSON.getInt("key"));
+            audioFeatures.setLiveness(audioFeaturesJSON.getFloat("liveness"));
+            audioFeatures.setLoudness(audioFeaturesJSON.getFloat("loudness"));
+            audioFeatures.setMode(audioFeaturesJSON.getInt("mode"));
+            audioFeatures.setSpeechiness(audioFeaturesJSON.getFloat("speechiness"));
+            audioFeatures.setTempo(audioFeaturesJSON.getFloat("tempo"));
+            audioFeatures.setTimeSignature(audioFeaturesJSON.getInt("time_signature"));
+            audioFeatures.setValence(audioFeaturesJSON.getFloat("valence"));
+        }
+
+        SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> res = new SpotifyAPIResponse<>();
+        res.setSuccess(true);
+        res.setData(audioFeaturesList);
+        return res;
+    }
+
     public SpotifyAPIResponse<JSONObject> getCurrentUserTopTracks(AppUser user, SpotifyTimeRange timeRange) {
         String endpoint = "https://api.spotify.com/v1/me/top/tracks?offset=0&limit=50&time_range=" + timeRange.label;
         return APICall(HttpMethod.GET, endpoint, user);

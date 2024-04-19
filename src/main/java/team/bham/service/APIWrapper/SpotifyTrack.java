@@ -4,6 +4,7 @@ public class SpotifyTrack {
 
     private SpotifyAlbum album;
     private SpotifyArtist mainArtist; //<--extend to arraylist
+    private SpotifyTrackAudioFeatures audioFeatures;
     private String id;
     private String name;
     private Boolean explicit;
@@ -38,6 +39,10 @@ public class SpotifyTrack {
         this.mainArtist = artist;
     }
 
+    public void setAudioFeatures(SpotifyTrackAudioFeatures audioFeatures) {
+        this.audioFeatures = audioFeatures;
+    }
+
     public String getId() {
         return id;
     }
@@ -64,5 +69,9 @@ public class SpotifyTrack {
 
     public SpotifyArtist getArtist() {
         return mainArtist;
+    }
+
+    public SpotifyTrackAudioFeatures getAudioFeatures() {
+        return audioFeatures;
     }
 }
