@@ -28,9 +28,7 @@ body {
 .bar-chart {
 }
 
-.labels {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 20px);
-  width: auto;
+.chart-description {
+  margin-top: 10px;
+  font-size: 14px;
 }
