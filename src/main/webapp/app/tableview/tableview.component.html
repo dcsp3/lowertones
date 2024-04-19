@@ -34,8 +34,25 @@
 
     <p-tree [value]="filters" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem">
       <ng-template let-node pTemplate="default">
-        {{ node.label }}
+        {{ node.label }} </ng-template
+      ><!--Playlist Select-->
+      <ng-template let-node pTemplate="PlaylistElement">
+        <button pButton [style]="{ 'max-width': '100%' }" label="Submit" (click)="scrape()"></button>
+        <p-listbox
+          [options]="scanType"
+          [(ngModel)]="selectedScanType"
+          [filter]="true"
+          [listStyle]="{ 'max-height': '30vh' }"
+          optionLabel="label"
+          autoWidth="false"
+        >
+          <ng-template let-item pTemplate="item">
+            <div title="{{ item.label }}">{{ item.label }}</div>
+          </ng-template>
+        </p-listbox>
       </ng-template>
+
+      <!--Duration-->
 
       <!--Search Type-->
       <ng-template let-node pTemplate="SearchElement">
@@ -177,10 +194,22 @@
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 0.5rem">
+          <th style="width: 3%" pResizableColumn>
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th *ngFor="let col of columns" pResizableColumn pSortableColumn="{{ col.value }}">
+          <th
+            *ngFor="let col of columns"
+            pResizableColumn
+            pSortableColumn="{{ col.value }}"
+            [ngClass]="{
+              coltitle: col.value === 'title',
+              colartist: col.value === 'artist',
+              collength: col.value === 'length',
+              colrelease: col.value === 'release',
+              colpopularity: col.value === 'popularity',
+              colexplicit: col.value === 'explicit'
+            }"
+          >
             {{ col.label }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
           </th>
         </tr>

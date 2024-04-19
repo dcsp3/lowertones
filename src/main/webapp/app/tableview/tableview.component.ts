@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { TableviewTreeService } from '../../../java/team/bham/service/TableviewTreeService';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface SongEntry {
   selected: boolean;
@@ -12,7 +14,7 @@ interface SongEntry {
   release: string;
 }
 
-interface searchType {
+interface SearchType {
   label: string;
   value: string;
 }
@@ -20,6 +22,40 @@ interface searchType {
 interface Column {
   value: string;
   label: string;
+}
+
+interface Playlist {
+  name: string;
+  spotifyId: string;
+  snapshotId: string;
+}
+
+interface choice {
+  label: string;
+  value: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+class PlaylistService {
+  private apiUrl = '/api/get-user-playlists';
+  constructor(private http: HttpClient) {}
+  getPlaylists(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+class ScrapeService {
+  private apiUrl = '/api/scrape';
+  constructor(private http: HttpClient) {}
+  scrape(): Observable<any> {
+    console.log('in class');
+    return this.http.get(this.apiUrl);
+  }
 }
 
 @Component({
@@ -34,10 +70,10 @@ export class TableviewComponent implements OnInit {
   searchQuery: string = '';
   jsonBlob: any;
   filters!: TreeNode[];
-  searchTypes: searchType[];
+  searchTypes: SearchType[];
+  selectedSearchType: SearchType;
   cols!: Column[];
   selectedColumns!: Column[];
-  selectedSearchType: searchType;
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
   rangeValues: number[] = [0, 100];
@@ -45,8 +81,10 @@ export class TableviewComponent implements OnInit {
   artistChips: string[] = [];
   producerChips: string[] = [];
   Explicitness: boolean | null = null;
+  scanType: choice[];
+  selectedScanType: string = '';
 
-  constructor() {
+  constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     this.songData = new Array(100);
     this.searchTypes = [
       { label: 'Titles & Artists', value: 'both' },
@@ -55,10 +93,14 @@ export class TableviewComponent implements OnInit {
     ];
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
-    // for primeNG dropdown menu
+    this.scanType = [
+      { label: 'My Entire Library', value: 'entireLibrary' },
+      { label: 'My Top Songs', value: 'topSongs' },
+    ];
   }
 
   ngOnInit(): void {
+    this.fetchPlaylists();
     this.genSongList();
     this.filteredSongData = this.songData;
     this.cols = [
@@ -88,6 +130,27 @@ export class TableviewComponent implements OnInit {
       if (this.selectedSearchType.value === 'both') return matchesTitle || matchesArtist;
       else if (this.selectedSearchType.value === 'title') return matchesTitle;
       else return matchesArtist;
+    });
+  }
+
+  scrape() {
+    console.log('starting scrape');
+    this.scrapeService.scrape();
+    console.log('finished scrape');
+  }
+
+  fetchPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (response: Playlist[]) => {
+        const playlistOptions = response.map((playlist: Playlist) => ({
+          label: playlist.name,
+          value: playlist.spotifyId,
+        }));
+        this.scanType = [...this.scanType, ...playlistOptions];
+      },
+      error: error => {
+        console.error('Error fetching playlists:', error);
+      },
     });
   }
 
