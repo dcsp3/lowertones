@@ -1,5 +1,7 @@
 package team.bham.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -239,18 +241,24 @@ public class SpotifyAPIWrapperService {
         album.setNumTracks(albumJSON.getInt("total_tracks"));
         album.setSpotifyId(albumJSON.getString("id"));
         album.setName(albumJSON.getString("name"));
-        album.setReleaseDate(albumJSON.getString("release_date"));
+        // album.setReleaseDate(albumJSON.getString("release_date"));
+        String releaseDateUnformatted = albumJSON.getString("release_date");
+
+        //hacky, but LocalDate expects month/day to be set.
         switch (albumJSON.getString("release_date_precision")) {
             case "year":
                 album.setReleasePrecision(SpotifyReleasePrecision.YEAR);
+                releaseDateUnformatted += "-01-01";
                 break;
             case "month":
                 album.setReleasePrecision(SpotifyReleasePrecision.MONTH);
+                releaseDateUnformatted += "-01";
                 break;
             case "day":
                 album.setReleasePrecision(SpotifyReleasePrecision.DAY);
                 break;
         }
+        album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         JSONArray albumArt = albumJSON.getJSONArray("images");
         if (albumArt.length() > 0) {
@@ -272,6 +280,18 @@ public class SpotifyAPIWrapperService {
         //popularity doesn't seem to exist for some artists... wtf?
         int artistPopularity = (mainArtistJSON.has("popularity") ? mainArtistJSON.getInt("popularity") : 0);
         mainArtist.setPopularity(artistPopularity);
+
+        if (mainArtistJSON.has("images")) {
+            JSONArray artistImages = mainArtistJSON.getJSONArray("images");
+            for (int i = 0; i < artistImages.length(); i++) {
+                JSONObject imageJSON = artistImages.getJSONObject(i);
+                SpotifyImage image = new SpotifyImage();
+                image.setUrl(imageJSON.getString("url"));
+                image.setWidth(imageJSON.getInt("width"));
+                image.setHeight(imageJSON.getInt("height"));
+                mainArtist.addImage(image);
+            }
+        }
 
         track.setMainArtist(mainArtist);
 

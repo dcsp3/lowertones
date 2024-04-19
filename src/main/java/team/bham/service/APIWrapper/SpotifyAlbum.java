@@ -1,5 +1,6 @@
 package team.bham.service.APIWrapper;
 
+import java.time.LocalDate;
 import team.bham.service.APIWrapper.Enums.SpotifyReleasePrecision;
 
 public class SpotifyAlbum {
@@ -8,7 +9,7 @@ public class SpotifyAlbum {
     private int numTracks;
     private String spotifyId;
     private String name;
-    private String releaseDate;
+    private LocalDate releaseDate;
     private SpotifyReleasePrecision releasePrecision;
     private String coverArtURL;
 
@@ -31,7 +32,7 @@ public class SpotifyAlbum {
         this.name = name;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -59,7 +60,7 @@ public class SpotifyAlbum {
         return name;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
