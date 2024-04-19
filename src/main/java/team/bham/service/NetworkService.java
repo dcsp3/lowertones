@@ -73,7 +73,9 @@ public class NetworkService {
             }
         }
 
-        return null;
+        topTrack.put("trackName", "");
+        topTrack.put("previewUrl", "");
+        return topTrack;
     }
 
     private JSONObject calculateStats(JSONArray artists, AppUser user, SpotifyTimeRange timeRange) {
