@@ -10,6 +10,7 @@ public class SpotifyTrack {
     private Boolean explicit;
     private int duration;
     private int popularity;
+    private String previewUrl;
 
     public void setId(String id) {
         this.id = id;
@@ -43,6 +44,10 @@ public class SpotifyTrack {
         this.audioFeatures = audioFeatures;
     }
 
+    public void setPreviewUrl(String previewUrl) {
+        this.previewUrl = previewUrl;
+    }
+
     public String getId() {
         return id;
     }
@@ -73,5 +78,9 @@ public class SpotifyTrack {
 
     public SpotifyTrackAudioFeatures getAudioFeatures() {
         return audioFeatures;
+    }
+
+    public String getPreviewUrl() {
+        return previewUrl;
     }
 }
