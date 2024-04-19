@@ -118,21 +118,26 @@ public class APIScrapingResource {
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
             for (int j = 0; j < tracks.size(); j++) {
                 MainArtist a = storeArtist(tracks.get(j).getArtist());
-                Song s = storeTrack(tracks.get(j));
+
+                //check if song already exists. if not, store in db and create song-artist join
+                //songs already in db should always have song-artist join already
+                Song s = songRepository.findSongBySpotifyId(tracks.get(j).getId());
+                if (s == null) {
+                    s = storeTrack(tracks.get(j));
+
+                    SongArtistJoin songArtistJoin = new SongArtistJoin();
+                    songArtistJoin.setSong(s);
+                    songArtistJoin.setMainArtist(a);
+                    songArtistJoin.setTopTrackIndex(0); //????
+                    songArtistJoinRepository.save(songArtistJoin);
+                }
 
                 PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin();
                 playlistSongJoin.setPlaylist(playlist);
                 playlistSongJoin.setSong(s);
-                playlistSongJoin.setSongOrderIndex(0); //what??
+                playlistSongJoin.setSongOrderIndex(i); //tracks in SpotifyPlaylist obj *should* be in correct order
                 playlistSongJoin.setSongDateAdded(LocalDate.now());
                 playlistSongJoinRepository.save(playlistSongJoin);
-
-                //song artist join
-                SongArtistJoin songArtistJoin = new SongArtistJoin();
-                songArtistJoin.setSong(s);
-                songArtistJoin.setMainArtist(a);
-                songArtistJoin.setTopTrackIndex(0); //????
-                songArtistJoinRepository.save(songArtistJoin);
                 //todo: genre stuff.
             }
         }
@@ -141,7 +146,7 @@ public class APIScrapingResource {
     }
 
     //todo: move this all to service
-
+    @Transactional
     public MainArtist storeArtist(SpotifyArtist artist) {
         MainArtist a = mainArtistRepository.findArtistBySpotifyId(artist.getSpotifyId());
         if (a != null) {
@@ -158,6 +163,7 @@ public class APIScrapingResource {
         return mainArtist;
     }
 
+    @Transactional
     public Song storeTrack(SpotifyTrack track) {
         Song s = songRepository.findSongBySpotifyId(track.getId());
         if (s != null) {

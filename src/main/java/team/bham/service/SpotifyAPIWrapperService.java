@@ -270,7 +270,8 @@ public class SpotifyAPIWrapperService {
         mainArtist.setSpotifyId(mainArtistJSON.getString("id"));
 
         //popularity doesn't seem to exist for some artists... wtf?
-        mainArtist.setPopularity(0);
+        int artistPopularity = (mainArtistJSON.has("popularity") ? mainArtistJSON.getInt("popularity") : 0);
+        mainArtist.setPopularity(artistPopularity);
 
         track.setMainArtist(mainArtist);
 
