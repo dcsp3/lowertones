@@ -8,22 +8,27 @@ body {
 }
 
 .container {
-  width: 500px;
-  height: 500px;
+  width: 1400px;
+  height: 400px;
   position: relative;
 }
 
 .chart {
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
   text-align: center;
-  background-color: lightblue;
-  float: left;
+  background-color: floralwhite;
+  display: inline-block;
+  margin-right: 20px;
 }
 
-.labels {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 20px);
-  width: auto;
+.pie-chart {
+}
+
+.bar-chart {
+}
+
+.chart-description {
+  margin-top: 10px;
+  font-size: 14px;
 }

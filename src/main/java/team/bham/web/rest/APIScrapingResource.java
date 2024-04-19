@@ -180,8 +180,23 @@ public class APIScrapingResource {
         song.setSongPopularity(track.getPopularity());
         song.setSongDateAddedToDB(LocalDate.now());
         song.setSongDateLastModified(LocalDate.now());
+        song.setSongPreviewURL(track.getPreviewUrl());
         song.setSongTrackFeaturesAdded(false);
-
+        //awful, todo: remove
+        if (track.getAudioFeatures() != null) {
+            song.setSongTrackFeaturesAdded(true);
+            song.setSongAcousticness(track.getAudioFeatures().getAcousticness());
+            song.setSongDanceability(track.getAudioFeatures().getDanceability());
+            song.setSongEnergy(track.getAudioFeatures().getEnergy());
+            song.setSongInstrumentalness(track.getAudioFeatures().getInstrumentalness());
+            song.setSongLiveness(track.getAudioFeatures().getLiveness());
+            song.setSongLoudness(track.getAudioFeatures().getLoudness());
+            song.setSongSpeechiness(track.getAudioFeatures().getSpeechiness());
+            song.setSongTempo(track.getAudioFeatures().getTempo());
+            song.setSongValence(track.getAudioFeatures().getValence());
+            song.setSongKey(track.getAudioFeatures().getKey());
+            song.setSongTimeSignature(track.getAudioFeatures().getTimeSignature());
+        }
         songRepository.save(song);
         return song;
     }

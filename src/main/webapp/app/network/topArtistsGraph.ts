@@ -2,23 +2,24 @@ import * as d3 from 'd3';
 
 interface Node extends d3.SimulationNodeDatum {
   id: number;
-  name: string; // Added field for the artist's name
+  name: string;
   type: string;
   genre: string;
   img: string;
   rank: number;
   x?: number;
   y?: number;
+  card?: d3.Selection<HTMLDivElement, unknown, null, undefined>;
 }
 
 interface Link extends d3.SimulationLinkDatum<Node> {
-  source: number | string; // Support number for numeric IDs, string for 'user'
+  source: number | string;
   target: number | string;
   distance: number;
 }
 
 interface Artist {
-  distance: number; // Assuming this maps to 'rank' in Node
+  distance: number;
   name: string;
   genres: string[];
   imageUrl: string;
@@ -49,7 +50,6 @@ function getElements(artists: Artist[], userImg: string, connections: { [key: st
     });
   });
 
-  // Add artist-to-artist connections based on the connections parameter
   Object.entries(connections).forEach(([artistName, connectedArtists]) => {
     const sourceId = idMap[artistName];
     connectedArtists.forEach(connectedArtistName => {
@@ -58,7 +58,7 @@ function getElements(artists: Artist[], userImg: string, connections: { [key: st
         links.push({
           source: sourceId,
           target: targetId,
-          distance: 100, // Customize this distance as needed
+          distance: 100,
         });
       }
     });
@@ -74,11 +74,11 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('width', width)
     .attr('height', height)
     .style('animation', 'subtle-zoom 5s infinite alternate ease-in-out');
-  // Defining patterns for each node based on imageUrl
+
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
     const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, '');
-    const imageSize = node.type === 'user' ? 50 : 40; // Larger image size for 'user'
+    const imageSize = node.type === 'user' ? 50 : 40;
 
     defs
       .append('pattern')
@@ -111,7 +111,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
           <div><center>Songs in Library</center></div>
         `
         )
-        .style('width', '200px')
+        .style('width', `${width / 5}px`)
         .style('color', 'white')
         .style('position', 'absolute')
         .style('visibility', 'hidden')
@@ -119,14 +119,9 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
         .style('padding', '10px')
         .style('border-radius', '8px')
         .style('pointer-events', 'none')
-        .style('z-index', '1000')
-        .each(function () {
-          const card = d3.select(this);
-          const bbox = this.getBoundingClientRect();
-          const x = bbox.x + bbox.width > window.innerWidth ? window.innerWidth - bbox.width : bbox.x;
-          const y = bbox.y + bbox.height > window.innerHeight ? window.innerHeight - bbox.height : bbox.y;
-          card.style('left', `${x}px`).style('top', `${y + 10}px`);
-        });
+        .style('z-index', '1000');
+
+      node.card = nodeCard;
     }
   });
 
@@ -181,14 +176,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     // When setting the event listeners
     .on('mouseover', (event, d) => {
       const cardSelector = `#node-card-${d.id}`; // d.id is now numeric, which simplifies selectors
-      d3.select(cardSelector)
-        .style('left', function () {
-          return d.x! + 'px';
-        })
-        .style('top', function () {
-          return d.y! - 145 + 'px';
-        })
-        .style('visibility', 'visible');
+      d3.select(cardSelector).style('visibility', 'visible');
     })
     .on('mouseleave', (event, d) => {
       const cardSelector = `#node-card-${d.id}`;
@@ -222,19 +210,34 @@ function updateGraph(node: any, link: any, label: any, width: number, height: nu
       return Math.max(radius, Math.min(height - radius, d.y));
     });
 
+  node.each(function (d: any) {
+    if (d.card) {
+      const radius = d.type === 'user' ? 25 : 20;
+      const cardHeight = 178;
+      const offset = width / 89;
+
+      let topPosition;
+
+      if (d.y >= height / 2) {
+        topPosition = d.y - radius - cardHeight;
+      } else {
+        topPosition = d.y + cardHeight / 2;
+      }
+
+      d.card.style('left', `${d.x + offset}px`).style('top', `${topPosition}px`);
+    }
+  });
+
   link
     .attr('x1', (d: any) => d.source.x)
     .attr('y1', (d: any) => d.source.y)
     .attr('x2', (d: any) => d.target.x)
     .attr('y2', (d: any) => d.target.y);
-
-  label.attr('x', (d: any) => d.x).attr('y', (d: any) => d.y - 30);
 }
 
 function clearGraph(graphContainer: any): void {
-  // Use D3 to select and remove all child elements of the graph container
-  d3.select(graphContainer).selectAll('*').remove();
-  d3.selectAll('.node-card').remove(); // Assumes node cards have 'node-card' class
+  const svg = d3.select(graphContainer).select('svg');
+  svg.remove();
 }
 
 export { getElements, renderGraph, clearGraph };
