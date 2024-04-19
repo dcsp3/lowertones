@@ -88,13 +88,14 @@ public class SpotifyAPIWrapperService {
     }
 
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/me/playlists";
+        String endpoint = "https://api.spotify.com/v1/me/playlists?limit=50";
         JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
         JSONArray playlistEntriesJSON = response.getJSONArray("items");
         ArrayList<SpotifySimplifiedPlaylist> playlists = new ArrayList<SpotifySimplifiedPlaylist>();
-        while (!response.isNull("next")) {
-            for (int i = 0; i < playlistEntriesJSON.length(); i++) {
-                JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(i);
+        int totalPlaylists = response.getInt("total");
+        for (int i = 0; i < totalPlaylists; i += 50) {
+            for (int j = 0; j < playlistEntriesJSON.length(); j++) {
+                JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(j);
                 playlists.add(
                     new SpotifySimplifiedPlaylist(
                         playlistEntry.getString("name"),
@@ -103,10 +104,11 @@ public class SpotifyAPIWrapperService {
                     )
                 );
             }
-
-            String nextPageURL = response.getString("next");
-            response = APICall(HttpMethod.GET, nextPageURL, user).getData();
-            playlistEntriesJSON = response.getJSONArray("items");
+            if (!response.isNull("next")) {
+                String nextPageURL = response.getString("next");
+                response = APICall(HttpMethod.GET, nextPageURL, user).getData();
+                playlistEntriesJSON = response.getJSONArray("items");
+            }
         }
 
         SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> res = new SpotifyAPIResponse<>();
@@ -154,6 +156,44 @@ public class SpotifyAPIWrapperService {
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
         res.setData(playlist);
         res.setSuccess(true);
+        return res;
+    }
+
+    public SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> getTrackAudioFeatures(ArrayList<String> trackIds, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/audio-features?ids=";
+        //append all ids to endpoint
+        //todo: split this into batches of 100 ids
+        for (int i = 0; i < trackIds.size(); i++) {
+            endpoint += trackIds.get(i);
+            if (i != trackIds.size() - 1) {
+                endpoint += ",";
+            }
+        }
+
+        JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        JSONArray audioFeaturesListJSON = response.getJSONArray("audio_features");
+
+        ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
+        for (int i = 0; i < audioFeaturesListJSON.length(); i++) {
+            JSONObject audioFeaturesJSON = audioFeaturesListJSON.getJSONObject(i);
+            SpotifyTrackAudioFeatures audioFeatures = new SpotifyTrackAudioFeatures();
+            audioFeatures.setAcousticness(audioFeaturesJSON.getFloat("acousticness"));
+            audioFeatures.setDanceability(audioFeaturesJSON.getFloat("danceability"));
+            audioFeatures.setEnergy(audioFeaturesJSON.getFloat("energy"));
+            audioFeatures.setInstrumentalness(audioFeaturesJSON.getFloat("instrumentalness"));
+            audioFeatures.setKey(audioFeaturesJSON.getInt("key"));
+            audioFeatures.setLiveness(audioFeaturesJSON.getFloat("liveness"));
+            audioFeatures.setLoudness(audioFeaturesJSON.getFloat("loudness"));
+            audioFeatures.setMode(audioFeaturesJSON.getInt("mode"));
+            audioFeatures.setSpeechiness(audioFeaturesJSON.getFloat("speechiness"));
+            audioFeatures.setTempo(audioFeaturesJSON.getFloat("tempo"));
+            audioFeatures.setTimeSignature(audioFeaturesJSON.getInt("time_signature"));
+            audioFeatures.setValence(audioFeaturesJSON.getFloat("valence"));
+        }
+
+        SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> res = new SpotifyAPIResponse<>();
+        res.setSuccess(true);
+        res.setData(audioFeaturesList);
         return res;
     }
 
