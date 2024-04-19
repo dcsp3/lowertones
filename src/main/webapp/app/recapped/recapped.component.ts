@@ -2,12 +2,13 @@ import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, Injectable, Ho
 import VanillaTilt from 'vanilla-tilt';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RecappedService } from './recapped.service';
 import { suckInAnimation, fadeInOut } from './animations';
-import { RecappedRequest, RecappedDTO, MusicianType, Timeframe, choice } from './models';
+import { RecappedRequest, RecappedDTO, MusicianType, Timeframe, choice, Column, TableEntry, ExportColumn } from './models';
 import { formatDate } from '@angular/common';
 
 interface Playlist {
@@ -56,6 +57,9 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   highlightScanType: boolean = false;
   highlightTimeframe: boolean = false;
   highlightMusician: boolean = false;
+  columns: Column[] = [];
+  tableData: TableEntry[] = [];
+  exportColumns!: ExportColumn[];
 
   response: any;
   animatedNumSongs: number = 0;
@@ -109,6 +113,114 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       timeframe: [''],
       musicianType: [''],
     });
+    this.columns = [
+      { value: 'artistName', label: 'Artist Name' },
+      { value: 'numSongs', label: 'Number of Songs' },
+      { value: 'followers', label: 'Followers' },
+      { value: 'mbURL', label: 'MusicBrainz URL' },
+      { value: 'genres', label: 'Genres' },
+    ];
+    this.tableData = [
+      { artistName: 'Artist1', numSongs: 10, followers: 1000, mbURL: 'https://musicbrainz.org/artist/1234', genres: ['Pop', 'Rock'] },
+      { artistName: 'Artist2', numSongs: 20, followers: 2000, mbURL: 'https://musicbrainz.org/artist/5678', genres: ['Hip-Hop', 'Rap'] },
+      { artistName: 'Artist3', numSongs: 30, followers: 3000, mbURL: 'https://musicbrainz.org/artist/91011', genres: ['Jazz', 'Blues'] },
+      { artistName: 'Artist4', numSongs: 40, followers: 4000, mbURL: 'https://musicbrainz.org/artist/121314', genres: ['Country', 'Folk'] },
+      { artistName: 'Artist5', numSongs: 50, followers: 5000, mbURL: 'https://musicbrainz.org/artist/151617', genres: ['Metal', 'Punk'] },
+      { artistName: 'Artist6', numSongs: 60, followers: 6000, mbURL: 'https://musicbrainz.org/artist/181920', genres: ['Reggae', 'Ska'] },
+      {
+        artistName: 'Artist7',
+        numSongs: 70,
+        followers: 7000,
+        mbURL: 'https://musicbrainz.org/artist/212223',
+        genres: ['Classical', 'Opera'],
+      },
+      {
+        artistName: 'Artist8',
+        numSongs: 80,
+        followers: 8000,
+        mbURL: 'https://musicbrainz.org/artist/242526',
+        genres: ['Electronic', 'Dance'],
+      },
+      { artistName: 'Artist9', numSongs: 90, followers: 9000, mbURL: 'https://musicbrainz.org/artist/272829', genres: ['R&B', 'Soul'] },
+      {
+        artistName: 'Artist10',
+        numSongs: 100,
+        followers: 10000,
+        mbURL: 'https://musicbrainz.org/artist/303132',
+        genres: ['Funk', 'Disco'],
+      },
+      {
+        artistName: 'Artist11',
+        numSongs: 110,
+        followers: 11000,
+        mbURL: 'https://musicbrainz.org/artist/333435',
+        genres: ['Gospel', 'Christian'],
+      },
+      {
+        artistName: 'Artist12',
+        numSongs: 120,
+        followers: 12000,
+        mbURL: 'https://musicbrainz.org/artist/363738',
+        genres: ['World', 'Reggaeton'],
+      },
+      {
+        artistName: 'Artist13',
+        numSongs: 130,
+        followers: 13000,
+        mbURL: 'https://musicbrainz.org/artist/394041',
+        genres: ['Indie', 'Alternative'],
+      },
+      {
+        artistName: 'Artist14',
+        numSongs: 140,
+        followers: 14000,
+        mbURL: 'https://musicbrainz.org/artist/424344',
+        genres: ['Experimental', 'Ambient'],
+      },
+      {
+        artistName: 'Artist15',
+        numSongs: 150,
+        followers: 15000,
+        mbURL: 'https://musicbrainz.org/artist/454647',
+        genres: ['Techno', 'House'],
+      },
+      {
+        artistName: 'Artist16',
+        numSongs: 160,
+        followers: 16000,
+        mbURL: 'https://musicbrainz.org/artist/484950',
+        genres: ['Trance', 'Dubstep'],
+      },
+      {
+        artistName: 'Artist17',
+        numSongs: 170,
+        followers: 17000,
+        mbURL: 'https://musicbrainz.org/artist/515253',
+        genres: ['Drum & Bass', 'Hardcore'],
+      },
+      {
+        artistName: 'Artist18',
+        numSongs: 180,
+        followers: 18000,
+        mbURL: 'https://musicbrainz.org/artist/545556',
+        genres: ['Breakbeat', 'Downtempo'],
+      },
+      {
+        artistName: 'Artist19',
+        numSongs: 190,
+        followers: 19000,
+        mbURL: 'https://musicbrainz.org/artist/575859',
+        genres: ['Industrial', 'Noise'],
+      },
+      {
+        artistName: 'Artist20',
+        numSongs: 200,
+        followers: 20000,
+        mbURL: 'https://musicbrainz.org/artist/606162',
+        genres: ['Ambient', 'Chillout'],
+      },
+    ];
+    this.exportColumns = this.columns.map(column => ({ title: column.label, dataKey: column.value }));
   }
 
   ngOnInit(): void {

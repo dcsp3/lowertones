@@ -193,6 +193,16 @@
   .p-datepicker table td {
     padding: 0rem !important;
   }
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0rem 0.8rem !important;
+  }
+  .p-sortable-column:hover {
+    background: rgba(53, 63, 77, 1) !important;
+    cursor: pointer;
+  }
+  .p-paginator-left-content {
+    margin-right: 2rem;
+  }
 }
 
 .twofiveartistname {
@@ -437,4 +447,9 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
+}
+
+.p {
+  font-family: 'neue-plak' !important;
+  font-size: 5rem !important;
 }

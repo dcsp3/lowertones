@@ -70,3 +70,21 @@ export interface choice {
   label: string;
   value: string;
 }
+
+export interface Column {
+  value: string;
+  label: string;
+}
+
+export interface TableEntry {
+  artistName: string;
+  numSongs: number;
+  followers: number;
+  mbURL: string;
+  genres: string[];
+}
+
+export interface ExportColumn {
+  title: string;
+  dataKey: string;
+}

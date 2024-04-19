@@ -278,7 +278,47 @@
     </div>
   </div>
 
-  <div *ngIf="currentPage === 4">TABLE HERE</div>
+  <div *ngIf="currentPage === 4">
+    <p-table
+      #table
+      [tableStyle]="{ 'min-height': '75.5vh' }"
+      [columns]="columns"
+      [value]="tableData"
+      [paginator]="true"
+      [rows]="13"
+      styleClass="p-datatable-striped"
+      sortMode="multiple"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" title="{{ col.label }}" pSortableColumn="{{ col.value }}">
+            {{ col.value }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-columns="columns">
+        <tr class="p-selectable-row">
+          <td *ngFor="let col of columns">
+            <div title="{{ item[col.value] }}">{{ item[col.value] }}</div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft" let-state>
+        <div class="flex" style="display: flex; justify-content: center">
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-file"
+            (click)="table.exportCSV()"
+            class="mr-2"
+            pTooltip="CSV"
+            tooltipPosition="bottom"
+          ></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
 
   <div *ngIf="currentPage === 5">SUMMARY HERE</div>
 
