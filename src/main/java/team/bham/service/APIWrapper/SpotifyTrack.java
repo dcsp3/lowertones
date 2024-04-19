@@ -1,5 +1,7 @@
 package team.bham.service.APIWrapper;
 
+import java.time.LocalDate;
+
 public class SpotifyTrack {
 
     private SpotifyAlbum album;
@@ -11,6 +13,7 @@ public class SpotifyTrack {
     private int duration;
     private int popularity;
     private String previewUrl;
+    private LocalDate dateAdded; //date user added to playlist
 
     public void setId(String id) {
         this.id = id;
@@ -48,6 +51,10 @@ public class SpotifyTrack {
         this.previewUrl = previewUrl;
     }
 
+    public void setDateAdded(LocalDate dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
     public String getId() {
         return id;
     }
@@ -82,5 +89,9 @@ public class SpotifyTrack {
 
     public String getPreviewUrl() {
         return previewUrl;
+    }
+
+    public LocalDate getDateAdded() {
+        return dateAdded;
     }
 }

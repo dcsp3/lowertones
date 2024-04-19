@@ -329,8 +329,12 @@ public class SpotifyAPIWrapperService {
                 album.setReleasePrecision(SpotifyReleasePrecision.DAY);
                 break;
         }
-        album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+        try {
+            album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } catch (Exception e) {
+            //fuck
+            album.setReleaseDate(LocalDate.now());
+        }
         JSONArray albumArt = albumJSON.getJSONArray("images");
         if (albumArt.length() > 0) {
             album.setCoverArtURL(albumArt.getJSONObject(0).getString("url"));
