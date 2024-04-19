@@ -122,13 +122,24 @@ public class SpotifyAPIWrapperService {
         playlist.setName(playlistJSON.getString("name"));
 
         JSONObject trackInfo = playlistJSON.getJSONObject("tracks");
-        JSONArray tracks = trackInfo.getJSONArray("items");
 
-        for (int i = 0; i < tracks.length(); i++) {
-            JSONObject trackJSON = ((JSONObject) tracks.get(i)).getJSONObject("track");
-            //todo: handle episodes separately
-            if (trackJSON.getString("type").equals("track")) {
-                playlist.addTrack(genTrackFromJSON(trackJSON));
+        //String nextPageURL = trackInfo.isNull("next") ? null : trackInfo.getString("next");
+        Boolean getNextPage = true;
+        while (getNextPage) {
+            JSONArray tracks = trackInfo.getJSONArray("items");
+
+            for (int i = 0; i < tracks.length(); i++) {
+                JSONObject trackJSON = ((JSONObject) tracks.get(i)).getJSONObject("track");
+                //todo: handle episodes separately
+                if (trackJSON.getString("type").equals("track")) {
+                    playlist.addTrack(genTrackFromJSON(trackJSON));
+                }
+            }
+
+            getNextPage = !trackInfo.isNull("next");
+            if (getNextPage) {
+                String nextPageURL = trackInfo.getString("next");
+                trackInfo = APICall(HttpMethod.GET, nextPageURL, user).getData();
             }
         }
 
