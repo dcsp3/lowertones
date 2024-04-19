@@ -25,27 +25,44 @@ interface Artist {
   id: string;
 }
 
-function getElements(artists: Artist[], userImg: string): { nodes: Node[]; links: Link[] } {
-  let nextId = 1; // Start ID counter for artists
+function getElements(artists: Artist[], userImg: string, connections: { [key: string]: string[] }): { nodes: Node[]; links: Link[] } {
+  let nextId = 1;
   const nodes: Node[] = [{ id: 0, name: 'User', type: 'user', genre: '', img: userImg, rank: 0 }];
+  const idMap: { [key: string]: number } = {};
+  const links: Link[] = [];
 
-  for (const artist of artists) {
-    const genre = artist.genres[0];
+  artists.forEach(artist => {
+    const nodeId = nextId++;
     nodes.push({
-      id: nextId++,
+      id: nodeId,
       name: artist.name,
       type: 'artist',
-      genre: genre,
+      genre: artist.genres[0] || 'unknown',
       img: artist.imageUrl,
       rank: artist.distance,
     });
-  }
+    idMap[artist.name] = nodeId;
+    links.push({
+      source: 0,
+      target: nodeId,
+      distance: artist.distance,
+    });
+  });
 
-  const links: Link[] = artists.map((artist, index) => ({
-    source: 0, // User node ID
-    target: index + 1,
-    distance: artist.distance,
-  }));
+  // Add artist-to-artist connections based on the connections parameter
+  Object.entries(connections).forEach(([artistName, connectedArtists]) => {
+    const sourceId = idMap[artistName];
+    connectedArtists.forEach(connectedArtistName => {
+      const targetId = idMap[connectedArtistName];
+      if (sourceId && targetId) {
+        links.push({
+          source: sourceId,
+          target: targetId,
+          distance: 100, // Customize this distance as needed
+        });
+      }
+    });
+  });
 
   return { nodes, links };
 }
@@ -108,10 +125,12 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
           const bbox = this.getBoundingClientRect();
           const x = bbox.x + bbox.width > window.innerWidth ? window.innerWidth - bbox.width : bbox.x;
           const y = bbox.y + bbox.height > window.innerHeight ? window.innerHeight - bbox.height : bbox.y;
-          card.style('left', `${x}px`).style('top', `${y}px`);
+          card.style('left', `${x}px`).style('top', `${y + 10}px`);
         });
     }
   });
+
+  const nodeRadius = (d: any) => (d.type === 'user' ? 25 : 20);
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -119,14 +138,18 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .alphaDecay(0.02) // Lower decay rate to prolong the simulation
     .velocityDecay(0.9)
     .force(
+      'link',
+      d3
+        .forceLink(links)
+        .id((d: any) => d.id)
+        .distance(d => d.distance)
+    )
+    .force(
       'charge',
       d3.forceManyBody().strength((d: any) => (d.type === 'user' ? -1500 : -50))
     )
     .force('center', d3.forceCenter(width / 2, height / 2))
-    .force(
-      'collision',
-      d3.forceCollide().radius((d: any) => (d.type === 'user' ? 0 : 15))
-    )
+    .force('collision', d3.forceCollide().radius(nodeRadius))
     .force(
       'link',
       d3
@@ -171,7 +194,6 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       const cardSelector = `#node-card-${d.id}`;
       d3.select(cardSelector).style('visibility', 'hidden');
     });
-
   const label = svg
     .selectAll('text')
     .data(nodes)

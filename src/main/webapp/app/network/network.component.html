@@ -17,7 +17,9 @@
       <button class="button" [class.selected]="timeRange === 'long-term'" (click)="changeTimeRange('long-term')">Last Few Years</button>
     </div>
 
-    <div class="showConnectionsCheckbox"><input type="checkbox" id="showConnectionsCheckbox" /> Show Connections</div>
+    <div class="showConnectionsCheckbox">
+      <input type="checkbox" id="showConnectionsCheckbox" #connectionsCheckbox (change)="toggleConnections($event)" /> Show Connections
+    </div>
   </div>
 
   <div class="content">
@@ -64,16 +66,16 @@
           <div class="top-artist-text">
             <!-- Artist and Play Button -->
             <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-controls">
-              <span id="topArtistName">{{ topArtistName }}</span>
+              <span id="topArtistName" class="truncate">{{ topArtistName }}</span>
               <button (click)="playPreview()" id="playButton">{{ isPlaying ? '❚❚' : '▶' }}</button>
             </div>
             <!-- Separate Track Name -->
             <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-track">
-              <span id="topArtistTopTrack">{{ topTrackName }}</span>
+              <span id="topArtistTopTrack" class="truncate">{{ topTrackName }}</span>
             </div>
-            <!-- Fallback if no track information is available -->
             <div *ngIf="!topTrackName || !topTrackPreviewUrl" class="artist-name-only">
-              <span id="topArtistName">{{ topArtistName }}</span>
+              <span id="topArtistName" class="truncate">{{ topArtistName }}</span>
+              <span class="no-track-info">No track preview available</span>
             </div>
           </div>
         </div>
@@ -85,7 +87,7 @@
         </div>
 
         <div class="top-genre-container">
-          <div id="topGenre">{{ topGenre }}</div>
+          <div id="topGenre" class="truncate">{{ topGenre }}</div>
         </div>
       </div>
 

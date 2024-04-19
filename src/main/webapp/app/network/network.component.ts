@@ -35,6 +35,7 @@ interface ApiResponse {
 })
 export class NetworkComponent implements OnInit {
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
+  @ViewChild('connectionsCheckbox') connectionsCheckbox!: ElementRef<HTMLInputElement>;
 
   timeRange: string = 'short-term';
   topArtistImage: string = '';
@@ -71,11 +72,11 @@ export class NetworkComponent implements OnInit {
     }, 25); // Adjust timing based on preference
   }
 
-  // @HostListener('window:resize', ['$event'])
-  //   onResize(event: any) {
-  //     clearGraph(this.graphContainer.nativeElement)
-  //     this.fetchAndRenderGraph(this.timeRange); // Re-fetch and re-render the graph on window resize
-  //   }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    clearGraph(this.graphContainer.nativeElement);
+    this.fetchAndRenderGraph(this.timeRange); // Re-fetch and re-render the graph on window resize
+  }
 
   fetchTopArtists(timeRange: string): Promise<Artist[]> {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
@@ -94,17 +95,17 @@ export class NetworkComponent implements OnInit {
         }
 
         // Directly use the stats from the response
-        this.topArtistName = data.stats.topArtistName;
+        this.topArtistName = this.truncateText(data.stats.topArtistName, 7);
         this.topArtistImage = data.stats.topArtistImage;
 
-        this.topTrackName = data.stats.topTrackByTopArtist.trackName;
+        this.topTrackName = this.truncateText(data.stats.topTrackByTopArtist.trackName, 25);
         this.topTrackPreviewUrl = data.stats.topTrackByTopArtist.previewUrl;
 
         // Since we have new top track info, reset current audio and playback status
         this.isPlaying = false;
         this.currentAudio = null;
 
-        this.topGenre = data.stats.topGenre;
+        this.topGenre = this.truncateText(data.stats.topGenre, 25);
 
         this.averagePopularity = data.stats.averagePopularity;
 
@@ -125,22 +126,28 @@ export class NetworkComponent implements OnInit {
       });
   }
 
+  truncateText(text: string, maxLength: number): string {
+    // If the text is longer than the `maxLength`, truncate it and add an ellipsis.
+    return text.length > maxLength ? text.substring(0, maxLength) + '…' : text;
+  }
+
   playPreview() {
-    if (!this.currentAudio) {
-      if (this.topTrackPreviewUrl) {
+    if (this.topTrackPreviewUrl) {
+      // Ensure there's a URL before attempting to play
+      if (!this.currentAudio) {
         this.currentAudio = new Audio(this.topTrackPreviewUrl);
         this.currentAudio.onended = () => (this.isPlaying = false); // Update isPlaying when audio ends
-        this.currentAudio.volume = 0.025; // Set volume to half
+        this.currentAudio.volume = 0.3;
       }
-    }
 
-    if (this.currentAudio) {
-      if (this.isPlaying) {
-        this.currentAudio.pause();
-      } else {
-        this.currentAudio.play().catch(error => console.error('Playback failed', error));
+      if (this.currentAudio) {
+        if (this.isPlaying) {
+          this.currentAudio.pause();
+        } else {
+          this.currentAudio.play().catch(error => console.error('Playback failed', error));
+        }
+        this.isPlaying = !this.isPlaying; // Toggle playback status
       }
-      this.isPlaying = !this.isPlaying; // Toggle playback status
     }
   }
 
@@ -174,6 +181,12 @@ export class NetworkComponent implements OnInit {
     if (newTimeRange !== this.timeRange) {
       this.timeRange = newTimeRange;
 
+      // Uncheck the checkbox
+      if (this.connectionsCheckbox.nativeElement.checked) {
+        this.connectionsCheckbox.nativeElement.checked = false;
+        //this.toggleConnections(); // Optionally update graph if necessary
+      }
+
       // Stop and reset the current audio if it's playing
       if (this.currentAudio && !this.currentAudio.paused) {
         this.currentAudio.pause();
@@ -188,7 +201,38 @@ export class NetworkComponent implements OnInit {
     }
   }
 
-  private async fetchAndRenderGraph(timeRange: string): Promise<void> {
+  toggleConnections(event?: Event): void {
+    const checkboxChecked = event ? (event.target as HTMLInputElement).checked : this.connectionsCheckbox.nativeElement.checked;
+
+    clearGraph(this.graphContainer.nativeElement);
+    this.renderGraphBasedOnConnections(checkboxChecked);
+  }
+
+  artistConnections: { [key: string]: string[] } = {
+    Future: ['Drake', '21 Savage'], // Future and Drake, 21 Savage share similar music styles
+    Drake: ['Future', 'J. Cole'], // Drake collaborates often with Future and J. Cole
+    'Neck Deep': ['blink-182'], // Both are from a similar genre
+    Metallica: ['Slipknot', 'Avenged Sevenfold'], // All are metal bands
+    'J. Cole': ['Drake'], // Hip-hop artists often collaborate
+    Eminem: ['Dr. Dre'], // Not in the provided list but an example of adding influential connections
+  };
+
+  async renderGraphBasedOnConnections(includeConnections: boolean): Promise<void> {
+    try {
+      const containerWidth = this.graphContainer.nativeElement.offsetWidth;
+      const containerHeight = this.graphContainer.nativeElement.offsetHeight;
+
+      const userImageUrl = await this.fetchUserImage();
+      const artistsData = await this.fetchTopArtists(this.timeRange);
+      // Pass the artist connections data along with other parameters
+      const elements = getElements(artistsData, userImageUrl, includeConnections ? this.artistConnections : {});
+      renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
+    } catch (error) {
+      console.error('Error rendering graph:', error);
+    }
+  }
+
+  private async fetchAndRenderGraph(timeRange: string, includeConnections: boolean = false): Promise<void> {
     try {
       clearGraph(this.graphContainer.nativeElement);
 
@@ -197,7 +241,8 @@ export class NetworkComponent implements OnInit {
 
       const userImageUrl = await this.fetchUserImage();
       const artistsData = await this.fetchTopArtists(timeRange);
-      const elements = getElements(artistsData, userImageUrl); // Ensure getElements accepts Artist[] as per the corrected structure
+      // Pass the artist connections data along with other parameters
+      const elements = getElements(artistsData, userImageUrl, includeConnections ? this.artistConnections : {});
       this.animateScore(parseFloat(this.averagePopularity)); // Call to start animation once data is loaded
       renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
     } catch (error) {

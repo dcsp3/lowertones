@@ -169,6 +169,18 @@
   font-family: 'DMSans';
 }
 
+.top-artist {
+  height: 27vh;
+}
+
+.top-genre {
+  height: 16vh;
+}
+
+.mainstream-score {
+  height: 22vh;
+}
+
 .top-artist,
 .top-genre,
 .mainstream-score {
@@ -202,6 +214,7 @@
   flex-direction: row;
   padding: 10px;
   margin: 10px;
+  width: 100%;
 }
 
 .top-genre-container,
@@ -220,6 +233,7 @@
   display: flex;
   align-items: center; /* Ensures vertical alignment */
   gap: 10px; /* Maintains a consistent space between elements */
+  max-width: 100%;
 }
 
 #topArtistName {
@@ -439,4 +453,13 @@
   margin: auto;
   justify-content: center;
   width: 75%;
+  height: 10vh;
+}
+
+.truncate {
+  flex-shrink: 1;
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides text that goes beyond the container */
+  text-overflow: ellipsis; /* Adds an ellipsis (...) at the end */
+  min-width: 0; /* Fixes an issue with flex items not shrinking */
 }
