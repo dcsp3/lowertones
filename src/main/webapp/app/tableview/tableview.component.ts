@@ -8,20 +8,31 @@ interface SongEntry {
   selected: boolean;
   title: string;
   artist: string;
+  contributor: string;
   length: string;
   explicit: boolean;
   popularity: number;
   release: string;
-}
-
-interface SearchType {
-  label: string;
-  value: string;
+  acousticness: number;
+  danceability: number;
+  instrumentalness: number;
+  energy: number;
+  liveness: number;
+  loudness: number;
+  speechiness: number;
+  valence: number;
+  tempo: number;
 }
 
 interface Column {
   value: string;
   label: string;
+  short: string;
+}
+
+interface SearchType {
+  label: string;
+  value: string;
 }
 
 interface Playlist {
@@ -72,7 +83,7 @@ export class TableviewComponent implements OnInit {
   filters!: TreeNode[];
   searchTypes: SearchType[];
   selectedSearchType: SearchType;
-  cols!: Column[];
+  columns!: Column[];
   selectedColumns!: Column[];
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
@@ -103,16 +114,35 @@ export class TableviewComponent implements OnInit {
     this.fetchPlaylists();
     this.genSongList();
     this.filteredSongData = this.songData;
-    this.cols = [
-      { value: 'title', label: 'Title' },
-      { value: 'artist', label: 'Artist' },
-      { value: 'length', label: 'Length' },
-      { value: 'release', label: 'Release Date' },
-      { value: 'popularity', label: 'Popularity' },
-      { value: 'explicit', label: 'Explicit' },
+    this.columns = [
+      { value: 'title', label: 'Title', short: 'Title' },
+      { value: 'artist', label: 'Artist', short: 'Artist' },
+      { value: 'contributor', label: 'Contributor', short: 'Con' },
+      { value: 'length', label: 'Length', short: 'Length' },
+      { value: 'release', label: 'Release Date', short: 'Release Date' },
+      { value: 'popularity', label: 'Popularity', short: 'Pop' },
+      { value: 'explicit', label: 'Explicit', short: 'Exp' },
+      { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
+      { value: 'danceability', label: 'Danceability', short: 'Dan' },
+      { value: 'instrumentalness', label: 'Instrumentalness', short: 'Ins' },
+      { value: 'energy', label: 'Energy', short: 'Ene' },
+      { value: 'liveness', label: 'Liveness', short: 'Liv' },
+      { value: 'loudness', label: 'Loudness', short: 'Lou' },
+      { value: 'speechiness', label: 'Speechiness', short: 'Spe' },
+      { value: 'valence', label: 'Valence', short: 'Val' },
+      { value: 'tempo', label: 'Tempo', short: 'Tem' },
     ];
 
-    this.selectedColumns = this.cols;
+    this.selectedColumns = this.columns;
+    /*[
+      { value: 'title', label: 'Title', short: 'Title'},
+      { value: 'artist', label: 'Artist', short: 'Artist'},
+      { value: 'contributor', label: 'Contributor', short: 'Con'},
+      { value: 'length', label: 'Length', short: 'Length'},
+      { value: 'release', label: 'Release Date', short: 'Release Date'},
+      { value: 'popularity', label: 'Popularity', short: 'Pop'},
+      { value: 'explicit', label: 'Explicit', short: 'Exp'}
+    ]*/
     this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
@@ -137,6 +167,13 @@ export class TableviewComponent implements OnInit {
     console.log('starting scrape');
     this.scrapeService.scrape();
     console.log('finished scrape');
+  }
+
+  sortColumns(): void {
+    const orderMap = new Map(this.columns.map((col, index) => [col.value, index]));
+    this.selectedColumns.sort((a, b) => {
+      return (orderMap.get(a.value) || 0) - (orderMap.get(b.value) || 0);
+    });
   }
 
   fetchPlaylists() {
@@ -186,10 +223,20 @@ export class TableviewComponent implements OnInit {
         selected: false,
         title: 'lorem',
         artist: 'ipsum',
+        contributor: 'contributor',
         length: 'sdfss',
         explicit: false,
         popularity: 0,
         release: 'N/A',
+        acousticness: 0,
+        danceability: 0,
+        instrumentalness: 0,
+        energy: 0,
+        liveness: 0,
+        loudness: 0,
+        speechiness: 0,
+        valence: 0,
+        tempo: 0,
       };
 
       songEntry.title = this.jsonBlob.tracks[i].name;

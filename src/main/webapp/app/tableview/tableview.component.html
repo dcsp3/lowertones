@@ -18,7 +18,7 @@
   <div id="sidebar" class="tbv-divs">
     <!-- FILTERS START -->
 
-    <div style="width: 100%; margin: auto">
+    <div class="sidebar-search" style="width: 100%; margin: auto">
       <div class="p-inputgroup">
         <input
           style="width: 80%; border-bottom-left-radius: 0px"
@@ -32,149 +32,152 @@
       </div>
     </div>
 
-    <p-tree [value]="filters" [style]="{ overflow: 'visible !important' }" class="w-full md:w-30rem">
-      <ng-template let-node pTemplate="default">
-        {{ node.label }} </ng-template
-      ><!--Playlist Select-->
-      <ng-template let-node pTemplate="PlaylistElement">
-        <button pButton [style]="{ 'max-width': '100%' }" label="Submit" (click)="scrape()"></button>
-        <p-listbox
-          [options]="scanType"
-          [(ngModel)]="selectedScanType"
-          [filter]="true"
-          [listStyle]="{ 'max-height': '30vh' }"
-          optionLabel="label"
-          autoWidth="false"
-        >
-          <ng-template let-item pTemplate="item">
-            <div title="{{ item.label }}">{{ item.label }}</div>
-          </ng-template>
-        </p-listbox>
-      </ng-template>
+    <div class="sidebar-tree">
+      <p-tree [value]="filters" class="w-full md:w-30rem">
+        <ng-template let-node pTemplate="default"> {{ node.label }} </ng-template>
 
-      <!--Duration-->
+        <!--Playlist Select-->
+        <ng-template let-node pTemplate="PlaylistElement">
+          <!--<button pButton [style]="{ 'max-width': '100%' }" label="Submit" (click)="scrape()"></button>-->
+          <p-listbox
+            [options]="scanType"
+            [(ngModel)]="selectedScanType"
+            [filter]="true"
+            [listStyle]="{ 'max-height': '30vh' }"
+            optionLabel="label"
+            autoWidth="false"
+          >
+            <ng-template let-item pTemplate="item">
+              <div title="{{ item.label }}">{{ item.label }}</div>
+            </ng-template>
+          </p-listbox>
+        </ng-template>
 
-      <!--Search Type-->
-      <ng-template let-node pTemplate="SearchElement">
-        <p-listbox [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label" autoWidth="false"></p-listbox>
-      </ng-template>
+        <!--Duration-->
 
-      <!--Duration-->
+        <!--Search Type-->
+        <ng-template let-node pTemplate="SearchElement">
+          <p-listbox [options]="searchTypes" [(ngModel)]="selectedSearchType" optionLabel="label" autoWidth="false"></p-listbox>
+        </ng-template>
 
-      <ng-template let-node pTemplate="DurationElement">
-        <div style="display: flex; justify-content: space-between">
-          <b>Min: </b>
-          <p-inputMask
-            mask="99:99"
-            placeholder="mm:ss"
-            type="text"
-            [(ngModel)]="durationValues[0]"
-            (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
-          ></p-inputMask>
-          <b>Max: </b>
-          <p-inputMask
-            mask="99:99"
-            placeholder="mm:ss"
-            type="text"
-            [(ngModel)]="durationValues[1]"
-            (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
-          ></p-inputMask>
-        </div>
-      </ng-template>
+        <!--Duration-->
 
-      <!--Release Years-->
-      <ng-template let-node pTemplate="YearsElement">
-        <div style="display: flex; justify-content: space-between">
-          <b>Min: </b>
-          <input
-            style="width: 8vh; padding: 0rem; text-align: center"
-            placeholder="1900"
-            type="number"
-            pInputText
-            [(ngModel)]="yearValues[0]"
-            (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
-            class="w-full no-spinners"
-          />
-          <b>Max: </b>
-          <input
-            style="width: 8vh; padding: 0rem; text-align: center"
-            placeholder="2030"
-            type="number"
-            pInputText
-            [(ngModel)]="yearValues[1]"
-            (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
-            class="w-full no-spinners"
-          />
-        </div>
-      </ng-template>
-
-      <!--Popularity-->
-      <ng-template let-node pTemplate="PopularityElement">
-        <!--
-        <div style="width: 80%; margin: auto; margin-top: 5%">-->
-        <div style="display: flex; justify-content: space-between">
-          <b>Min: </b>
-          <input
-            style="width: 8vh; padding: 0rem; text-align: center"
-            placeholder="0"
-            type="number"
-            pInputText
-            [(ngModel)]="rangeValues[0]"
-            (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-            class="w-full no-spinners"
-          />
-          <b>Max: </b>
-          <input
-            style="width: 8vh; padding: 0rem; text-align: center"
-            placeholder="100"
-            type="number"
-            pInputText
-            [(ngModel)]="rangeValues[1]"
-            (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
-            class="w-full no-spinners"
-          />
-        </div>
-        <!--
-          <div style="padding-top: 5%; padding-bottom: 10%">
-            <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
+        <ng-template let-node pTemplate="DurationElement">
+          <div style="display: flex; justify-content: space-between">
+            <b>Min: </b>
+            <p-inputMask
+              mask="99:99"
+              placeholder="mm:ss"
+              type="text"
+              [(ngModel)]="durationValues[0]"
+              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
+            ></p-inputMask>
+            <b>Max: </b>
+            <p-inputMask
+              mask="99:99"
+              placeholder="mm:ss"
+              type="text"
+              [(ngModel)]="durationValues[1]"
+              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
+            ></p-inputMask>
           </div>
-          
-        </div>-->
-      </ng-template>
+        </ng-template>
 
-      <!--Artist Search-->
-      <ng-template let-node pTemplate="ArtistChipElement">
-        <p-chips [(ngModel)]="artistChips"></p-chips>
-      </ng-template>
+        <!--Release Years-->
+        <ng-template let-node pTemplate="YearsElement">
+          <div style="display: flex; justify-content: space-between">
+            <b>Min: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="1900"
+              type="number"
+              pInputText
+              [(ngModel)]="yearValues[0]"
+              (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+              class="w-full no-spinners"
+            />
+            <b>Max: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="2030"
+              type="number"
+              pInputText
+              [(ngModel)]="yearValues[1]"
+              (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+              class="w-full no-spinners"
+            />
+          </div>
+        </ng-template>
 
-      <!--Producer Search-->
-      <ng-template let-node pTemplate="ProducerChipElement">
-        <p-chips [(ngModel)]="producerChips"></p-chips>
-      </ng-template>
+        <!--Popularity-->
+        <ng-template let-node pTemplate="PopularityElement">
+          <!--
+          <div style="width: 80%; margin: auto; margin-top: 5%">-->
+          <div style="display: flex; justify-content: space-between">
+            <b>Min: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="0"
+              type="number"
+              pInputText
+              [(ngModel)]="rangeValues[0]"
+              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              class="w-full no-spinners"
+            />
+            <b>Max: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="100"
+              type="number"
+              pInputText
+              [(ngModel)]="rangeValues[1]"
+              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              class="w-full no-spinners"
+            />
+          </div>
+          <!--
+            <div style="padding-top: 5%; padding-bottom: 10%">
+              <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
+            </div>
+            
+          </div>-->
+        </ng-template>
 
-      <!--Explicitness-->
+        <!--Artist Search-->
+        <ng-template let-node pTemplate="ArtistChipElement">
+          <p-chips [(ngModel)]="artistChips"></p-chips>
+        </ng-template>
 
-      <ng-template let-node pTemplate="ExplicitnessElement">
-        <div class="center-container">
-          <p-triStateCheckbox [(ngModel)]="Explicitness" inputId="tricheckbox"></p-triStateCheckbox>
-          <label style="padding-top: 0.5vh" for="tricheckbox">{{
-            Explicitness === null ? 'All Songs' : Explicitness ? 'Explicit Songs' : 'Non-explicit Songs'
-          }}</label>
-        </div>
-      </ng-template>
+        <!--Producer Search-->
+        <ng-template let-node pTemplate="ProducerChipElement">
+          <p-chips [(ngModel)]="producerChips"></p-chips>
+        </ng-template>
 
-      <!--Column Selection-->
-      <ng-template let-node pTemplate="ColumnSelectionListElement">
-        <p-listbox
-          [options]="cols"
-          [(ngModel)]="selectedColumns"
-          [multiple]="true"
-          [metaKeySelection]="false"
-          optionLabel="label"
-          autoWidth="false"
-        ></p-listbox>
-      </ng-template>
-    </p-tree>
+        <!--Explicitness-->
+
+        <ng-template let-node pTemplate="ExplicitnessElement">
+          <div class="center-container">
+            <p-triStateCheckbox [(ngModel)]="Explicitness" inputId="tricheckbox"></p-triStateCheckbox>
+            <label style="padding-top: 0.5vh" for="tricheckbox">{{
+              Explicitness === null ? 'All Songs' : Explicitness ? 'Explicit Songs' : 'Non-explicit Songs'
+            }}</label>
+          </div>
+        </ng-template>
+
+        <!--Column Selection-->
+        <ng-template let-node pTemplate="ColumnSelectionListElement">
+          <p-listbox
+            [options]="columns"
+            [(ngModel)]="selectedColumns"
+            [multiple]="true"
+            [metaKeySelection]="false"
+            optionLabel="label"
+            autoWidth="false"
+            (ngModelChange)="sortColumns()"
+          ></p-listbox>
+        </ng-template>
+      </p-tree>
+    </div>
 
     <!--<button (click)="printSelectedSongs()">Print Selected Songs</button>-->
 
@@ -183,6 +186,7 @@
   <div id="table-content" class="tbv-divs">
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
     <p-table
+      [tableStyle]="{ 'min-height': '80vh' }"
       [columns]="selectedColumns"
       [value]="filteredSongData"
       [(selection)]="selectedSongs"
@@ -194,23 +198,36 @@
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 3%" pResizableColumn>
+          <th style="width: 0%">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
           <th
             *ngFor="let col of columns"
             pResizableColumn
+            title="{{ col.label }}"
             pSortableColumn="{{ col.value }}"
             [ngClass]="{
               coltitle: col.value === 'title',
               colartist: col.value === 'artist',
-              collength: col.value === 'length',
-              colrelease: col.value === 'release',
-              colpopularity: col.value === 'popularity',
-              colexplicit: col.value === 'explicit'
+              colcontributor: col.value === 'contributor',
+              colsmall: [
+                'length',
+                'release',
+                'popularity',
+                'explicit',
+                'acousticness',
+                'danceability',
+                'instrumentalness',
+                'energy',
+                'liveness',
+                'loudness',
+                'speechiness',
+                'valence',
+                'tempo'
+              ].includes(col.value)
             }"
           >
-            {{ col.label }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
+            {{ col.short }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
           </th>
         </tr>
       </ng-template>
@@ -219,14 +236,31 @@
           <td>
             <p-tableCheckbox [value]="song"></p-tableCheckbox>
           </td>
-          <td *ngFor="let col of columns">
+          <td
+            *ngFor="let col of columns"
+            [ngClass]="{
+              cellcenter: [
+                'popularity',
+                'explicit',
+                'acousticness',
+                'danceability',
+                'instrumentalness',
+                'energy',
+                'liveness',
+                'loudness',
+                'speechiness',
+                'valence',
+                'tempo'
+              ].includes(col.value)
+            }"
+          >
             <ng-container *ngIf="col.value === 'explicit'; else normalField">
               <div class="center-image">
                 <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
               </div>
             </ng-container>
             <ng-template #normalField>
-              {{ song[col.value] }}
+              <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
             </ng-template>
           </td>
         </tr>

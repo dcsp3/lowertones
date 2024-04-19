@@ -16,7 +16,7 @@
   display: flex;
   overflow: visible !important;
   position: relative;
-  min-height: 80vh !important;
+  min-height: 87vh !important;
 }
 
 .p-chips-input-token input {
@@ -62,7 +62,7 @@
 .tbv-divs {
   margin: 2px;
   flex: 1;
-  //animation: fadeIn 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.6s forwards; commented out this animation for now
+  //animation: fadeIn 0.8s cubic-bezier(0.42, 0, 0.58, 1) 0.6s forwards; //commented out this animation for now
 }
 
 #sidebar {
@@ -72,6 +72,16 @@
   text-align: center;
   position: sticky !important;
   top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-search {
+  flex: 0.05;
+}
+
+.sidebar-tree {
+  flex: 0.95;
 }
 
 #table-content {
@@ -127,7 +137,7 @@
 
 :host ::ng-deep {
   .p-tree-wrapper {
-    overflow: visible !important;
+    overflow: auto !important;
   }
   .p-listbox-list-wrapper {
     background: rgba(53, 63, 77, 1) !important;
@@ -185,10 +195,10 @@
     border-radius: 0px !important;
     border-bottom-left-radius: 4px !important;
     border-bottom-right-radius: 4px !important;
-    min-height: 90% !important;
+    min-height: 100% !important;
   }
   .p-tree-wrapper .p-tree-container {
-    overflow: visible !important;
+    overflow: auto !important;
   }
   .p-tree .p-tree-container .p-treenode {
     padding: 0.12rem !important; /*changed from 0.143*/
@@ -227,7 +237,7 @@
     padding: 1rem 1rem 1rem 1rem !important;
   }
   .p-datatable .p-datatable-thead > tr > th {
-    padding: 0.8rem !important;
+    padding: 1.4vh 1vh !important;
   }
   .p-datatable .p-datatable-tbody > tr > td {
     padding: 0.5rem 0.8rem !important;
@@ -281,15 +291,14 @@
 .colartist {
   width: 10%;
 }
-.collength {
-  width: 1%;
+.colcontributor {
+  width: 10%;
 }
-.colrelease {
-  width: 1%;
+.colsmall {
+  width: 0%;
+  text-align: center;
 }
-.colpopularity {
-  width: 1%;
-}
-.colexplicit {
-  width: 1%;
+.cellcenter > div {
+  text-align: center;
+  margin: auto;
 }
