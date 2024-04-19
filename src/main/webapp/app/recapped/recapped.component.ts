@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, Injectable, Ho
 import VanillaTilt from 'vanilla-tilt';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, state, style, transition, animate } from '@angular/animations';

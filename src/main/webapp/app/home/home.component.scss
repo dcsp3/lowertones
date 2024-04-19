@@ -8,9 +8,11 @@ Main page styles
   font-style: normal;
 }
 
-.row.justify-content-center {
-  display: flex;
-  justify-content: center;
+@font-face {
+  font-family: 'neue-plak';
+  src: url('../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .particle {
@@ -451,4 +453,146 @@ Main page styles
   padding: 10px;
   font-size: 25px;
   text-align: center;
+}
+
+/* Recapped Section */
+
+.description-center-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+h5 {
+  font-family: 'neue-plak', sans-serif;
+  color: #ffffff;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+
+  font-weight: 100;
+}
+
+h2 {
+  font-family: 'neue-plak' !important;
+  font-size: 4.1rem;
+  color: #ffffff;
+}
+
+.description-text {
+  margin-top: 0rem;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+a {
+  color: -webkit-link;
+}
+
+.title-photo {
+  max-width: 27rem;
+}
+
+.description-padding {
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 40px;
+}
+
+.container {
+  min-height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  flex-basis: 45%;
+  padding: 0px;
+  border: 1px solid #cccccc00;
+  background-color: #ffffff00;
+}
+
+h4 {
+  font-family: 'neue-plak' !important;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/*
+** Styling for the left card
+*/
+
+.left-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+$total-lines-custom: 8;
+$left-offset-custom: 1.813rem;
+$clip-height-custom: 3.125rem;
+$line-height-custom: $clip-height-custom - 0.313rem;
+
+.Words {
+  margin: 0;
+  padding: 2% 0;
+  font-family: alro, Helvetica, Arial, sans-serif;
+  font-size: 3.438rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: translate3d(0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+  -webkit-text-size-adjust: 100%;
+  margin-right: 25%;
+}
+
+.Words-line {
+  height: $clip-height-custom;
+  overflow: hidden;
+  position: relative;
+
+  &:nth-child(odd) {
+    transform: skew(60deg, -30deg) scaleY(0.66667);
+  }
+
+  &:nth-child(even) {
+    transform: skew(0deg, -30deg) scaleY(1.33333);
+  }
+
+  @for $i from 1 through $total-lines-custom + 1 {
+    &:nth-child(#{$i}) {
+      left: $left-offset-custom * $i;
+    }
+  }
+}
+
+p {
+  height: $clip-height-custom;
+  //line-height: $line-height-custom;
+  padding: 0 0.625rem;
+  transition: all 0.5s ease-in-out;
+  transform: translate3d(0, -1.25rem, 0);
+  vertical-align: top;
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.Words:hover {
+  p {
+    transform: translate3d(0, -($clip-height-custom)-1.875, 0);
+  }
+}
+
+.recapped-photo {
+  margin-top: 2rem;
+  max-width: 25rem;
 }
