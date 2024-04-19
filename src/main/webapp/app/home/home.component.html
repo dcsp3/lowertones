@@ -115,9 +115,13 @@
                 <span>Mainstream Factor</span>
               </div>
               <div class="mainstream-score-container">
-                <div class="score-bar">
-                  <div class="score-fill"></div>
-                  <span class="popularity-score">66.97%</span>
+                <div class="score-bar" style="background-color: #d35400">
+                  <div
+                    class="score-fill"
+                    [@fillAnimation]="{ value: 'end', params: { fillPercentage: displayScore } }"
+                    style="background-color: #e67e22"
+                  ></div>
+                  <span class="popularity-score">{{ displayScore }}%</span>
                 </div>
                 <span class="taste-category">Trending🔥</span>
               </div>

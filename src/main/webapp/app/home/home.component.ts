@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocationService } from '../shared/location.service';
@@ -24,6 +25,13 @@ interface GraphData {
   selector: 'jhi-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('fillAnimation', [
+      state('start', style({ width: '0%' })),
+      state('end', style({ width: '{{ fillPercentage }}%' }), { params: { fillPercentage: 0 } }),
+      transition('start => end', animate('20s ease-out')),
+    ]),
+  ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
@@ -81,6 +89,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Network Stuff
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
+
+  fillPercentage = 0;
+  displayScore: string = '0.00';
+
+  animateScore(finalScore: number): void {
+    this.fillPercentage = finalScore;
+    let currentScore = 0;
+    const increment = finalScore / 100;
+    const interval = setInterval(() => {
+      currentScore += increment;
+      if (currentScore >= finalScore) {
+        currentScore = finalScore;
+        clearInterval(interval);
+      }
+      this.displayScore = currentScore.toFixed(2);
+    }, 25);
+  }
 
   graphData: GraphData = {
     graphData: [
@@ -341,7 +366,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const userImageUrl = 'https://i.scdn.co/image/ab67757000003b82155542ca98c6732c5e2ca938';
 
       const elements = getElements(this.graphData.graphData, userImageUrl);
-
+      this.animateScore(66.97);
       renderGraph(this.graphContainer.nativeElement, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
