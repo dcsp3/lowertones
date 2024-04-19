@@ -60,8 +60,9 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   response: any;
   animatedNumSongs: number = 0;
 
+  maxDate = new Date(Date.now());
   currentPage = 0;
-  totalPages = 5;
+  totalPages = 6;
   scrolling = false;
   scrollUpAccumulator = 0;
   scrollDownAccumulator = 0;
@@ -138,13 +139,12 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       console.log('Form submitted:', this.recappedForm.value);
       const formValue = this.recappedForm.value;
       let timeframeValue = formValue.timeframe;
-      if (typeof timeframeValue === 'string') {
-        timeframeValue = timeframeValue.toUpperCase().replace(' ', '_');
+      if (typeof timeframeValue === 'object') {
+        timeframeValue = timeframeValue.value;
       } else if (this.rangeDates && this.rangeDates.length === 2) {
         const startDate = formatDate(this.rangeDates[0], 'yyyy-MM-dd', 'en-US');
         const endDate = formatDate(this.rangeDates[1], 'yyyy-MM-dd', 'en-US');
         timeframeValue = `${startDate} - ${endDate}`;
-        console.log('Timeframe:', timeframeValue);
       }
       const request: RecappedRequest = {
         timeframe: timeframeValue,
@@ -172,7 +172,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   setScanTypeValue(value: any): void {
     this.selectedScanType = value.value;
-    console.log('Selected Scan Type:', this.selectedScanType);
     const scantypeControl = this.recappedForm.get('scanType');
     if (scantypeControl) {
       scantypeControl.setValue(this.selectedScanType);
@@ -416,9 +415,23 @@ export class RecappedComponent implements OnInit, AfterViewInit {
   }
 
   getTimeframeLabel(): string {
-    const selectedTimeframeValue = this.recappedForm.get('timeframe')?.value;
-    const selectedTimeframe = this.timeframes.find(timeframe => timeframe.value === selectedTimeframeValue);
-    return selectedTimeframe ? selectedTimeframe.label.toLowerCase() : 'N/A';
+    if (typeof this.recappedForm.value.timeframe === 'object') {
+      return this.recappedForm.value.timeframe.label.toLowerCase();
+    } else if (this.rangeDates && this.rangeDates.length === 2) {
+      const startDate = this.rangeDates[0];
+      const endDate = this.rangeDates[1];
+      const diffTime = endDate.getTime() - startDate.getTime();
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      if (diffDays < 30) {
+        return diffDays + ' days';
+      } else if (diffDays < 365) {
+        return (diffDays / 30).toFixed(1) + ' months';
+      } else {
+        return (diffDays / 365).toFixed(1) + ' years';
+      }
+    } else {
+      return this.recappedForm.get('timeframe')?.value;
+    }
   }
 
   getMusicianTypeLabel(): string {

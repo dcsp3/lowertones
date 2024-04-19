@@ -189,9 +189,18 @@
   font-size: 3rem;
 }
 
+:host ::ng-deep {
+  .p-datepicker table td {
+    padding: 0rem !important;
+  }
+}
+
 .twofiveartistname {
   font-size: 2.7rem;
   position: relative;
+  display: flex;
+  justify-content: center;
+  text-align: center;
   bottom: 0.3rem;
   margin-left: 0.5rem;
   max-width: 27rem;
@@ -212,10 +221,18 @@
   line-height: 100%;
 }
 
+.twoFiveContainerLI {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
 .twoFiveContainer {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
 }
@@ -357,17 +374,42 @@
 .smaller-artist-subcontainer {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin: 5vh 0;
+}
+
+.smaller-artist-card-img {
+  width: 18.1vw;
+  height: 18.1vw;
+  border-bottom: 2px solid black;
 }
 
 .smaller-artist-card {
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100%;
+  width: 18vw;
+  margin: 0 1rem;
+  overflow: hidden;
+  outline: 1px solid transparent;
+  transform-style: preserve-3d;
+}
+
+.left1k {
+  transform: rotate(4deg) translate3d(0, 0, 0) translateX(-3vh);
+}
+
+.center10k {
+  transform: translateY(3vh) translate3d(0, 0, 0);
+}
+
+.right100k {
+  transform: rotate(-5deg) translate3d(0, 0, 0) translateX(3vh);
 }
 
 .smaller-artist-textlarge {
@@ -375,7 +417,15 @@
   font-size: 4rem;
 }
 
+.smaller-artist-textmed {
+  color: black;
+  font-family: 'neue-plak';
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
 .smaller-artist-artistname {
+  color: black;
   font-family: 'neue-plak';
   font-size: 2.7rem;
   position: relative;

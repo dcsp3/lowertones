@@ -71,6 +71,7 @@
                     [(ngModel)]="rangeDates"
                     selectionMode="range"
                     [readonlyInput]="true"
+                    [maxDate]="maxDate"
                     [disabled]="!selectedScanType"
                     (ngModelChange)="onDateRangeChange($event)"
                     [style]="{ width: '100%' }"
@@ -171,7 +172,7 @@
 <div *ngIf="currentScreen === 'results'" class="page-1" [ngClass]="getActivePageClass()">
   <div *ngIf="currentPage === 0">
     <div class="summary-container">
-      <div class="summary-textlarge">Over the last {{ getTimeframeLabel() }} you added</div>
+      <div class="summary-textlarge">Over the {{ getTimeframeLabel() }} we scanned, you added</div>
       <div class="summary-number">{{ animatedNumSongs | number: '1.0-0' }}</div>
       <div class="summary-textlarge">songs to your library from</div>
       <div class="summary-number">{{ response.totalArtists }}</div>
@@ -217,41 +218,33 @@
           <div class="hero-text-right-3">songs of theirs</div>
         </div>
         <ul class="two-to-five-producer-list">
-          <li>
-            <div class="twoFiveContainer">
-              <div class="position">#2</div>
-              <div class="twofiveartistname">{{ response.numTwoArtistName }}</div>
-            </div>
+          <li class="twoFiveContainerLI">
+            <div class="position">#2</div>
+            <div class="twofiveartistname">{{ response.numTwoArtistName }}</div>
             <div class="numOfSongs">
               {{ response.numTwoAristNumSongs }}
               <div class="song-text">songs saved</div>
             </div>
           </li>
-          <li>
-            <div class="twoFiveContainer">
-              <div class="position">#3</div>
-              <div class="twofiveartistname">{{ response.numThreeArtistName }}</div>
-            </div>
+          <li class="twoFiveContainerLI">
+            <div class="position">#3</div>
+            <div class="twofiveartistname">{{ response.numThreeArtistName }}</div>
             <div class="numOfSongs">
               {{ response.numThreeAristNumSongs }}
               <div class="song-text">songs saved</div>
             </div>
           </li>
-          <li>
-            <div class="twoFiveContainer">
-              <div class="position">#4</div>
-              <div class="twofiveartistname">{{ response.numFourArtistName }}</div>
-            </div>
+          <li class="twoFiveContainerLI">
+            <div class="position">#4</div>
+            <div class="twofiveartistname">{{ response.numFourArtistName }}</div>
             <div class="numOfSongs">
               {{ response.numFourAristNumSongs }}
               <div class="song-text">songs saved</div>
             </div>
           </li>
-          <li>
-            <div class="twoFiveContainer">
-              <div class="position">#5</div>
-              <div class="twofiveartistname">{{ response.numFiveArtistName }}</div>
-            </div>
+          <li class="twoFiveContainerLI">
+            <div class="position">#5</div>
+            <div class="twofiveartistname">{{ response.numFiveArtistName }}</div>
             <div class="numOfSongs">
               {{ response.numFiveAristNumSongs }}
               <div class="song-text">songs saved</div>
@@ -266,24 +259,28 @@
     <div class="smaller-artist-container">
       <div class="smaller-artist-textlarge">By follower count, these were your favourite artists under..</div>
       <div class="smaller-artist-subcontainer">
-        <div class="smaller-artist-card">
+        <div class="smaller-artist-card left1k">
           <div class="smaller-artist-textmed">1k followers</div>
-          <div class="smaller-artist-artistname">1k followers</div>
+          <img src="{{ response.topUnder1kImage }}" alt="{{ response.topUnder1kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder1kName }}</div>
         </div>
-        <div class="smaller-artist-card">
+        <div class="smaller-artist-card center10k">
           <div class="smaller-artist-textmed">10k followers</div>
-
-          <div class="smaller-artist-artistname">10k followers</div>
+          <img src="{{ response.topUnder10kImage }}" alt="{{ response.topUnder10kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder10kName }}</div>
         </div>
-        <div class="smaller-artist-card">
+        <div class="smaller-artist-card right100k">
           <div class="smaller-artist-textmed">100k followers</div>
-          <div class="smaller-artist-artistname">100k followers</div>
+          <img src="{{ response.topUnder100kImage }}" alt="{{ response.topUnder100kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder100kName }}</div>
         </div>
       </div>
     </div>
   </div>
 
   <div *ngIf="currentPage === 4">TABLE HERE</div>
+
+  <div *ngIf="currentPage === 5">SUMMARY HERE</div>
 
   <div class="page-selector">
     <button (click)="navigateUp()" [disabled]="currentPage <= 0" class="arrow up-arrow">&#9650;</button>

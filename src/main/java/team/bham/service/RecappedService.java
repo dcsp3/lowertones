@@ -137,12 +137,14 @@ public class RecappedService {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                     try {
                         String[] dates = requestTimeframe.split(" - ");
+                        System.out.println("dates- start: " + dates[0] + " and end: " + dates[1]);
                         startDate = LocalDate.parse(dates[0], formatter);
                         endDate = LocalDate.parse(dates[1], formatter);
                     } catch (DateTimeParseException e) {
                         System.err.println("Invalid date format: " + e.getMessage());
                     }
                 } else {
+                    System.out.println("timeframe is here      :" + request.getTimeframe());
                     System.err.println("Unknown timeframe format");
                 }
                 break;
@@ -211,6 +213,9 @@ public class RecappedService {
         // getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
 
         // 6. Get top under 1k, 10k, 100k followers artists
+        System.out.println("start date: " + startDate);
+        System.out.println("end date: " + endDate);
+
         SpotifyTimeRange closestTimeRange;
         if (timeRange == null) {
             LocalDate diff = endDate.minusDays(startDate.toEpochDay());
@@ -252,6 +257,7 @@ public class RecappedService {
                 break;
             }
         }
+        /* THIS WILL ONLY WORK WHEN GETTING THE TOP ARTISTS ADDS TO THE DATABASE
         MainArtist topUnder1k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder1kFollowersID);
         MainArtist topUnder10k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder10kFollowersID);
         MainArtist topUnder100k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder100kFollowersID);
@@ -261,6 +267,7 @@ public class RecappedService {
         dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
         dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
         dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
+        */
 
         // Construct the DTO with the gathered information
         // constructRecappedDTO(dto, sortedContributors, imageUrl,
@@ -271,14 +278,12 @@ public class RecappedService {
 
         dto.setTotalContributors(100);
 
-        /*
         dto.setTopUnder1kName("1kartist");
         dto.setTopUnder1kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setTopUnder10kName("10kartist");
         dto.setTopUnder10kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setTopUnder100kName("100kartist");
-        dto.setTopUnder100kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
-        */
+        dto.setTopUnder100kImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
 
         dto.setNumOneArtistName("Kenny Beats");
         dto.setNumOneAristNumSongs(1344);
