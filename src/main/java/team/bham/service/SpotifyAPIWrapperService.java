@@ -79,6 +79,12 @@ public class SpotifyAPIWrapperService {
         return res;
     }
 
+    public JSONObject search(String query, SpotifySearchType type, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/search?q=" + query + "&type=" + type.label;
+        JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        return response;
+    }
+
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists";
         JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();

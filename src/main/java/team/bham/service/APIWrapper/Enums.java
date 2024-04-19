@@ -25,4 +25,17 @@ public class Enums {
             this.label = label;
         }
     }
+
+    public enum SpotifySearchType {
+        ALBUM("album"),
+        ARTIST("artist"),
+        PLAYLIST("playlist"),
+        TRACK("track");
+
+        public final String label;
+
+        private SpotifySearchType(String label) {
+            this.label = label;
+        }
+    }
 }
