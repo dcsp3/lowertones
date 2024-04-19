@@ -1,0 +1,204 @@
+.playlist-vault {
+  display: flex;
+  flex-direction: column;
+  width: 90%; /* Adjust the width as needed */
+  margin: 0 auto; /* Centers the vault in the middle of the page */
+  height: 100vh; /* Ensures the vault takes full viewport height */
+}
+
+.top-section {
+  position: relative; /* Allows absolute positioning relative to this container */
+  display: flex;
+  width: 100%;
+  height: 56vh; /* Takes 50% of the viewport height */
+  justify-content: center;
+  align-items: center; /* Centers contents vertically within the top-section */
+  background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-covers {
+  position: absolute;
+  top: 0; // Adjust this as necessary
+  left: 0; // Adjust this as necessary
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%; // Make sure it covers the area where the images are shown
+  pointer-events: auto; // This will make sure hover events are captured
+}
+
+.playlist-covers img {
+  transition: transform 0.3s ease; /* Smooth transition for the transform */
+  display: block; /* Ensures images are block level for transform effects */
+}
+
+.daily-mix {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+  right: 9%;
+  transform: rotate(-10deg);
+  z-index: 1;
+}
+
+.discover-weekly {
+  right: 20%;
+  z-index: 2;
+}
+
+.release-radar {
+  right: 27%;
+  transform: rotate(10deg);
+  z-index: 3;
+}
+
+.discover-weekly,
+.release-radar {
+  position: relative;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+}
+
+.playlist-covers img:hover {
+  transform: scale(1.05); /* Slightly enlarges the image on hover */
+}
+
+.selection-card {
+  flex: 1;
+  padding: 20px;
+  margin: 0 auto; /* Center the card horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Takes full width of its parent */
+  height: 100%;
+}
+
+.user-input {
+  min-width: 12vw; /* 60% of the viewport width */
+  min-height: 10vh; /* 100% of the viewport height */
+  padding: 20px;
+  align-self: flex-end;
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  position: relative;
+  z-index: 10; // This should be higher than .playlist-covers
+}
+
+#customForm,
+#spotifyForm {
+  min-width: 420px;
+  width: 100%;
+}
+
+.tabs-container {
+  display: inline-flex;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  margin-left: 6vw;
+}
+
+.tab {
+  background-color: #fff;
+  margin-left: -1px;
+  padding: 6px 20px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.tab.inactive {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  border: none;
+}
+
+.tab.active {
+  background-color: rgba(26, 20, 37, 0.851);
+  color: white;
+}
+
+/* First tab button specific styles if needed */
+.tab:first-child {
+  margin-left: 0; /* No margin overlap needed for the first tab */
+}
+
+/* Hover effect */
+.tab:hover:not(.active) {
+  background-color: #dddedfd0;
+}
+
+.form-group {
+  display: flex; /* Aligns label and input on the same line */
+  align-items: center; /* Centers items vertically */
+  margin-bottom: 15px; /* Space between each form group */
+  width: 100%; /* Forces all form groups to the same width */
+}
+
+.form-group label {
+  flex: 0 0 11vw; /* Fixed width for labels */
+  margin-right: 2rem; /* Space between label and input */
+}
+
+.form-group input[type='text'],
+.form-group select {
+  flex: 1;
+  padding: 8px; /* Padding inside the input for better readability */
+  border: 1px solid #ccc; /* Subtle border for inputs */
+  border-radius: 10px; /* Slightly rounded borders for the inputs */
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.668);
+}
+
+.button-container {
+  display: flex; /* Enables Flexbox */
+  justify-content: center; /* Centers horizontally in the container */
+  align-items: center; /* Centers vertically in the container (if needed) */
+}
+
+button.add-to-vault-btn {
+  padding: 10px 15px; /* Comfortable padding inside the button */
+  background-color: rgba(26, 20, 37, 0.752);
+  color: white; /* Text color is white for better contrast */
+  border: none; /* No border for a cleaner look */
+  border-radius: 4px; /* Rounded corners for the button */
+  cursor: pointer; /* Cursor changes to pointer to indicate clickable */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+button.add-to-vault-btn:hover {
+  background-color: rgba(10, 7, 15, 0.752);
+}
+
+.playlist-table {
+  width: 80%;
+  margin: 20px auto 0 auto; /* Centers the table horizontally and adds space above */
+}
+
+.playlist-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.playlist-table th {
+  border: 2px solid #ddd; /* Adds a border around table headers */
+  padding: 10px; /* Padding for headers */
+  text-align: left; /* Aligns text to the left in headers */
+}
+
+.playlist-table td {
+  border: 1px solid #ddd; /* Light border for table cells */
+  padding: 8px;
+  text-align: left;
+}
