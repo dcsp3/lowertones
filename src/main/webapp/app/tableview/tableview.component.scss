@@ -16,6 +16,7 @@
   display: flex;
   overflow: visible !important;
   position: relative;
+  min-height: 80vh !important;
 }
 
 .p-chips-input-token input {
@@ -149,7 +150,7 @@
     border: 0px !important; /*this affects all p-listboxes*/
   }
   .p-listbox .p-listbox-list {
-    padding: 0.8vh 1vh 0.8vh 0vh !important;
+    padding: 0vh 0vh 0vh 0vh !important;
   }
   .p-listbox .p-listbox-list .p-listbox-item {
     background: rgba(53, 63, 77, 1) !important;
@@ -174,16 +175,17 @@
   .p-listbox .p-listbox-header {
     padding: 0.1vh;
     border-bottom: none;
+    background: rgba(53, 63, 77, 1) !important;
   }
   .p-listbox-filter-container {
-    background: none;
+    background: rgba(255, 255, 255, 0) !important;
   }
   .p-tree {
     padding: 0rem !important;
     border-radius: 0px !important;
     border-bottom-left-radius: 4px !important;
     border-bottom-right-radius: 4px !important;
-    min-height: 100% !important;
+    min-height: 90% !important;
   }
   .p-tree-wrapper .p-tree-container {
     overflow: visible !important;
@@ -194,7 +196,7 @@
   .p-tree .p-tree-container .p-treenode .p-treenode-content {
     height: fit-content !important;
     width: 100% !important;
-    padding: 0rem !important;
+    padding: 0.4vh !important;
   }
   .p-treenode-label {
     width: 100% !important;
@@ -204,7 +206,9 @@
   }
   .p-treenode-leaf > .p-treenode-content .p-tree-toggler {
     width: 0rem !important;
+    margin-right: 0vh !important;
   }
+
   .p-treenode-leaf > .p-treenode-content .p-listbox {
     width: 100% !important;
   }
@@ -240,6 +244,9 @@
     padding: 0rem;
     text-align: center;
     width: 8vh;
+  }
+  .p-inputgroup > .p-inputtext {
+    border-bottom: none;
   }
   /*
             style="width: 25%;  "*/
