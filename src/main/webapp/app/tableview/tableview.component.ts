@@ -169,6 +169,10 @@ export class TableviewComponent implements OnInit {
     console.log('finished scrape');
   }
 
+  truncate(num: number): number {
+    return Math.floor(num * 100) / 100;
+  }
+
   sortColumns(): void {
     const orderMap = new Map(this.columns.map((col, index) => [col.value, index]));
     this.selectedColumns.sort((a, b) => {
@@ -244,6 +248,15 @@ export class TableviewComponent implements OnInit {
       songEntry.explicit = this.jsonBlob.tracks[i].explicit;
       songEntry.popularity = this.jsonBlob.tracks[i].popularity;
       songEntry.release = this.jsonBlob.tracks[i].album.releaseDate;
+      songEntry.acousticness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.acousticness * 100);
+      songEntry.danceability = this.truncate(this.jsonBlob.tracks[i].audioFeatures.danceability * 100);
+      songEntry.instrumentalness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.instrumentalness * 100);
+      songEntry.energy = this.truncate(this.jsonBlob.tracks[i].audioFeatures.energy * 100);
+      songEntry.liveness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.liveness * 100);
+      songEntry.loudness = this.jsonBlob.tracks[i].audioFeatures.loudness;
+      songEntry.speechiness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.speechiness * 100);
+      songEntry.valence = this.truncate(this.jsonBlob.tracks[i].audioFeatures.valence * 100);
+      songEntry.tempo = this.jsonBlob.tracks[i].audioFeatures.tempo;
 
       //handle length
       let length = this.jsonBlob.tracks[i].duration;

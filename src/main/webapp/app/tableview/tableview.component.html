@@ -186,7 +186,7 @@
   <div id="table-content" class="tbv-divs">
     <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
     <p-table
-      [tableStyle]="{ 'min-height': '80vh' }"
+      [tableStyle]="{ 'min-height': '75vh' }"
       [columns]="selectedColumns"
       [value]="filteredSongData"
       [(selection)]="selectedSongs"
@@ -260,6 +260,7 @@
               </div>
             </ng-container>
             <ng-template #normalField>
+              <p-skeleton></p-skeleton>
               <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
             </ng-template>
           </td>
