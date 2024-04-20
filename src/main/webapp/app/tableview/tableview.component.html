@@ -214,7 +214,7 @@
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngIf="loadingSongs"></th>
+            <th style="width: 0%" *ngIf="loadingSongs"></th>
             <th style="width: 0%" *ngIf="!loadingSongs">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
@@ -257,7 +257,7 @@
             <td
               *ngFor="let col of columns"
               [ngClass]="{
-                cellcenter: [
+                cellright: [
                   'popularity',
                   'explicit',
                   'acousticness',

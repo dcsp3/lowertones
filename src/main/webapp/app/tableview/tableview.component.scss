@@ -272,6 +272,9 @@
   .p-inputgroup > .p-inputtext {
     border-bottom: none;
   }
+  .explicitSelectButton > .p-selectbutton > .p-button {
+    padding: 0.2vh 1vh !important;
+  }
   /*
             style="width: 25%;  "*/
 }
@@ -281,6 +284,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: right;
 }
 
 .center-image {
@@ -310,9 +320,14 @@
 }
 .colsmall {
   width: 0%;
-  text-align: center;
+  text-align: right;
 }
 .cellcenter > div {
   text-align: center;
+  margin: auto;
+}
+
+.cellright > div {
+  text-align: right;
   margin: auto;
 }
