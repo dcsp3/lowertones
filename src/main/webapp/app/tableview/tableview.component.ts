@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface SongEntry {
+  placeholder: boolean;
   title: string;
   artist: string;
   contributor: string;
@@ -96,6 +97,7 @@ export class TableviewComponent implements OnInit {
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = {
+        placeholder: true,
         title: '',
         artist: '',
         contributor: '',
@@ -223,10 +225,11 @@ export class TableviewComponent implements OnInit {
 
   songListFactor15(songList: SongEntry[]): void {
     const mod = songList.length % 15;
-    if (mod !== 0) {
+    if (mod !== 0 || songList.length === 0) {
       const itemsToAdd = 15 - mod;
       for (let i = 0; i < itemsToAdd; i++) {
         songList.push({
+          placeholder: true,
           title: '',
           artist: '',
           contributor: '',
@@ -291,6 +294,7 @@ export class TableviewComponent implements OnInit {
     const numTracks = this.jsonBlob.tracks.length;
     for (let i = 0; i < numTracks; i++) {
       let songEntry: SongEntry = {
+        placeholder: true,
         title: 'lorem',
         artist: 'ipsum',
         contributor: 'contributor',
@@ -309,6 +313,7 @@ export class TableviewComponent implements OnInit {
         tempo: 0,
       };
 
+      songEntry.placeholder = false;
       songEntry.title = this.jsonBlob.tracks[i].name;
       songEntry.artist = this.jsonBlob.tracks[i].artist.name;
       songEntry.explicit = this.jsonBlob.tracks[i].explicit;

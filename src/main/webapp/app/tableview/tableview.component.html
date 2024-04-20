@@ -208,7 +208,8 @@
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th style="width: 0%">
+            <th *ngIf="loadingSongs"></th>
+            <th style="width: 0%" *ngIf="!loadingSongs">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th
@@ -243,8 +244,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-song let-columns="columns">
           <tr class="p-selectable-row">
-            <td *ngIf="(song['artist'] === '' && song['title'] === '') || loadingSongs"></td>
-            <td *ngIf="song['artist'] !== '' && song['title'] !== ''">
+            <td *ngIf="loadingSongs || song['placeholder']"></td>
+            <td *ngIf="!loadingSongs && !song['placeholder']">
               <p-tableCheckbox [value]="song"></p-tableCheckbox>
             </td>
             <td
