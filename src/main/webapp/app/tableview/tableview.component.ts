@@ -195,10 +195,10 @@ export class TableviewComponent implements OnInit {
   switchSongDataInUse(): void {
     if (this.selectedTableState.value === 'user') {
       this.songDataInUse = this.songData;
-      this.applySearch();
+      this.filteredSongData = this.songDataInUse;
     } else {
       this.songDataInUse = this.selectedSongs;
-      this.applySearch();
+      this.filteredSongData = this.songDataInUse;
     }
   }
 
@@ -306,8 +306,6 @@ export class TableviewComponent implements OnInit {
     }
 
     this.songData = this.songData.slice(0, numTracks);
-    this.songDataInUse = this.songData;
-    this.filteredSongData = this.songDataInUse;
     this.applySearch();
   }
 }
