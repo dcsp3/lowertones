@@ -7,6 +7,9 @@ public class SpotifyPlaylist {
     private String playlistId;
     private String snapshotId;
     private String name;
+    private String playlistImageSmall;
+    private String playlistImageMedium;
+    private String playlistImageLarge;
     private ArrayList<SpotifyTrack> tracks;
 
     public SpotifyPlaylist() {
@@ -43,5 +46,33 @@ public class SpotifyPlaylist {
 
     public ArrayList<SpotifyTrack> getTracks() {
         return tracks;
+    }
+
+    public void setTracks(ArrayList<SpotifyTrack> tracks) {
+        this.tracks = tracks;
+    }
+
+    public String getPlaylistImageSmall() {
+        return playlistImageSmall;
+    }
+
+    public void setPlaylistImageSmall(String playlistImageSmall) {
+        this.playlistImageSmall = playlistImageSmall;
+    }
+
+    public String getPlaylistImageMedium() {
+        return playlistImageMedium;
+    }
+
+    public void setPlaylistImageMedium(String playlistImageMedium) {
+        this.playlistImageMedium = playlistImageMedium;
+    }
+
+    public String getPlaylistImageLarge() {
+        return playlistImageLarge;
+    }
+
+    public void setPlaylistImageLarge(String playlistImageLarge) {
+        this.playlistImageLarge = playlistImageLarge;
     }
 }

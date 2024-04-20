@@ -151,6 +151,9 @@ public class APIScrapingService {
             playlist.setPlaylistSpotifyID(curPlaylist.getPlaylistId());
             playlist.setPlaylistSnapshotID(curPlaylist.getSnapshotId());
             playlist.setPlaylistName(curPlaylist.getName());
+            playlist.setPlaylistImageSmall(curPlaylist.getPlaylistImageSmall());
+            playlist.setPlaylistImageMedium(curPlaylist.getPlaylistImageMedium());
+            playlist.setPlaylistImageLarge(curPlaylist.getPlaylistImageLarge());
             playlistRepository.save(playlist);
 
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();

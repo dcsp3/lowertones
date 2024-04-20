@@ -133,6 +133,16 @@ public class SpotifyAPIWrapperService {
         playlist.setSnapshotId(playlistJSON.getString("snapshot_id"));
         playlist.setName(playlistJSON.getString("name"));
 
+        JSONArray images = playlistJSON.optJSONArray("images");
+        if (images != null && images.length() > 0) {
+            playlist.setPlaylistImageLarge(images.length() > 0 ? images.getJSONObject(0).optString("url", null) : null);
+            playlist.setPlaylistImageMedium(images.length() > 1 ? images.getJSONObject(1).optString("url", null) : null);
+            playlist.setPlaylistImageSmall(images.length() > 2 ? images.getJSONObject(2).optString("url", null) : null);
+        } else {
+            // Log or handle the scenario where no images are available
+            System.out.println("No images available for this playlist.");
+        }
+
         JSONObject trackInfo = playlistJSON.getJSONObject("tracks");
 
         //String nextPageURL = trackInfo.isNull("next") ? null : trackInfo.getString("next");
@@ -160,11 +170,11 @@ public class SpotifyAPIWrapperService {
             }
         }
 
-        //grab track audio features
-        ArrayList<SpotifyTrackAudioFeatures> audioFeatures = getTrackAudioFeatures(trackIds, user).getData();
-        for (int i = 0; i < audioFeatures.size(); i++) {
-            playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
-        }
+        // //grab track audio features
+        // ArrayList<SpotifyTrackAudioFeatures> audioFeatures = getTrackAudioFeatures(trackIds, user).getData();
+        // for (int i = 0; i < audioFeatures.size(); i++) {
+        //     playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
+        // }
 
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
         res.setData(playlist);
