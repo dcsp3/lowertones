@@ -1,6 +1,7 @@
 package team.bham.repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,15 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
     @Query("SELECT p FROM Playlist p WHERE p.appUser.id = ?1")
     Set<Playlist> findPlaylistsByAppUserID(long appUserID);
+
+    @EntityGraph(
+        attributePaths = {
+            "playlistSongJoins",
+            "playlistSongJoins.song",
+            "playlistSongJoins.song.songArtistJoins",
+            "playlistSongJoins.song.songArtistJoins.mainArtist",
+            "playlistSongJoins.song.songArtistJoins.mainArtist.spotifyGenreEntities",
+        }
+    )
+    Optional<Playlist> findById(Long id);
 }
