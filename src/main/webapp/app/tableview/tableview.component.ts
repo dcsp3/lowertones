@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface SongEntry {
-  selected: boolean;
   title: string;
   artist: string;
   contributor: string;
@@ -70,6 +69,7 @@ class ScrapeService {
   styleUrls: ['./tableview.component.scss'],
 })
 export class TableviewComponent implements OnInit {
+  loadingSongs: boolean = true;
   songData: SongEntry[] = [];
   songDataInUse: SongEntry[] = [];
   filteredSongData: SongEntry[] = [];
@@ -96,7 +96,6 @@ export class TableviewComponent implements OnInit {
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = {
-        selected: false,
         title: '',
         artist: '',
         contributor: '',
@@ -190,15 +189,18 @@ export class TableviewComponent implements OnInit {
       else if (this.selectedSearchType.value === 'title') return matchesTitle;
       else return matchesArtist;
     });
+    this.songListFactor15(this.filteredSongData);
   }
 
   switchSongDataInUse(): void {
     if (this.selectedTableState.value === 'user') {
       this.songDataInUse = this.songData;
       this.filteredSongData = this.songDataInUse;
+      this.applySearch();
     } else {
       this.songDataInUse = this.selectedSongs;
       this.filteredSongData = this.songDataInUse;
+      this.applySearch();
     }
   }
 
@@ -219,6 +221,32 @@ export class TableviewComponent implements OnInit {
     });
   }
 
+  songListFactor15(songList: SongEntry[]): void {
+    const mod = songList.length % 15;
+    if (mod !== 0) {
+      const itemsToAdd = 15 - mod;
+      for (let i = 0; i < itemsToAdd; i++) {
+        songList.push({
+          title: '',
+          artist: '',
+          contributor: '',
+          length: '',
+          explicit: false,
+          popularity: 0,
+          release: '',
+          acousticness: 0,
+          danceability: 0,
+          instrumentalness: 0,
+          energy: 0,
+          liveness: 0,
+          loudness: 0,
+          speechiness: 0,
+          valence: 0,
+          tempo: 0,
+        });
+      }
+    }
+  }
   fetchPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (response: Playlist[]) => {
@@ -263,7 +291,6 @@ export class TableviewComponent implements OnInit {
     const numTracks = this.jsonBlob.tracks.length;
     for (let i = 0; i < numTracks; i++) {
       let songEntry: SongEntry = {
-        selected: false,
         title: 'lorem',
         artist: 'ipsum',
         contributor: 'contributor',
@@ -307,5 +334,6 @@ export class TableviewComponent implements OnInit {
 
     this.songData = this.songData.slice(0, numTracks);
     this.applySearch();
+    this.loadingSongs = false;
   }
 }

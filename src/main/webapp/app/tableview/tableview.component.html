@@ -243,7 +243,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-song let-columns="columns">
           <tr class="p-selectable-row">
-            <td>
+            <td *ngIf="(song['artist'] === '' && song['title'] === '') || loadingSongs"></td>
+            <td *ngIf="song['artist'] !== '' && song['title'] !== ''">
               <p-tableCheckbox [value]="song"></p-tableCheckbox>
             </td>
             <td
@@ -264,7 +265,7 @@
                 ].includes(col.value)
               }"
             >
-              <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
+              <ng-container *ngIf="loadingSongs">
                 <p-skeleton></p-skeleton>
               </ng-container>
               <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
