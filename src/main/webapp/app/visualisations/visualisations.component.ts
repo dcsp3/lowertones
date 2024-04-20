@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Injectable } from '@angular/c
 import * as d3 from 'd3';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { choice } from '../recapped/models';
 
 // takes the data from the backend VisualisationsDTO
 interface VisualisationsDTO {
@@ -20,6 +21,12 @@ interface VisualisationsDTO {
   topArtist6Name: String;
 }
 
+interface Playlist {
+  name: string;
+  spotifyId: string;
+  snapshotId: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,6 +38,17 @@ export class VisualisationsService {
   }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
+class PlaylistService {
+  private apiUrl = '/api/get-user-playlists';
+  constructor(private http: HttpClient) {}
+  getPlaylists(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+}
+
 @Component({
   selector: 'jhi-visualisations',
   templateUrl: './visualisations.component.html',
@@ -38,16 +56,25 @@ export class VisualisationsService {
 })
 export class VisualisationsComponent implements OnInit {
   response: any;
+
+  scanType: choice[];
+  selectedScanType: string = '';
   @ViewChild('pieChartSvg', { static: true }) private pieChartSvg!: ElementRef;
   @ViewChild('barChart1Svg', { static: true }) private barChart1Svg!: ElementRef;
   @ViewChild('barChart2Svg', { static: true }) private barChart2Svg!: ElementRef;
 
-  constructor(private visualisationsService: VisualisationsService) {}
+  constructor(private visualisationsService: VisualisationsService, private playlistService: PlaylistService) {
+    this.scanType = [
+      { label: 'My Entire Library', value: 'entireLibrary' },
+      { label: 'My Top Songs', value: 'topSongs' },
+    ];
+  }
 
   ngOnInit() {
     this.createPieChart();
     this.createBarChart1();
     this.createBarChart2();
+    this.fetchPlaylists();
 
     this.visualisationsService.getShortTermArtists().subscribe({
       next: response => {
@@ -143,6 +170,21 @@ export class VisualisationsComponent implements OnInit {
       .attr('width', x.bandwidth())
       .attr('height', (d): number => chartHeight - (y(d) || 0))
       .attr('fill', (d, i): string => color(i));
+  }
+
+  fetchPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (response: Playlist[]) => {
+        const playlistOptions = response.map((playlist: Playlist) => ({
+          label: playlist.name,
+          value: playlist.spotifyId,
+        }));
+        this.scanType = [...this.scanType, ...playlistOptions];
+      },
+      error: error => {
+        console.error('Error fetching playlists:', error);
+      },
+    });
   }
 
   private createBarChart2() {

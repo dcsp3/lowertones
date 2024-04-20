@@ -7,25 +7,24 @@ body {
   align-items: center;
 }
 
+.dropdown {
+  background-color: darkgray;
+}
+
 .container {
   width: 1400px;
   height: 400px;
   position: relative;
+  background-color: darkgray;
 }
 
 .chart {
   width: 400px;
   height: 400px;
   text-align: center;
-  background-color: floralwhite;
+  background-color: darkgray;
   display: inline-block;
   margin-right: 20px;
-}
-
-.pie-chart {
-}
-
-.bar-chart {
 }
 
 .chart-description {
