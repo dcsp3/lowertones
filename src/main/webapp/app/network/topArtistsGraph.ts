@@ -10,6 +10,7 @@ interface Node extends d3.SimulationNodeDatum {
   x?: number;
   y?: number;
   card?: d3.Selection<HTMLDivElement, unknown, null, undefined>;
+  songsInLibrary: number;
 }
 
 interface Link extends d3.SimulationLinkDatum<Node> {
@@ -24,11 +25,12 @@ interface Artist {
   genres: string[];
   imageUrl: string;
   id: string;
+  songsInLibrary: number;
 }
 
 function getElements(artists: Artist[], userImg: string, connections: { [key: string]: string[] }): { nodes: Node[]; links: Link[] } {
   let nextId = 1;
-  const nodes: Node[] = [{ id: 0, name: 'User', type: 'user', genre: '', img: userImg, rank: 0 }];
+  const nodes: Node[] = [{ id: 0, name: 'User', type: 'user', genre: '', img: userImg, rank: 0, songsInLibrary: 0 }];
   const idMap: { [key: string]: number } = {};
   const links: Link[] = [];
 
@@ -41,6 +43,7 @@ function getElements(artists: Artist[], userImg: string, connections: { [key: st
       genre: artist.genres[0] || 'unknown',
       img: artist.imageUrl,
       rank: artist.distance,
+      songsInLibrary: artist.songsInLibrary || 0, // Ensure this is fetched correctly
     });
     idMap[artist.name] = nodeId;
     links.push({
@@ -107,7 +110,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
           <div><center><strong>${node.name}</strong></center></div>
           <div><center><strong>${node.genre}</strong></center></div>
           <br>
-          <div style="font-size: 25px; text-align: center;"><strong>25</strong></div>
+          <div style="font-size: 25px; text-align: center;"><strong>${node.songsInLibrary}</strong></div>
           <div><center>Songs in Library</center></div>
         `
         )
@@ -238,6 +241,9 @@ function updateGraph(node: any, link: any, label: any, width: number, height: nu
 function clearGraph(graphContainer: any): void {
   const svg = d3.select(graphContainer).select('svg');
   svg.remove();
+
+  const nodeCards = d3.select(graphContainer).selectAll('.node-card');
+  nodeCards.remove();
 }
 
 export { getElements, renderGraph, clearGraph };

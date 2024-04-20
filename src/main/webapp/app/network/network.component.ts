@@ -13,6 +13,7 @@ interface Artist {
   id: string;
   genres: string[];
   imageUrl: string;
+  songsInLibrary: number;
 }
 
 interface TasteCategoryDetails {

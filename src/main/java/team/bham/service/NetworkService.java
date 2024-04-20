@@ -40,7 +40,7 @@ public class NetworkService {
         this.utilService = utilService;
     }
 
-    private JSONArray extractArtistDetails(JSONArray artists) {
+    private JSONArray extractArtistDetails(JSONArray artists, AppUser user) {
         JSONArray graphDataArray = new JSONArray();
         int min_distance = 100;
         int max_distance = 600;
@@ -49,10 +49,14 @@ public class NetworkService {
             JSONObject item = artists.getJSONObject(count);
             double distance = min_distance + ((double) (max_distance - min_distance) / artists.length()) * (count + 1);
 
+            String artistSpotifyId = item.getString("id");
+            int songCount = countSongsByArtistInLibrary(user, artistSpotifyId);
+
             JSONObject artistInfo = new JSONObject();
             artistInfo.put("distance", distance);
             artistInfo.put("name", item.getString("name"));
-            artistInfo.put("id", item.getString("id"));
+            artistInfo.put("id", artistSpotifyId);
+            artistInfo.put("songsInLibrary", songCount);
 
             JSONArray genresArray = item.getJSONArray("genres");
             List<String> genresList = genresArray.toList().stream().map(Object::toString).collect(Collectors.toList());
@@ -118,7 +122,6 @@ public class NetworkService {
             stats.put("topArtistName", topArtist.getString("name"));
             stats.put("topArtistImage", topArtist.getJSONArray("images").getJSONObject(0).getString("url"));
 
-            // Now fetch the top track by the top artist.
             JSONObject topTrackByTopArtist = getTopTrackByTopArtist(topArtist, user, timeRange);
             if (topTrackByTopArtist != null) {
                 stats.put("topTrackByTopArtist", topTrackByTopArtist);
@@ -175,7 +178,7 @@ public class NetworkService {
         JSONArray artists = shortTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
-        result.put("graphData", extractArtistDetails(artists));
+        result.put("graphData", extractArtistDetails(artists, appUser)); // Pass user to method
         result.put("stats", calculateStats(artists, appUser, short_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
@@ -192,7 +195,7 @@ public class NetworkService {
         JSONArray artists = mediumTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
-        result.put("graphData", extractArtistDetails(artists));
+        result.put("graphData", extractArtistDetails(artists, appUser));
         result.put("stats", calculateStats(artists, appUser, medium_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
@@ -209,10 +212,18 @@ public class NetworkService {
         JSONArray artists = longTermArtists.getJSONArray("items");
 
         JSONObject result = new JSONObject();
-        result.put("graphData", extractArtistDetails(artists));
+        result.put("graphData", extractArtistDetails(artists, appUser));
         result.put("stats", calculateStats(artists, appUser, long_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+    }
+
+    public int countSongsByArtistInLibrary(AppUser appUser, String artistSpotifyId) {
+        if (appUser == null) {
+            return 0;
+        }
+
+        return utilService.countSongsByArtistInLibrary(appUser, artistSpotifyId);
     }
 
     public ResponseEntity<List<Map<String, Object>>> getUserPlaylistNames(Authentication authentication) {
