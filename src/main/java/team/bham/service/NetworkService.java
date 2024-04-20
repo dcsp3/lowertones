@@ -1,5 +1,6 @@
 package team.bham.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import team.bham.domain.AppUser;
+import team.bham.domain.Playlist;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 
@@ -20,10 +22,12 @@ public class NetworkService {
 
     private final SpotifyAPIWrapperService apiWrapper;
     private final UserService userService;
+    private final UtilService utilService;
 
-    public NetworkService(SpotifyAPIWrapperService apiWrapper, UserService userService) {
+    public NetworkService(SpotifyAPIWrapperService apiWrapper, UserService userService, UtilService utilService) {
         this.apiWrapper = apiWrapper;
         this.userService = userService;
+        this.utilService = utilService;
     }
 
     private JSONArray extractArtistDetails(JSONArray artists) {
@@ -199,5 +203,18 @@ public class NetworkService {
         result.put("stats", calculateStats(artists, appUser, long_term));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<String>> getUserPlaylistNames(Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        List<Playlist> playlists = utilService.getUserPlaylists(appUser);
+
+        List<String> playlistNames = playlists.stream().map(Playlist::getPlaylistName).collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(playlistNames);
     }
 }

@@ -1,5 +1,6 @@
 package team.bham.web.rest;
 
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,5 +32,10 @@ public class NetworkResource {
     @GetMapping("/top-artists-long-term")
     public ResponseEntity<String> getLongTermTopArtists(Authentication authentication) {
         return networkService.getLongTermTopArtists(authentication);
+    }
+
+    @GetMapping("/user-playlists")
+    public ResponseEntity<List<String>> getUserPlaylistNames(Authentication authentication) {
+        return networkService.getUserPlaylistNames(authentication);
     }
 }
