@@ -254,6 +254,9 @@ public class SpotifyAPIWrapperService {
             HttpStatus status = e.getStatusCode();
 
             if (status != HttpStatus.UNAUTHORIZED) {
+                if (status == HttpStatus.TOO_MANY_REQUESTS) {
+                    throw new RuntimeException("fjfjfjf" + e.getResponseHeaders().toString());
+                }
                 apiResponse.setSuccess(false);
                 apiResponse.setStatus(status);
                 return apiResponse;
