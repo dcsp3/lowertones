@@ -199,7 +199,7 @@ public class SpotifyAPIWrapperService {
             try {
                 audioFeaturesListJSON = response.getJSONArray("audio_features");
             } catch (Exception e) {
-                throw new RuntimeException("what the fuck?" + response.toString());
+                throw new RuntimeException("what the fuck?" + test.getSuccess() + " " + test.getStatus());
             }
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
