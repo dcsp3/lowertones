@@ -166,4 +166,56 @@ public class DatabaseImportService {
                 .executeUpdate();
         }
     }
+
+    @Transactional
+    public void importGenres(String filePath, Map<Long, Long> artistIdMapping) throws IOException {
+        Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
+        for (CSVRecord record : records) {
+            Long oldArtistId = (long) (Double.parseDouble(record.get("MAIN_ARTIST_ID")));
+            //Long oldAlbumId = Long.valueOf(record.get("album_id"));
+            Long newArtistId = artistIdMapping.get(oldArtistId);
+
+            entityManager
+                .createNativeQuery("INSERT INTO SPOTIFY_GENRE_ENTITY (ID, SPOTIFY_GENRE, MAIN_ARTIST_ID) VALUES (?, ?, ?)")
+                .setParameter(1, record.get("ID"))
+                .setParameter(2, record.get("SPOTIFY_GENRE"))
+                .setParameter(3, newArtistId)
+                .executeUpdate();
+        }
+    }
+
+    public void importRelatedArtists(String filePath) throws IOException {
+        Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
+        for (CSVRecord record : records) {
+            entityManager
+                .createNativeQuery(
+                    "INSERT INTO RELATED_ARTISTS (ID, MAIN_ARTIST_SPTFY_ID, RELATED_ARTIST_SPOTIFY_ID_1, RELATED_ARTIST_SPOTIFY_ID_2, RELATED_ARTIST_SPOTIFY_ID_3, RELATED_ARTIST_SPOTIFY_ID_4, RELATED_ARTIST_SPOTIFY_ID_5, RELATED_ARTIST_SPOTIFY_ID_6,RELATED_ARTIST_SPOTIFY_ID_7, RELATED_ARTIST_SPOTIFY_ID_8, RELATED_ARTIST_SPOTIFY_ID_9, RELATED_ARTIST_SPOTIFY_ID_10, RELATED_ARTIST_SPOTIFY_ID_11, RELATED_ARTIST_SPOTIFY_ID_12, RELATED_ARTIST_SPOTIFY_ID_13, RELATED_ARTIST_SPOTIFY_ID_14, RELATED_ARTIST_SPOTIFY_ID_15, RELATED_ARTIST_SPOTIFY_ID_16, RELATED_ARTIST_SPOTIFY_ID_17, RELATED_ARTIST_SPOTIFY_ID_18, RELATED_ARTIST_SPOTIFY_ID_19, RELATED_ARTIST_SPOTIFY_ID_20) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                )
+                .setParameter(1, record.get("ID"))
+                .setParameter(2, record.get("MAIN_ARTIST_SPTFY_ID"))
+                .setParameter(3, record.get("RELATED_ARTIST_SPOTIFY_ID_1"))
+                .setParameter(4, record.get("RELATED_ARTIST_SPOTIFY_ID_2"))
+                .setParameter(5, record.get("RELATED_ARTIST_SPOTIFY_ID_3"))
+                .setParameter(6, record.get("RELATED_ARTIST_SPOTIFY_ID_4"))
+                .setParameter(7, record.get("RELATED_ARTIST_SPOTIFY_ID_5"))
+                .setParameter(8, record.get("RELATED_ARTIST_SPOTIFY_ID_6"))
+                .setParameter(9, record.get("RELATED_ARTIST_SPOTIFY_ID_7"))
+                .setParameter(10, record.get("RELATED_ARTIST_SPOTIFY_ID_8"))
+                .setParameter(11, record.get("RELATED_ARTIST_SPOTIFY_ID_9"))
+                .setParameter(12, record.get("RELATED_ARTIST_SPOTIFY_ID_10"))
+                .setParameter(13, record.get("RELATED_ARTIST_SPOTIFY_ID_11"))
+                .setParameter(14, record.get("RELATED_ARTIST_SPOTIFY_ID_12"))
+                .setParameter(15, record.get("RELATED_ARTIST_SPOTIFY_ID_13"))
+                .setParameter(16, record.get("RELATED_ARTIST_SPOTIFY_ID_14"))
+                .setParameter(17, record.get("RELATED_ARTIST_SPOTIFY_ID_15"))
+                .setParameter(18, record.get("RELATED_ARTIST_SPOTIFY_ID_16"))
+                .setParameter(19, record.get("RELATED_ARTIST_SPOTIFY_ID_17"))
+                .setParameter(20, record.get("RELATED_ARTIST_SPOTIFY_ID_18"))
+                .setParameter(21, record.get("RELATED_ARTIST_SPOTIFY_ID_19"))
+                .setParameter(22, record.get("RELATED_ARTIST_SPOTIFY_ID_20"))
+                .executeUpdate();
+        }
+    }
 }

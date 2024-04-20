@@ -1,0 +1,2150 @@
+{
+    "href": "https://api.spotify.com/v1/users/williamp321/playlists?offset=0&limit=50",
+    "limit": 50,
+    "next": "https://api.spotify.com/v1/users/williamp321/playlists?offset=50&limit=50",
+    "offset": 0,
+    "previous": null,
+    "total": 157,
+    "items": [
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4KSVMbQmokcJR9625Aa8aA"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4KSVMbQmokcJR9625Aa8aA",
+            "id": "4KSVMbQmokcJR9625Aa8aA",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84488f4d1943f293d28f00c960",
+                    "width": null
+                }
+            ],
+            "name": "~~~~~~~ALL~~~~~~~~",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NTYzMCxiNjgyZTQ4ODdlMjZmNGU4MWI3NTM4OGU2NzgzMDYzOTNlZjdkNTMy",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4KSVMbQmokcJR9625Aa8aA/tracks",
+                "total": 4677
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4KSVMbQmokcJR9625Aa8aA"
+        },
+        {
+            "collaborative": false,
+            "description": "Spin the Wheel! distrokid.com/wheel",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4hns94D4tpcDk7MO4wTCFI"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4hns94D4tpcDk7MO4wTCFI",
+            "id": "4hns94D4tpcDk7MO4wTCFI",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://i2o.scdn.co/image/ab67706c0000cfa3c330640e8b62f31c73dd8375",
+                    "width": null
+                }
+            ],
+            "name": "DistroKid Wheel of Playlist",
+            "owner": {
+                "display_name": "DistroKid",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/bxv6myddmviz546hlcxia9t5g"
+                },
+                "href": "https://api.spotify.com/v1/users/bxv6myddmviz546hlcxia9t5g",
+                "id": "bxv6myddmviz546hlcxia9t5g",
+                "type": "user",
+                "uri": "spotify:user:bxv6myddmviz546hlcxia9t5g"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjE3MzczLGNiOTJjYTZjNjEzN2M4MjA5YzY3OGUxYmQ2ZTc4NjRiYTk5MDI0MzQ=",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4hns94D4tpcDk7MO4wTCFI/tracks",
+                "total": 1989
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4hns94D4tpcDk7MO4wTCFI"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4wrsqItsGsei7gnfTk5xWs"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4wrsqItsGsei7gnfTk5xWs",
+            "id": "4wrsqItsGsei7gnfTk5xWs",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0216816a2848cd00a0cb6be419ab67616d00001e02645791d2040a58a149ba79c2ab67616d00001e027af5fdc5ef048a68db62b85fab67616d00001e02ba07b7d3c8aa16db3ef1e033",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0216816a2848cd00a0cb6be419ab67616d00001e02645791d2040a58a149ba79c2ab67616d00001e027af5fdc5ef048a68db62b85fab67616d00001e02ba07b7d3c8aa16db3ef1e033",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0216816a2848cd00a0cb6be419ab67616d00001e02645791d2040a58a149ba79c2ab67616d00001e027af5fdc5ef048a68db62b85fab67616d00001e02ba07b7d3c8aa16db3ef1e033",
+                    "width": 60
+                }
+            ],
+            "name": "smoothsounds4thasoul",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjksYzRjOThiNTZkOTYyOTQ1NDEzMTg5MzgzZWE2NWVjYTM2MWFkNjdhMg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4wrsqItsGsei7gnfTk5xWs/tracks",
+                "total": 28
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4wrsqItsGsei7gnfTk5xWs"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2p0x4AmDTlY63SjlwvouAx"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2p0x4AmDTlY63SjlwvouAx",
+            "id": "2p0x4AmDTlY63SjlwvouAx",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e026574a3f65aadef81dab68edcab67616d00001e029e9618f5db7b33c68e28788cab67616d00001e02bd93bbf0c3df5e0242b84831ab67616d00001e02fe66d7875546731ae74a1930",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e026574a3f65aadef81dab68edcab67616d00001e029e9618f5db7b33c68e28788cab67616d00001e02bd93bbf0c3df5e0242b84831ab67616d00001e02fe66d7875546731ae74a1930",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e026574a3f65aadef81dab68edcab67616d00001e029e9618f5db7b33c68e28788cab67616d00001e02bd93bbf0c3df5e0242b84831ab67616d00001e02fe66d7875546731ae74a1930",
+                    "width": 60
+                }
+            ],
+            "name": "jazz",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTI1LDAwNjVhYThhNmU3Nzk1N2FkYzEzMDEwYmYxYTEwMTc5NWUxYjBlYmI=",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2p0x4AmDTlY63SjlwvouAx/tracks",
+                "total": 192
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2p0x4AmDTlY63SjlwvouAx"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4EGSANLHrzSRGXk1gWYtyH"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4EGSANLHrzSRGXk1gWYtyH",
+            "id": "4EGSANLHrzSRGXk1gWYtyH",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://i.scdn.co/image/ab67616d00001e021c0bcf8b536295438d26c70d",
+                    "width": null
+                }
+            ],
+            "name": "Genesis",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MixjYjdjZjIwNzJhYTlmYWQyMGUzMDBhOGY1N2ZkYmIwY2ZkMDE0MDVk",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4EGSANLHrzSRGXk1gWYtyH/tracks",
+                "total": 1
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4EGSANLHrzSRGXk1gWYtyH"
+        },
+        {
+            "collaborative": false,
+            "description": "Spotify Wrapped presents the songs you loved this year.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1Fa1IIVtEpGUcU"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1Fa1IIVtEpGUcU",
+            "id": "37i9dQZF1Fa1IIVtEpGUcU",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://wrapped-images.spotifycdn.com/image/yts-2023/default/your-top-songs-2023_DEFAULT_en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "Your Top Songs 2023",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTY5OTk4OTcyMCwwMDAwMDAwMGY0ZjgwN2ZjOGVmOWVmNWI5NDY1NmZkNTAwZjg1NGY5",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1Fa1IIVtEpGUcU/tracks",
+                "total": 100
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1Fa1IIVtEpGUcU"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2qAt4IsGI3qBB4L41deut0"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2qAt4IsGI3qBB4L41deut0",
+            "id": "2qAt4IsGI3qBB4L41deut0",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e022af30c881bb23cfb82a8cf99ab67616d00001e0290a50cfe99a4c19ff3cbfbdbab67616d00001e02c8a11e48c91a982d086afc69ab67616d00001e02fc4f17340773c6c3579fea0d",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e022af30c881bb23cfb82a8cf99ab67616d00001e0290a50cfe99a4c19ff3cbfbdbab67616d00001e02c8a11e48c91a982d086afc69ab67616d00001e02fc4f17340773c6c3579fea0d",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e022af30c881bb23cfb82a8cf99ab67616d00001e0290a50cfe99a4c19ff3cbfbdbab67616d00001e02c8a11e48c91a982d086afc69ab67616d00001e02fc4f17340773c6c3579fea0d",
+                    "width": 60
+                }
+            ],
+            "name": "new nonexplicitall4",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "Myw5YmMwZGViYzVmMTk1YjE0NDQ2Mjk3NThjMjkyZjdiYmY5N2M4NjZh",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2qAt4IsGI3qBB4L41deut0/tracks",
+                "total": 199
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2qAt4IsGI3qBB4L41deut0"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4blN0hQWv0F8fj73qkIEDI"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4blN0hQWv0F8fj73qkIEDI",
+            "id": "4blN0hQWv0F8fj73qkIEDI",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02810e1556b6a181808d21090fab67616d00001e028c5cdd622b6b3acb4f26ba93ab67616d00001e0295af8a497821be5c98fdd5dcab67616d00001e02b591b5acb5029e39f2ead915",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02810e1556b6a181808d21090fab67616d00001e028c5cdd622b6b3acb4f26ba93ab67616d00001e0295af8a497821be5c98fdd5dcab67616d00001e02b591b5acb5029e39f2ead915",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02810e1556b6a181808d21090fab67616d00001e028c5cdd622b6b3acb4f26ba93ab67616d00001e0295af8a497821be5c98fdd5dcab67616d00001e02b591b5acb5029e39f2ead915",
+                    "width": 60
+                }
+            ],
+            "name": "FOOL'S FEAST EP1",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NjYsNTNkNzU1NGI1OTVhNDY0NDBkYTAwZjUwZjFmMDI1Y2M0ZTg0ZWFkNQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4blN0hQWv0F8fj73qkIEDI/tracks",
+                "total": 31
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4blN0hQWv0F8fj73qkIEDI"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/5fXcxoRC2yZFN0GPaDH4Tu"
+            },
+            "href": "https://api.spotify.com/v1/playlists/5fXcxoRC2yZFN0GPaDH4Tu",
+            "id": "5fXcxoRC2yZFN0GPaDH4Tu",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02054d8a4fc0d82092f73dde9dab67616d00001e0247a51205061053303846cb79ab67616d00001e025fbad9f82fe84b8723526df3ab67616d00001e02b02b1e72d9e8ec1ff2c01999",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02054d8a4fc0d82092f73dde9dab67616d00001e0247a51205061053303846cb79ab67616d00001e025fbad9f82fe84b8723526df3ab67616d00001e02b02b1e72d9e8ec1ff2c01999",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02054d8a4fc0d82092f73dde9dab67616d00001e0247a51205061053303846cb79ab67616d00001e025fbad9f82fe84b8723526df3ab67616d00001e02b02b1e72d9e8ec1ff2c01999",
+                    "width": 60
+                }
+            ],
+            "name": "why does discover weekly keep showing me famous samples",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTksZGVmZmE3OWVhMWNlYTAwODBlMmI5OWUwNmM5MmI0YzBkYmQzNmJjYg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/5fXcxoRC2yZFN0GPaDH4Tu/tracks",
+                "total": 14
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:5fXcxoRC2yZFN0GPaDH4Tu"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/346wBaMWJ0sFUctbmc791B"
+            },
+            "href": "https://api.spotify.com/v1/playlists/346wBaMWJ0sFUctbmc791B",
+            "id": "346wBaMWJ0sFUctbmc791B",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0257751ae9890e997676b998f2ab67616d00001e02946d7a6bceef77dce9cc0516ab67616d00001e02ca6eb064be8e68ec47e621bdab67616d00001e02dbdc90dc31a2f17751902bec",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0257751ae9890e997676b998f2ab67616d00001e02946d7a6bceef77dce9cc0516ab67616d00001e02ca6eb064be8e68ec47e621bdab67616d00001e02dbdc90dc31a2f17751902bec",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0257751ae9890e997676b998f2ab67616d00001e02946d7a6bceef77dce9cc0516ab67616d00001e02ca6eb064be8e68ec47e621bdab67616d00001e02dbdc90dc31a2f17751902bec",
+                    "width": 60
+                }
+            ],
+            "name": "newdl parkhaus",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MzcsMDhmM2VlMmFjNTQwM2VmNjk4OTBiNGY2YmExNzdjOGZiYzMyMDcwZQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/346wBaMWJ0sFUctbmc791B/tracks",
+                "total": 19
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:346wBaMWJ0sFUctbmc791B"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/45Ikyh2Npz389GILHEiiFt"
+            },
+            "href": "https://api.spotify.com/v1/playlists/45Ikyh2Npz389GILHEiiFt",
+            "id": "45Ikyh2Npz389GILHEiiFt",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e022b9aca3204e667980ce6a939ab67616d00001e027aeaadf1d7f5b8167802af73ab67616d00001e02c34064d068ce3cb89ff1f16dab67616d00001e02e0db11827251cfffb48efbde",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e022b9aca3204e667980ce6a939ab67616d00001e027aeaadf1d7f5b8167802af73ab67616d00001e02c34064d068ce3cb89ff1f16dab67616d00001e02e0db11827251cfffb48efbde",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e022b9aca3204e667980ce6a939ab67616d00001e027aeaadf1d7f5b8167802af73ab67616d00001e02c34064d068ce3cb89ff1f16dab67616d00001e02e0db11827251cfffb48efbde",
+                    "width": 60
+                }
+            ],
+            "name": "SOuLe / trip / kaylink booker",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTIsMGRhMTdiYTZjNDZjNjk5MTViM2YwMGNhYzM0Yjg5NDNiM2FiOGU2OQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/45Ikyh2Npz389GILHEiiFt/tracks",
+                "total": 52
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:45Ikyh2Npz389GILHEiiFt"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/14ocBVGTBO974kvy6G5Dcq"
+            },
+            "href": "https://api.spotify.com/v1/playlists/14ocBVGTBO974kvy6G5Dcq",
+            "id": "14ocBVGTBO974kvy6G5Dcq",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0233831669690434f8de64587dab67616d00001e026da7653430a506f4b6471e34ab67616d00001e02a6a729ab975706699ab81055ab67616d00001e02eadd9bd7a3db773916b21c4b",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0233831669690434f8de64587dab67616d00001e026da7653430a506f4b6471e34ab67616d00001e02a6a729ab975706699ab81055ab67616d00001e02eadd9bd7a3db773916b21c4b",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0233831669690434f8de64587dab67616d00001e026da7653430a506f4b6471e34ab67616d00001e02a6a729ab975706699ab81055ab67616d00001e02eadd9bd7a3db773916b21c4b",
+                    "width": 60
+                }
+            ],
+            "name": "zOOOmer**21'@LL",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NDksMGZkNTk2ZDk4MGZjMjQ1ZGMzZTQyZWFkN2NlNzBlY2QxYzNmMmE1OQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/14ocBVGTBO974kvy6G5Dcq/tracks",
+                "total": 69
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:14ocBVGTBO974kvy6G5Dcq"
+        },
+        {
+            "collaborative": false,
+            "description": "&#x27;23 burn ball playlist &lt;3",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/0BZ5h52KtFDxdNrcjwvhEu"
+            },
+            "href": "https://api.spotify.com/v1/playlists/0BZ5h52KtFDxdNrcjwvhEu",
+            "id": "0BZ5h52KtFDxdNrcjwvhEu",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84308f8766cb2483324074be5c",
+                    "width": null
+                }
+            ],
+            "name": "burn ball ",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTk5LGQ0MWZlNmFkMDJjZDU3NTQxNWRjNzEwNzRiMDkwMDI1MTJhMmE3MTU=",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/0BZ5h52KtFDxdNrcjwvhEu/tracks",
+                "total": 163
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:0BZ5h52KtFDxdNrcjwvhEu"
+        },
+        {
+            "collaborative": false,
+            "description": "A Blend of music for Will and leanna. Updates daily.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EJEdgKkAXoe9B"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJEdgKkAXoe9B",
+            "id": "37i9dQZF1EJEdgKkAXoe9B",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://blend-playlist-covers.spotifycdn.com/v2/blend_DEFAULT-forest-pink-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "leanna + Will",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MCwwMDAwMDAwMGE1ZWViZDk2OGRkNTRmZWYxMTQ5NDVmYzdmMDIzNWUx",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJEdgKkAXoe9B/tracks",
+                "total": 50
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EJEdgKkAXoe9B"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/5m0pvMdlLGcHrC3YJwJqkV"
+            },
+            "href": "https://api.spotify.com/v1/playlists/5m0pvMdlLGcHrC3YJwJqkV",
+            "id": "5m0pvMdlLGcHrC3YJwJqkV",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0204e86aa52cf087896593ecc4ab67616d00001e02b2395ac1a0d4a1b4cf584e1aab67616d00001e02dc4564d02f91c2392b73c6fbab67616d00001e02e6463ad8a18f73d2436c15fc",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0204e86aa52cf087896593ecc4ab67616d00001e02b2395ac1a0d4a1b4cf584e1aab67616d00001e02dc4564d02f91c2392b73c6fbab67616d00001e02e6463ad8a18f73d2436c15fc",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0204e86aa52cf087896593ecc4ab67616d00001e02b2395ac1a0d4a1b4cf584e1aab67616d00001e02dc4564d02f91c2392b73c6fbab67616d00001e02e6463ad8a18f73d2436c15fc",
+                    "width": 60
+                }
+            ],
+            "name": "My playlist #100 (2)",
+            "owner": {
+                "display_name": "alleenmarieke",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/mamaenmarieke"
+                },
+                "href": "https://api.spotify.com/v1/users/mamaenmarieke",
+                "id": "mamaenmarieke",
+                "type": "user",
+                "uri": "spotify:user:mamaenmarieke"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MiwzMzUxN2I3YTUyOGEzOTIwZWFmNGFhZmE1NzQ1NjA1NWIyZmQ4YjU0",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/5m0pvMdlLGcHrC3YJwJqkV/tracks",
+                "total": 32
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:5m0pvMdlLGcHrC3YJwJqkV"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6DG7DYAm2FXkgu2j8TC7IM"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6DG7DYAm2FXkgu2j8TC7IM",
+            "id": "6DG7DYAm2FXkgu2j8TC7IM",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e024495ce1c0c098c94ed89a0e2ab67616d00001e0259cd47039c5b10ed919fbaa8ab67616d00001e02657d97146452ebfb9cd7f297ab67616d00001e02f8aaeba5e6dee1745371e822",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e024495ce1c0c098c94ed89a0e2ab67616d00001e0259cd47039c5b10ed919fbaa8ab67616d00001e02657d97146452ebfb9cd7f297ab67616d00001e02f8aaeba5e6dee1745371e822",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e024495ce1c0c098c94ed89a0e2ab67616d00001e0259cd47039c5b10ed919fbaa8ab67616d00001e02657d97146452ebfb9cd7f297ab67616d00001e02f8aaeba5e6dee1745371e822",
+                    "width": 60
+                }
+            ],
+            "name": "party",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NzYsMWMxMzg2MzE1N2FjYmM5MzdlYzdhODhiMjRiZGU0M2I2N2M4YmI1Mg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6DG7DYAm2FXkgu2j8TC7IM/tracks",
+                "total": 147
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6DG7DYAm2FXkgu2j8TC7IM"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6KMBw9K2f3OZpETbvaRNA8"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6KMBw9K2f3OZpETbvaRNA8",
+            "id": "6KMBw9K2f3OZpETbvaRNA8",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02745381ee01fbb5037e9a2afcab67616d00001e027ae6e2eaa67c42d144006176ab67616d00001e02d318b3f27f967f4051c41687ab67616d00001e02db3afd4d9f5d714a3b340153",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02745381ee01fbb5037e9a2afcab67616d00001e027ae6e2eaa67c42d144006176ab67616d00001e02d318b3f27f967f4051c41687ab67616d00001e02db3afd4d9f5d714a3b340153",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02745381ee01fbb5037e9a2afcab67616d00001e027ae6e2eaa67c42d144006176ab67616d00001e02d318b3f27f967f4051c41687ab67616d00001e02db3afd4d9f5d714a3b340153",
+                    "width": 60
+                }
+            ],
+            "name": "classical",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjgsODA1Njg3YWE4YjYyMWU5YmE1OWY2YjdhYjY1YmZjYjFkMjVkMmIzNQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6KMBw9K2f3OZpETbvaRNA8/tracks",
+                "total": 27
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6KMBw9K2f3OZpETbvaRNA8"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/0vhtdsUO0RkIT1dNNjYvun"
+            },
+            "href": "https://api.spotify.com/v1/playlists/0vhtdsUO0RkIT1dNNjYvun",
+            "id": "0vhtdsUO0RkIT1dNNjYvun",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0209deebfa040d94e1a20f241aab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f3be4ade84915845ff73930e",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0209deebfa040d94e1a20f241aab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f3be4ade84915845ff73930e",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0209deebfa040d94e1a20f241aab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f3be4ade84915845ff73930e",
+                    "width": 60
+                }
+            ],
+            "name": "0° sadboy playlist",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTYsZGNmMjI4NDIzYWE5ZWIwNTFlZDI4MGM0NTE0ODZhZGNjNjI0ZGFlYQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/0vhtdsUO0RkIT1dNNjYvun/tracks",
+                "total": 12
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:0vhtdsUO0RkIT1dNNjYvun"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2oDdM9JRa44klFeqKFxygJ"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2oDdM9JRa44klFeqKFxygJ",
+            "id": "2oDdM9JRa44klFeqKFxygJ",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02442e4f93f926c3ad7c68b35aab67616d00001e024dd033f4cf3a0a58059cde69ab67616d00001e028fecbb709e781bb8fafc09edab67616d00001e02d93501aba7bc1140aac628c6",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02442e4f93f926c3ad7c68b35aab67616d00001e024dd033f4cf3a0a58059cde69ab67616d00001e028fecbb709e781bb8fafc09edab67616d00001e02d93501aba7bc1140aac628c6",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02442e4f93f926c3ad7c68b35aab67616d00001e024dd033f4cf3a0a58059cde69ab67616d00001e028fecbb709e781bb8fafc09edab67616d00001e02d93501aba7bc1140aac628c6",
+                    "width": 60
+                }
+            ],
+            "name": "funk/soul/nu-funk",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjUsMmRjOGIwYWQ2YjJjNDAwYTk2MjEwMTA3MTBlODllOGJlZjExMzk1ZA==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2oDdM9JRa44klFeqKFxygJ/tracks",
+                "total": 114
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2oDdM9JRa44klFeqKFxygJ"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4OIkDE9jM6JHFIVKQcIktA"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4OIkDE9jM6JHFIVKQcIktA",
+            "id": "4OIkDE9jM6JHFIVKQcIktA",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://i.scdn.co/image/ab67616d00001e02041caea9cfdff88bf42989d2",
+                    "width": null
+                }
+            ],
+            "name": "New Playlist",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "Miw0ZjY5NTY5MGFlNTM5MTk0MzlmMTY4MzQzMDRmNWU2ZmNlNjcyNDA5",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4OIkDE9jM6JHFIVKQcIktA/tracks",
+                "total": 1
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4OIkDE9jM6JHFIVKQcIktA"
+        },
+        {
+            "collaborative": false,
+            "description": "Spotify Wrapped presents the songs that you loved most this year.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1F0sijgNaJdgit"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1F0sijgNaJdgit",
+            "id": "37i9dQZF1F0sijgNaJdgit",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://wrapped-images.spotifycdn.com/image/yts-2022/default/your-top-songs-2022_default_en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "Your Top Songs 2022",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTY2OTkwODk2MiwwMDAwMDAwMGIwYjY1YjMyNjI3ZDRjNzIzZjlkOGYyMzVkY2RjNzc5",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1F0sijgNaJdgit/tracks",
+                "total": 101
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1F0sijgNaJdgit"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/50oerFUhcgiFVmucnd18dE"
+            },
+            "href": "https://api.spotify.com/v1/playlists/50oerFUhcgiFVmucnd18dE",
+            "id": "50oerFUhcgiFVmucnd18dE",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e020ab3c2a306c614fae36ff1d6ab67616d00001e0248a332aa0194080a4e7dacbdab67616d00001e025b96a8c5d61be8878452f8f1ab67616d00001e028f2a4d47a6d4e57169b9ff46",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e020ab3c2a306c614fae36ff1d6ab67616d00001e0248a332aa0194080a4e7dacbdab67616d00001e025b96a8c5d61be8878452f8f1ab67616d00001e028f2a4d47a6d4e57169b9ff46",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e020ab3c2a306c614fae36ff1d6ab67616d00001e0248a332aa0194080a4e7dacbdab67616d00001e025b96a8c5d61be8878452f8f1ab67616d00001e028f2a4d47a6d4e57169b9ff46",
+                    "width": 60
+                }
+            ],
+            "name": "new nonexplicitall3",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NCwwOTAxYzU3MGM4MjllNTNlZGEyNjU5ZmE4OTliYjQ1MDBlM2IzY2I1",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/50oerFUhcgiFVmucnd18dE/tracks",
+                "total": 198
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:50oerFUhcgiFVmucnd18dE"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2u6ZGZPysxuEiLjlWx7dq6"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2u6ZGZPysxuEiLjlWx7dq6",
+            "id": "2u6ZGZPysxuEiLjlWx7dq6",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://i.scdn.co/image/ab67616d00001e021523d6c20b83aaf2ab7f2f06",
+                    "width": null
+                }
+            ],
+            "name": "ep2",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MyxmODQ3OGFiMTAxNTYzNzZlN2UzMTMxMjU3N2IwNmU2ZDg4NjBlNWZl",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2u6ZGZPysxuEiLjlWx7dq6/tracks",
+                "total": 2
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2u6ZGZPysxuEiLjlWx7dq6"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6Bnpgr6dirzESytlReXv3p"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6Bnpgr6dirzESytlReXv3p",
+            "id": "6Bnpgr6dirzESytlReXv3p",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e022b688ab63b1a5f281cfdf451ab67616d00001e0278bd1454ccbb86ab168e1641ab67616d00001e02aac20d5f8a96a41831a10c80ab67616d00001e02b341b024365c7629e6b94c0c",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e022b688ab63b1a5f281cfdf451ab67616d00001e0278bd1454ccbb86ab168e1641ab67616d00001e02aac20d5f8a96a41831a10c80ab67616d00001e02b341b024365c7629e6b94c0c",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e022b688ab63b1a5f281cfdf451ab67616d00001e0278bd1454ccbb86ab168e1641ab67616d00001e02aac20d5f8a96a41831a10c80ab67616d00001e02b341b024365c7629e6b94c0c",
+                    "width": 60
+                }
+            ],
+            "name": "if(songDuration<100seconds)",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjMsMGZmNDExMGE3ODAxMDEzMjkxMTQ4ZGM4YjE5ZDUxN2ViMGEzODVhYw==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6Bnpgr6dirzESytlReXv3p/tracks",
+                "total": 43
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6Bnpgr6dirzESytlReXv3p"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2ZteOjnsoI4VVr5zkQuOrs"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2ZteOjnsoI4VVr5zkQuOrs",
+            "id": "2ZteOjnsoI4VVr5zkQuOrs",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02124229ca3bb29735788c824cab67616d00001e02614806167e83311f562aae55ab67616d00001e027ba7b4d23c717f3211717946ab67616d00001e02f9dfdba767ef4771f5764889",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02124229ca3bb29735788c824cab67616d00001e02614806167e83311f562aae55ab67616d00001e027ba7b4d23c717f3211717946ab67616d00001e02f9dfdba767ef4771f5764889",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02124229ca3bb29735788c824cab67616d00001e02614806167e83311f562aae55ab67616d00001e027ba7b4d23c717f3211717946ab67616d00001e02f9dfdba767ef4771f5764889",
+                    "width": 60
+                }
+            ],
+            "name": "parkhaus #1",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjUsMTI4NTc5ZmRiMWE5ODY5N2MwZWE2OWU3NzU4ZmEwYzAyNGZmNmNhMg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2ZteOjnsoI4VVr5zkQuOrs/tracks",
+                "total": 50
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2ZteOjnsoI4VVr5zkQuOrs"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2LU3dyZ2yYFGsakNRgfe9e"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2LU3dyZ2yYFGsakNRgfe9e",
+            "id": "2LU3dyZ2yYFGsakNRgfe9e",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0205d793147a986ca19caa3fa2ab67616d00001e0293086ab0bce33a2829d89134ab67616d00001e02f3eadbd4a68c11b0c8fe7143ab67616d00001e02f74e749f968820d913e3ede2",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0205d793147a986ca19caa3fa2ab67616d00001e0293086ab0bce33a2829d89134ab67616d00001e02f3eadbd4a68c11b0c8fe7143ab67616d00001e02f74e749f968820d913e3ede2",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0205d793147a986ca19caa3fa2ab67616d00001e0293086ab0bce33a2829d89134ab67616d00001e02f3eadbd4a68c11b0c8fe7143ab67616d00001e02f74e749f968820d913e3ede2",
+                    "width": 60
+                }
+            ],
+            "name": "uk rap hard",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTAsYWNkMjU0OGY1NzU3NTkyNjlkM2EwZWQxOTM4ZDYxMGUwMmQ5NDVlMA==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2LU3dyZ2yYFGsakNRgfe9e/tracks",
+                "total": 7
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2LU3dyZ2yYFGsakNRgfe9e"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/1G6DAfISuPBEBpFWAHINoL"
+            },
+            "href": "https://api.spotify.com/v1/playlists/1G6DAfISuPBEBpFWAHINoL",
+            "id": "1G6DAfISuPBEBpFWAHINoL",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e026e043627e6b575fba76f3fcdab67616d00001e028ee3216f2cdae4e6df1e9858ab67616d00001e02c520298bb9aae2aff253b35aab67616d00001e02d1b1f543506509b265baa6db",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e026e043627e6b575fba76f3fcdab67616d00001e028ee3216f2cdae4e6df1e9858ab67616d00001e02c520298bb9aae2aff253b35aab67616d00001e02d1b1f543506509b265baa6db",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e026e043627e6b575fba76f3fcdab67616d00001e028ee3216f2cdae4e6df1e9858ab67616d00001e02c520298bb9aae2aff253b35aab67616d00001e02d1b1f543506509b265baa6db",
+                    "width": 60
+                }
+            ],
+            "name": "precovid",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "OCw2ZmViMjExMzUxMjNlYzVlYjI2YWE0N2ZmMWNjODc0YTVhNzcxMTBm",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/1G6DAfISuPBEBpFWAHINoL/tracks",
+                "total": 173
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:1G6DAfISuPBEBpFWAHINoL"
+        },
+        {
+            "collaborative": false,
+            "description": "A Blend of music for Will and Robin. Updates daily.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EJHN7YSX0XkS6"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJHN7YSX0XkS6",
+            "id": "37i9dQZF1EJHN7YSX0XkS6",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://blend-playlist-covers.spotifycdn.com/v2/blend_DEFAULT-royal-azure-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "Robin + Will",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MCwwMDAwMDAwMGJlMjMwNzc0NDc1ZjNkODBjNTA5NjUxOTIyMmJmZjRk",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJHN7YSX0XkS6/tracks",
+                "total": 50
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EJHN7YSX0XkS6"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/0RRL9PXHka5g2RY2ofExBm"
+            },
+            "href": "https://api.spotify.com/v1/playlists/0RRL9PXHka5g2RY2ofExBm",
+            "id": "0RRL9PXHka5g2RY2ofExBm",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0263a28c5ecb7b13e9b329fe47ab67616d00001e026b3fa88bdd4af566fbbf2bbfab67616d00001e02adba877024420660db2f124eab67616d00001e02ff04d490d9d10ea687f38f36",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0263a28c5ecb7b13e9b329fe47ab67616d00001e026b3fa88bdd4af566fbbf2bbfab67616d00001e02adba877024420660db2f124eab67616d00001e02ff04d490d9d10ea687f38f36",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0263a28c5ecb7b13e9b329fe47ab67616d00001e026b3fa88bdd4af566fbbf2bbfab67616d00001e02adba877024420660db2f124eab67616d00001e02ff04d490d9d10ea687f38f36",
+                    "width": 60
+                }
+            ],
+            "name": "Childhood Songs",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NTAsZDAxMDc3MTZlYmRhNDM4M2QzNDczNmFmMDY3ZDMxZTlkNWNlNzg3Nw==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/0RRL9PXHka5g2RY2ofExBm/tracks",
+                "total": 43
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:0RRL9PXHka5g2RY2ofExBm"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2n7X6eaJuAD0w3XtRP77JN"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2n7X6eaJuAD0w3XtRP77JN",
+            "id": "2n7X6eaJuAD0w3XtRP77JN",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0248905438b9c1153978d9fbf4ab67616d00001e02656094f05ffe84c3b41564d2ab67616d00001e02716c5161a4ec4a746ab3d4c6ab67616d00001e02779c4164a3cb1e610a757c41",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0248905438b9c1153978d9fbf4ab67616d00001e02656094f05ffe84c3b41564d2ab67616d00001e02716c5161a4ec4a746ab3d4c6ab67616d00001e02779c4164a3cb1e610a757c41",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0248905438b9c1153978d9fbf4ab67616d00001e02656094f05ffe84c3b41564d2ab67616d00001e02716c5161a4ec4a746ab3d4c6ab67616d00001e02779c4164a3cb1e610a757c41",
+                    "width": 60
+                }
+            ],
+            "name": "Tom Study Playlist",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NSwxYTNkZTk1NjI1MDNjYWZmNmZlMjgyMWVlZDAzYmNiMDdlOTYwOGJm",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2n7X6eaJuAD0w3XtRP77JN/tracks",
+                "total": 51
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2n7X6eaJuAD0w3XtRP77JN"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4vzSBhZtDq4F2351WlLp2b"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4vzSBhZtDq4F2351WlLp2b",
+            "id": "4vzSBhZtDq4F2351WlLp2b",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0266d037cf8b24ead88d627002ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02982db04b2bb25f6aeba8f883",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0266d037cf8b24ead88d627002ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02982db04b2bb25f6aeba8f883",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e0266d037cf8b24ead88d627002ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02982db04b2bb25f6aeba8f883",
+                    "width": 60
+                }
+            ],
+            "name": "girlboss",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTIsNDI1OGMzNzEyMGVmMWQ5ZjMwY2U1N2MyMmZlOGEyZTMzN2RjZDE2OA==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4vzSBhZtDq4F2351WlLp2b/tracks",
+                "total": 11
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4vzSBhZtDq4F2351WlLp2b"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/7bBUJRc5Gc7v5hRtPxcTRz"
+            },
+            "href": "https://api.spotify.com/v1/playlists/7bBUJRc5Gc7v5hRtPxcTRz",
+            "id": "7bBUJRc5Gc7v5hRtPxcTRz",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02522088789d49e216d9818292ab67616d00001e0268291485ab17b16fa22fc157ab67616d00001e028bc26cf8917baaccc8fa0263ab67616d00001e02cbee7274742b0471f39bb8c8",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02522088789d49e216d9818292ab67616d00001e0268291485ab17b16fa22fc157ab67616d00001e028bc26cf8917baaccc8fa0263ab67616d00001e02cbee7274742b0471f39bb8c8",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02522088789d49e216d9818292ab67616d00001e0268291485ab17b16fa22fc157ab67616d00001e028bc26cf8917baaccc8fa0263ab67616d00001e02cbee7274742b0471f39bb8c8",
+                    "width": 60
+                }
+            ],
+            "name": "rick",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjIsM2I0NTNiOWMzNmI0N2NmODhjNWNiZmFmZjM2ZWM4MDk1OTdkZDk1Ng==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/7bBUJRc5Gc7v5hRtPxcTRz/tracks",
+                "total": 399
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:7bBUJRc5Gc7v5hRtPxcTRz"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/3CLpOkZF26vaufaZiod3GC"
+            },
+            "href": "https://api.spotify.com/v1/playlists/3CLpOkZF26vaufaZiod3GC",
+            "id": "3CLpOkZF26vaufaZiod3GC",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0230b7c883e2f389dfa0cbd788ab67616d00001e0255a789c4f1ce0bba65f0f23cab67616d00001e025c2bbb4d4a66a70310705a26ab67616d00001e02ce584b8a74f770afbe11effd",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0230b7c883e2f389dfa0cbd788ab67616d00001e0255a789c4f1ce0bba65f0f23cab67616d00001e025c2bbb4d4a66a70310705a26ab67616d00001e02ce584b8a74f770afbe11effd",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0230b7c883e2f389dfa0cbd788ab67616d00001e0255a789c4f1ce0bba65f0f23cab67616d00001e025c2bbb4d4a66a70310705a26ab67616d00001e02ce584b8a74f770afbe11effd",
+                    "width": 60
+                }
+            ],
+            "name": "Cruise",
+            "owner": {
+                "display_name": "Otis Llewelyn",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/otis.llewelyn"
+                },
+                "href": "https://api.spotify.com/v1/users/otis.llewelyn",
+                "id": "otis.llewelyn",
+                "type": "user",
+                "uri": "spotify:user:otis.llewelyn"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTk5LDY3OTE4MzhhMjhlM2MyZWFhMTcxMDYxYTI0MGMyNjkxMmVjNWM1Zjc=",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/3CLpOkZF26vaufaZiod3GC/tracks",
+                "total": 183
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:3CLpOkZF26vaufaZiod3GC"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6dunrMhGfowTIKId0vieQy"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6dunrMhGfowTIKId0vieQy",
+            "id": "6dunrMhGfowTIKId0vieQy",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 60
+                }
+            ],
+            "name": "my2021wrapped",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTgsOGYxMDRlOTQ3NTA4NTZkNDU1ODg5NTgxZjFiODZjMzViNjQwZDEwNA==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6dunrMhGfowTIKId0vieQy/tracks",
+                "total": 247
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6dunrMhGfowTIKId0vieQy"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/5c8RB1gMzm33rBVhjjVKVA"
+            },
+            "href": "https://api.spotify.com/v1/playlists/5c8RB1gMzm33rBVhjjVKVA",
+            "id": "5c8RB1gMzm33rBVhjjVKVA",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0240afe2a312edbffa77ddc0faab67616d00001e0244802dc485228e30dde733e5ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f18ce5dc5f6b0843d3acb3a1",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0240afe2a312edbffa77ddc0faab67616d00001e0244802dc485228e30dde733e5ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f18ce5dc5f6b0843d3acb3a1",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0240afe2a312edbffa77ddc0faab67616d00001e0244802dc485228e30dde733e5ab67616d00001e02814a962d5e9ba9ea06f79023ab67616d00001e02f18ce5dc5f6b0843d3acb3a1",
+                    "width": 60
+                }
+            ],
+            "name": "new nonexplicitall2",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NSw3YmY2YTI0N2M2MTllMWY5N2RjNTUzNmIwOGU3M2Y5OWY0NjBjMWQz",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/5c8RB1gMzm33rBVhjjVKVA/tracks",
+                "total": 199
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:5c8RB1gMzm33rBVhjjVKVA"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/2GPGjCCdPZj3aEmFjWNhnb"
+            },
+            "href": "https://api.spotify.com/v1/playlists/2GPGjCCdPZj3aEmFjWNhnb",
+            "id": "2GPGjCCdPZj3aEmFjWNhnb",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e0207b9574a2cf41fe96ec45da6ab67616d00001e02b086f2120ea7bcb255c4e6c6ab67616d00001e02b87772e38f7bbb22ef5e3466ab67616d00001e02c732e03beb714b758f273bf3",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e0207b9574a2cf41fe96ec45da6ab67616d00001e02b086f2120ea7bcb255c4e6c6ab67616d00001e02b87772e38f7bbb22ef5e3466ab67616d00001e02c732e03beb714b758f273bf3",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e0207b9574a2cf41fe96ec45da6ab67616d00001e02b086f2120ea7bcb255c4e6c6ab67616d00001e02b87772e38f7bbb22ef5e3466ab67616d00001e02c732e03beb714b758f273bf3",
+                    "width": 60
+                }
+            ],
+            "name": "uk bass garage",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NCwwNDM4NjYzNzU2OWUxZWJiNjkzYjI5NGQ2ZjE1ZjY2MWMxZTI5YjA3",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/2GPGjCCdPZj3aEmFjWNhnb/tracks",
+                "total": 47
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:2GPGjCCdPZj3aEmFjWNhnb"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/7Gqzm3PKt2knleOXlFWkT0"
+            },
+            "href": "https://api.spotify.com/v1/playlists/7Gqzm3PKt2knleOXlFWkT0",
+            "id": "7Gqzm3PKt2knleOXlFWkT0",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://i.scdn.co/image/ab67616d00001e02e54c289abc53cb789c2c4917",
+                    "width": null
+                }
+            ],
+            "name": "uk rap chill",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NSwyZDk3ZTYwZmFjN2EzZDEzYTEzMjUwOWY2NDc2ZDkxYjU1ODYwMWZl",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/7Gqzm3PKt2knleOXlFWkT0/tracks",
+                "total": 2
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:7Gqzm3PKt2knleOXlFWkT0"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/5nSEviqSWScgfF9thBuPPS"
+            },
+            "href": "https://api.spotify.com/v1/playlists/5nSEviqSWScgfF9thBuPPS",
+            "id": "5nSEviqSWScgfF9thBuPPS",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02239212cc0f6ff2bcee996985ab67616d00001e025129948cc53157d41b8c23b8ab67616d00001e028a0401c57cf7409a3bb8b1b8ab67616d00001e02d9ac65941679b76106866c87",
+                    "width": 60
+                }
+            ],
+            "name": "chunes for quaran-times",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NixjZjIwZTQ4MmMwZTM3Y2EzNDVmZGNjZDBkYzhiZjNhMTRlZGRiZDE2",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/5nSEviqSWScgfF9thBuPPS/tracks",
+                "total": 116
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:5nSEviqSWScgfF9thBuPPS"
+        },
+        {
+            "collaborative": false,
+            "description": "A Blend of music for Will and mel. Updates daily.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EJHv4dX5s1NWE"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJHv4dX5s1NWE",
+            "id": "37i9dQZF1EJHv4dX5s1NWE",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://blend-playlist-covers.spotifycdn.com/v2/blend_DEFAULT-lavender-royal-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "mel + Will",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MCwwMDAwMDAwMDNiNmE4YTViYWRiYjkzYTdmNjc5YWE3ZjE3YTdhMWZi",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJHv4dX5s1NWE/tracks",
+                "total": 50
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EJHv4dX5s1NWE"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/62qDfJdgEmFvM09Y4KHCDk"
+            },
+            "href": "https://api.spotify.com/v1/playlists/62qDfJdgEmFvM09Y4KHCDk",
+            "id": "62qDfJdgEmFvM09Y4KHCDk",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84145f89cc86b2e8b97868294a",
+                    "width": null
+                }
+            ],
+            "name": "for you yes",
+            "owner": {
+                "display_name": "Robin Sheep",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/robinmilou1"
+                },
+                "href": "https://api.spotify.com/v1/users/robinmilou1",
+                "id": "robinmilou1",
+                "type": "user",
+                "uri": "spotify:user:robinmilou1"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NTY5LGRjNTk0MzY0YzJlODA4ODE3MmFkNzE4NDk4ZDZkMzIwYjA4NTU5MGU=",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/62qDfJdgEmFvM09Y4KHCDk/tracks",
+                "total": 469
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:62qDfJdgEmFvM09Y4KHCDk"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/76cYoldcIrZyvkATxMh6fA"
+            },
+            "href": "https://api.spotify.com/v1/playlists/76cYoldcIrZyvkATxMh6fA",
+            "id": "76cYoldcIrZyvkATxMh6fA",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e027aede4855f6d0d738012e2e5ab67616d00001e02ab6b9fb78a5506e4b4d40429ab67616d00001e02c5649add07ed3720be9d5526ab67616d00001e02fa6e1886bb6917b4f472b51e",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e027aede4855f6d0d738012e2e5ab67616d00001e02ab6b9fb78a5506e4b4d40429ab67616d00001e02c5649add07ed3720be9d5526ab67616d00001e02fa6e1886bb6917b4f472b51e",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e027aede4855f6d0d738012e2e5ab67616d00001e02ab6b9fb78a5506e4b4d40429ab67616d00001e02c5649add07ed3720be9d5526ab67616d00001e02fa6e1886bb6917b4f472b51e",
+                    "width": 60
+                }
+            ],
+            "name": "sad",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjgsY2ZjOTM4MDFmNWU3ZGVkMjhmYWRkMzE3MzM0YmQ1MWUxZTgyNzljYg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/76cYoldcIrZyvkATxMh6fA/tracks",
+                "total": 24
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:76cYoldcIrZyvkATxMh6fA"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/4TuKWDVWmkIIWW7sqAW6Rl"
+            },
+            "href": "https://api.spotify.com/v1/playlists/4TuKWDVWmkIIWW7sqAW6Rl",
+            "id": "4TuKWDVWmkIIWW7sqAW6Rl",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e020be3f5ac465d388c03d92737ab67616d00001e022cd3ecc89d1d99d804448155ab67616d00001e02508ba55691701655a8d9f70cab67616d00001e02b238363745a0e1770d8261ab",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e020be3f5ac465d388c03d92737ab67616d00001e022cd3ecc89d1d99d804448155ab67616d00001e02508ba55691701655a8d9f70cab67616d00001e02b238363745a0e1770d8261ab",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e020be3f5ac465d388c03d92737ab67616d00001e022cd3ecc89d1d99d804448155ab67616d00001e02508ba55691701655a8d9f70cab67616d00001e02b238363745a0e1770d8261ab",
+                    "width": 60
+                }
+            ],
+            "name": "ARTIST BANK",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MzIsMDg0N2YzOGYyMWE2ZDg1YmJkM2QxMjAyODJjNjMxYjBmOGNkOWJiYg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/4TuKWDVWmkIIWW7sqAW6Rl/tracks",
+                "total": 5637
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:4TuKWDVWmkIIWW7sqAW6Rl"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6yPmXfSUBokI9B7rWXawv6"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6yPmXfSUBokI9B7rWXawv6",
+            "id": "6yPmXfSUBokI9B7rWXawv6",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02615d6910181bc514d4c4b011ab67616d00001e028f5f3132d8e9743a0d783133ab67616d00001e0297735761179f880b86c6031eab67616d00001e02c6b31d9de8df430efab41836",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02615d6910181bc514d4c4b011ab67616d00001e028f5f3132d8e9743a0d783133ab67616d00001e0297735761179f880b86c6031eab67616d00001e02c6b31d9de8df430efab41836",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02615d6910181bc514d4c4b011ab67616d00001e028f5f3132d8e9743a0d783133ab67616d00001e0297735761179f880b86c6031eab67616d00001e02c6b31d9de8df430efab41836",
+                    "width": 60
+                }
+            ],
+            "name": "this_shit_hard",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MzAsZjRjODkwZThhNGZmNTU3YWUxYTdkZmQ2MzdkZGY4NjE5NzU2Mjk2YQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6yPmXfSUBokI9B7rWXawv6/tracks",
+                "total": 29
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6yPmXfSUBokI9B7rWXawv6"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/0gjFVZx4dD4xOfQ0dZHP9g"
+            },
+            "href": "https://api.spotify.com/v1/playlists/0gjFVZx4dD4xOfQ0dZHP9g",
+            "id": "0gjFVZx4dD4xOfQ0dZHP9g",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02278cda4ddf485de7a9eb80eaab67616d00001e027738a617b0e3f28609a21be5ab67616d00001e0292220ddc85c298e63030de13ab67616d00001e02c7f31d09ade27626366bb6c3",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02278cda4ddf485de7a9eb80eaab67616d00001e027738a617b0e3f28609a21be5ab67616d00001e0292220ddc85c298e63030de13ab67616d00001e02c7f31d09ade27626366bb6c3",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02278cda4ddf485de7a9eb80eaab67616d00001e027738a617b0e3f28609a21be5ab67616d00001e0292220ddc85c298e63030de13ab67616d00001e02c7f31d09ade27626366bb6c3",
+                    "width": 60
+                }
+            ],
+            "name": "\"ukrap\"",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NTMsOWIzY2YzM2JlODdhMzNmZmMyZDExYWEyZDhhZTdkYWQyYTUxNjliNg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/0gjFVZx4dD4xOfQ0dZHP9g/tracks",
+                "total": 252
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:0gjFVZx4dD4xOfQ0dZHP9g"
+        },
+        {
+            "collaborative": false,
+            "description": "Songs you love right now",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EpkZ4DVSoBcYO"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EpkZ4DVSoBcYO",
+            "id": "37i9dQZF1EpkZ4DVSoBcYO",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://daily-mix.scdn.co/covers/on_repeat/PZN_On_Repeat2_DEFAULT-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "On Repeat",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTcxMzU5ODE5OSwwMDAwMDAwMDhiMmFhMGI3MzYxZWIyMmNiY2Q0OWZkMTU0ZmYxMjY2",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EpkZ4DVSoBcYO/tracks",
+                "total": 30
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EpkZ4DVSoBcYO"
+        },
+        {
+            "collaborative": false,
+            "description": "Spotify Wrapped presents the songs that you loved most this year.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EUMDoJuT8yJsl"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EUMDoJuT8yJsl",
+            "id": "37i9dQZF1EUMDoJuT8yJsl",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://lineup-images.scdn.co/wrapped-2021-top100_DEFAULT-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "Your Top Songs 2021",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MCwwMDAwMDAwMDBmYTRkMTA5YTE3N2E0YzFlY2YwZDMyNTIzNTMyMDA4",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EUMDoJuT8yJsl/tracks",
+                "total": 100
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EUMDoJuT8yJsl"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/7KEhG7l0LfvoqT7epfFbxy"
+            },
+            "href": "https://api.spotify.com/v1/playlists/7KEhG7l0LfvoqT7epfFbxy",
+            "id": "7KEhG7l0LfvoqT7epfFbxy",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e024489b269382c5fb10dc129edab67616d00001e0259332a8db76d2ee8fbc7d782ab67616d00001e0277b650bf4a0ef1f76a3df7e9",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e024489b269382c5fb10dc129edab67616d00001e0259332a8db76d2ee8fbc7d782ab67616d00001e0277b650bf4a0ef1f76a3df7e9",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e02093d53c7c101801e616515ccab67616d00001e024489b269382c5fb10dc129edab67616d00001e0259332a8db76d2ee8fbc7d782ab67616d00001e0277b650bf4a0ef1f76a3df7e9",
+                    "width": 60
+                }
+            ],
+            "name": "new nonexplicitall1",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MjcsODc0NjFjYTc5MGMxNzY4NmFiYzFlMDQ1NTcxNDEzOWQ1N2U4ZmM0Zg==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/7KEhG7l0LfvoqT7epfFbxy/tracks",
+                "total": 118
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:7KEhG7l0LfvoqT7epfFbxy"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/5yzSLn88GXg0X7vuBb9l2b"
+            },
+            "href": "https://api.spotify.com/v1/playlists/5yzSLn88GXg0X7vuBb9l2b",
+            "id": "5yzSLn88GXg0X7vuBb9l2b",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e023b104b3cfcf52e380e90254dab67616d00001e02a3d45662e302c1dab3329d73ab67616d00001e02d1d3f6f4b7e294b9bd28f38aab67616d00001e02ec3fb627f768991662b2870e",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e023b104b3cfcf52e380e90254dab67616d00001e02a3d45662e302c1dab3329d73ab67616d00001e02d1d3f6f4b7e294b9bd28f38aab67616d00001e02ec3fb627f768991662b2870e",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e023b104b3cfcf52e380e90254dab67616d00001e02a3d45662e302c1dab3329d73ab67616d00001e02d1d3f6f4b7e294b9bd28f38aab67616d00001e02ec3fb627f768991662b2870e",
+                    "width": 60
+                }
+            ],
+            "name": "house techy",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "NSw4NGQ3OWYwMWJlZmFkOGFmYmE5ODMwM2RmOGM5NDU3ZDc5ZTBhYzEw",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/5yzSLn88GXg0X7vuBb9l2b/tracks",
+                "total": 102
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:5yzSLn88GXg0X7vuBb9l2b"
+        },
+        {
+            "collaborative": false,
+            "description": "",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/6u1pEtkx5MVPtAe7go9Yyp"
+            },
+            "href": "https://api.spotify.com/v1/playlists/6u1pEtkx5MVPtAe7go9Yyp",
+            "id": "6u1pEtkx5MVPtAe7go9Yyp",
+            "images": [
+                {
+                    "height": 640,
+                    "url": "https://mosaic.scdn.co/640/ab67616d00001e023053671cc384167e7b172aa4ab67616d00001e0250b8d9fc430033813d9a009eab67616d00001e02713a9bf340b5d911a4401cd7ab67616d00001e02c344890974354c1f01f50f00",
+                    "width": 640
+                },
+                {
+                    "height": 300,
+                    "url": "https://mosaic.scdn.co/300/ab67616d00001e023053671cc384167e7b172aa4ab67616d00001e0250b8d9fc430033813d9a009eab67616d00001e02713a9bf340b5d911a4401cd7ab67616d00001e02c344890974354c1f01f50f00",
+                    "width": 300
+                },
+                {
+                    "height": 60,
+                    "url": "https://mosaic.scdn.co/60/ab67616d00001e023053671cc384167e7b172aa4ab67616d00001e0250b8d9fc430033813d9a009eab67616d00001e02713a9bf340b5d911a4401cd7ab67616d00001e02c344890974354c1f01f50f00",
+                    "width": 60
+                }
+            ],
+            "name": "us rap hard",
+            "owner": {
+                "display_name": "Will Parkhouse",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/williamp321"
+                },
+                "href": "https://api.spotify.com/v1/users/williamp321",
+                "id": "williamp321",
+                "type": "user",
+                "uri": "spotify:user:williamp321"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MTYsY2E5MWRlYzJhYThlOWE3YzNlN2ZjY2NmOTJlYjZhYTAxZWVmMzljZQ==",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/6u1pEtkx5MVPtAe7go9Yyp/tracks",
+                "total": 26
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:6u1pEtkx5MVPtAe7go9Yyp"
+        },
+        {
+            "collaborative": false,
+            "description": "A Blend of music for Will and isabelle. Updates daily.",
+            "external_urls": {
+                "spotify": "https://open.spotify.com/playlist/37i9dQZF1EJE3QFjyIGuLd"
+            },
+            "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJE3QFjyIGuLd",
+            "id": "37i9dQZF1EJE3QFjyIGuLd",
+            "images": [
+                {
+                    "height": null,
+                    "url": "https://blend-playlist-covers.spotifycdn.com/v2/blend_DEFAULT-lavender-royal-en.jpg",
+                    "width": null
+                }
+            ],
+            "name": "isabelle + Will",
+            "owner": {
+                "display_name": "Spotify",
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/user/spotify"
+                },
+                "href": "https://api.spotify.com/v1/users/spotify",
+                "id": "spotify",
+                "type": "user",
+                "uri": "spotify:user:spotify"
+            },
+            "primary_color": null,
+            "public": true,
+            "snapshot_id": "MCwwMDAwMDAwMDUyYjIzYmVlY2JlNGE0YWYxMGQyOGQ2ZmQwZWZjNTk0",
+            "tracks": {
+                "href": "https://api.spotify.com/v1/playlists/37i9dQZF1EJE3QFjyIGuLd/tracks",
+                "total": 50
+            },
+            "type": "playlist",
+            "uri": "spotify:playlist:37i9dQZF1EJE3QFjyIGuLd"
+        }
+    ]
+}

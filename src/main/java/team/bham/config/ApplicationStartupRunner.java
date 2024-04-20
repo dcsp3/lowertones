@@ -58,7 +58,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
 
         //lol
         //if (albumRepository.count() < 150)
-        //runCustomScript();
+        runCustomScript();
     }
 
     private void runCustomScript() {
@@ -99,11 +99,11 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         } else if (activeProfile.contains("dev")) {
             //run import
             try {
-                Map<Long, Long> albumIDMap = databaseImportService.importAlbums(
-                    "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\album_table.csv"
-                );
                 Map<Long, Long> artistIDMap = databaseImportService.importArtists(
                     "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\artists_table.csv"
+                );
+                Map<Long, Long> albumIDMap = databaseImportService.importAlbums(
+                    "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\album_table.csv"
                 );
                 databaseImportService.importArtistAlbumLinks(
                     "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\artist_album_mapping.csv",
@@ -166,8 +166,13 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
                     "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\tracks_split\\tracks_part_14.csv",
                     albumIDMap
                 );
-                //databaseImportService.importGenres("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\genres_table.csv", artistIDMap);
-                //databaseImportService.importRelatedArtists("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\related_artists_table.csv");
+                databaseImportService.importGenres(
+                    "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\SPOTIFY_GENRE_ENTITY.csv",
+                    artistIDMap
+                );
+                databaseImportService.importRelatedArtists(
+                    "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\related_artists.csv"
+                );
                 //databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv", artistIDMap);
                 //databaseImportService.importSongArtistLinks???
                 //databaseImportService.importSongGenreLinks???
