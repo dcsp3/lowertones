@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Playlist;
 
@@ -29,4 +30,15 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
         }
     )
     Optional<Playlist> findById(Long id);
+
+    @Query(
+        "SELECT COUNT(DISTINCT song.id) FROM Playlist p " +
+        "JOIN p.playlistSongJoins psj " +
+        "JOIN psj.song song " +
+        "JOIN song.songArtistJoins saj " +
+        "JOIN saj.mainArtist artist " +
+        "WHERE artist.artistSpotifyID = :artistSpotifyId " +
+        "AND p.appUser.id = :userId"
+    )
+    int countSongsByArtistInUserLibrary(@Param("userId") Long userId, @Param("artistSpotifyId") String artistSpotifyId);
 }

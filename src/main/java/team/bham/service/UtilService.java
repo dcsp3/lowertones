@@ -59,6 +59,12 @@ public class UtilService {
     }
 
     @Transactional
+    public int countSongsByArtistInLibrary(AppUser appUser, String artistSpotifyId) {
+        long appUserId = appUser.getId();
+        return playlistRepository.countSongsByArtistInUserLibrary(appUserId, artistSpotifyId);
+    }
+
+    @Transactional
     public List<Song> getEntireLibrarySongs(AppUser user) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
