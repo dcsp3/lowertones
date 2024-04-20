@@ -5,11 +5,14 @@ package team.bham.service.dto;
 
 public class VisualisationsDTO {
 
-    private float topArtist1Percent;
-    private float topArtist2Percent;
-    private float topArtist3Percent;
-    private float topArtist4Percent;
-    private float topArtist5Percent;
+    private int numOfSongs;
+
+    // variables for the top 5 artists
+    private int topArtist1Count;
+    private int topArtist2Count;
+    private int topArtist3Count;
+    private int topArtist4Count;
+    private int topArtist5Count;
 
     private String topArtist1Name;
     private String topArtist2Name;
@@ -17,46 +20,76 @@ public class VisualisationsDTO {
     private String topArtist4Name;
     private String topArtist5Name;
 
+    // variables for the top 5 genres
+    private int topGenre1Percent;
+    private int topGenre2Percent;
+    private int topGenre3Percent;
+    private int topGenre4Percent;
+    private int topGenre5Percent;
+
+    private String topGenre1Name;
+    private String topGenre2Name;
+    private String topGenre3Name;
+    private String topGenre4Name;
+    private String topGenre5Name;
+
+    // variables for the features of the users liked songs
+    private float Avgpopularity;
+    private float AvgDanceability;
+    private float AvgEnergy;
+    private float AvgAcousticness;
+    private float AvgTempo;
+
+    // Constructor
     public VisualisationsDTO() {}
 
-    public float getTopArtist1Percent() {
-        return topArtist1Percent;
+    // Getters and Setters of the above variables
+    public int getNumOfSongs() {
+        return numOfSongs;
     }
 
-    public void setTopArtist1Percent(float topArtist1Percent) {
-        this.topArtist1Percent = topArtist1Percent;
+    public void setNumOfSongs(int numOfSongs) {
+        this.numOfSongs = numOfSongs;
     }
 
-    public float getTopArtist2Percent() {
-        return topArtist2Percent;
+    public float getTopArtist1Count() {
+        return topArtist1Count;
     }
 
-    public void setTopArtist2Percent(float topArtist2Percent) {
-        this.topArtist2Percent = topArtist2Percent;
+    public void setTopArtist1Count(int topArtist1Count) {
+        this.topArtist1Count = topArtist1Count;
     }
 
-    public float getTopArtist3Percent() {
-        return topArtist3Percent;
+    public float getTopArtist2Count() {
+        return topArtist2Count;
     }
 
-    public void setTopArtist3Percent(float topArtist3Percent) {
-        this.topArtist3Percent = topArtist3Percent;
+    public void setTopArtist2Count(int topArtist2Count) {
+        this.topArtist2Count = topArtist2Count;
     }
 
-    public float getTopArtist4Percent() {
-        return topArtist4Percent;
+    public float getTopArtist3Count() {
+        return topArtist3Count;
     }
 
-    public void setTopArtist4Percent(float topArtist4Percent) {
-        this.topArtist4Percent = topArtist4Percent;
+    public void setTopArtist3Count(int topArtist3Count) {
+        this.topArtist3Count = topArtist3Count;
     }
 
-    public float getTopArtist5Percent() {
-        return topArtist5Percent;
+    public float getTopArtist4Count() {
+        return topArtist4Count;
     }
 
-    public void setTopArtist5Percent(float topArtist5Percent) {
-        this.topArtist5Percent = topArtist5Percent;
+    public void setTopArtist4Count(int topArtist4Count) {
+        this.topArtist4Count = topArtist4Count;
+    }
+
+    public float getTopArtist5Count() {
+        return topArtist5Count;
+    }
+
+    public void setTopArtist5Count(int topArtist5Count) {
+        this.topArtist5Count = topArtist5Count;
     }
 
     public String getTopArtist1Name() {
