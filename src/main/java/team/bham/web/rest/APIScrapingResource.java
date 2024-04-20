@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import javax.swing.text.StyledEditorKit.BoldAction;
 import org.json.JSONArray;
@@ -31,6 +32,7 @@ import team.bham.domain.*;
 import team.bham.domain.enumeration.AlbumType;
 import team.bham.domain.enumeration.ReleaseDatePrecision;
 import team.bham.repository.*;
+import team.bham.service.APIScrapingService;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
 import team.bham.service.SpotifyAPIWrapperService;
@@ -56,6 +58,7 @@ public class APIScrapingResource {
     private final SongRepository songRepository;
     private final UserService userService;
     private final SpotifyAPIWrapperService apiWrapper;
+    private final APIScrapingService apiScrapingService;
 
     //todo
     public APIScrapingResource(
@@ -68,7 +71,8 @@ public class APIScrapingResource {
         PlaylistRepository playlistRepository,
         PlaylistSongJoinRepository playlistSongJoinRepository,
         SongArtistJoinRepository songArtistJoinRepository,
-        SongRepository songRepository
+        SongRepository songRepository,
+        APIScrapingService apiScrapingService
     ) {
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
@@ -80,125 +84,17 @@ public class APIScrapingResource {
         this.playlistSongJoinRepository = playlistSongJoinRepository;
         this.songArtistJoinRepository = songArtistJoinRepository;
         this.songRepository = songRepository;
+        this.apiScrapingService = apiScrapingService;
     }
 
     @Transactional
     @PostMapping("/scrape")
     public ResponseEntity<Boolean> ScrapeUserPlaylists(Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        ArrayList<SpotifySimplifiedPlaylist> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
-        Set<Playlist> userPlaylists = appUser.getPlaylists();
-        //scrape playlist info, create playlist object, store in repo and add to appuser (store appuser again), ...
-        for (int i = 0; i < playlistIds.size(); i++) {
-            //check if we've already scraped this playlist
-            SpotifySimplifiedPlaylist curSimplePlaylist = playlistIds.get(i);
-            Playlist playlist = userPlaylists
-                .stream()
-                .filter(p -> p.getPlaylistSpotifyID().equals(curSimplePlaylist.getSpotifyId()))
-                .findFirst()
-                .orElse(null);
-            if (playlist != null) {
-                //snapshot id same - skip
-                if (playlist.getPlaylistSnapshotID().equals(playlistIds.get(i).getSnapshotId())) {
-                    continue;
-                }
-                //otherwise - maybe just delete all playlist-song joins???? todo
-            } else playlist = new Playlist();
+        //AppUser appUser = userService.resolveAppUser(authentication.getName());
 
-            //grab full playlist details from simple playlist id
-            SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, curSimplePlaylist.getSpotifyId()).getData();
-            playlist.setAppUser(appUser);
-            playlist.setDateAddedToDB(LocalDate.now());
-            playlist.setDateLastModified(LocalDate.now());
-            playlist.setPlaylistSpotifyID(curPlaylist.getPlaylistId());
-            playlist.setPlaylistSnapshotID(curPlaylist.getSnapshotId());
-            playlist.setPlaylistName(curPlaylist.getName());
-            playlistRepository.save(playlist);
-
-            ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
-            for (int j = 0; j < tracks.size(); j++) {
-                MainArtist a = storeArtist(tracks.get(j).getArtist());
-
-                //check if song already exists. if not, store in db and create song-artist join
-                //songs already in db should always have song-artist join already
-                Song s = songRepository.findSongBySpotifyId(tracks.get(j).getId());
-                if (s == null) {
-                    s = storeTrack(tracks.get(j));
-
-                    SongArtistJoin songArtistJoin = new SongArtistJoin();
-                    songArtistJoin.setSong(s);
-                    songArtistJoin.setMainArtist(a);
-                    songArtistJoin.setTopTrackIndex(0); //????
-                    songArtistJoinRepository.save(songArtistJoin);
-                }
-
-                PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin();
-                playlistSongJoin.setPlaylist(playlist);
-                playlistSongJoin.setSong(s);
-                playlistSongJoin.setSongOrderIndex(i); //tracks in SpotifyPlaylist obj *should* be in correct order
-                playlistSongJoin.setSongDateAdded(LocalDate.now());
-                playlistSongJoinRepository.save(playlistSongJoin);
-                //todo: genre stuff.
-            }
-        }
+        CompletableFuture<Void> future = apiScrapingService.beginScrapeTask(authentication.getName());
 
         return new ResponseEntity<>(true, HttpStatus.OK);
-    }
-
-    //todo: move this all to service
-    @Transactional
-    public MainArtist storeArtist(SpotifyArtist artist) {
-        MainArtist a = mainArtistRepository.findArtistBySpotifyId(artist.getSpotifyId());
-        if (a != null) {
-            return a;
-        }
-
-        MainArtist mainArtist = new MainArtist();
-        mainArtist.setArtistSpotifyID(artist.getSpotifyId());
-        mainArtist.setArtistName(artist.getName());
-        mainArtist.setArtistPopularity(artist.getPopularity());
-
-        //todo: images
-        mainArtistRepository.save(mainArtist);
-        return mainArtist;
-    }
-
-    @Transactional
-    public Song storeTrack(SpotifyTrack track) {
-        Song s = songRepository.findSongBySpotifyId(track.getId());
-        if (s != null) {
-            return s;
-        }
-
-        Song song = new Song();
-        song.setSongSpotifyID(track.getId());
-        song.setSongTitle(track.getName());
-        song.setSongAlbumID(track.getAlbum().getSpotifyId());
-        song.setSongExplicit(track.getExplicit());
-        song.setSongDuration(track.getDuration());
-        song.setSongAlbumType(AlbumType.ALBUM);
-        song.setSongPopularity(track.getPopularity());
-        song.setSongDateAddedToDB(LocalDate.now());
-        song.setSongDateLastModified(LocalDate.now());
-        song.setSongPreviewURL(track.getPreviewUrl());
-        song.setSongTrackFeaturesAdded(false);
-        //awful, todo: remove
-        if (track.getAudioFeatures() != null) {
-            song.setSongTrackFeaturesAdded(true);
-            song.setSongAcousticness(track.getAudioFeatures().getAcousticness());
-            song.setSongDanceability(track.getAudioFeatures().getDanceability());
-            song.setSongEnergy(track.getAudioFeatures().getEnergy());
-            song.setSongInstrumentalness(track.getAudioFeatures().getInstrumentalness());
-            song.setSongLiveness(track.getAudioFeatures().getLiveness());
-            song.setSongLoudness(track.getAudioFeatures().getLoudness());
-            song.setSongSpeechiness(track.getAudioFeatures().getSpeechiness());
-            song.setSongTempo(track.getAudioFeatures().getTempo());
-            song.setSongValence(track.getAudioFeatures().getValence());
-            song.setSongKey(track.getAudioFeatures().getKey());
-            song.setSongTimeSignature(track.getAudioFeatures().getTimeSignature());
-        }
-        songRepository.save(song);
-        return song;
     }
 
     @GetMapping("/get-user-details")

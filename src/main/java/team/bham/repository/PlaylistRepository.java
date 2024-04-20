@@ -1,6 +1,7 @@
 package team.bham.repository;
 
 import java.util.ArrayList;
+import java.util.Set;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Playlist;
@@ -15,5 +16,5 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     Playlist findPlaylistBySpotifyId(String spotifyId);
 
     @Query("SELECT p FROM Playlist p WHERE p.appUser.id = ?1")
-    ArrayList<Playlist> findPlaylistsByAppUserID(long appUserID);
+    Set<Playlist> findPlaylistsByAppUserID(long appUserID);
 }

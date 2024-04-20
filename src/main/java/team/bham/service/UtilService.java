@@ -49,7 +49,7 @@ public class UtilService {
     @Transactional
     public ArrayList<Playlist> getUserPlaylists(AppUser user) {
         long appUserId = user.getId();
-        ArrayList<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUserId);
+        ArrayList<Playlist> userPlaylists = new ArrayList<>(playlistRepository.findPlaylistsByAppUserID(appUserId));
         return userPlaylists;
     }
 
@@ -57,7 +57,7 @@ public class UtilService {
     public List<Song> getEntireLibrarySongs(AppUser user) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
-        ArrayList<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUserId);
+        ArrayList<Playlist> userPlaylists = new ArrayList<>(playlistRepository.findPlaylistsByAppUserID(appUserId));
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         for (int i = 0; i < userPlaylists.size(); i++) {
             playlistSongJoins.addAll(userPlaylists.get(i).getPlaylistSongJoins());
@@ -86,7 +86,7 @@ public class UtilService {
     public List<Song> getEntireLibrarySongsAddedInTimeframe(AppUser user, LocalDate startDate, LocalDate endDate) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
-        ArrayList<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUserId);
+        ArrayList<Playlist> userPlaylists = new ArrayList<>(playlistRepository.findPlaylistsByAppUserID(appUserId));
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         for (int i = 0; i < userPlaylists.size(); i++) {
             playlistSongJoins.addAll(userPlaylists.get(i).getPlaylistSongJoins());
