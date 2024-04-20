@@ -1,20 +1,41 @@
 <div class="elements">
   <div class="options">
-    <div>
-      <select class="dropdownMenu">
-        <option value="option1">Top Artists</option>
-        <option value="option2">Playlist #1</option>
-        <option value="option3">Playlist #2</option>
-        <option value="option4">...</option>
-      </select>
+    <div class="tabs-container">
+      <button
+        type="button"
+        class="top-artists-tab"
+        (click)="setActiveTab('topArtists')"
+        [class.active]="activeTab === 'topArtists'"
+        [class.inactive]="activeTab !== 'playlists'"
+      >
+        Top Artists
+      </button>
+      <button
+        type="button"
+        class="playlists-tab"
+        (click)="setActiveTab('playlists')"
+        [class.active]="activeTab === 'playlists'"
+        [class.inactive]="activeTab !== 'topArtists'"
+      >
+        Playlists
+      </button>
     </div>
 
-    <div class="termButtons">
-      <button class="button" [class.selected]="timeRange === 'short-term'" (click)="changeTimeRange('short-term')">Last Few Weeks</button>
-      <button class="button" [class.selected]="timeRange === 'medium-term'" (click)="changeTimeRange('medium-term')">
-        Last Few Months
-      </button>
-      <button class="button" [class.selected]="timeRange === 'long-term'" (click)="changeTimeRange('long-term')">Last Few Years</button>
+    <div *ngIf="activeTab === 'playlists'">
+      <p-dropdown
+        [options]="playlists"
+        [(ngModel)]="selectedPlaylist"
+        (onChange)="onPlaylistChange($event.value)"
+        [style]="{ width: '100%', 'min-width': '150px' }"
+        styleClass="custom-dropdown"
+      >
+      </p-dropdown>
+    </div>
+
+    <div *ngIf="activeTab === 'topArtists'" class="termButtons">
+      <button class="button" [class.selected]="timeRange === 'short-term'" (click)="changeTimeRange('short-term')">Last Month</button>
+      <button class="button" [class.selected]="timeRange === 'medium-term'" (click)="changeTimeRange('medium-term')">Last 6 Months</button>
+      <button class="button" [class.selected]="timeRange === 'long-term'" (click)="changeTimeRange('long-term')">Last Year</button>
     </div>
 
     <div class="showConnectionsCheckbox">

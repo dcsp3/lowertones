@@ -5,6 +5,8 @@ import { debounceTime } from 'rxjs/operators';
 
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
+import { NetworkService } from './network.service';
+
 interface Artist {
   distance: number;
   name: string;
@@ -32,8 +34,25 @@ interface TasteCategoryDetails {
   ],
 })
 export class NetworkComponent implements OnInit {
+  constructor(private networkService: NetworkService) {}
+
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
   @ViewChild('connectionsCheckbox') connectionsCheckbox!: ElementRef<HTMLInputElement>;
+
+  activeTab: 'topArtists' | 'playlists' = 'topArtists';
+
+  setActiveTab(tab: 'topArtists' | 'playlists'): void {
+    this.activeTab = tab;
+  }
+
+  dropdown_expanded = false;
+
+  toggleDropdown(): void {
+    this.dropdown_expanded = !this.dropdown_expanded;
+  }
+
+  playlists: any[] = [];
+  selectedPlaylist: string = '';
 
   timeRange: string = 'short-term';
   topArtistImage: string = '';
@@ -58,6 +77,8 @@ export class NetworkComponent implements OnInit {
   ngOnInit(): void {
     this.fetchAndRenderGraph(this.timeRange);
 
+    this.fetchPlaylists();
+
     this.resizeSubject.pipe(debounceTime(500)).subscribe(event => {
       this.onResize(event);
     });
@@ -65,6 +86,24 @@ export class NetworkComponent implements OnInit {
     this.timeRangeSubject.pipe(debounceTime(100)).subscribe(newTimeRange => {
       this.handleTimeRangeChange(newTimeRange);
     });
+  }
+
+  fetchPlaylists(): void {
+    this.networkService.getPlaylists().subscribe({
+      next: (data: any[]) => {
+        this.playlists = data.map(playlist => ({
+          label: playlist,
+        }));
+      },
+      error: error => {
+        console.error('There was an error fetching the playlists', error);
+      },
+    });
+  }
+
+  onPlaylistChange(playlist: any): void {
+    // todo: rerender graph based on playlist
+    console.log('Selected Playlist:', playlist);
   }
 
   @HostListener('window:resize', ['$event'])
