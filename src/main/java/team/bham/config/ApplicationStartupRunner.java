@@ -10,9 +10,12 @@ import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.Map;
@@ -30,6 +33,7 @@ import team.bham.service.DatabaseImportService;
 public class ApplicationStartupRunner implements ApplicationListener<ApplicationReadyEvent> {
 
     private static final String SERVICE_ACCOUNT_FILE = "./src/main/resources/config/drive_login.json";
+
     private static final String[] FILE_IDS = {
         "1yvfzKwXk76Tt1juzvN3gzK2BClHdh-aC",
         "1KWIlGCkjOq5CvCRdPFRa63rH96rxk2PP",
@@ -79,12 +83,12 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     private void runCustomScript() {
         // Implement your script here
         System.out.println("Running custom script...");
-        if (activeProfile.contains("prod")) {
+        if (activeProfile.contains("dev")) {
             // some shit
             // download
             Drive service = null;
             try {
-                service = createDriveService();
+                service = createDriveService(driveLogin);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -112,7 +116,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         } else if (activeProfile.contains("dev")) {
             try {
                 // if local change files to local path
-                //runImport();
+                // runImport();
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -122,7 +126,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     }
 
     private void runImport() {
-        //run import
+        // run import
         try {
             Map<Long, Long> artistIDMap = databaseImportService.importArtists("./downloaded_files/artists_table.csv");
             Map<Long, Long> albumIDMap = databaseImportService.importAlbums("./downloaded_files/album_table.csv");
@@ -143,18 +147,24 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             databaseImportService.importTracks("./downloaded_files/tracks_part_14.csv", albumIDMap);
             databaseImportService.importGenres("./downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
             databaseImportService.importRelatedArtists("./downloaded_files/related_artists.csv");
-            //databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv", artistIDMap);
-            //databaseImportService.importSongArtistLinks???
-            //databaseImportService.importSongGenreLinks???
-            //databaseImportService.importContributor("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\contributors_table.csv");
+            // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
+            // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",
+            // artistIDMap);
+            // databaseImportService.importSongArtistLinks???
+            // databaseImportService.importSongGenreLinks???
+            // databaseImportService.importContributor("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
+            // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\contributors_table.csv");
         } catch (Exception e) {
             System.out.println("Error importing data: " + e.getMessage());
         }
     }
 
-    private static Drive createDriveService() throws IOException, GeneralSecurityException {
+    @Value("${drive.login}")
+    private String driveLogin; // Remove static
+
+    private static Drive createDriveService(String driveLogin) throws IOException, GeneralSecurityException {
+        InputStream serviceAccountStream = new ByteArrayInputStream(driveLogin.getBytes(StandardCharsets.UTF_8));
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        FileInputStream serviceAccountStream = new FileInputStream(SERVICE_ACCOUNT_FILE);
         GoogleCredentials credentials = ServiceAccountCredentials
             .fromStream(serviceAccountStream)
             .createScoped(Collections.singleton(DriveScopes.DRIVE));
