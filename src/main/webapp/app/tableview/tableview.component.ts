@@ -97,6 +97,30 @@ export class TableviewComponent implements OnInit {
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     this.songData = new Array(100);
+
+    for (let i = 0; i < 100; i++) {
+      let songEntry: SongEntry = {
+        selected: false,
+        title: '',
+        artist: '',
+        contributor: '',
+        length: '',
+        explicit: false,
+        popularity: 0,
+        release: '',
+        acousticness: 0,
+        danceability: 0,
+        instrumentalness: 0,
+        energy: 0,
+        liveness: 0,
+        loudness: 0,
+        speechiness: 0,
+        valence: 0,
+        tempo: 0,
+      };
+      this.songData[i] = songEntry;
+    }
+
     this.searchTypes = [
       { label: 'Titles & Artists', value: 'both' },
       { label: 'Titles', value: 'title' },

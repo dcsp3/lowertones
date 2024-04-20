@@ -254,15 +254,19 @@
               ].includes(col.value)
             }"
           >
-            <ng-container *ngIf="col.value === 'explicit'; else normalField">
-              <div class="center-image">
-                <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
-              </div>
-            </ng-container>
-            <ng-template #normalField>
+            <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
               <p-skeleton></p-skeleton>
-              <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
-            </ng-template>
+            </ng-container>
+            <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
+              <ng-container *ngIf="col.value === 'explicit'; else normalField">
+                <div class="center-image">
+                  <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
+                </div>
+              </ng-container>
+              <ng-template #normalField>
+                <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
+              </ng-template>
+            </ng-container>
           </td>
         </tr>
       </ng-template>
