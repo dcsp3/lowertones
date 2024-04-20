@@ -193,7 +193,11 @@ public class SpotifyAPIWrapperService {
         ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
         for (int i = 0; i < batches.size(); i++) {
             String curEndpoint = endpoint + batches.get(i);
-            JSONObject response = APICall(HttpMethod.GET, curEndpoint, user).getData();
+            SpotifyAPIResponse<JSONObject> test = APICall(HttpMethod.GET, curEndpoint, user);
+            if (!test.getSuccess()) {
+                throw new RuntimeException("fucked up: " + test.getStatus().toString());
+            }
+            JSONObject response = test.getData();
             JSONArray audioFeaturesListJSON = response.getJSONArray("audio_features");
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
