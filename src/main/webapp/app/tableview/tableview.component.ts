@@ -88,7 +88,8 @@ export class TableviewComponent implements OnInit {
   durationValues: string[] = ['', ''];
   artistChips: string[] = [];
   producerChips: string[] = [];
-  Explicitness: boolean | null = null;
+  Explicitness: Choice[] = [];
+  selectedExplicitness: Choice;
   scanType: Choice[];
   selectedScanType: string = '';
   tableStates: Choice[];
@@ -125,12 +126,21 @@ export class TableviewComponent implements OnInit {
       { label: 'Staging Playlist', value: 'staging' },
     ];
 
-    (this.selectedTableState = { label: 'Your Playlist', value: 'user' }),
-      (this.searchTypes = [
-        { label: 'Titles & Artists', value: 'both' },
-        { label: 'Titles', value: 'title' },
-        { label: 'Artists', value: 'artist' },
-      ]);
+    this.selectedTableState = { label: 'Your Playlist', value: 'user' };
+
+    this.searchTypes = [
+      { label: 'Titles & Artists', value: 'both' },
+      { label: 'Titles', value: 'title' },
+      { label: 'Artists', value: 'artist' },
+    ];
+
+    this.Explicitness = [
+      { label: 'Both', value: 'Both' },
+      { label: 'Explicit', value: 'Yes' },
+      { label: 'Non-Explicit', value: 'No' },
+    ];
+
+    this.selectedExplicitness = { label: 'Both', value: 'Both' };
 
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
@@ -163,7 +173,15 @@ export class TableviewComponent implements OnInit {
       { value: 'tempo', label: 'Tempo', short: 'Tem' },
     ];
 
-    this.selectedColumns = this.columns;
+    this.selectedColumns = [
+      { value: 'title', label: 'Title', short: 'Title' },
+      { value: 'artist', label: 'Artist', short: 'Artist' },
+      { value: 'contributor', label: 'Contributor', short: 'Con' },
+      { value: 'length', label: 'Length', short: 'Length' },
+      { value: 'release', label: 'Release Date', short: 'Release Date' },
+      { value: 'popularity', label: 'Popularity', short: 'Pop' },
+      { value: 'explicit', label: 'Explicit', short: 'Exp' },
+    ];
     /*[
       { value: 'title', label: 'Title', short: 'Title'},
       { value: 'artist', label: 'Artist', short: 'Artist'},

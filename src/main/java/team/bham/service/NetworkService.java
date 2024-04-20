@@ -268,23 +268,69 @@ public class NetworkService {
 
             for (SongArtistJoin songArtistJoin : song.getSongArtistJoins()) {
                 MainArtist artist = songArtistJoin.getMainArtist();
-                List<String> genres = Collections.emptyList();
+                List<String> genres = Collections.emptyList(); // Assuming genres are stored or can be retrieved similarly
 
                 NetworkDTO.ArtistDetails artistDetails = new NetworkDTO.ArtistDetails(
                     artist.getId(),
                     artist.getArtistName(),
                     genres,
                     artist.getArtistImageLarge(),
-                    0
+                    0 // Assume this is a placeholder for popularity if needed elsewhere
                 );
                 artistDetailsList.add(artistDetails);
             }
 
-            NetworkDTO.SongDetails songDetails = new NetworkDTO.SongDetails(song.getId(), song.getSongTitle());
-            songDetails.setArtists(artistDetailsList);
+            NetworkDTO.SongDetails songDetails = new NetworkDTO.SongDetails(song.getId(), song.getSongTitle(), song.getSongPopularity());
             networkDTO.getSongDetails().add(songDetails);
         }
 
         return ResponseEntity.ok(networkDTO);
+    }
+
+    private JSONObject calculatePlaylistStats(List<NetworkDTO.SongDetails> songs) {
+        JSONObject stats = new JSONObject();
+        int totalPopularity = 0;
+        int numSongs = songs.size();
+
+        // Aggregate popularity from all songs
+        for (NetworkDTO.SongDetails song : songs) {
+            totalPopularity += song.getPopularity();
+        }
+
+        // Calculate average popularity
+        double averagePopularity = numSongs > 0 ? (double) totalPopularity / numSongs : 0;
+
+        // Determine the taste category based on average popularity
+        Map<String, Object> tasteCategoryDetails = calculateTasteCategory(averagePopularity);
+
+        // Build stats JSON object
+        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
+        stats.put("tasteCategory", new JSONObject(tasteCategoryDetails)); // Convert Map to JSONObject
+
+        return stats;
+    }
+
+    @Transactional
+    public ResponseEntity<String> getPlaylistStats(Long playlistId, Authentication authentication) {
+        try {
+            ResponseEntity<NetworkDTO> playlistResponse = getPlaylistItems(playlistId, authentication);
+            if (!playlistResponse.getStatusCode().is2xxSuccessful()) {
+                return ResponseEntity.status(playlistResponse.getStatusCode()).body("Failed to retrieve playlist data");
+            }
+
+            NetworkDTO playlistDetails = playlistResponse.getBody();
+            if (playlistDetails == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Playlist details are missing");
+            }
+
+            // Process details assuming they are not null
+            JSONObject stats = calculatePlaylistStats(playlistDetails.getSongDetails());
+            JSONObject result = new JSONObject();
+            result.put("playlistName", playlistDetails.getPlaylistName());
+            result.put("stats", stats);
+            return new ResponseEntity<>(result.toString(), HttpStatus.OK);
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the playlist stats");
+        }
     }
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { UserManagementService } from 'app/admin/user-management/service/user-management.service';
-import { Observable } from 'rxjs';
+import { PreferencesService } from './preferences.service';
+import { AppUserService } from 'app/entities/app-user/service/app-user.service';
+import { AppUserFormService, AppUserFormGroup } from 'app/entities/app-user/update/app-user-form.service';
+import { IAppUser } from 'app/entities/app-user/app-user.model';
 
 const initialAccount: Account = {} as Account;
 
@@ -14,44 +16,36 @@ const initialAccount: Account = {} as Account;
   styleUrls: ['./preferences.component.scss'],
 })
 export class PreferencesComponent implements OnInit {
-  success = false;
-  isHighContrastMode = false;
-  isDiscoverWeeklyBuffer = false;
-  login = '';
+  success = false; // Represents successful user form submission
+  login = ''; // This user's name (unique and shared between user/appuser)
+  appUserForm: AppUserFormGroup | undefined;
+  appUser: IAppUser | undefined;
 
   constructor(
     private accountService: AccountService,
-    private formBuilder: FormBuilder,
-    private userManagementService: UserManagementService
+    private userManagementService: UserManagementService,
+    private appUserFormService: AppUserFormService,
+    private appUserService: AppUserService,
+    private preferencesService: PreferencesService
   ) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.login = account.login;
-        this.userForm.patchValue(account);
+        this.userForm.patchValue(account); // Link this user form to this user
       }
+    });
+
+    this.preferencesService.getAppUser().subscribe(appUser => {
+      this.appUser = appUser; // Load the entity for this app user
+      this.appUserForm = this.appUserFormService.createAppUserFormGroup(this.appUser);
+      // Create an app user form and pre-load with the existing values
     });
   }
 
-  toggleHighContrast(): void {
-    // Toggle high contrast mode
-    this.isHighContrastMode = !this.isHighContrastMode;
-    console.log('High contrast: ' + this.isHighContrastMode);
-
-    // Apply styles for high contrast mode
-    if (this.isHighContrastMode) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
-  }
-
-  toggleDiscoverWeeklyBuffer(): void {
-    this.isDiscoverWeeklyBuffer = !this.isDiscoverWeeklyBuffer;
-  }
-
   userForm = new FormGroup({
+    // Form to update this user entity
     firstName: new FormControl(initialAccount.firstName, {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
@@ -83,30 +77,45 @@ export class PreferencesComponent implements OnInit {
   });
 
   saveUser(): void {
+    // Update this JHipster user based on the user form input
     this.success = false;
-
     const account = this.userForm.getRawValue();
     this.accountService.save(account).subscribe(() => {
       this.success = true;
-
       this.accountService.authenticate(account);
     });
   }
 
-  deleteUser(): Observable<void> {
-    // broken, WIP
-    return new Observable<void>(observer => {
-      this.userManagementService.delete(this.login).subscribe(
+  savePreferences(): void {
+    // Update this app user based on the app user form input
+    const updatedAppUser = this.appUserForm?.getRawValue(); // Get the updated appUser form value
+    if (updatedAppUser?.id != null) {
+      this.appUserService.update(updatedAppUser as IAppUser).subscribe(
         () => {
-          console.log('User deleted successfully');
-          observer.next(); // Notify the observer about successful deletion
-          observer.complete(); // Complete the observer
+          // Update the appUser entity in the database
+          console.log('Preferences saved successfully!');
+        },
+        error => {
+          console.error('Error saving preferences:', error);
+        }
+      );
+    }
+  }
+
+  deleteThisUser(): void {
+    // Delete this user and corresponding app user
+    const confirmation = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (confirmation) {
+      this.userManagementService.delete(this.login).subscribe(
+        // Call deleteUser method from UserManagementService
+        () => {
+          console.log('Account deleted');
+          // Redirect the user to a different page or log them out
         },
         error => {
           console.error('Error deleting user:', error);
-          observer.error(error); // Notify the observer about the error
         }
       );
-    });
+    }
   }
 }

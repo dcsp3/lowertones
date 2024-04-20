@@ -41,11 +41,12 @@ public class NetworkDTO {
 
         private Long id;
         private String title;
-        private List<ArtistDetails> artists;
+        private Integer popularity;
 
-        public SongDetails(Long id, String title) {
+        public SongDetails(Long id, String title, Integer popularity) {
             this.id = id;
             this.title = title;
+            this.popularity = popularity;
         }
 
         public Long getId() {
@@ -64,12 +65,12 @@ public class NetworkDTO {
             this.title = title;
         }
 
-        public List<ArtistDetails> getArtists() {
-            return artists;
+        public Integer getPopularity() {
+            return popularity;
         }
 
-        public void setArtists(List<ArtistDetails> artists) {
-            this.artists = artists;
+        public void setPopularity(Integer popularity) {
+            this.popularity = popularity;
         }
     }
 

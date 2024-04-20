@@ -157,10 +157,16 @@
 
         <ng-template let-node pTemplate="ExplicitnessElement">
           <div class="center-container">
+            <p-selectButton [options]="Explicitness" [(ngModel)]="selectedExplicitness" optionLabel="label" class="explicitSelectButton">
+            </p-selectButton>
+
+            <!--
             <p-triStateCheckbox [(ngModel)]="Explicitness" inputId="tricheckbox"></p-triStateCheckbox>
             <label style="padding-top: 0.5vh" for="tricheckbox">{{
+
+             
               Explicitness === null ? 'All Songs' : Explicitness ? 'Explicit Songs' : 'Non-explicit Songs'
-            }}</label>
+            }}</label> -->
           </div>
         </ng-template>
 
@@ -208,7 +214,7 @@
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngIf="loadingSongs"></th>
+            <th style="width: 0%" *ngIf="loadingSongs"></th>
             <th style="width: 0%" *ngIf="!loadingSongs">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
@@ -251,7 +257,7 @@
             <td
               *ngFor="let col of columns"
               [ngClass]="{
-                cellcenter: [
+                cellright: [
                   'popularity',
                   'explicit',
                   'acousticness',
