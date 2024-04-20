@@ -12,25 +12,27 @@
     </div>
     <div class="preferenceSubtitle">Get notified when there is an update to Lowertones.</div>
 
-    <br />
-    <h2>Accessibility</h2>
-    <div class="preferenceTitle">
-      <label>High colour contrast</label>
-      <input type="checkbox" id="toggleHighContrast" (change)="toggleHighContrast()" />
-    </div>
-    <div class="preferenceSubtitle">Simplify colour scheme for better readability.</div>
+    <form [formGroup]="appUserForm" *ngIf="appUserForm" (ngSubmit)="savePreferences()">
+      <br />
+      <h2>Accessibility</h2>
+      <div class="preferenceTitle">
+        <label>High colour contrast</label>
+        <input type="checkbox" id="toggleHighContrast" formControlName="highContrastMode" (change)="savePreferences()" />
+      </div>
+      <div class="preferenceSubtitle">Simplify colour scheme for better readability.</div>
 
-    <br />
-    <div class="preferenceTitle">
-      <label>Text size</label>
-      <select id="dropdown" class="custom-dropdown">
-        <option value="option1">Normal</option>
-        <option value="option2">Large</option>
-        <option value="option3">Extra Large</option>
-      </select>
-    </div>
-    <div class="preferenceSubtitle">Increase text size for better readability.</div>
-    <br />
+      <br />
+      <div class="preferenceTitle">
+        <label>Text size</label>
+        <select id="dropdown" class="custom-dropdown" formControlName="textSize" (change)="savePreferences()">
+          <option value="100" [selected]="appUserForm?.get('textSize')?.value === 100">Normal</option>
+          <option value="115" [selected]="appUserForm?.get('textSize')?.value === 115">Large</option>
+          <option value="125" [selected]="appUserForm?.get('textSize')?.value === 125">Extra Large</option>
+        </select>
+      </div>
+      <div class="preferenceSubtitle">Increase text size for better readability.</div>
+      <br />
+    </form>
 
     <h2 *ngIf="userForm.value.login">Account details</h2>
 
@@ -81,7 +83,7 @@
     <div class="button-container">
       <button class="btn btn-primary">Sign out of all devices</button>
       <br />
-      <button (click)="deleteUser().subscribe()" class="btn btn-primary">Delete account</button>
+      <button (click)="deleteThisUser()" class="btn btn-primary">Delete account</button>
     </div>
   </div>
 </div>

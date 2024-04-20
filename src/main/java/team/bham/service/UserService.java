@@ -23,7 +23,6 @@ import team.bham.repository.AuthorityRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.AuthoritiesConstants;
 import team.bham.security.SecurityUtils;
-import team.bham.service.AppUserService;
 import team.bham.service.dto.AdminUserDTO;
 import team.bham.service.dto.UserDTO;
 import tech.jhipster.security.RandomUtil;
