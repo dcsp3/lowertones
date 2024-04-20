@@ -1624,8 +1624,8 @@ p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
   color: #ffffff;
 }
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover {
-  background: rgb(53, 63, 77);
-  border-color: rgb(53, 63, 77);
+  background: #2e3844;
+  border-color: #2e3844;
   color: #ffffff;
 }
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-left,
