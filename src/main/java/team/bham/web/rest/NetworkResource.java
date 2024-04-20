@@ -46,4 +46,9 @@ public class NetworkResource {
     public ResponseEntity<NetworkDTO> getPlaylistItems(@PathVariable Long playlistId, Authentication authentication) {
         return networkService.getPlaylistItems(playlistId, authentication);
     }
+
+    @GetMapping("/playlist/{playlistId}/stats")
+    public ResponseEntity<String> getPlaylistData(@PathVariable Long playlistId, Authentication authentication) {
+        return networkService.getPlaylistStats(playlistId, authentication);
+    }
 }
