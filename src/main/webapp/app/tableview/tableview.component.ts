@@ -191,6 +191,7 @@ export class TableviewComponent implements OnInit {
       else if (this.selectedSearchType.value === 'title') return matchesTitle;
       else return matchesArtist;
     });
+    this.filteredSongData = this.removePlaceholders(this.filteredSongData);
     this.songListFactor15(this.filteredSongData);
   }
 
@@ -250,6 +251,11 @@ export class TableviewComponent implements OnInit {
       }
     }
   }
+
+  removePlaceholders(songList: SongEntry[]): SongEntry[] {
+    return songList.filter(song => !song.placeholder);
+  }
+
   fetchPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (response: Playlist[]) => {
