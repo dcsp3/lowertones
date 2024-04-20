@@ -264,7 +264,7 @@
                 ].includes(col.value)
               }"
             >
-              <ng-container *ngIf="false">
+              <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
                 <p-skeleton></p-skeleton>
               </ng-container>
               <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
