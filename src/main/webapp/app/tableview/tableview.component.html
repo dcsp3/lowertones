@@ -186,7 +186,12 @@
 
   <div id="table-content" class="tbv-divs">
     <div class=".tableselector-div">
-      <p-selectButton [options]="tableStates" [(ngModel)]="selectedTableState" optionLabel="label"></p-selectButton>
+      <p-selectButton
+        [options]="tableStates"
+        [(ngModel)]="selectedTableState"
+        (ngModelChange)="switchSongDataInUse()"
+        optionLabel="label"
+      ></p-selectButton>
     </div>
 
     <div class=".table-div">
@@ -259,7 +264,7 @@
                 ].includes(col.value)
               }"
             >
-              <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
+              <ng-container *ngIf="false">
                 <p-skeleton></p-skeleton>
               </ng-container>
               <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">

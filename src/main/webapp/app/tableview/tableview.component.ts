@@ -70,7 +70,8 @@ class ScrapeService {
   styleUrls: ['./tableview.component.scss'],
 })
 export class TableviewComponent implements OnInit {
-  songData: SongEntry[];
+  songData: SongEntry[] = [];
+  songDataInUse: SongEntry[] = [];
   filteredSongData: SongEntry[] = [];
   selectedSongs: SongEntry[] = [];
   searchQuery: string = '';
@@ -98,7 +99,7 @@ export class TableviewComponent implements OnInit {
     for (let i = 0; i < 100; i++) {
       let songEntry: SongEntry = {
         selected: false,
-        title: '',
+        title: 'test',
         artist: '',
         contributor: '',
         length: '',
@@ -117,6 +118,8 @@ export class TableviewComponent implements OnInit {
       };
       this.songData[i] = songEntry;
     }
+
+    this.songDataInUse = this.songData;
 
     this.tableStates = [
       { label: 'Your Playlist', value: 'user' },
@@ -141,7 +144,7 @@ export class TableviewComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPlaylists();
     this.genSongList();
-    this.filteredSongData = this.songData;
+    this.filteredSongData = this.songDataInUse;
     this.columns = [
       { value: 'title', label: 'Title', short: 'Title' },
       { value: 'artist', label: 'Artist', short: 'Artist' },
@@ -180,7 +183,7 @@ export class TableviewComponent implements OnInit {
   }
 
   applySearch(): void {
-    this.filteredSongData = this.songData.filter(song => {
+    this.filteredSongData = this.songDataInUse.filter(song => {
       const query = this.searchQuery.toLowerCase();
       const matchesTitle = song.title.toLowerCase().includes(query);
       const matchesArtist = song.artist.toLowerCase().includes(query);
@@ -189,6 +192,16 @@ export class TableviewComponent implements OnInit {
       else if (this.selectedSearchType.value === 'title') return matchesTitle;
       else return matchesArtist;
     });
+  }
+
+  switchSongDataInUse(): void {
+    if (this.selectedTableState.value === 'user') {
+      this.songDataInUse = this.songData;
+      this.applySearch();
+    } else {
+      this.songDataInUse = this.selectedSongs;
+      this.applySearch();
+    }
   }
 
   scrape() {
