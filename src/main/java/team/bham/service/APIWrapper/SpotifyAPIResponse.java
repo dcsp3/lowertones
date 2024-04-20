@@ -8,6 +8,14 @@ public class SpotifyAPIResponse<T> {
     private HttpStatus status;
     private T data;
 
+    public SpotifyAPIResponse() {}
+
+    public SpotifyAPIResponse(Boolean success, HttpStatus status, T data) {
+        this.success = success;
+        this.status = status;
+        this.data = data;
+    }
+
     public void setSuccess(boolean success) {
         this.success = success;
     }

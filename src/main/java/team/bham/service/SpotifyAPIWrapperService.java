@@ -170,11 +170,14 @@ public class SpotifyAPIWrapperService {
             }
         }
 
-        // //grab track audio features
-        // ArrayList<SpotifyTrackAudioFeatures> audioFeatures = getTrackAudioFeatures(trackIds, user).getData();
-        // for (int i = 0; i < audioFeatures.size(); i++) {
-        //     playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
-        // }
+        //grab track audio features
+        // SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> audioFeaturesResponse = getTrackAudioFeatures(trackIds, user);
+        //if(audioFeaturesResponse.getSuccess()) {
+        //    ArrayList<SpotifyTrackAudioFeatures> audioFeatures = audioFeaturesResponse.getData();
+        //   for (int i = 0; i < audioFeatures.size(); i++) {
+        //        playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
+        //    }
+        //}
 
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
         res.setData(playlist);
@@ -203,14 +206,14 @@ public class SpotifyAPIWrapperService {
         ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
         for (int i = 0; i < batches.size(); i++) {
             String curEndpoint = endpoint + batches.get(i);
-            SpotifyAPIResponse<JSONObject> test = APICall(HttpMethod.GET, curEndpoint, user);
-            JSONObject response = test.getData();
-            JSONArray audioFeaturesListJSON = null;
-            try {
-                audioFeaturesListJSON = response.getJSONArray("audio_features");
-            } catch (Exception e) {
-                throw new RuntimeException("what the fuck?" + test.getSuccess() + " " + test.getStatus() + curEndpoint);
+            SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
+            //audio features seems kinda broken. random 429s
+            if (!response.getSuccess()) {
+                return new SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>>(false, HttpStatus.INTERNAL_SERVER_ERROR, null);
             }
+            JSONObject responseData = response.getData();
+            JSONArray audioFeaturesListJSON = null;
+            audioFeaturesListJSON = responseData.getJSONArray("audio_features");
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
                 try {
@@ -258,32 +261,35 @@ public class SpotifyAPIWrapperService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<String> response = null;
-        try {
-            response = restTemplate.exchange(endpoint, method, entity, String.class);
-        } catch (HttpStatusCodeException e) {
-            HttpStatus status = e.getStatusCode();
-
-            if (status != HttpStatus.UNAUTHORIZED) {
+        for (int i = 0; i < 2; i++) {
+            try {
+                response = restTemplate.exchange(endpoint, method, entity, String.class);
+                apiResponse.setData(new JSONObject(response.getBody()));
+                apiResponse.setSuccess(true);
+                return apiResponse;
+            } catch (HttpStatusCodeException e) {
+                HttpStatus status = e.getStatusCode();
                 if (status == HttpStatus.TOO_MANY_REQUESTS) {
-                    throw new RuntimeException("fjfjfjf" + e.getResponseHeaders().toString());
+                    try {
+                        Thread.sleep((long) (Math.pow(2, i) * 1000));
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                    continue;
+                } else if (status == HttpStatus.UNAUTHORIZED) {
+                    if (!refreshAccessToken(user)) {
+                        apiResponse.setSuccess(false);
+                        return apiResponse;
+                    }
+                } else {
+                    apiResponse.setSuccess(false);
+                    return apiResponse;
                 }
-                apiResponse.setSuccess(false);
-                apiResponse.setStatus(status);
-                return apiResponse;
             }
-
-            if (!refreshAccessToken(user)) {
-                //refresh failed.. hmm
-                apiResponse.setSuccess(false);
-                return apiResponse;
-            }
-            headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
-            entity = new HttpEntity<>(headers);
-            response = restTemplate.exchange(endpoint, method, entity, String.class);
         }
 
-        apiResponse.setData(new JSONObject(response.getBody()));
-        apiResponse.setSuccess(true);
+        //failed: timeout
+        apiResponse.setSuccess(false);
         return apiResponse;
     }
 
@@ -370,6 +376,8 @@ public class SpotifyAPIWrapperService {
         //album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
 
         track.setAlbum(album);
+        SpotifyTrackAudioFeatures defaultFeatures = new SpotifyTrackAudioFeatures();
+        track.setAudioFeatures(defaultFeatures);
 
         //only care about main artist
         JSONObject mainArtistJSON = trackJSON.getJSONArray("artists").getJSONObject(0);
