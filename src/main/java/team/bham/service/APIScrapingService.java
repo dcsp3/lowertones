@@ -135,12 +135,13 @@ public class APIScrapingService {
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
             for (int j = 0; j < tracks.size(); j++) {
                 MainArtist a = storeArtist(tracks.get(j).getArtist());
+                Album album = storeAlbum(tracks.get(j).getAlbum());
 
                 //check if song already exists. if not, store in db and create song-artist join
                 //songs already in db should always have song-artist join already
                 Song s = songRepository.findSongBySpotifyId(tracks.get(j).getId());
                 if (s == null) {
-                    s = storeTrack(tracks.get(j));
+                    s = storeTrack(tracks.get(j), album);
 
                     SongArtistJoin songArtistJoin = new SongArtistJoin();
                     songArtistJoin.setSong(s);
@@ -160,7 +161,81 @@ public class APIScrapingService {
         }
     }
 
-    //todo: move this all to service
+    /* 
+     *  @NotNull
+    @Column(name = "album_spotify_id", nullable = false)
+    private String albumSpotifyID;
+
+    @NotNull
+    @Column(name = "album_name", nullable = false)
+    private String albumName;
+
+    @NotNull
+    @Column(name = "album_cover_art", nullable = false)
+    private String albumCoverArt;
+
+    @NotNull
+    @Column(name = "album_release_date", nullable = false)
+    private LocalDate albumReleaseDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "release_date_precision", nullable = false)
+    private ReleaseDatePrecision releaseDatePrecision;
+
+    @NotNull
+    @Column(name = "album_popularity", nullable = false)
+    private Integer albumPopularity;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "album_type", nullable = false)
+    private AlbumType albumType;
+    */
+
+    @Transactional
+    public Album storeAlbum(SpotifyAlbum album) {
+        Album a = albumRepository.findAlbumBySpotifyId(album.getSpotifyId());
+        if (a != null) {
+            return a;
+        }
+
+        a = new Album();
+        a.setAlbumName(album.getName());
+        a.setAlbumSpotifyID(album.getSpotifyId());
+        a.setAlbumCoverArt(album.getCoverArtURL());
+        a.setAlbumReleaseDate(album.getReleaseDate());
+        switch (album.getReleasePrecision()) {
+            case YEAR:
+                a.setReleaseDatePrecision(ReleaseDatePrecision.YEAR);
+                break;
+            case MONTH:
+                a.setReleaseDatePrecision(ReleaseDatePrecision.MONTH);
+                break;
+            case DAY:
+                a.setReleaseDatePrecision(ReleaseDatePrecision.DAY);
+                break;
+        }
+        a.setAlbumPopularity(album.getPopularity());
+        switch (album.getAlbumType()) {
+            case "album":
+                a.setAlbumType(AlbumType.ALBUM);
+                break;
+            case "single":
+                a.setAlbumType(AlbumType.SINGLE);
+                break;
+            case "compilation":
+                a.setAlbumType(AlbumType.COMPILATION);
+                break;
+        }
+        a.setDateAddedToDB(LocalDate.now());
+        a.setDateLastModified(LocalDate.now());
+        a.setMusicbrainzMetadataAdded(false);
+
+        albumRepository.save(a);
+        return a;
+    }
+
     @Transactional
     public MainArtist storeArtist(SpotifyArtist artist) {
         MainArtist a = mainArtistRepository.findArtistBySpotifyId(artist.getSpotifyId());
@@ -197,7 +272,7 @@ public class APIScrapingService {
     }
 
     @Transactional
-    public Song storeTrack(SpotifyTrack track) {
+    public Song storeTrack(SpotifyTrack track, Album album) {
         Song s = songRepository.findSongBySpotifyId(track.getId());
         if (s != null) {
             return s;
@@ -230,6 +305,7 @@ public class APIScrapingService {
             song.setSongKey(track.getAudioFeatures().getKey());
             song.setSongTimeSignature(track.getAudioFeatures().getTimeSignature());
         }
+        song.setAlbum(album);
         songRepository.save(song);
         return song;
     }

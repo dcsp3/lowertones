@@ -312,6 +312,7 @@ public class SpotifyAPIWrapperService {
         album.setNumTracks(albumJSON.getInt("total_tracks"));
         album.setSpotifyId(albumJSON.getString("id"));
         album.setName(albumJSON.getString("name"));
+        album.setPopularity(0);
         // album.setReleaseDate(albumJSON.getString("release_date"));
         String releaseDateUnformatted = albumJSON.getString("release_date");
 

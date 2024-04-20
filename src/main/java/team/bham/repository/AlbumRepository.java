@@ -9,4 +9,7 @@ import team.bham.domain.Album;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AlbumRepository extends JpaRepository<Album, Long> {}
+public interface AlbumRepository extends JpaRepository<Album, Long> {
+    @Query("SELECT a FROM Album a WHERE a.albumSpotifyID = ?1")
+    public Album findAlbumBySpotifyId(String spotifyId);
+}
