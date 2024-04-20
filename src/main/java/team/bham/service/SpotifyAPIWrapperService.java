@@ -199,7 +199,7 @@ public class SpotifyAPIWrapperService {
             try {
                 audioFeaturesListJSON = response.getJSONArray("audio_features");
             } catch (Exception e) {
-                throw new RuntimeException("what the fuck?" + test.getSuccess() + " " + test.getStatus());
+                throw new RuntimeException("what the fuck?" + test.getSuccess() + " " + test.getStatus() + curEndpoint);
             }
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
@@ -255,6 +255,7 @@ public class SpotifyAPIWrapperService {
 
             if (status != HttpStatus.UNAUTHORIZED) {
                 apiResponse.setSuccess(false);
+                apiResponse.setStatus(status);
                 return apiResponse;
             }
 
