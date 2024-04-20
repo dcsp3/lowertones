@@ -46,12 +46,6 @@ export class NetworkComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  dropdown_expanded = false;
-
-  toggleDropdown(): void {
-    this.dropdown_expanded = !this.dropdown_expanded;
-  }
-
   playlists: any[] = [];
   selectedPlaylist: string = '';
 
@@ -93,7 +87,8 @@ export class NetworkComponent implements OnInit {
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
         this.playlists = data.map(playlist => ({
-          label: playlist,
+          label: playlist.name,
+          value: playlist.id,
         }));
       },
       error: error => {
