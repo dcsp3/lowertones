@@ -172,6 +172,24 @@ public class APIScrapingService {
         mainArtist.setArtistSpotifyID(artist.getSpotifyId());
         mainArtist.setArtistName(artist.getName());
         mainArtist.setArtistPopularity(artist.getPopularity());
+        if (artist.getImages() != null) {
+            switch (artist.getImages().size()) {
+                case 0:
+                    break;
+                case 1:
+                    mainArtist.setArtistImageLarge(artist.getImages().get(0).getUrl());
+                    break;
+                case 2:
+                    mainArtist.setArtistImageLarge(artist.getImages().get(0).getUrl());
+                    mainArtist.setArtistImageMedium(artist.getImages().get(1).getUrl());
+                    break;
+                default:
+                    mainArtist.setArtistImageLarge(artist.getImages().get(0).getUrl());
+                    mainArtist.setArtistImageMedium(artist.getImages().get(1).getUrl());
+                    mainArtist.setArtistImageSmall(artist.getImages().get(2).getUrl());
+                    break;
+            }
+        }
 
         //todo: images
         mainArtistRepository.save(mainArtist);
