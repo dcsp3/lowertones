@@ -3,8 +3,11 @@ package team.bham.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,10 +15,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.AppUser;
+import team.bham.domain.MainArtist;
 import team.bham.domain.Playlist;
+import team.bham.domain.PlaylistSongJoin;
+import team.bham.domain.Song;
+import team.bham.domain.SongArtistJoin;
+import team.bham.repository.PlaylistRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
+import team.bham.service.dto.NetworkDTO;
 
 @Service
 public class NetworkService {
@@ -205,7 +215,7 @@ public class NetworkService {
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<String>> getUserPlaylistNames(Authentication authentication) {
+    public ResponseEntity<List<Map<String, Object>>> getUserPlaylistNames(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
         if (appUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -213,8 +223,57 @@ public class NetworkService {
 
         List<Playlist> playlists = utilService.getUserPlaylists(appUser);
 
-        List<String> playlistNames = playlists.stream().map(Playlist::getPlaylistName).collect(Collectors.toList());
+        List<Map<String, Object>> playlistInfo = playlists
+            .stream()
+            .map(playlist -> {
+                Map<String, Object> info = new HashMap<>();
+                info.put("id", playlist.getId());
+                info.put("name", playlist.getPlaylistName());
+                return info;
+            })
+            .collect(Collectors.toList());
 
-        return ResponseEntity.ok().body(playlistNames);
+        return ResponseEntity.ok().body(playlistInfo);
+    }
+
+    @Transactional
+    public ResponseEntity<NetworkDTO> getPlaylistItems(Long playlistId, Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Playlist playlist = utilService.getPlaylistById(playlistId);
+        if (playlist == null || !playlist.getAppUser().equals(appUser)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        NetworkDTO networkDTO = new NetworkDTO(playlist.getId(), playlist.getPlaylistName());
+        networkDTO.setSongDetails(new ArrayList<>());
+
+        for (PlaylistSongJoin join : playlist.getPlaylistSongJoins()) {
+            Song song = join.getSong();
+            List<NetworkDTO.ArtistDetails> artistDetailsList = new ArrayList<>();
+
+            for (SongArtistJoin songArtistJoin : song.getSongArtistJoins()) {
+                MainArtist artist = songArtistJoin.getMainArtist();
+                List<String> genres = Collections.emptyList();
+
+                NetworkDTO.ArtistDetails artistDetails = new NetworkDTO.ArtistDetails(
+                    artist.getId(),
+                    artist.getArtistName(),
+                    genres,
+                    artist.getArtistImageLarge(),
+                    0
+                );
+                artistDetailsList.add(artistDetails);
+            }
+
+            NetworkDTO.SongDetails songDetails = new NetworkDTO.SongDetails(song.getId(), song.getSongTitle());
+            songDetails.setArtists(artistDetailsList);
+            networkDTO.getSongDetails().add(songDetails);
+        }
+
+        return ResponseEntity.ok(networkDTO);
     }
 }
