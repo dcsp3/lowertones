@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -34,7 +34,7 @@ interface TasteCategoryDetails {
     ]),
   ],
 })
-export class NetworkComponent implements OnInit {
+export class NetworkComponent implements OnInit, OnDestroy {
   constructor(private networkService: NetworkService) {}
 
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
@@ -81,6 +81,10 @@ export class NetworkComponent implements OnInit {
     this.timeRangeSubject.pipe(debounceTime(100)).subscribe(newTimeRange => {
       this.handleTimeRangeChange(newTimeRange);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stopAudio();
   }
 
   fetchPlaylists(): void {
@@ -213,11 +217,23 @@ export class NetworkComponent implements OnInit {
         if (this.isPlaying) {
           this.currentAudio.pause();
         } else {
-          this.currentAudio.play().catch(error => console.error('Playback failed', error));
+          this.currentAudio.play().catch(error => {
+            console.error('Playback failed', error);
+            alert('Playback failed, please try again!'); // Simple user feedback
+          });
         }
         this.isPlaying = !this.isPlaying;
       }
     }
+  }
+
+  stopAudio() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
+      this.currentAudio = null;
+    }
+    this.isPlaying = false;
   }
 
   fetchUserImage(): Promise<any> {
