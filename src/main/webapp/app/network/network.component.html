@@ -48,7 +48,7 @@
     <div class="stats">
       <div class="top-artist">
         <div class="stats-header">
-          <span>Top Artist</span>
+          <span>{{ activeTab === 'topArtists' ? 'Top Artist' : 'Most Popular Artist' }}</span>
         </div>
 
         <div class="top-artist-container">
@@ -104,7 +104,7 @@
 
       <div class="top-genre">
         <div class="stats-header">
-          <span>Top Genre</span>
+          <span>{{ activeTab === 'topArtists' ? 'Top Genre' : 'Main Genre' }}</span>
         </div>
 
         <div class="top-genre-container">
@@ -114,7 +114,7 @@
 
       <div class="mainstream-score">
         <div class="stats-header">
-          <span>Mainstream Factor</span>
+          <span>{{ activeTab === 'topArtists' ? 'Mainstream Factor' : 'Playlist Mainstream Factor' }}</span>
         </div>
         <div class="mainstream-score-container" *ngIf="tasteCategoryDetails">
           <div class="score-bar" [ngStyle]="{ 'background-color': tasteCategoryDetails.colorDark }">
