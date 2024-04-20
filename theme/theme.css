@@ -1614,8 +1614,8 @@ p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
 }
 
 .p-selectbutton .p-button {
-  background: #6c757d;
-  border: 1px solid #6c757d;
+  background: #2a323d;
+  border: 1px solid #2a323d;
   color: #ffffff;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
@@ -1624,31 +1624,31 @@ p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
   color: #ffffff;
 }
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover {
-  background: #5a6268;
-  border-color: #545b62;
+  background: rgb(53, 63, 77);
+  border-color: rgb(53, 63, 77);
   color: #ffffff;
 }
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-left,
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-right {
-  color: #ffffff;
+  color: #151515;
 }
 .p-selectbutton .p-button.p-highlight {
-  background: #545b62;
-  border-color: #4e555b;
-  color: #ffffff;
+  background: #8dd0ff;
+  border-color: #8dd0ff;
+  color: #151515;
 }
 .p-selectbutton .p-button.p-highlight .p-button-icon-left,
 .p-selectbutton .p-button.p-highlight .p-button-icon-right {
-  color: #ffffff;
+  color: #151515;
 }
 .p-selectbutton .p-button.p-highlight:hover {
-  background: #545b62;
-  border-color: #4e555b;
-  color: #ffffff;
+  background: #a3d9ff;
+  border-color: #a3d9ff;
+  color: #151515;
 }
 .p-selectbutton .p-button.p-highlight:hover .p-button-icon-left,
 .p-selectbutton .p-button.p-highlight:hover .p-button-icon-right {
-  color: #ffffff;
+  color: #151515;
 }
 
 p-selectbutton.ng-dirty.ng-invalid > .p-selectbutton > .p-button {
