@@ -30,7 +30,7 @@ interface Column {
   short: string;
 }
 
-interface SearchType {
+interface Choice {
   label: string;
   value: string;
 }
@@ -39,11 +39,6 @@ interface Playlist {
   name: string;
   spotifyId: string;
   snapshotId: string;
-}
-
-interface choice {
-  label: string;
-  value: string;
 }
 
 @Injectable({
@@ -81,8 +76,8 @@ export class TableviewComponent implements OnInit {
   searchQuery: string = '';
   jsonBlob: any;
   filters!: TreeNode[];
-  searchTypes: SearchType[];
-  selectedSearchType: SearchType;
+  searchTypes: Choice[];
+  selectedSearchType: Choice;
   columns!: Column[];
   selectedColumns!: Column[];
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
@@ -92,8 +87,10 @@ export class TableviewComponent implements OnInit {
   artistChips: string[] = [];
   producerChips: string[] = [];
   Explicitness: boolean | null = null;
-  scanType: choice[];
+  scanType: Choice[];
   selectedScanType: string = '';
+  tableStates: Choice[];
+  selectedTableState: Choice;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     this.songData = new Array(100);
@@ -121,11 +118,18 @@ export class TableviewComponent implements OnInit {
       this.songData[i] = songEntry;
     }
 
-    this.searchTypes = [
-      { label: 'Titles & Artists', value: 'both' },
-      { label: 'Titles', value: 'title' },
-      { label: 'Artists', value: 'artist' },
+    this.tableStates = [
+      { label: 'Your Playlist', value: 'user' },
+      { label: 'Staging Playlist', value: 'staging' },
     ];
+
+    (this.selectedTableState = { label: 'Your Playlist', value: 'user' }),
+      (this.searchTypes = [
+        { label: 'Titles & Artists', value: 'both' },
+        { label: 'Titles', value: 'title' },
+        { label: 'Artists', value: 'artist' },
+      ]);
+
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
     this.scanType = [

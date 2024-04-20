@@ -183,93 +183,99 @@
 
     <!-- FILTERS END -->
   </div>
+
   <div id="table-content" class="tbv-divs">
-    <!--TODO: pull in a better theme for this. default theme set in angular.json. we should really roll our own-->
-    <p-table
-      [tableStyle]="{ 'min-height': '75vh' }"
-      [columns]="selectedColumns"
-      [value]="filteredSongData"
-      [(selection)]="selectedSongs"
-      [paginator]="true"
-      [rows]="15"
-      [resizableColumns]="true"
-      styleClass="p-datatable-striped"
-      sortMode="multiple"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th style="width: 0%">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
-          <th
-            *ngFor="let col of columns"
-            pResizableColumn
-            title="{{ col.label }}"
-            pSortableColumn="{{ col.value }}"
-            [ngClass]="{
-              coltitle: col.value === 'title',
-              colartist: col.value === 'artist',
-              colcontributor: col.value === 'contributor',
-              colsmall: [
-                'length',
-                'release',
-                'popularity',
-                'explicit',
-                'acousticness',
-                'danceability',
-                'instrumentalness',
-                'energy',
-                'liveness',
-                'loudness',
-                'speechiness',
-                'valence',
-                'tempo'
-              ].includes(col.value)
-            }"
-          >
-            {{ col.short }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-song let-columns="columns">
-        <tr class="p-selectable-row">
-          <td>
-            <p-tableCheckbox [value]="song"></p-tableCheckbox>
-          </td>
-          <td
-            *ngFor="let col of columns"
-            [ngClass]="{
-              cellcenter: [
-                'popularity',
-                'explicit',
-                'acousticness',
-                'danceability',
-                'instrumentalness',
-                'energy',
-                'liveness',
-                'loudness',
-                'speechiness',
-                'valence',
-                'tempo'
-              ].includes(col.value)
-            }"
-          >
-            <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
-              <p-skeleton></p-skeleton>
-            </ng-container>
-            <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
-              <ng-container *ngIf="col.value === 'explicit'; else normalField">
-                <div class="center-image">
-                  <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
-                </div>
+    <div class=".tableselector-div">
+      <p-selectButton [options]="tableStates" [(ngModel)]="selectedTableState" optionLabel="label"></p-selectButton>
+    </div>
+
+    <div class=".table-div">
+      <p-table
+        [tableStyle]="{ 'min-height': '75vh' }"
+        [columns]="selectedColumns"
+        [value]="filteredSongData"
+        [(selection)]="selectedSongs"
+        [paginator]="true"
+        [rows]="15"
+        [resizableColumns]="true"
+        styleClass="p-datatable-striped"
+        sortMode="multiple"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 0%">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th
+              *ngFor="let col of columns"
+              pResizableColumn
+              title="{{ col.label }}"
+              pSortableColumn="{{ col.value }}"
+              [ngClass]="{
+                coltitle: col.value === 'title',
+                colartist: col.value === 'artist',
+                colcontributor: col.value === 'contributor',
+                colsmall: [
+                  'length',
+                  'release',
+                  'popularity',
+                  'explicit',
+                  'acousticness',
+                  'danceability',
+                  'instrumentalness',
+                  'energy',
+                  'liveness',
+                  'loudness',
+                  'speechiness',
+                  'valence',
+                  'tempo'
+                ].includes(col.value)
+              }"
+            >
+              {{ col.short }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-song let-columns="columns">
+          <tr class="p-selectable-row">
+            <td>
+              <p-tableCheckbox [value]="song"></p-tableCheckbox>
+            </td>
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="{
+                cellcenter: [
+                  'popularity',
+                  'explicit',
+                  'acousticness',
+                  'danceability',
+                  'instrumentalness',
+                  'energy',
+                  'liveness',
+                  'loudness',
+                  'speechiness',
+                  'valence',
+                  'tempo'
+                ].includes(col.value)
+              }"
+            >
+              <ng-container *ngIf="song['artist'] === '' && song['title'] === ''">
+                <p-skeleton></p-skeleton>
               </ng-container>
-              <ng-template #normalField>
-                <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
-              </ng-template>
-            </ng-container>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+              <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
+                <ng-container *ngIf="col.value === 'explicit'; else normalField">
+                  <div class="center-image">
+                    <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
+                  </div>
+                </ng-container>
+                <ng-template #normalField>
+                  <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
+                </ng-template>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
   </div>
 </div>
