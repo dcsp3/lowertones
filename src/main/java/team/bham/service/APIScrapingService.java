@@ -124,6 +124,27 @@ public class APIScrapingService {
 
             //grab full playlist details from simple playlist id
             SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, curSimplePlaylist.getSpotifyId()).getData();
+
+            //get song ids
+            ArrayList<String> songSpotifyIds = curPlaylist
+                .getTracks()
+                .stream()
+                .map(SpotifyTrack::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+            List<String> albumSpotifyIds = curPlaylist
+                .getTracks()
+                .stream()
+                .map(t -> t.getAlbum().getSpotifyId())
+                .collect(Collectors.toList());
+            List<String> artistSpotifyIds = curPlaylist
+                .getTracks()
+                .stream()
+                .map(t -> t.getArtist().getSpotifyId())
+                .collect(Collectors.toList());
+            List<Song> existingSongs = songRepository.findBySongSpotifyIDIn(songSpotifyIds);
+            List<MainArtist> existingArtists = mainArtistRepository.findByArtistSpotifyIDIn(artistSpotifyIds);
+            List<Album> existingAlbums = albumRepository.findByAlbumSpotifyIDIn(albumSpotifyIds);
+
             playlist.setAppUser(appUser);
             playlist.setDateAddedToDB(LocalDate.now());
             playlist.setDateLastModified(LocalDate.now());
@@ -134,12 +155,18 @@ public class APIScrapingService {
 
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
             for (int j = 0; j < tracks.size(); j++) {
-                MainArtist a = storeArtist(tracks.get(j).getArtist());
-                Album album = storeAlbum(tracks.get(j).getAlbum());
+                MainArtist a = getArtistScraped(tracks.get(j).getArtist().getSpotifyId(), existingArtists);
+                if (a == null) {
+                    a = storeArtist(tracks.get(j).getArtist());
+                }
+                Album album = getAlbumScraped(tracks.get(j).getAlbum().getSpotifyId(), existingAlbums);
+                if (album == null) {
+                    album = storeAlbum(tracks.get(j).getAlbum());
+                }
 
                 //check if song already exists. if not, store in db and create song-artist join
                 //songs already in db should always have song-artist join already
-                Song s = songRepository.findSongBySpotifyId(tracks.get(j).getId());
+                Song s = getSongScraped(tracks.get(j).getId(), existingSongs);
                 if (s == null) {
                     s = storeTrack(tracks.get(j), album);
 
@@ -161,46 +188,9 @@ public class APIScrapingService {
         }
     }
 
-    /* 
-     *  @NotNull
-    @Column(name = "album_spotify_id", nullable = false)
-    private String albumSpotifyID;
-
-    @NotNull
-    @Column(name = "album_name", nullable = false)
-    private String albumName;
-
-    @NotNull
-    @Column(name = "album_cover_art", nullable = false)
-    private String albumCoverArt;
-
-    @NotNull
-    @Column(name = "album_release_date", nullable = false)
-    private LocalDate albumReleaseDate;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "release_date_precision", nullable = false)
-    private ReleaseDatePrecision releaseDatePrecision;
-
-    @NotNull
-    @Column(name = "album_popularity", nullable = false)
-    private Integer albumPopularity;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "album_type", nullable = false)
-    private AlbumType albumType;
-    */
-
     @Transactional
     public Album storeAlbum(SpotifyAlbum album) {
-        Album a = albumRepository.findAlbumBySpotifyId(album.getSpotifyId());
-        if (a != null) {
-            return a;
-        }
-
-        a = new Album();
+        Album a = new Album();
         a.setAlbumName(album.getName());
         a.setAlbumSpotifyID(album.getSpotifyId());
         a.setAlbumCoverArt(album.getCoverArtURL());
@@ -238,11 +228,6 @@ public class APIScrapingService {
 
     @Transactional
     public MainArtist storeArtist(SpotifyArtist artist) {
-        MainArtist a = mainArtistRepository.findArtistBySpotifyId(artist.getSpotifyId());
-        if (a != null) {
-            return a;
-        }
-
         MainArtist mainArtist = new MainArtist();
         mainArtist.setArtistSpotifyID(artist.getSpotifyId());
         mainArtist.setArtistName(artist.getName());
@@ -273,10 +258,10 @@ public class APIScrapingService {
 
     @Transactional
     public Song storeTrack(SpotifyTrack track, Album album) {
-        Song s = songRepository.findSongBySpotifyId(track.getId());
-        if (s != null) {
-            return s;
-        }
+        //Song s = songRepository.findSongBySpotifyId(track.getId());
+        // if (s != null) {
+        //    return s;
+        // }
 
         Song song = new Song();
         song.setSongSpotifyID(track.getId());
@@ -308,5 +293,29 @@ public class APIScrapingService {
         song.setAlbum(album);
         songRepository.save(song);
         return song;
+    }
+
+    private Song getSongScraped(String spotifyId, List<Song> curSongs) {
+        for (Song song : curSongs) {
+            if (song.getSongSpotifyID().equals(spotifyId)) return song;
+        }
+
+        return null;
+    }
+
+    private MainArtist getArtistScraped(String spotifyId, List<MainArtist> curArtists) {
+        for (MainArtist artist : curArtists) {
+            if (artist.getArtistSpotifyID().equals(spotifyId)) return artist;
+        }
+
+        return null;
+    }
+
+    private Album getAlbumScraped(String spotifyId, List<Album> curAlbums) {
+        for (Album album : curAlbums) {
+            if (album.getAlbumSpotifyID().equals(spotifyId)) return album;
+        }
+
+        return null;
     }
 }

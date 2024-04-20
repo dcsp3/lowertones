@@ -29,6 +29,8 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
         return this.fetchBagRelationships(this.findAll(pageable));
     }
 
+    List<Song> findBySongSpotifyIDIn(List<String> songSpotifyIDs);
+
     @Query("SELECT s FROM Song s WHERE s.songSpotifyID = ?1")
     Song findSongBySpotifyId(String spotifyId);
 }

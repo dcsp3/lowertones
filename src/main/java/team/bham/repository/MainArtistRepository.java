@@ -29,6 +29,8 @@ public interface MainArtistRepository extends MainArtistRepositoryWithBagRelatio
         return this.fetchBagRelationships(this.findAll(pageable));
     }
 
+    List<MainArtist> findByArtistSpotifyIDIn(List<String> artistSpotifyIDs);
+
     @Query("SELECT a FROM MainArtist a WHERE a.artistSpotifyID = ?1")
     MainArtist findArtistBySpotifyId(String spotifyId);
 }
