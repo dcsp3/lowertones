@@ -54,6 +54,11 @@ public class UtilService {
     }
 
     @Transactional
+    public Playlist getPlaylistById(Long id) {
+        return playlistRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
     public List<Song> getEntireLibrarySongs(AppUser user) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();
