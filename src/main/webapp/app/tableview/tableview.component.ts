@@ -94,12 +94,10 @@ export class TableviewComponent implements OnInit {
   selectedTableState: Choice;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
-    this.songData = new Array(100);
-
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = {
         selected: false,
-        title: 'test',
+        title: '',
         artist: '',
         contributor: '',
         length: '',
@@ -197,10 +195,10 @@ export class TableviewComponent implements OnInit {
   switchSongDataInUse(): void {
     if (this.selectedTableState.value === 'user') {
       this.songDataInUse = this.songData;
-      this.applySearch();
+      this.filteredSongData = this.songDataInUse;
     } else {
       this.songDataInUse = this.selectedSongs;
-      this.applySearch();
+      this.filteredSongData = this.songDataInUse;
     }
   }
 
@@ -308,5 +306,6 @@ export class TableviewComponent implements OnInit {
     }
 
     this.songData = this.songData.slice(0, numTracks);
+    this.applySearch();
   }
 }
