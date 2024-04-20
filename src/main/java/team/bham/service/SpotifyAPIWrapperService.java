@@ -197,6 +197,10 @@ public class SpotifyAPIWrapperService {
             JSONArray audioFeaturesListJSON = response.getJSONArray("audio_features");
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
+                if (audioFeaturesListJSON.isNull(i)) {
+                    audioFeaturesList.add(null);
+                    continue;
+                }
                 JSONObject audioFeaturesJSON = audioFeaturesListJSON.getJSONObject(j);
                 SpotifyTrackAudioFeatures audioFeatures = new SpotifyTrackAudioFeatures();
                 audioFeatures.setAcousticness(audioFeaturesJSON.getFloat("acousticness"));
