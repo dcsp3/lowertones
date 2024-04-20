@@ -197,25 +197,25 @@ public class SpotifyAPIWrapperService {
             JSONArray audioFeaturesListJSON = response.getJSONArray("audio_features");
 
             for (int j = 0; j < audioFeaturesListJSON.length(); j++) {
-                if (audioFeaturesListJSON.isNull(i)) {
+                try {
+                    JSONObject audioFeaturesJSON = audioFeaturesListJSON.getJSONObject(j);
+                    SpotifyTrackAudioFeatures audioFeatures = new SpotifyTrackAudioFeatures();
+                    audioFeatures.setAcousticness(audioFeaturesJSON.getFloat("acousticness"));
+                    audioFeatures.setDanceability(audioFeaturesJSON.getFloat("danceability"));
+                    audioFeatures.setEnergy(audioFeaturesJSON.getFloat("energy"));
+                    audioFeatures.setInstrumentalness(audioFeaturesJSON.getFloat("instrumentalness"));
+                    audioFeatures.setKey(audioFeaturesJSON.getInt("key"));
+                    audioFeatures.setLiveness(audioFeaturesJSON.getFloat("liveness"));
+                    audioFeatures.setLoudness(audioFeaturesJSON.getFloat("loudness"));
+                    audioFeatures.setMode(audioFeaturesJSON.getInt("mode"));
+                    audioFeatures.setSpeechiness(audioFeaturesJSON.getFloat("speechiness"));
+                    audioFeatures.setTempo(audioFeaturesJSON.getFloat("tempo"));
+                    audioFeatures.setTimeSignature(audioFeaturesJSON.getInt("time_signature"));
+                    audioFeatures.setValence(audioFeaturesJSON.getFloat("valence"));
+                    audioFeaturesList.add(audioFeatures);
+                } catch (Exception e) {
                     audioFeaturesList.add(null);
-                    continue;
                 }
-                JSONObject audioFeaturesJSON = audioFeaturesListJSON.getJSONObject(j);
-                SpotifyTrackAudioFeatures audioFeatures = new SpotifyTrackAudioFeatures();
-                audioFeatures.setAcousticness(audioFeaturesJSON.getFloat("acousticness"));
-                audioFeatures.setDanceability(audioFeaturesJSON.getFloat("danceability"));
-                audioFeatures.setEnergy(audioFeaturesJSON.getFloat("energy"));
-                audioFeatures.setInstrumentalness(audioFeaturesJSON.getFloat("instrumentalness"));
-                audioFeatures.setKey(audioFeaturesJSON.getInt("key"));
-                audioFeatures.setLiveness(audioFeaturesJSON.getFloat("liveness"));
-                audioFeatures.setLoudness(audioFeaturesJSON.getFloat("loudness"));
-                audioFeatures.setMode(audioFeaturesJSON.getInt("mode"));
-                audioFeatures.setSpeechiness(audioFeaturesJSON.getFloat("speechiness"));
-                audioFeatures.setTempo(audioFeaturesJSON.getFloat("tempo"));
-                audioFeatures.setTimeSignature(audioFeaturesJSON.getInt("time_signature"));
-                audioFeatures.setValence(audioFeaturesJSON.getFloat("valence"));
-                audioFeaturesList.add(audioFeatures);
             }
         }
 
