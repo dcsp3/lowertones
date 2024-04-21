@@ -1,1 +1,40 @@
-<p>data-methodology works!</p>
+<div class="card">
+  <div class="description-center-content">
+    <h2 class="how-it-works-title title-shift-left">Our Data Methodology</h2>
+    <div class="columns">
+      <div class="column">
+        <h3 class="recapd-title title-shift-left">ReCAPD</h3>
+        <p>
+          ReCAPD allows you to find the musicians and artists behind the music you love. To do this we utilise the MusicBrainz database,
+          which is a community-driven database of music metadata. The database provides a wealth of information about artists, albums, and
+          tracks, and is used by music services and enthusiasts worldwide. If you like our service, consider contributing to MusicBrainz to
+          help people learn more about the people behind their music.
+          <br /><br />
+          We prepopulated our database with 35,000 of the most popular artists and 4.8 million tracks from Spotify. We then needed to
+          generate a mapping between the Spotify and MusicBrainz datasets - if you know about these datasets, this is no mean feat. We
+          started with the low-hanging fruit - artists with a Spotify URL in their MusicBrainz profile, and then led to a more complex
+          process of matching artists based on their name and the names of their albums. The resulting Artist MBID to Spotify mapping for
+          the artists is available for download <a href="/data-methodology" style="text-decoration: none">here</a>. Please note we have
+          seperated the data into those artists with a Spotify URL in their profile which are, for the most part, accurate, and those from
+          our fuzzy matching process, which may have errors due to the automated nature of our matching process.) Once we had the Spotify ID
+          to MusicBrainz ID mapping for artist, we could then move onto mapping MusicBrainz tracks to Spotify tracks. <br /><br />
+          MusicBrainz kindly offers the ability to host a copy of their database, which we used retrieve song attributions (a.k.a.
+          contribtors) for all tracks with them on their platform. Due to the nature of our service, we only require a mapping between
+          Spotify tracks and MusicBrainz tracks, where the MusicBrainz track has a contributor. The resulting Spotify track to MusicBrainz
+          track mapping is available for download <a href="/data-methodology" style="text-decoration: none">here</a>. <br /><br />
+        </p>
+      </div>
+
+      <div class="column">
+        <h3 class="how-it-works-title title-shift-left">Network</h3>
+        <p>
+          ReCAPD allows you to find the musicians and artists behind the music you love. We scan your Spotify library, and use our
+          proprietary dataset to find the tracks you love on the MusicBrainz database.
+          <br /><br />
+
+          We then scan this data to find the producers, guitarists, bassists (and more) that are credited in the most songs in your library.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

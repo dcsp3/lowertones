@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'neue-plak';
+  src: url('../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'alro';
+  src: url('../../content/fonts/alro-alro-bold-700.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.card {
+  background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 90%;
+  height: 100%;
+  min-height: 83vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+  overflow: visible;
+  flex-basis: 100%;
+  padding: 0px;
+  border: 0px solid #cccccc00;
+  background-color: #ffffff00;
+}
+
+.description-center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  font-family: 'neue-plak', sans-serif;
+  color: #ffffff;
+  font-size: 0.9vw;
+  text-align: left;
+}
+
+h2 {
+  font-family: 'neue-plak' !important;
+  font-size: 4vw;
+  color: #ffffff;
+  text-align: center;
+}
+
+.how-it-works-title {
+  font-family: 'neue-plak' !important;
+  font-size: 3vw;
+  color: #ffffff;
+  text-align: center;
+  margin-top: -10vh;
+}
+
+.recapd-title {
+  font-family: 'alro' !important;
+  font-size: 3vw;
+  color: #ffffff;
+  text-align: center;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-top: -4rem;
+}
+
+.column {
+  flex-grow: 1;
+  flex-basis: 50%;
+  text-align: center;
+  max-height: 70vh;
+  padding: 50px;
+}
+
+a {
+  color: -webkit-link;
+}
