@@ -109,6 +109,35 @@
           </div>
         </ng-template>
 
+        <!--Tempo-->
+        <ng-template let-node pTemplate="TempoElement">
+          <div style="display: flex; justify-content: space-between">
+            <b>Min: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="60"
+              type="number"
+              pInputText
+              [(ngModel)]="tempoValues[0]"
+              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              class="w-full no-spinners"
+            />
+            <b>Max: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="120"
+              type="number"
+              pInputText
+              [(ngModel)]="tempoValues[1]"
+              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              class="w-full no-spinners"
+            />
+          </div>
+        </ng-template>
+
+        <!--Song Features-->
+        <ng-template let-node pTemplate="FeaturesElement"> </ng-template>
+
         <!--Popularity-->
         <ng-template let-node pTemplate="PopularityElement">
           <!--
@@ -200,6 +229,7 @@
     </div>
 
     <div class=".table-div">
+      <!-- currentPageReportTemplate="Showing {first} to {{ getNumberOfLastEntry() }} of {{ countSongsNoPlaceholder(filteredSongData) }} entries" -->
       <p-table
         [tableStyle]="{ 'min-height': '75vh' }"
         [columns]="selectedColumns"
@@ -209,6 +239,7 @@
         [(selection)]="selectedSongs"
         (selectionChange)="selectionLogic()"
         [paginator]="true"
+        [showCurrentPageReport]="!loadingSongs"
         [rows]="15"
         [resizableColumns]="true"
         styleClass="p-datatable-striped"
@@ -277,7 +308,11 @@
               <ng-container *ngIf="loadingSongs">
                 <p-skeleton></p-skeleton>
               </ng-container>
-              <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
+
+              <ng-container *ngIf="!loadingSongs && song['placeholder']">
+                <span style="color: transparent; user-select: none">Placeholder</span>
+              </ng-container>
+              <ng-container *ngIf="!song['placeholder']">
                 <ng-container *ngIf="col.value === 'explicit'; else normalField">
                   <div class="center-image">
                     <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />

@@ -88,14 +88,18 @@
   top: 0;
   display: flex;
   flex-direction: column;
+  max-height: 100%;
 }
 
 .sidebar-search {
   flex: 0.05;
+  max-height: 5vh;
 }
 
 .sidebar-tree {
   flex: 0.95;
+  max-height: 82vh;
+  overflow: auto;
 }
 
 #table-content {

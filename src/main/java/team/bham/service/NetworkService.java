@@ -149,6 +149,7 @@ public class NetworkService {
         }
 
         stats.put("topGenre", topGenre);
+        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
         stats.put("tasteCategory", tasteCategoryDetails);
 
         return stats;

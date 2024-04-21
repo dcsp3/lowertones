@@ -108,8 +108,9 @@ export class TableviewComponent implements OnInit {
   columns!: Column[];
   selectedColumns!: Column[];
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
-  yearValues: number[] = [1900, 2030];
-  rangeValues: number[] = [0, 100];
+  yearValues: number[] = new Array(2).fill(undefined);
+  rangeValues: number[] = new Array(2).fill(undefined);
+  tempoValues: number[] = new Array(2).fill(undefined);
   durationValues: string[] = ['', ''];
   artistChips: string[] = [];
   producerChips: string[] = [];
@@ -122,6 +123,7 @@ export class TableviewComponent implements OnInit {
   pagePair: PagePair = { user: 0, staging: 0 };
   tablePage: number = 0;
   tableRows: number = 15;
+  entryCount: number = 0;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
@@ -252,6 +254,7 @@ export class TableviewComponent implements OnInit {
   pageChange(event: { first: number; rows: number }) {
     this.tablePage = event.first;
     this.tableRows = event.rows;
+    this.entryCount = this.countSongsNoPlaceholder(this.filteredSongData);
   }
 
   scrape() {
@@ -306,6 +309,14 @@ export class TableviewComponent implements OnInit {
 
   countSongsNoPlaceholder(songList: SongEntry[]): number {
     return songList.filter(song => !song.placeholder).length;
+  }
+
+  getNumberOfLastEntry(): number {
+    let lastEntry = this.tablePage + 15;
+    if (lastEntry > this.countSongsNoPlaceholder(this.filteredSongData)) {
+      lastEntry = this.countSongsNoPlaceholder(this.filteredSongData);
+    }
+    return lastEntry;
   }
 
   fetchPlaylists() {

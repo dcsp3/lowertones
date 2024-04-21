@@ -36,7 +36,7 @@ export class TableviewTreeService {
         key: '2',
         label: 'Song Duration',
         data: 'SongDuration',
-        icon: 'pi pi-fw pi-clock',
+        icon: 'pi pi-fw pi-hourglass',
         children: [
           {
             key: '2-1',
@@ -76,12 +76,40 @@ export class TableviewTreeService {
       },
       {
         key: '5',
+        label: 'Tempo',
+        data: 'Tempo',
+        icon: 'pi pi-fw pi-stopwatch',
+        children: [
+          {
+            key: '5-1',
+            label: 'Tempo',
+            data: 'Tempo',
+            type: 'TempoElement',
+          },
+        ],
+      },
+      {
+        key: '6',
+        label: 'Song Features',
+        data: 'Song Features',
+        icon: 'pi pi-fw pi-list',
+        children: [
+          {
+            key: '6-1',
+            label: 'Song Features',
+            data: 'Song Features',
+            type: 'FeaturesElement',
+          },
+        ],
+      },
+      {
+        key: '7',
         label: 'Artist Search',
         data: 'ArtistSearch',
         icon: 'pi pi-fw pi-users',
         children: [
           {
-            key: '5-1',
+            key: '7-1',
             label: 'ArtistChip',
             data: 'ArtistChip',
             type: 'ArtistChipElement',
@@ -89,13 +117,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '6',
+        key: '8',
         label: 'Producer Search',
         data: 'ProducerSearch',
-        icon: 'pi pi-fw pi-users',
+        icon: 'pi pi-fw pi-tag',
         children: [
           {
-            key: '6-1',
+            key: '8-1',
             label: 'ProducerChip',
             data: 'ProducerChip',
             type: 'ProducerChipElement',
@@ -103,13 +131,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '7',
+        key: '9',
         label: 'Explicitness',
         data: 'Explicitness',
         icon: 'pi pi-fw pi-exclamation-triangle',
         children: [
           {
-            key: '7-1',
+            key: '9-1',
             label: 'Explicit',
             data: 'Explicitness',
             type: 'ExplicitnessElement',
@@ -117,13 +145,13 @@ export class TableviewTreeService {
         ],
       },
       {
-        key: '8',
+        key: '10',
         label: 'Column Selection',
         data: 'ColumnSelection',
         icon: 'pi pi-fw pi-table',
         children: [
           {
-            key: '8-1',
+            key: '10-1',
             label: 'ColumnSelectionList',
             data: 'ColumnSelectionList',
             type: 'ColumnSelectionListElement',
