@@ -2,6 +2,7 @@ package team.bham.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -146,7 +147,6 @@ public class NetworkService {
         }
 
         stats.put("topGenre", topGenre);
-        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
         stats.put("tasteCategory", tasteCategoryDetails);
 
         return stats;
@@ -307,7 +307,7 @@ public class NetworkService {
     public JSONObject calculatePlaylistStats(Long playlistId) {
         JSONObject stats = new JSONObject();
 
-        // Fetch only the first result to get the most popular artist
+        // Fetch the most popular artist
         Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "artistPopularity"));
         Page<MainArtist> mostPopularArtistsPage = songArtistJoinRepository.findMostPopularArtistByPlaylistId(playlistId, pageable);
 
@@ -315,36 +315,35 @@ public class NetworkService {
             MainArtist mostPopularArtist = mostPopularArtistsPage.getContent().get(0);
             Long artistId = mostPopularArtist.getId();
 
-            // Retrieve the most popular track by this artist in the playlist
+            stats.put("topArtistName", mostPopularArtist.getArtistName());
+            stats.put("topArtistImage", mostPopularArtist.getArtistImageLarge());
+
             Song topTrack = songArtistJoinRepository.findTopTrackByPopularArtistInPlaylist(artistId, playlistId);
             if (topTrack != null) {
-                stats.put("topTrackName", topTrack.getSongTitle());
-                stats.put("topTrackPreviewUrl", topTrack.getSongPreviewURL());
+                JSONObject topTrackByTopArtist = new JSONObject();
+                topTrackByTopArtist.put("previewUrl", topTrack.getSongPreviewURL());
+                topTrackByTopArtist.put("trackName", topTrack.getSongTitle());
+                stats.put("topTrackByTopArtist", topTrackByTopArtist);
             }
-
-            // Add most popular artist details
-            stats.put("mostPopularArtistName", mostPopularArtist.getArtistName());
-            stats.put("mostPopularArtistImage", mostPopularArtist.getArtistImageLarge());
         }
 
-        // Calculate the main genre in the playlist
-        List<Object[]> genreData = playlistSongJoinRepository.findMainGenreByPlaylistId(playlistId);
-        if (!genreData.isEmpty()) {
-            stats.put("mainGenre", genreData.get(0)[0].toString());
-        }
+        // Fetch artist-based genres and determine the most frequent genre
+        List<Object[]> genreData = playlistSongJoinRepository.findMainGenreByPlaylistIdUsingArtists(playlistId);
+        String mainGenre = genreData
+            .stream()
+            .max(Comparator.comparingLong(o -> (Long) o[1]))
+            .map(result -> (String) result[0])
+            .orElse("Unknown");
+        stats.put("topGenre", mainGenre);
 
         // Collect other stats like total songs and average popularity
         List<Song> songs = playlistSongJoinRepository.findSongsByPlaylistId(playlistId);
-        int totalSongs = songs.size();
         double averagePopularity = songs.stream().mapToInt(Song::getSongPopularity).average().orElse(0);
+        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity + "%"));
 
         // Calculate taste category details based on the average popularity
         Map<String, Object> tasteCategoryDetails = calculateTasteCategory(averagePopularity);
         stats.put("tasteCategory", tasteCategoryDetails);
-
-        // Include additional statistical details
-        stats.put("totalSongs", totalSongs);
-        stats.put("averagePopularity", String.format("%.2f", averagePopularity));
 
         return stats;
     }
@@ -365,7 +364,6 @@ public class NetworkService {
             // Process details assuming they are not null
             JSONObject stats = calculatePlaylistStats(playlistDetails.getPlaylistId());
             JSONObject result = new JSONObject();
-            result.put("playlistName", playlistDetails.getPlaylistName());
             result.put("stats", stats);
             return new ResponseEntity<>(result.toString(), HttpStatus.OK);
         } catch (NullPointerException e) {

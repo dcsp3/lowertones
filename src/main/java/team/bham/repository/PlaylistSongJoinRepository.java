@@ -17,12 +17,15 @@ public interface PlaylistSongJoinRepository extends JpaRepository<PlaylistSongJo
     List<Song> findSongsByPlaylistId(@Param("playlistId") Long playlistId);
 
     @Query(
-        "SELECT g.spotifyGenre AS genre, COUNT(g) AS count FROM PlaylistSongJoin psj " +
+        "SELECT g.spotifyGenre AS genre, COUNT(g) AS genreCount " +
+        "FROM PlaylistSongJoin psj " +
         "JOIN psj.song s " +
-        "JOIN s.spotifyGenreEntities g " +
+        "JOIN s.songArtistJoins saj " +
+        "JOIN saj.mainArtist ma " +
+        "JOIN ma.spotifyGenreEntities g " +
         "WHERE psj.playlist.id = :playlistId " +
         "GROUP BY g.spotifyGenre " +
-        "ORDER BY COUNT(g) DESC"
+        "ORDER BY genreCount DESC"
     )
-    List<Object[]> findMainGenreByPlaylistId(@Param("playlistId") Long playlistId);
+    List<Object[]> findMainGenreByPlaylistIdUsingArtists(@Param("playlistId") Long playlistId);
 }
