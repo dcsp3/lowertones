@@ -109,6 +109,35 @@
           </div>
         </ng-template>
 
+        <!--Tempo-->
+        <ng-template let-node pTemplate="TempoElement">
+          <div style="display: flex; justify-content: space-between">
+            <b>Min: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="60"
+              type="number"
+              pInputText
+              [(ngModel)]="tempoValues[0]"
+              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              class="w-full no-spinners"
+            />
+            <b>Max: </b>
+            <input
+              style="width: 8vh; padding: 0rem; text-align: center"
+              placeholder="120"
+              type="number"
+              pInputText
+              [(ngModel)]="tempoValues[1]"
+              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              class="w-full no-spinners"
+            />
+          </div>
+        </ng-template>
+
+        <!--Song Features-->
+        <ng-template let-node pTemplate="FeaturesElement"> </ng-template>
+
         <!--Popularity-->
         <ng-template let-node pTemplate="PopularityElement">
           <!--

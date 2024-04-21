@@ -110,6 +110,7 @@ export class TableviewComponent implements OnInit {
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = [1900, 2030];
   rangeValues: number[] = [0, 100];
+  tempoValues: number[] = [60, 120];
   durationValues: string[] = ['', ''];
   artistChips: string[] = [];
   producerChips: string[] = [];
