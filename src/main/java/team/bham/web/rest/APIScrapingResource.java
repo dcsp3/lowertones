@@ -164,6 +164,7 @@ public class APIScrapingResource {
             appUser.setSpotifyUserID(new String());
             appUser.setLastLoginDate(LocalDate.now());
             appUser.setHighContrastMode(false);
+            appUser.setEmailUpdatesEnabled(false);
             appUser.setTextSize(0);
             appUserRepository.save(appUser);
         }
