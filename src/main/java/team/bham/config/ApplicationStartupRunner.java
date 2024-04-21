@@ -106,7 +106,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             }
             System.out.println("3");
 
-            String outputDirectory = "./src/main/resources/downloaded_files";
+            String outputDirectory = "/tmp/downloaded_files";
             java.io.File fileOutputDir = new java.io.File(outputDirectory);
             if (!fileOutputDir.exists()) {
                 if (fileOutputDir.mkdirs()) {
