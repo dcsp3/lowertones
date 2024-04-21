@@ -226,28 +226,22 @@ export class TableviewComponent implements OnInit {
   }
 
   switchSongDataInUse(): void {
-    if (this.selectedTableState.value === 'user') {
-      this.songDataInUse = this.songData;
-      this.filteredSongData = this.songDataInUse;
-      this.applySearch();
-      let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
-      this.pagePair.staging = this.tablePage;
-      if (maxPages < this.tablePage && maxPages < this.pagePair.user) {
-        this.setPage(maxPages);
-      } else {
-        this.setPage(this.pagePair.user);
-      }
+    const key = this.selectedTableState.value as keyof PagePair;
+    const otherKey = key === 'user' ? 'staging' : ('user' as keyof PagePair);
+
+    this.songDataInUse = key === 'user' ? this.songData : this.selectedSongs;
+    this.applySearch();
+    let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
+    this.pagePair[otherKey] = this.tablePage;
+
+    if (maxPages < this.pagePair[key]) {
+      console.log(
+        "setting value from what could've been " + maxPages.toString() + ' to ' + (Math.floor(maxPages / 15) * 15).toString() + ':1'
+      );
+      this.setPage(Math.floor(maxPages / 15) * 15);
     } else {
-      this.songDataInUse = this.selectedSongs;
-      this.filteredSongData = this.songDataInUse;
-      this.applySearch();
-      let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
-      this.pagePair.user = this.tablePage;
-      if (maxPages < this.tablePage && maxPages < this.pagePair.staging) {
-        this.setPage(maxPages);
-      } else {
-        this.setPage(this.pagePair.staging);
-      }
+      console.log('setting value to ' + this.pagePair[key].toString() + ':3');
+      this.setPage(this.pagePair[key]);
     }
   }
 
