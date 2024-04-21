@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import team.bham.domain.Playlist;
 import team.bham.domain.PlaylistSongJoin;
 import team.bham.domain.Song;
 import team.bham.domain.SongArtistJoin;
+import team.bham.domain.SpotifyGenreEntity;
 import team.bham.repository.MainArtistRepository;
 import team.bham.repository.PlaylistRepository;
 import team.bham.repository.PlaylistSongJoinRepository;
@@ -264,50 +266,40 @@ public class NetworkService {
         return ResponseEntity.ok().body(playlistInfo);
     }
 
-    @Transactional
-    public ResponseEntity<NetworkDTO> getPlaylistItems(Long playlistId, Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        if (appUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public JSONObject getArtistsDetailsFromPlaylist(AppUser appUser, Long playlistId) {
+        List<MainArtist> artists = mainArtistRepository.findArtistDetailsByPlaylistId(playlistId);
+
+        double minDistance = 100.0;
+        double maxDistance = 600.0;
+
+        int totalSongs = playlistSongJoinRepository.findSongsByPlaylistId(playlistId).size();
+
+        JSONArray jsonArtistsArray = new JSONArray();
+
+        for (MainArtist artist : artists) {
+            int songsByArtist = playlistSongJoinRepository.countSongsByArtistInPlaylist(artist.getArtistSpotifyID(), playlistId);
+
+            double distance = calculateDistance(songsByArtist, totalSongs, minDistance, maxDistance);
+
+            JSONObject jsonArtist = new JSONObject();
+            jsonArtist.put("id", artist.getArtistSpotifyID());
+            jsonArtist.put("name", artist.getArtistName());
+            jsonArtist.put("genres", mapGenres(artist.getSpotifyGenreEntities()));
+            jsonArtist.put("imageUrl", artist.getArtistImageLarge() == null ? JSONObject.NULL : artist.getArtistImageLarge());
+            jsonArtist.put("distance", distance);
+            jsonArtist.put("songsInLibrary", countSongsByArtistInLibrary(appUser, artist.getArtistSpotifyID()));
+
+            jsonArtistsArray.put(jsonArtist);
         }
 
-        Playlist playlist = utilService.getPlaylistById(playlistId);
-        if (playlist == null || !playlist.getAppUser().equals(appUser)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        NetworkDTO networkDTO = new NetworkDTO(playlist.getId(), playlist.getPlaylistName());
-        networkDTO.setSongDetails(new ArrayList<>());
-
-        for (PlaylistSongJoin join : playlist.getPlaylistSongJoins()) {
-            Song song = join.getSong();
-            List<NetworkDTO.ArtistDetails> artistDetailsList = new ArrayList<>();
-
-            for (SongArtistJoin songArtistJoin : song.getSongArtistJoins()) {
-                MainArtist artist = songArtistJoin.getMainArtist();
-                List<String> genres = Collections.emptyList(); // Assuming genres are stored or can be retrieved similarly
-
-                NetworkDTO.ArtistDetails artistDetails = new NetworkDTO.ArtistDetails(
-                    artist.getId(),
-                    artist.getArtistName(),
-                    genres,
-                    artist.getArtistImageLarge(),
-                    0 // Assume this is a placeholder for popularity if needed elsewhere
-                );
-                artistDetailsList.add(artistDetails);
-            }
-
-            NetworkDTO.SongDetails songDetails = new NetworkDTO.SongDetails(song.getId(), song.getSongTitle(), song.getSongPopularity());
-            networkDTO.getSongDetails().add(songDetails);
-        }
-
-        return ResponseEntity.ok(networkDTO);
+        JSONObject graphData = new JSONObject();
+        graphData.put("artists", jsonArtistsArray);
+        return graphData;
     }
 
     public JSONObject calculatePlaylistStats(Long playlistId) {
         JSONObject stats = new JSONObject();
 
-        // Fetch the most popular artist
         Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "artistPopularity"));
         Page<MainArtist> mostPopularArtistsPage = songArtistJoinRepository.findMostPopularArtistByPlaylistId(playlistId, pageable);
 
@@ -327,7 +319,6 @@ public class NetworkService {
             }
         }
 
-        // Fetch artist-based genres and determine the most frequent genre
         List<Object[]> genreData = playlistSongJoinRepository.findMainGenreByPlaylistIdUsingArtists(playlistId);
         String mainGenre = genreData
             .stream()
@@ -336,35 +327,43 @@ public class NetworkService {
             .orElse("Unknown");
         stats.put("topGenre", mainGenre);
 
-        // Collect other stats like total songs and average popularity
         List<Song> songs = playlistSongJoinRepository.findSongsByPlaylistId(playlistId);
         double averagePopularity = songs.stream().mapToInt(Song::getSongPopularity).average().orElse(0);
-        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity + "%"));
+        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
 
-        // Calculate taste category details based on the average popularity
         Map<String, Object> tasteCategoryDetails = calculateTasteCategory(averagePopularity);
         stats.put("tasteCategory", tasteCategoryDetails);
 
         return stats;
     }
 
+    private JSONArray mapGenres(Set<SpotifyGenreEntity> genreEntities) {
+        JSONArray jsonGenresArray = new JSONArray();
+        for (SpotifyGenreEntity genreEntity : genreEntities) {
+            jsonGenresArray.put(genreEntity.getSpotifyGenre());
+        }
+        return jsonGenresArray;
+    }
+
+    private double calculateDistance(int songsByArtist, int totalSongs, double minDistance, double maxDistance) {
+        double distanceRatio = (double) songsByArtist / totalSongs;
+        return minDistance + (maxDistance - minDistance) * distanceRatio;
+    }
+
     @Transactional
-    public ResponseEntity<String> getPlaylistStats(Long playlistId, Authentication authentication) {
+    public ResponseEntity<String> getPlaylistData(Long playlistId, Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
         try {
-            ResponseEntity<NetworkDTO> playlistResponse = getPlaylistItems(playlistId, authentication);
-            if (!playlistResponse.getStatusCode().is2xxSuccessful()) {
-                return ResponseEntity.status(playlistResponse.getStatusCode()).body("Failed to retrieve playlist data");
-            }
+            JSONObject stats = calculatePlaylistStats(playlistId);
+            JSONObject graphData = getArtistsDetailsFromPlaylist(appUser, playlistId);
 
-            NetworkDTO playlistDetails = playlistResponse.getBody();
-            if (playlistDetails == null) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Playlist details are missing");
-            }
-
-            // Process details assuming they are not null
-            JSONObject stats = calculatePlaylistStats(playlistDetails.getPlaylistId());
             JSONObject result = new JSONObject();
             result.put("stats", stats);
+            result.put("graphData", graphData);
             return new ResponseEntity<>(result.toString(), HttpStatus.OK);
         } catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the playlist stats");

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.MainArtist;
+import team.bham.service.dto.NetworkDTO;
 
 /**
  * Spring Data JPA repository for the MainArtist entity.
@@ -33,4 +34,15 @@ public interface MainArtistRepository extends MainArtistRepositoryWithBagRelatio
 
     @Query("SELECT a FROM MainArtist a WHERE a.artistSpotifyID = ?1")
     MainArtist findArtistBySpotifyId(String spotifyId);
+
+    @Query(
+        "SELECT a " +
+        "FROM MainArtist a " +
+        "JOIN a.songArtistJoins saj " +
+        "JOIN saj.song s " +
+        "JOIN s.playlistSongJoins psj " +
+        "WHERE psj.playlist.id = :playlistId " +
+        "GROUP BY a.id, a.artistName, a.artistSpotifyID, a.artistImageLarge"
+    )
+    List<MainArtist> findArtistDetailsByPlaylistId(@Param("playlistId") Long playlistId);
 }

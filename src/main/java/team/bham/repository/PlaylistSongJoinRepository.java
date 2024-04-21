@@ -28,4 +28,14 @@ public interface PlaylistSongJoinRepository extends JpaRepository<PlaylistSongJo
         "ORDER BY genreCount DESC"
     )
     List<Object[]> findMainGenreByPlaylistIdUsingArtists(@Param("playlistId") Long playlistId);
+
+    @Query(
+        "SELECT COUNT(psj) " +
+        "FROM PlaylistSongJoin psj " +
+        "JOIN psj.song s " +
+        "JOIN s.songArtistJoins saj " +
+        "JOIN saj.mainArtist ma " +
+        "WHERE ma.artistSpotifyID = :artistSpotifyId AND psj.playlist.id = :playlistId"
+    )
+    int countSongsByArtistInPlaylist(@Param("artistSpotifyId") String artistSpotifyId, @Param("playlistId") Long playlistId);
 }

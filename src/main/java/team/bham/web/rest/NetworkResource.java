@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.bham.service.NetworkService;
-import team.bham.service.dto.NetworkDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -42,13 +41,8 @@ public class NetworkResource {
         return networkService.getUserPlaylistNames(authentication);
     }
 
-    @GetMapping("/playlists/{playlistId}/items")
-    public ResponseEntity<NetworkDTO> getPlaylistItems(@PathVariable Long playlistId, Authentication authentication) {
-        return networkService.getPlaylistItems(playlistId, authentication);
-    }
-
-    @GetMapping("/playlist/{playlistId}/stats")
+    @GetMapping("/playlist/{playlistId}/data")
     public ResponseEntity<String> getPlaylistData(@PathVariable Long playlistId, Authentication authentication) {
-        return networkService.getPlaylistStats(playlistId, authentication);
+        return networkService.getPlaylistData(playlistId, authentication);
     }
 }
