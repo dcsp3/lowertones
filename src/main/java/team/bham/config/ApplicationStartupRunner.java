@@ -10,11 +10,13 @@ import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -101,7 +103,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             }
             System.out.println("3");
 
-            String outputDirectory = "./downloaded_files";
+            String outputDirectory = "./src/main/resources/downloaded_files";
             java.io.File fileOutputDir = new java.io.File(outputDirectory);
             if (!fileOutputDir.exists()) {
                 if (fileOutputDir.mkdirs()) {
@@ -110,6 +112,29 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
                     System.out.println("Failed to create directory: " + outputDirectory);
                     return; // Exit the method if the directory cannot be created
                 }
+            }
+            try {
+                // Command to list files in the current directory
+                String[] command = { "ls", "-al" };
+
+                // Create ProcessBuilder
+                ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+                // Start the process
+                Process process = processBuilder.start();
+
+                // Read output
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+
+                // Wait for the process to finish
+                int exitCode = process.waitFor();
+                System.out.println("\nExited with error code : " + exitCode);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
 
             System.out.println("4");
