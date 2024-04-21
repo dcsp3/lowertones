@@ -122,6 +122,7 @@ export class TableviewComponent implements OnInit {
   pagePair: PagePair = { user: 0, staging: 0 };
   tablePage: number = 0;
   tableRows: number = 15;
+  entryCount: number = 0;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
@@ -252,6 +253,7 @@ export class TableviewComponent implements OnInit {
   pageChange(event: { first: number; rows: number }) {
     this.tablePage = event.first;
     this.tableRows = event.rows;
+    this.entryCount = this.countSongsNoPlaceholder(this.filteredSongData);
   }
 
   scrape() {
@@ -306,6 +308,14 @@ export class TableviewComponent implements OnInit {
 
   countSongsNoPlaceholder(songList: SongEntry[]): number {
     return songList.filter(song => !song.placeholder).length;
+  }
+
+  getNumberOfLastEntry(): number {
+    let lastEntry = this.tablePage + 15;
+    if (lastEntry > this.countSongsNoPlaceholder(this.filteredSongData)) {
+      lastEntry = this.countSongsNoPlaceholder(this.filteredSongData);
+    }
+    return lastEntry;
   }
 
   fetchPlaylists() {
