@@ -183,13 +183,20 @@
   </div>
 
   <div id="table-content" class="tbv-divs">
-    <div class="tableselector-div">
-      <p-selectButton [options]="tableStates" [(ngModel)]="selectedTableState" (ngModelChange)="switchSongDataInUse()" optionLabel="label">
-        <ng-template let-option>
-          <span *ngIf="option.value === 'user'">{{ option.label }}</span>
-          <span *ngIf="option.value === 'staging'">{{ option.label }} ({{ selectedSongCount }})</span>
-        </ng-template>
-      </p-selectButton>
+    <div class="tabletoolbar-div">
+      <p-toolbar>
+        <p-selectButton
+          [options]="tableStates"
+          [(ngModel)]="selectedTableState"
+          (ngModelChange)="switchSongDataInUse()"
+          optionLabel="label"
+        >
+          <ng-template let-option>
+            <span *ngIf="option.value === 'user'">{{ option.label }}</span>
+            <span *ngIf="option.value === 'staging'">{{ option.label }} ({{ selectedSongCount }})</span>
+          </ng-template>
+        </p-selectButton>
+      </p-toolbar>
     </div>
 
     <div class=".table-div">
