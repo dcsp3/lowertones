@@ -147,6 +147,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   onPlaylistChange(playlistId: number): void {
     if (playlistId && playlistId !== 0) {
+      clearGraph(this.graphContainer.nativeElement);
       this.selectedPlaylistId = playlistId;
       this.selectedPlaylist = this.playlists.find(p => p.value === playlistId)?.label || '';
 
@@ -172,6 +173,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
       next: playlistData => {
         this.updatePlaylistStats(playlistData.stats);
         this.renderGraphBasedOnPlaylistData(playlistData);
+        this.animateScore(parseFloat(this.averagePopularity));
         this.isLoading = false;
       },
       error: error => {
