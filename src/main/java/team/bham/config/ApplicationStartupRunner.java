@@ -75,6 +75,9 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     public void onApplicationEvent(ApplicationReadyEvent event) {
         // Your custom logic here
         System.out.println("Application is ready and live!");
+
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
+
         // Here you can place the script or call to a method you want to run
 
         // lol
