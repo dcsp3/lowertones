@@ -98,25 +98,10 @@ export class AppUserService {
   }
 
   protected convertDateFromClient<T extends IAppUser | NewAppUser | PartialUpdateAppUser>(appUser: T): RestOf<T> {
-    const { lastLoginDate, ...rest } = appUser;
-
-    if (typeof lastLoginDate === 'string') {
-      // Assuming lastLoginDate is in ISO format, you can directly assign it
-      return {
-        ...rest,
-        lastLoginDate,
-      };
-    } else if (lastLoginDate instanceof dayjs) {
-      return {
-        ...rest,
-        lastLoginDate: lastLoginDate.format(DATE_FORMAT),
-      };
-    } else {
-      return {
-        ...rest,
-        lastLoginDate: null, // or handle this case accordingly
-      };
-    }
+    return {
+      ...appUser,
+      lastLoginDate: appUser.lastLoginDate?.format(DATE_FORMAT) ?? null,
+    };
   }
 
   protected convertDateFromServer(restAppUser: RestAppUser): IAppUser {

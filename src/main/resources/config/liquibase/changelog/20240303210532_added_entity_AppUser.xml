@@ -53,6 +53,9 @@
             <column name="text_size" type="integer">
                 <constraints nullable="false" />
             </column>
+            <column name="email_updates_enabled" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_app_user_table__user_id" />
             </column>
@@ -90,6 +93,7 @@
             <column name="discover_weekly_buffer_playlist_id" type="string"/>
             <column name="high_contrast_mode" type="boolean"/>
             <column name="text_size" type="numeric"/>
+            <column name="email_updates_enabled" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

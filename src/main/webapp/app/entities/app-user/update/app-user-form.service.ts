@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AppUserFormGroupInput = IAppUser | PartialWithRequiredKeyOf<NewAppUser>;
 
-type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'highContrastMode'>;
+type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'highContrastMode' | 'emailUpdatesEnabled'>;
 
 type AppUserFormGroupContent = {
   id: FormControl<IAppUser['id'] | NewAppUser['id']>;
@@ -31,6 +31,7 @@ type AppUserFormGroupContent = {
   discoverWeeklyBufferPlaylistID: FormControl<IAppUser['discoverWeeklyBufferPlaylistID']>;
   highContrastMode: FormControl<IAppUser['highContrastMode']>;
   textSize: FormControl<IAppUser['textSize']>;
+  emailUpdatesEnabled: FormControl<IAppUser['emailUpdatesEnabled']>;
   user: FormControl<IAppUser['user']>;
 };
 
@@ -82,6 +83,9 @@ export class AppUserFormService {
       textSize: new FormControl(appUserRawValue.textSize, {
         validators: [Validators.required],
       }),
+      emailUpdatesEnabled: new FormControl(appUserRawValue.emailUpdatesEnabled, {
+        validators: [Validators.required],
+      }),
       user: new FormControl(appUserRawValue.user),
     });
   }
@@ -104,6 +108,7 @@ export class AppUserFormService {
     return {
       id: null,
       highContrastMode: false,
+      emailUpdatesEnabled: false,
     };
   }
 }

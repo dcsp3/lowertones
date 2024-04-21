@@ -164,6 +164,9 @@ public class AppUserResource {
                 if (appUser.getTextSize() != null) {
                     existingAppUser.setTextSize(appUser.getTextSize());
                 }
+                if (appUser.getEmailUpdatesEnabled() != null) {
+                    existingAppUser.setEmailUpdatesEnabled(appUser.getEmailUpdatesEnabled());
+                }
 
                 return existingAppUser;
             })

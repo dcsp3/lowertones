@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-vault-heading" data-cy="VaultCreateUpdateHeading">Create or edit a Vault</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_sourcePlaylistID">Source Playlist ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sourcePlaylistID"
+            id="field_sourcePlaylistID"
+            data-cy="sourcePlaylistID"
+            formControlName="sourcePlaylistID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistName">Playlist Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistName"
+            id="field_playlistName"
+            data-cy="playlistName"
+            formControlName="playlistName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_resultPlaylistID">Result Playlist ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="resultPlaylistID"
+            id="field_resultPlaylistID"
+            data-cy="resultPlaylistID"
+            formControlName="resultPlaylistID"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_frequency">Frequency</label>
+          <input type="text" class="form-control" name="frequency" id="field_frequency" data-cy="frequency" formControlName="frequency" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_type">Type</label>
+          <input type="text" class="form-control" name="type" id="field_type" data-cy="type" formControlName="type" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistCoverURL">Playlist Cover URL</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistCoverURL"
+            id="field_playlistCoverURL"
+            data-cy="playlistCoverURL"
+            formControlName="playlistCoverURL"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_playlistSnapshotID">Playlist Snapshot ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="playlistSnapshotID"
+            id="field_playlistSnapshotID"
+            data-cy="playlistSnapshotID"
+            formControlName="playlistSnapshotID"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

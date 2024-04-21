@@ -75,6 +75,10 @@ public class AppUser implements Serializable {
     @Column(name = "text_size", nullable = false)
     private Integer textSize;
 
+    @NotNull
+    @Column(name = "email_updates_enabled", nullable = false)
+    private Boolean emailUpdatesEnabled;
+
     @OneToOne
     @JoinColumn(unique = true)
     private User user;
@@ -268,6 +272,19 @@ public class AppUser implements Serializable {
         this.textSize = textSize;
     }
 
+    public Boolean getEmailUpdatesEnabled() {
+        return this.emailUpdatesEnabled;
+    }
+
+    public AppUser emailUpdatesEnabled(Boolean emailUpdatesEnabled) {
+        this.setEmailUpdatesEnabled(emailUpdatesEnabled);
+        return this;
+    }
+
+    public void setEmailUpdatesEnabled(Boolean emailUpdatesEnabled) {
+        this.emailUpdatesEnabled = emailUpdatesEnabled;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -349,6 +366,7 @@ public class AppUser implements Serializable {
             ", discoverWeeklyBufferPlaylistID='" + getDiscoverWeeklyBufferPlaylistID() + "'" +
             ", highContrastMode='" + getHighContrastMode() + "'" +
             ", textSize=" + getTextSize() +
+            ", emailUpdatesEnabled='" + getEmailUpdatesEnabled() + "'" +
             "}";
     }
 }

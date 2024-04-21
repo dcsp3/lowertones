@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="vault">
+      <h2 data-cy="vaultDetailsHeading"><span>Vault</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ vault.id }}</span>
+        </dd>
+        <dt><span>Source Playlist ID</span></dt>
+        <dd>
+          <span>{{ vault.sourcePlaylistID }}</span>
+        </dd>
+        <dt><span>Playlist Name</span></dt>
+        <dd>
+          <span>{{ vault.playlistName }}</span>
+        </dd>
+        <dt><span>Result Playlist ID</span></dt>
+        <dd>
+          <span>{{ vault.resultPlaylistID }}</span>
+        </dd>
+        <dt><span>Frequency</span></dt>
+        <dd>
+          <span>{{ vault.frequency }}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+          <span>{{ vault.type }}</span>
+        </dd>
+        <dt><span>Playlist Cover URL</span></dt>
+        <dd>
+          <span>{{ vault.playlistCoverURL }}</span>
+        </dd>
+        <dt><span>Playlist Snapshot ID</span></dt>
+        <dd>
+          <span>{{ vault.playlistSnapshotID }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/vault', vault.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

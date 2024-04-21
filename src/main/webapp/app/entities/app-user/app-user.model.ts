@@ -16,6 +16,7 @@ export interface IAppUser {
   discoverWeeklyBufferPlaylistID?: string | null;
   highContrastMode?: boolean | null;
   textSize?: number | null;
+  emailUpdatesEnabled?: boolean | null;
   user?: Pick<IUser, 'id'> | null;
 }
 

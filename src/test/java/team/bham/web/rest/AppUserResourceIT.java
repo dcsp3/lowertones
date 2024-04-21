@@ -70,6 +70,9 @@ class AppUserResourceIT {
     private static final Integer DEFAULT_TEXT_SIZE = 1;
     private static final Integer UPDATED_TEXT_SIZE = 2;
 
+    private static final Boolean DEFAULT_EMAIL_UPDATES_ENABLED = false;
+    private static final Boolean UPDATED_EMAIL_UPDATES_ENABLED = true;
+
     private static final String ENTITY_API_URL = "/api/app-users";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -107,7 +110,8 @@ class AppUserResourceIT {
             .discoverWeeklyBufferSettings(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
             .highContrastMode(DEFAULT_HIGH_CONTRAST_MODE)
-            .textSize(DEFAULT_TEXT_SIZE);
+            .textSize(DEFAULT_TEXT_SIZE)
+            .emailUpdatesEnabled(DEFAULT_EMAIL_UPDATES_ENABLED);
         return appUser;
     }
 
@@ -131,7 +135,8 @@ class AppUserResourceIT {
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
             .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
-            .textSize(UPDATED_TEXT_SIZE);
+            .textSize(UPDATED_TEXT_SIZE)
+            .emailUpdatesEnabled(UPDATED_EMAIL_UPDATES_ENABLED);
         return appUser;
     }
 
@@ -166,6 +171,7 @@ class AppUserResourceIT {
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
         assertThat(testAppUser.getHighContrastMode()).isEqualTo(DEFAULT_HIGH_CONTRAST_MODE);
         assertThat(testAppUser.getTextSize()).isEqualTo(DEFAULT_TEXT_SIZE);
+        assertThat(testAppUser.getEmailUpdatesEnabled()).isEqualTo(DEFAULT_EMAIL_UPDATES_ENABLED);
     }
 
     @Test
@@ -307,6 +313,23 @@ class AppUserResourceIT {
 
     @Test
     @Transactional
+    void checkEmailUpdatesEnabledIsRequired() throws Exception {
+        int databaseSizeBeforeTest = appUserRepository.findAll().size();
+        // set the field null
+        appUser.setEmailUpdatesEnabled(null);
+
+        // Create the AppUser, which fails.
+
+        restAppUserMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(appUser)))
+            .andExpect(status().isBadRequest());
+
+        List<AppUser> appUserList = appUserRepository.findAll();
+        assertThat(appUserList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllAppUsers() throws Exception {
         // Initialize the database
         appUserRepository.saveAndFlush(appUser);
@@ -329,7 +352,8 @@ class AppUserResourceIT {
             .andExpect(jsonPath("$.[*].discoverWeeklyBufferSettings").value(hasItem(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS)))
             .andExpect(jsonPath("$.[*].discoverWeeklyBufferPlaylistID").value(hasItem(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)))
             .andExpect(jsonPath("$.[*].highContrastMode").value(hasItem(DEFAULT_HIGH_CONTRAST_MODE.booleanValue())))
-            .andExpect(jsonPath("$.[*].textSize").value(hasItem(DEFAULT_TEXT_SIZE)));
+            .andExpect(jsonPath("$.[*].textSize").value(hasItem(DEFAULT_TEXT_SIZE)))
+            .andExpect(jsonPath("$.[*].emailUpdatesEnabled").value(hasItem(DEFAULT_EMAIL_UPDATES_ENABLED.booleanValue())));
     }
 
     @Test
@@ -356,7 +380,8 @@ class AppUserResourceIT {
             .andExpect(jsonPath("$.discoverWeeklyBufferSettings").value(DEFAULT_DISCOVER_WEEKLY_BUFFER_SETTINGS))
             .andExpect(jsonPath("$.discoverWeeklyBufferPlaylistID").value(DEFAULT_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID))
             .andExpect(jsonPath("$.highContrastMode").value(DEFAULT_HIGH_CONTRAST_MODE.booleanValue()))
-            .andExpect(jsonPath("$.textSize").value(DEFAULT_TEXT_SIZE));
+            .andExpect(jsonPath("$.textSize").value(DEFAULT_TEXT_SIZE))
+            .andExpect(jsonPath("$.emailUpdatesEnabled").value(DEFAULT_EMAIL_UPDATES_ENABLED.booleanValue()));
     }
 
     @Test
@@ -391,7 +416,8 @@ class AppUserResourceIT {
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
             .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
-            .textSize(UPDATED_TEXT_SIZE);
+            .textSize(UPDATED_TEXT_SIZE)
+            .emailUpdatesEnabled(UPDATED_EMAIL_UPDATES_ENABLED);
 
         restAppUserMockMvc
             .perform(
@@ -418,6 +444,7 @@ class AppUserResourceIT {
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
         assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
         assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
+        assertThat(testAppUser.getEmailUpdatesEnabled()).isEqualTo(UPDATED_EMAIL_UPDATES_ENABLED);
     }
 
     @Test
@@ -524,6 +551,7 @@ class AppUserResourceIT {
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
         assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
         assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
+        assertThat(testAppUser.getEmailUpdatesEnabled()).isEqualTo(DEFAULT_EMAIL_UPDATES_ENABLED);
     }
 
     @Test
@@ -551,7 +579,8 @@ class AppUserResourceIT {
             .discoverWeeklyBufferSettings(UPDATED_DISCOVER_WEEKLY_BUFFER_SETTINGS)
             .discoverWeeklyBufferPlaylistID(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID)
             .highContrastMode(UPDATED_HIGH_CONTRAST_MODE)
-            .textSize(UPDATED_TEXT_SIZE);
+            .textSize(UPDATED_TEXT_SIZE)
+            .emailUpdatesEnabled(UPDATED_EMAIL_UPDATES_ENABLED);
 
         restAppUserMockMvc
             .perform(
@@ -578,6 +607,7 @@ class AppUserResourceIT {
         assertThat(testAppUser.getDiscoverWeeklyBufferPlaylistID()).isEqualTo(UPDATED_DISCOVER_WEEKLY_BUFFER_PLAYLIST_ID);
         assertThat(testAppUser.getHighContrastMode()).isEqualTo(UPDATED_HIGH_CONTRAST_MODE);
         assertThat(testAppUser.getTextSize()).isEqualTo(UPDATED_TEXT_SIZE);
+        assertThat(testAppUser.getEmailUpdatesEnabled()).isEqualTo(UPDATED_EMAIL_UPDATES_ENABLED);
     }
 
     @Test
