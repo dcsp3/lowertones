@@ -198,7 +198,7 @@
         [columns]="selectedColumns"
         [value]="filteredSongData"
         [(selection)]="selectedSongs"
-        (selectionChange)="countSelectedSongs()"
+        (selectionChange)="selectionLogic()"
         [paginator]="true"
         [rows]="15"
         [resizableColumns]="true"

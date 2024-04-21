@@ -277,7 +277,22 @@ export class TableviewComponent implements OnInit {
     return songList.filter(song => !song.placeholder);
   }
 
+  selectionLogic(): void {
+    this.deselectPlaceholders();
+    this.songListFactor15(this.selectedSongs);
+    this.countSelectedSongsNoPlaceholder();
+  }
+
+  deselectPlaceholders(): void {
+    console.log('i am getting called');
+    this.selectedSongs = this.selectedSongs.filter(song => !song.placeholder);
+  }
+
   countSelectedSongs(): number {
+    return (this.selectedSongCount = this.selectedSongs.length);
+  }
+
+  countSelectedSongsNoPlaceholder(): number {
     return (this.selectedSongCount = this.selectedSongs.filter(song => !song.placeholder).length);
   }
 
