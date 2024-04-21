@@ -223,28 +223,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_emailUpdatesEnabled">Email Updates Enabled</label>
-          <input
-            type="checkbox"
-            class="form-check"
-            name="emailUpdatesEnabled"
-            id="field_emailUpdatesEnabled"
-            data-cy="emailUpdatesEnabled"
-            formControlName="emailUpdatesEnabled"
-          />
-          <div
-            *ngIf="
-              editForm.get('emailUpdatesEnabled')!.invalid &&
-              (editForm.get('emailUpdatesEnabled')!.dirty || editForm.get('emailUpdatesEnabled')!.touched)
-            "
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('emailUpdatesEnabled')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>

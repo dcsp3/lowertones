@@ -67,11 +67,6 @@
       "fieldName": "textSize",
       "fieldType": "Integer",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "emailUpdatesEnabled",
-      "fieldType": "Boolean",
-      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,

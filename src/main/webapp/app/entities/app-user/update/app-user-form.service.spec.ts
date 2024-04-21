@@ -33,7 +33,6 @@ describe('AppUser Form Service', () => {
             discoverWeeklyBufferPlaylistID: expect.any(Object),
             highContrastMode: expect.any(Object),
             textSize: expect.any(Object),
-            emailUpdatesEnabled: expect.any(Object),
             user: expect.any(Object),
           })
         );
@@ -58,7 +57,6 @@ describe('AppUser Form Service', () => {
             discoverWeeklyBufferPlaylistID: expect.any(Object),
             highContrastMode: expect.any(Object),
             textSize: expect.any(Object),
-            emailUpdatesEnabled: expect.any(Object),
             user: expect.any(Object),
           })
         );
