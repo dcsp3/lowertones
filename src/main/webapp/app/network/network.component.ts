@@ -57,7 +57,8 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.clearAllStats(); // Reset stats
       this.clearGraphAndShowPlaceholder();
     } else {
-      this.fetchTopArtists(this.timeRange);
+      this.fetchAndRenderGraph(this.timeRange);
+      this.displayGraphPlaceholder = false;
     }
   }
 
