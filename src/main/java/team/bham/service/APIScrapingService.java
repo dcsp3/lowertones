@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.List;
 import java.util.Map;
@@ -157,21 +158,22 @@ public class APIScrapingService {
             playlistRepository.save(playlist);
 
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
-            for (int j = 0; j < tracks.size(); j++) {
-                MainArtist a = getArtistScraped(tracks.get(j).getArtist().getSpotifyId(), existingArtists);
+            Set<SpotifyTrack> trackSet = new HashSet<>(tracks);
+            for (SpotifyTrack track : trackSet) {
+                MainArtist a = getArtistScraped(track.getArtist().getSpotifyId(), existingArtists);
                 if (a == null) {
-                    a = storeArtist(tracks.get(j).getArtist());
+                    a = storeArtist(track.getArtist());
                 }
-                Album album = getAlbumScraped(tracks.get(j).getAlbum().getSpotifyId(), existingAlbums);
+                Album album = getAlbumScraped(track.getAlbum().getSpotifyId(), existingAlbums);
                 if (album == null) {
-                    album = storeAlbum(tracks.get(j).getAlbum());
+                    album = storeAlbum(track.getAlbum());
                 }
 
                 //check if song already exists. if not, store in db and create song-artist join
                 //songs already in db should always have song-artist join already
-                Song s = getSongScraped(tracks.get(j).getId(), existingSongs);
+                Song s = getSongScraped(track.getId(), existingSongs);
                 if (s == null) {
-                    s = storeTrack(tracks.get(j), album);
+                    s = storeTrack(track, album);
 
                     SongArtistJoin songArtistJoin = new SongArtistJoin();
                     songArtistJoin.setSong(s);
@@ -257,6 +259,74 @@ public class APIScrapingService {
         //todo: images
         mainArtistRepository.save(mainArtist);
         return mainArtist;
+    }
+
+    @Transactional
+    public void test(AppUser appUser) {
+        //grab full playlist details from simple playlist id
+        SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, "48DDkoj8vW5JJl1W8vISmC").getData();
+
+        //get song ids
+        ArrayList<String> songSpotifyIds = curPlaylist
+            .getTracks()
+            .stream()
+            .map(SpotifyTrack::getId)
+            .collect(Collectors.toCollection(ArrayList::new));
+        List<String> albumSpotifyIds = curPlaylist.getTracks().stream().map(t -> t.getAlbum().getSpotifyId()).collect(Collectors.toList());
+        List<String> artistSpotifyIds = curPlaylist
+            .getTracks()
+            .stream()
+            .map(t -> t.getArtist().getSpotifyId())
+            .collect(Collectors.toList());
+        List<Song> existingSongs = songRepository.findBySongSpotifyIDIn(songSpotifyIds);
+        List<MainArtist> existingArtists = mainArtistRepository.findByArtistSpotifyIDIn(artistSpotifyIds);
+        List<Album> existingAlbums = albumRepository.findByAlbumSpotifyIDIn(albumSpotifyIds);
+
+        Playlist playlist = new Playlist();
+
+        playlist.setAppUser(appUser);
+        playlist.setDateAddedToDB(LocalDate.now());
+        playlist.setDateLastModified(LocalDate.now());
+        playlist.setPlaylistSpotifyID(curPlaylist.getPlaylistId());
+        playlist.setPlaylistSnapshotID(curPlaylist.getSnapshotId());
+        playlist.setPlaylistName(curPlaylist.getName());
+        playlist.setPlaylistImageSmall(curPlaylist.getPlaylistImageSmall());
+        playlist.setPlaylistImageMedium(curPlaylist.getPlaylistImageMedium());
+        playlist.setPlaylistImageLarge(curPlaylist.getPlaylistImageLarge());
+        playlistRepository.save(playlist);
+
+        ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
+        for (int j = 0; j < tracks.size(); j++) {
+            MainArtist a = getArtistScraped(tracks.get(j).getArtist().getSpotifyId(), existingArtists);
+            if (a == null) {
+                a = storeArtist(tracks.get(j).getArtist());
+            }
+            Album album = getAlbumScraped(tracks.get(j).getAlbum().getSpotifyId(), existingAlbums);
+            if (album == null) {
+                album = storeAlbum(tracks.get(j).getAlbum());
+            }
+
+            //check if song already exists. if not, store in db and create song-artist join
+            //songs already in db should always have song-artist join already
+            Song s = getSongScraped(tracks.get(j).getId(), existingSongs);
+            if (s == null) {
+                s = storeTrack(tracks.get(j), album);
+
+                SongArtistJoin songArtistJoin = new SongArtistJoin();
+                songArtistJoin.setSong(s);
+                songArtistJoin.setMainArtist(a);
+                songArtistJoin.setTopTrackIndex(0); //????
+                songArtistJoinRepository.save(songArtistJoin);
+            }
+
+            PlaylistSongJoin playlistSongJoin = new PlaylistSongJoin();
+            playlistSongJoin.setPlaylist(playlist);
+            playlistSongJoin.setSong(s);
+            playlistSongJoin.setSongOrderIndex(0); //tracks in SpotifyPlaylist obj *should* be in correct order
+            playlistSongJoin.setSongDateAdded(LocalDate.now());
+            playlistSongJoinRepository.save(playlistSongJoin);
+            //todo: genre stuff.
+        }
     }
 
     @Transactional
