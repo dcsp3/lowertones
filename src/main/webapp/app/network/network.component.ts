@@ -37,6 +37,8 @@ interface TasteCategoryDetails {
 export class NetworkComponent implements OnInit, OnDestroy {
   constructor(private networkService: NetworkService) {}
 
+  isLoading: boolean = true;
+
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
   @ViewChild('connectionsCheckbox') connectionsCheckbox!: ElementRef<HTMLInputElement>;
 
@@ -44,11 +46,34 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   setActiveTab(tab: 'topArtists' | 'playlists'): void {
     this.activeTab = tab;
+    this.isLoading = true;
+
+    if (this.currentAudio) {
+      this.stopAudio();
+    }
+
     if (tab === 'playlists') {
       this.selectedPlaylistId = 0;
+      this.clearAllStats(); // Reset stats
       this.clearGraphAndShowPlaceholder();
+    } else {
+      this.fetchTopArtists(this.timeRange);
     }
   }
+
+  private clearAllStats(): void {
+    this.topArtistName = '';
+    this.topArtistImage = '';
+    this.topTrackName = '';
+    this.topTrackPreviewUrl = '';
+    this.topGenre = '';
+    this.averagePopularity = '';
+    this.tasteCategoryDetails = null;
+
+    this.displayScore = '0.00';
+    this.isPlaying = false;
+  }
+
   displayGraphPlaceholder: boolean = false;
 
   private clearGraphAndShowPlaceholder(): void {
@@ -81,6 +106,8 @@ export class NetworkComponent implements OnInit, OnDestroy {
   private timeRangeSubject = new Subject<string>();
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.fetchAndRenderGraph(this.timeRange);
 
     this.fetchPlaylists();
@@ -97,24 +124,25 @@ export class NetworkComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopAudio();
   }
+  errorMessage: String = '';
 
   fetchPlaylists(): void {
+    this.isLoading = true;
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
-        this.playlists = [
-          ...data.map(playlist => ({
-            label: playlist.name,
-            value: playlist.id,
-          })),
-        ];
-
-        this.selectedPlaylist = '';
-        this.selectedPlaylistId = 0;
+        this.playlists = data.map(playlist => ({
+          label: playlist.name,
+          value: playlist.id,
+        }));
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);
       },
     });
+  }
+
+  handleError(error: any): void {
+    this.errorMessage = 'Failed to load data. Please try again later.';
   }
 
   onPlaylistChange(playlistId: number): void {
@@ -123,6 +151,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.selectedPlaylist = this.playlists.find(p => p.value === playlistId)?.label || '';
 
       this.displayGraphPlaceholder = false;
+      this.stopAudio();
       this.fetchAndRenderGraphForPlaylist(this.selectedPlaylistId);
     } else {
       this.selectedPlaylistId = 0;
@@ -138,15 +167,46 @@ export class NetworkComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.isLoading = true;
     this.networkService.getPlaylistData(playlistId).subscribe({
       next: playlistData => {
+        this.updatePlaylistStats(playlistData.stats);
         this.renderGraphBasedOnPlaylistData(playlistData);
+        this.isLoading = false;
       },
       error: error => {
         console.error('There was an error fetching the playlist data', error);
         this.displayGraphPlaceholder = true;
+        this.isLoading = false;
       },
     });
+  }
+
+  private updatePlaylistStats(stats: any): void {
+    if (stats) {
+      this.topArtistName = this.truncateText(stats.topArtistName, 9);
+      this.topArtistImage = stats.topArtistImage;
+      this.topTrackName = this.truncateText(stats.topTrackByTopArtist.trackName, 25);
+      this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
+      this.topGenre = this.truncateText(stats.topGenre, 25);
+      this.averagePopularity = stats.averagePopularity;
+
+      if (stats.tasteCategory) {
+        this.tasteCategoryDetails = {
+          name: stats.tasteCategory.name,
+          colorDark: stats.tasteCategory.colorDark,
+          colorLight: stats.tasteCategory.colorLight,
+        };
+      }
+    }
+
+    if (stats.topTrackByTopArtist && stats.topTrackByTopArtist.previewUrl !== this.topTrackPreviewUrl) {
+      this.stopAudio();
+      this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
+    } else if (!stats.topTrackByTopArtist) {
+      this.stopAudio();
+      this.topTrackPreviewUrl = '';
+    }
   }
 
   private async renderGraphBasedOnPlaylistData(playlistData: any, includeConnections: boolean = false): Promise<void> {
@@ -219,6 +279,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
   }
 
   fetchTopArtists(timeRange: string): Promise<Artist[]> {
+    this.isLoading = true;
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
@@ -234,60 +295,56 @@ export class NetworkComponent implements OnInit, OnDestroy {
           throw new Error('No artist data found');
         }
 
-        this.topArtistName = this.truncateText(data.stats.topArtistName, 7);
+        this.topArtistName = this.truncateText(data.stats.topArtistName, 9);
         this.topArtistImage = data.stats.topArtistImage;
-
         this.topTrackName = this.truncateText(data.stats.topTrackByTopArtist.trackName, 25);
         this.topTrackPreviewUrl = data.stats.topTrackByTopArtist.previewUrl;
-
-        this.isPlaying = false;
-        this.currentAudio = null;
-
         this.topGenre = this.truncateText(data.stats.topGenre, 25);
-
         this.averagePopularity = data.stats.averagePopularity;
 
-        const tasteCategoryDetails = data.stats.tasteCategory;
-        if (tasteCategoryDetails) {
+        if (data.stats.tasteCategory) {
           this.tasteCategoryDetails = {
-            name: tasteCategoryDetails.name,
-            colorDark: tasteCategoryDetails.colorDark,
-            colorLight: tasteCategoryDetails.colorLight,
+            name: data.stats.tasteCategory.name,
+            colorDark: data.stats.tasteCategory.colorDark,
+            colorLight: data.stats.tasteCategory.colorLight,
           };
         }
 
+        this.isLoading = false;
         return data.graphData;
       })
       .catch(error => {
         console.error('Error fetching top artists:', error);
+        this.isLoading = false;
         throw error;
       });
   }
 
   truncateText(text: string, maxLength: number): string {
-    return text.length > maxLength ? text.substring(0, maxLength) + '…' : text;
+    return text.length > maxLength ? text.substring(0, maxLength) + '' : text;
   }
 
   playPreview() {
-    if (this.topTrackPreviewUrl) {
-      if (!this.currentAudio) {
-        this.currentAudio = new Audio(this.topTrackPreviewUrl);
-        this.currentAudio.onended = () => (this.isPlaying = false);
-        this.currentAudio.volume = 0.3;
-      }
-
+    if (!this.currentAudio || this.currentAudio.src !== this.topTrackPreviewUrl) {
       if (this.currentAudio) {
-        if (this.isPlaying) {
-          this.currentAudio.pause();
-        } else {
-          this.currentAudio.play().catch(error => {
-            console.error('Playback failed', error);
-            alert('Playback failed, please try again!'); // Simple user feedback
-          });
-        }
-        this.isPlaying = !this.isPlaying;
+        this.currentAudio.pause();
       }
+      this.currentAudio = new Audio(this.topTrackPreviewUrl!);
+      this.currentAudio.onended = () => {
+        this.isPlaying = false;
+      };
+      this.currentAudio.volume = 0.3;
     }
+
+    if (this.isPlaying) {
+      this.currentAudio.pause();
+    } else {
+      this.currentAudio.play().catch(error => {
+        console.error('Playback failed', error);
+        alert('Playback failed, please try again!');
+      });
+    }
+    this.isPlaying = !this.isPlaying;
   }
 
   stopAudio() {
@@ -295,8 +352,8 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.currentAudio.pause();
       this.currentAudio.currentTime = 0;
       this.currentAudio = null;
+      this.isPlaying = false;
     }
-    this.isPlaying = false;
   }
 
   fetchUserImage(): Promise<any> {

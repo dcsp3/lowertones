@@ -46,7 +46,11 @@
 
   <div class="content">
     <div class="graph" #graphContainer>
-      <div *ngIf="displayGraphPlaceholder">Select a playlist to view the graph.</div>
+      <p-skeleton *ngIf="isLoading" width="100%" height="100%"></p-skeleton>
+
+      <div *ngIf="!isLoading && displayGraphPlaceholder">Select a playlist to view the graph.</div>
+
+      <div *ngIf="!isLoading && !displayGraphPlaceholder"></div>
     </div>
     <div class="stats">
       <div class="top-artist">
@@ -54,7 +58,8 @@
           <span>{{ activeTab === 'topArtists' ? 'Top Artist' : 'Most Popular Artist' }}</span>
         </div>
 
-        <div class="top-artist-container">
+        <p-skeleton *ngIf="isLoading" width="100%" height="19vh"></p-skeleton>
+        <div *ngIf="!isLoading" class="top-artist-container">
           <img [src]="topArtistImage" width="100px" height="100px" alt="Top Artist Image" id="topArtistImage" />
           <div class="sound-wave" *ngIf="isPlaying">
             <div class="bar"></div>
@@ -85,21 +90,18 @@
             <div class="bar"></div>
             <div class="bar"></div>
             <div class="bar"></div>
-            <!-- Add as many bars as you like -->
           </div>
+
           <div class="top-artist-text">
-            <!-- Artist and Play Button -->
             <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-controls">
               <span id="topArtistName" class="truncate">{{ topArtistName }}</span>
               <button (click)="playPreview()" id="playButton">{{ isPlaying ? '❚❚' : '▶' }}</button>
             </div>
-            <!-- Separate Track Name -->
             <div *ngIf="topTrackName && topTrackPreviewUrl" class="artist-track">
               <span id="topArtistTopTrack" class="truncate">{{ topTrackName }}</span>
             </div>
             <div *ngIf="!topTrackName || !topTrackPreviewUrl" class="artist-name-only">
               <span id="topArtistName" class="truncate">{{ topArtistName }}</span>
-              <span class="no-track-info">No track preview available</span>
             </div>
           </div>
         </div>
@@ -110,25 +112,25 @@
           <span>{{ activeTab === 'topArtists' ? 'Top Genre' : 'Main Genre' }}</span>
         </div>
 
-        <div class="top-genre-container">
-          <div id="topGenre" class="truncate">{{ topGenre }}</div>
+        <p-skeleton *ngIf="isLoading" width="100%" height="8vh"></p-skeleton>
+        <div *ngIf="!isLoading" class="top-genre-container">
+          <span id="topGenre" class="truncate">{{ topGenre }}</span>
         </div>
       </div>
 
       <div class="mainstream-score">
-        <div class="stats-header">
-          <span>{{ activeTab === 'topArtists' ? 'Mainstream Factor' : 'Playlist Mainstream Factor' }}</span>
-        </div>
-        <div class="mainstream-score-container" *ngIf="tasteCategoryDetails">
-          <div class="score-bar" [ngStyle]="{ 'background-color': tasteCategoryDetails.colorDark }">
+        <div class="stats-header">Mainstream Factor</div>
+        <p-skeleton *ngIf="isLoading" width="100%" height="14vh"></p-skeleton>
+        <div *ngIf="!isLoading" class="mainstream-score-container">
+          <div class="score-bar" [ngStyle]="{ 'background-color': tasteCategoryDetails?.colorDark }">
             <div
               class="score-fill"
               [@fillAnimation]="{ value: 'end', params: { fillPercentage: displayScore } }"
-              [ngStyle]="{ 'background-color': tasteCategoryDetails.colorLight }"
+              [ngStyle]="{ 'background-color': tasteCategoryDetails?.colorLight }"
             ></div>
             <span class="popularity-score">{{ displayScore }}%</span>
           </div>
-          <span class="taste-category">{{ tasteCategoryDetails.name }}</span>
+          <span class="taste-category">{{ tasteCategoryDetails?.name }}</span>
         </div>
       </div>
 
