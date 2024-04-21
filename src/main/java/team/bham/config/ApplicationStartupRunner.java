@@ -89,29 +89,41 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             Drive service = null;
             try {
                 service = createDriveService(driveLogin);
+                System.out.println("1");
             } catch (IOException e) {
                 // TODO Auto-generated catch block
+                System.out.println("2");
+
                 e.printStackTrace();
             } catch (GeneralSecurityException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            System.out.println("3");
+
             String outputDirectory = "./downloaded_files";
             java.io.File fileOutputDir = new java.io.File(outputDirectory);
             if (!fileOutputDir.exists()) {
                 fileOutputDir.mkdirs();
             }
+            System.out.println("4");
 
             for (String fileID : FILE_IDS) {
                 String fileName = null;
+                System.out.println("5");
+
                 try {
                     fileName = downloadFile(service, fileID, outputDirectory);
+                    System.out.println("6");
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 System.out.println("File " + fileName + " has been downloaded and saved in " + outputDirectory);
+                System.out.println("6");
             }
+            System.out.println("7");
+
             runImport();
         } else if (activeProfile.contains("dev")) {
             try {
@@ -128,6 +140,8 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     private void runImport() {
         // run import
         try {
+            System.out.println("8");
+
             Map<Long, Long> artistIDMap = databaseImportService.importArtists("./downloaded_files/artists_table.csv");
             Map<Long, Long> albumIDMap = databaseImportService.importAlbums("./downloaded_files/album_table.csv");
             databaseImportService.importArtistAlbumLinks("./downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
