@@ -83,7 +83,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     private void runCustomScript() {
         // Implement your script here
         System.out.println("Running custom script...");
-        if (activeProfile.contains("prod")) {
+        if (activeProfile.contains("dev")) {
             // some shit
             // download
             Drive service = null;
