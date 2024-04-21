@@ -72,6 +72,25 @@ class ScrapeService {
 export class TableviewComponent implements OnInit {
   loadingSongs: boolean = true;
   songData: SongEntry[] = [];
+  placeholderSong: SongEntry = {
+    placeholder: true,
+    title: '',
+    artist: '',
+    contributor: '',
+    length: '',
+    explicit: false,
+    popularity: 0,
+    release: '',
+    acousticness: 0,
+    danceability: 0,
+    instrumentalness: 0,
+    energy: 0,
+    liveness: 0,
+    loudness: 0,
+    speechiness: 0,
+    valence: 0,
+    tempo: 0,
+  };
   songDataInUse: SongEntry[] = [];
   filteredSongData: SongEntry[] = [];
   selectedSongs: SongEntry[] = [];
@@ -95,30 +114,14 @@ export class TableviewComponent implements OnInit {
   selectedScanType: string = '';
   tableStates: Choice[];
   selectedTableState: Choice;
+  userPage: number = 0;
+  stagingPage: number = 0;
   tablePage: number = 0;
   tableRows: number = 15;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
-      let songEntry: SongEntry = {
-        placeholder: true,
-        title: '',
-        artist: '',
-        contributor: '',
-        length: '',
-        explicit: false,
-        popularity: 0,
-        release: '',
-        acousticness: 0,
-        danceability: 0,
-        instrumentalness: 0,
-        energy: 0,
-        liveness: 0,
-        loudness: 0,
-        speechiness: 0,
-        valence: 0,
-        tempo: 0,
-      };
+      let songEntry: SongEntry = this.placeholderSong;
       this.songData[i] = songEntry;
     }
 
@@ -223,6 +226,7 @@ export class TableviewComponent implements OnInit {
       this.songDataInUse = this.songData;
       this.filteredSongData = this.songDataInUse;
       this.applySearch();
+      this.setPage();
     } else {
       this.songDataInUse = this.selectedSongs;
       this.filteredSongData = this.songDataInUse;
@@ -262,25 +266,8 @@ export class TableviewComponent implements OnInit {
     if (mod !== 0 || songList.length === 0) {
       const itemsToAdd = 15 - mod;
       for (let i = 0; i < itemsToAdd; i++) {
-        songList.push({
-          placeholder: true,
-          title: '',
-          artist: '',
-          contributor: '',
-          length: '',
-          explicit: false,
-          popularity: 0,
-          release: '',
-          acousticness: 0,
-          danceability: 0,
-          instrumentalness: 0,
-          energy: 0,
-          liveness: 0,
-          loudness: 0,
-          speechiness: 0,
-          valence: 0,
-          tempo: 0,
-        });
+        let songEntry: SongEntry = this.placeholderSong;
+        songList.push(songEntry);
       }
     }
   }
@@ -321,13 +308,6 @@ export class TableviewComponent implements OnInit {
       },
     });
   }
-
-  /*
-  printSelectedSongs(): void {
-    this.selectedSongs.forEach(song => {
-      console.log(song.title);
-    });
-  }*/
 
   genSongList(): void {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
