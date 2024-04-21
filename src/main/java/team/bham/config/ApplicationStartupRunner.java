@@ -113,6 +113,8 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
                     System.out.println("Directory created: " + outputDirectory);
                 } else {
                     System.out.println("Failed to create directory: " + outputDirectory);
+                    String[] command = { "ls", "-al" };
+
                     return; // Exit the method if the directory cannot be created
                 }
             }
@@ -176,25 +178,25 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         try {
             System.out.println("8");
 
-            Map<Long, Long> artistIDMap = databaseImportService.importArtists("./downloaded_files/artists_table.csv");
-            Map<Long, Long> albumIDMap = databaseImportService.importAlbums("./downloaded_files/album_table.csv");
-            databaseImportService.importArtistAlbumLinks("./downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_1.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_2.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_3.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_4.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_5.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_6.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_7.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_8.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_9.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_10.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_11.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_12.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_13.csv", albumIDMap);
-            databaseImportService.importTracks("./downloaded_files/tracks_part_14.csv", albumIDMap);
-            databaseImportService.importGenres("./downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
-            databaseImportService.importRelatedArtists("./downloaded_files/related_artists.csv");
+            Map<Long, Long> artistIDMap = databaseImportService.importArtists("/tmp/downloaded_files/artists_table.csv");
+            Map<Long, Long> albumIDMap = databaseImportService.importAlbums("/tmp/downloaded_files/album_table.csv");
+            databaseImportService.importArtistAlbumLinks("/tmp/downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_1.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_2.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_3.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_4.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_5.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_6.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_7.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_8.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_9.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_10.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_11.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_12.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_13.csv", albumIDMap);
+            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_14.csv", albumIDMap);
+            databaseImportService.importGenres("/tmp/downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
+            databaseImportService.importRelatedArtists("/tmp/downloaded_files/related_artists.csv");
             // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
             // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",
             // artistIDMap);
