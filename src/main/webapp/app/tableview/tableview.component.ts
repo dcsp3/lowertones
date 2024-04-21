@@ -75,6 +75,7 @@ export class TableviewComponent implements OnInit {
   songDataInUse: SongEntry[] = [];
   filteredSongData: SongEntry[] = [];
   selectedSongs: SongEntry[] = [];
+  selectedSongCount: number;
   searchQuery: string = '';
   jsonBlob: any;
   filters!: TreeNode[];
@@ -148,6 +149,8 @@ export class TableviewComponent implements OnInit {
       { label: 'My Entire Library', value: 'entireLibrary' },
       { label: 'My Top Songs', value: 'topSongs' },
     ];
+
+    this.selectedSongCount = 0;
   }
 
   ngOnInit(): void {
@@ -272,6 +275,10 @@ export class TableviewComponent implements OnInit {
 
   removePlaceholders(songList: SongEntry[]): SongEntry[] {
     return songList.filter(song => !song.placeholder);
+  }
+
+  countSelectedSongs(): number {
+    return (this.selectedSongCount = this.selectedSongs.filter(song => !song.placeholder).length);
   }
 
   fetchPlaylists() {
