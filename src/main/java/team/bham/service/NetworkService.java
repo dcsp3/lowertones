@@ -11,6 +11,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +27,10 @@ import team.bham.domain.Playlist;
 import team.bham.domain.PlaylistSongJoin;
 import team.bham.domain.Song;
 import team.bham.domain.SongArtistJoin;
+import team.bham.repository.MainArtistRepository;
 import team.bham.repository.PlaylistRepository;
+import team.bham.repository.PlaylistSongJoinRepository;
+import team.bham.repository.SongArtistJoinRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.dto.NetworkDTO;
@@ -33,6 +41,15 @@ public class NetworkService {
     private final SpotifyAPIWrapperService apiWrapper;
     private final UserService userService;
     private final UtilService utilService;
+
+    @Autowired
+    private SongArtistJoinRepository songArtistJoinRepository;
+
+    @Autowired
+    private PlaylistSongJoinRepository playlistSongJoinRepository;
+
+    @Autowired
+    private MainArtistRepository mainArtistRepository;
 
     public NetworkService(SpotifyAPIWrapperService apiWrapper, UserService userService, UtilService utilService) {
         this.apiWrapper = apiWrapper;
@@ -139,19 +156,19 @@ public class NetworkService {
         Map<String, Object> categoryDetails = new HashMap<>();
 
         if (averagePopularity < 20) {
-            categoryDetails.put("name", "Underground🤘");
+            categoryDetails.put("name", "Underground👤");
             categoryDetails.put("colorDark", "#2c3e50");
             categoryDetails.put("colorLight", "#34495e");
         } else if (averagePopularity < 40) {
-            categoryDetails.put("name", "Rising📈");
+            categoryDetails.put("name", "Niche🤘");
             categoryDetails.put("colorDark", "#27ae60");
             categoryDetails.put("colorLight", "#2ecc71");
         } else if (averagePopularity < 60) {
-            categoryDetails.put("name", "Cool😎");
+            categoryDetails.put("name", "Emerging🚀");
             categoryDetails.put("colorDark", "#2980b9");
             categoryDetails.put("colorLight", "#3498db");
         } else if (averagePopularity < 80) {
-            categoryDetails.put("name", "Trending🔥");
+            categoryDetails.put("name", "Popular✨");
             categoryDetails.put("colorDark", "#d35400");
             categoryDetails.put("colorLight", "#e67e22");
         } else if (averagePopularity < 90) {
@@ -287,25 +304,47 @@ public class NetworkService {
         return ResponseEntity.ok(networkDTO);
     }
 
-    private JSONObject calculatePlaylistStats(List<NetworkDTO.SongDetails> songs) {
+    public JSONObject calculatePlaylistStats(Long playlistId) {
         JSONObject stats = new JSONObject();
-        int totalPopularity = 0;
-        int numSongs = songs.size();
 
-        // Aggregate popularity from all songs
-        for (NetworkDTO.SongDetails song : songs) {
-            totalPopularity += song.getPopularity();
+        // Fetch only the first result to get the most popular artist
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "artistPopularity"));
+        Page<MainArtist> mostPopularArtistsPage = songArtistJoinRepository.findMostPopularArtistByPlaylistId(playlistId, pageable);
+
+        if (!mostPopularArtistsPage.isEmpty()) {
+            MainArtist mostPopularArtist = mostPopularArtistsPage.getContent().get(0);
+            Long artistId = mostPopularArtist.getId();
+
+            // Retrieve the most popular track by this artist in the playlist
+            Song topTrack = songArtistJoinRepository.findTopTrackByPopularArtistInPlaylist(artistId, playlistId);
+            if (topTrack != null) {
+                stats.put("topTrackName", topTrack.getSongTitle());
+                stats.put("topTrackPreviewUrl", topTrack.getSongPreviewURL());
+            }
+
+            // Add most popular artist details
+            stats.put("mostPopularArtistName", mostPopularArtist.getArtistName());
+            stats.put("mostPopularArtistImage", mostPopularArtist.getArtistImageLarge());
         }
 
-        // Calculate average popularity
-        double averagePopularity = numSongs > 0 ? (double) totalPopularity / numSongs : 0;
+        // Calculate the main genre in the playlist
+        List<Object[]> genreData = playlistSongJoinRepository.findMainGenreByPlaylistId(playlistId);
+        if (!genreData.isEmpty()) {
+            stats.put("mainGenre", genreData.get(0)[0].toString());
+        }
 
-        // Determine the taste category based on average popularity
+        // Collect other stats like total songs and average popularity
+        List<Song> songs = playlistSongJoinRepository.findSongsByPlaylistId(playlistId);
+        int totalSongs = songs.size();
+        double averagePopularity = songs.stream().mapToInt(Song::getSongPopularity).average().orElse(0);
+
+        // Calculate taste category details based on the average popularity
         Map<String, Object> tasteCategoryDetails = calculateTasteCategory(averagePopularity);
+        stats.put("tasteCategory", tasteCategoryDetails);
 
-        // Build stats JSON object
-        stats.put("averagePopularity", String.format("%.2f%%", averagePopularity));
-        stats.put("tasteCategory", new JSONObject(tasteCategoryDetails)); // Convert Map to JSONObject
+        // Include additional statistical details
+        stats.put("totalSongs", totalSongs);
+        stats.put("averagePopularity", String.format("%.2f", averagePopularity));
 
         return stats;
     }
@@ -324,7 +363,7 @@ public class NetworkService {
             }
 
             // Process details assuming they are not null
-            JSONObject stats = calculatePlaylistStats(playlistDetails.getSongDetails());
+            JSONObject stats = calculatePlaylistStats(playlistDetails.getPlaylistId());
             JSONObject result = new JSONObject();
             result.put("playlistName", playlistDetails.getPlaylistName());
             result.put("stats", stats);
