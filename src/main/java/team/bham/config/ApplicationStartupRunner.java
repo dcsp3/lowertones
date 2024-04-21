@@ -104,8 +104,14 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             String outputDirectory = "./downloaded_files";
             java.io.File fileOutputDir = new java.io.File(outputDirectory);
             if (!fileOutputDir.exists()) {
-                fileOutputDir.mkdirs();
+                if (fileOutputDir.mkdirs()) {
+                    System.out.println("Directory created: " + outputDirectory);
+                } else {
+                    System.out.println("Failed to create directory: " + outputDirectory);
+                    return; // Exit the method if the directory cannot be created
+                }
             }
+
             System.out.println("4");
 
             for (String fileID : FILE_IDS) {
