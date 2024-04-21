@@ -308,7 +308,11 @@
               <ng-container *ngIf="loadingSongs">
                 <p-skeleton></p-skeleton>
               </ng-container>
-              <ng-container *ngIf="song['artist'] !== '' && song['title'] !== ''">
+
+              <ng-container *ngIf="!loadingSongs && song['placeholder']">
+                <span style="color: transparent; user-select: none">Placeholder</span>
+              </ng-container>
+              <ng-container *ngIf="!song['placeholder']">
                 <ng-container *ngIf="col.value === 'explicit'; else normalField">
                   <div class="center-image">
                     <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />

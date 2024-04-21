@@ -13,3 +13,9 @@ Host teamproject2023-team
     IdentityFile ~/.ssh/tpvm
     IdentitiesOnly yes
     ProxyJump teamproject2023-proxy
+	
+Host teamprojectVPS
+    Hostname 51.195.138.238
+    User ubuntu
+    IdentityFile ~/.ssh/vps
+    IdentitiesOnly yes

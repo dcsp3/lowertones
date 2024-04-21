@@ -36,17 +36,17 @@ if [ -e "${HOME}/prd.current.yml" ]; then
 fi
 
 #uncmmment these lines if you will deploy to your own public VM
-#echo "the app deployment script is configuring caddy (web server)"]
-#sed -i "s|DOMAIN|$URL|g" ~/team-project/Caddyfile
-#sed -i "s|EMAIL|$EMAIL|g" ~/team-project/Caddyfile
-#sed -i "s|ACME|$ACME|g" ~/team-project/Caddyfile
-#sudo mkdir -p ~/caddy/ || true
-#sudo chown -R $USER:$USER ~/caddy/ || true
-#cp ~/team-project/Caddyfile ~/caddy/Caddyfile
+echo "the app deployment script is configuring caddy (web server)"]
+sed -i "s|DOMAIN|$URL|g" ~/team-project/Caddyfile
+sed -i "s|EMAIL|$EMAIL|g" ~/team-project/Caddyfile
+sed -i "s|ACME|$ACME|g" ~/team-project/Caddyfile
+sudo mkdir -p ~/caddy/ || true
+sudo chown -R $USER:$USER ~/caddy/ || true
+cp ~/team-project/Caddyfile ~/caddy/Caddyfile
 
 #uncmmment these lines if you will deploy to your own public VM
-#echo "re-starting the caddy web server"
-#docker compose -f ~/team-project/caddy.yml down
-#docker compose -f ~/team-project/caddy.yml up -d
+echo "re-starting the caddy web server"
+docker compose -f ~/team-project/caddy.yml down
+docker compose -f ~/team-project/caddy.yml up -d
 
 echo "the app deployment script has finished"
