@@ -41,6 +41,11 @@ interface Playlist {
   snapshotId: string;
 }
 
+interface PagePair {
+  user: number;
+  staging: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -114,8 +119,7 @@ export class TableviewComponent implements OnInit {
   selectedScanType: string = '';
   tableStates: Choice[];
   selectedTableState: Choice;
-  userPage: number = 0;
-  stagingPage: number = 0;
+  pagePair: PagePair = { user: 0, staging: 0 };
   tablePage: number = 0;
   tableRows: number = 15;
 
@@ -226,17 +230,29 @@ export class TableviewComponent implements OnInit {
       this.songDataInUse = this.songData;
       this.filteredSongData = this.songDataInUse;
       this.applySearch();
-      this.setPage();
+      let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
+      this.pagePair.staging = this.tablePage;
+      if (maxPages < this.tablePage && maxPages < this.pagePair.user) {
+        this.setPage(maxPages);
+      } else {
+        this.setPage(this.pagePair.user);
+      }
     } else {
       this.songDataInUse = this.selectedSongs;
       this.filteredSongData = this.songDataInUse;
       this.applySearch();
-      this.setPage();
+      let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
+      this.pagePair.user = this.tablePage;
+      if (maxPages < this.tablePage && maxPages < this.pagePair.staging) {
+        this.setPage(maxPages);
+      } else {
+        this.setPage(this.pagePair.staging);
+      }
     }
   }
 
-  setPage(): void {
-    this.tablePage = 0;
+  setPage(pageNum: number): void {
+    this.tablePage = pageNum;
   }
 
   pageChange(event: { first: number; rows: number }) {
@@ -292,6 +308,10 @@ export class TableviewComponent implements OnInit {
 
   countSelectedSongsNoPlaceholder(): number {
     return (this.selectedSongCount = this.selectedSongs.filter(song => !song.placeholder).length);
+  }
+
+  countSongsNoPlaceholder(songList: SongEntry[]): number {
+    return songList.filter(song => !song.placeholder).length;
   }
 
   fetchPlaylists() {
