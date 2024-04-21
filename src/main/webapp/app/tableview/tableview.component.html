@@ -196,6 +196,8 @@
       <p-table
         [tableStyle]="{ 'min-height': '75vh' }"
         [columns]="selectedColumns"
+        [first]="tablePage"
+        (onPage)="pageChange($event)"
         [value]="filteredSongData"
         [(selection)]="selectedSongs"
         (selectionChange)="selectionLogic()"

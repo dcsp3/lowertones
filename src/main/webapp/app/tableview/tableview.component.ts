@@ -95,6 +95,8 @@ export class TableviewComponent implements OnInit {
   selectedScanType: string = '';
   tableStates: Choice[];
   selectedTableState: Choice;
+  tablePage: number = 0;
+  tableRows: number = 15;
 
   constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
@@ -225,7 +227,17 @@ export class TableviewComponent implements OnInit {
       this.songDataInUse = this.selectedSongs;
       this.filteredSongData = this.songDataInUse;
       this.applySearch();
+      this.setPage();
     }
+  }
+
+  setPage(): void {
+    this.tablePage = 0;
+  }
+
+  pageChange(event: { first: number; rows: number }) {
+    this.tablePage = event.first;
+    this.tableRows = event.rows;
   }
 
   scrape() {
@@ -284,7 +296,6 @@ export class TableviewComponent implements OnInit {
   }
 
   deselectPlaceholders(): void {
-    console.log('i am getting called');
     this.selectedSongs = this.selectedSongs.filter(song => !song.placeholder);
   }
 
