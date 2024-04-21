@@ -24,9 +24,10 @@
     <div *ngIf="activeTab === 'playlists'">
       <p-dropdown
         [options]="playlists"
-        [(ngModel)]="selectedPlaylist"
+        [(ngModel)]="selectedPlaylistId"
         (onChange)="onPlaylistChange($event.value)"
         [style]="{ width: '100%', 'min-width': '150px' }"
+        placeholder="Select a playlist"
         styleClass="custom-dropdown"
       >
       </p-dropdown>
@@ -44,7 +45,9 @@
   </div>
 
   <div class="content">
-    <div class="graph" #graphContainer></div>
+    <div class="graph" #graphContainer>
+      <div *ngIf="displayGraphPlaceholder">Select a playlist to view the graph.</div>
+    </div>
     <div class="stats">
       <div class="top-artist">
         <div class="stats-header">

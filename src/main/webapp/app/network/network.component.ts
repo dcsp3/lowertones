@@ -44,10 +44,21 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   setActiveTab(tab: 'topArtists' | 'playlists'): void {
     this.activeTab = tab;
+    if (tab === 'playlists') {
+      this.selectedPlaylistId = 0;
+      this.clearGraphAndShowPlaceholder();
+    }
+  }
+  displayGraphPlaceholder: boolean = false;
+
+  private clearGraphAndShowPlaceholder(): void {
+    clearGraph(this.graphContainer.nativeElement);
+    this.displayGraphPlaceholder = true;
   }
 
   playlists: any[] = [];
   selectedPlaylist: string = '';
+  selectedPlaylistId: number = 0;
 
   timeRange: string = 'short-term';
   topArtistImage: string = '';
@@ -90,10 +101,15 @@ export class NetworkComponent implements OnInit, OnDestroy {
   fetchPlaylists(): void {
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
-        this.playlists = data.map(playlist => ({
-          label: playlist.name,
-          value: playlist.id,
-        }));
+        this.playlists = [
+          ...data.map(playlist => ({
+            label: playlist.name,
+            value: playlist.id,
+          })),
+        ];
+
+        this.selectedPlaylist = '';
+        this.selectedPlaylistId = 0;
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);
@@ -101,9 +117,56 @@ export class NetworkComponent implements OnInit, OnDestroy {
     });
   }
 
-  onPlaylistChange(playlist: any): void {
-    // todo: rerender graph based on playlist
-    console.log('Selected Playlist:', playlist);
+  onPlaylistChange(playlistId: number): void {
+    if (playlistId && playlistId !== 0) {
+      this.selectedPlaylistId = playlistId;
+      this.selectedPlaylist = this.playlists.find(p => p.value === playlistId)?.label || '';
+
+      this.displayGraphPlaceholder = false;
+      this.fetchAndRenderGraphForPlaylist(this.selectedPlaylistId);
+    } else {
+      this.selectedPlaylistId = 0;
+      this.selectedPlaylist = 'Select a playlist';
+      this.displayGraphPlaceholder = true;
+      clearGraph(this.graphContainer.nativeElement);
+    }
+  }
+
+  private fetchAndRenderGraphForPlaylist(playlistId: number): void {
+    if (playlistId === 0) {
+      console.log('No valid playlist ID provided');
+      return;
+    }
+
+    this.networkService.getPlaylistData(playlistId).subscribe({
+      next: playlistData => {
+        this.renderGraphBasedOnPlaylistData(playlistData);
+      },
+      error: error => {
+        console.error('There was an error fetching the playlist data', error);
+        this.displayGraphPlaceholder = true;
+      },
+    });
+  }
+
+  private async renderGraphBasedOnPlaylistData(playlistData: any, includeConnections: boolean = false): Promise<void> {
+    clearGraph(this.graphContainer.nativeElement);
+    try {
+      const containerWidth = this.graphContainer.nativeElement.offsetWidth;
+      const containerHeight = this.graphContainer.nativeElement.offsetHeight;
+      const userImageUrl = await this.fetchUserImage();
+
+      if (!playlistData.graphData || !playlistData.graphData.artists) {
+        console.error('No artists data available');
+        return;
+      }
+      const artists = playlistData.graphData.artists;
+
+      const elements = getElements(artists, userImageUrl, includeConnections ? this.artistConnections : {});
+      renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
+    } catch (error) {
+      console.error('Error rendering graph based on playlist data:', error);
+    }
   }
 
   @HostListener('window:resize', ['$event'])

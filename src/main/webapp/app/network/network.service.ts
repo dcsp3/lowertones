@@ -7,10 +7,15 @@ import { Observable } from 'rxjs';
 })
 export class NetworkService {
   private playlistUrl = '/api/user-playlists';
+  private playlistDataUrl = '/api/playlist';
 
   constructor(private http: HttpClient) {}
 
   getPlaylists(): Observable<string[]> {
     return this.http.get<string[]>(this.playlistUrl);
+  }
+
+  getPlaylistData(playlistId: number): Observable<any> {
+    return this.http.get<any>(`${this.playlistDataUrl}/${playlistId}/data`);
   }
 }
