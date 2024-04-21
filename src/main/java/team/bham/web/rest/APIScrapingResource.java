@@ -97,6 +97,14 @@ public class APIScrapingResource {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
+    @Transactional
+    @PostMapping("/test")
+    public ResponseEntity<Boolean> test(Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        apiScrapingService.test(appUser);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
     @GetMapping("/get-user-details")
     public ResponseEntity<SpotifyUser> getUserID(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
