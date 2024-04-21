@@ -469,7 +469,7 @@ Main page styles
 h5 {
   font-family: 'neue-plak', sans-serif;
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: 0.9vw;
   letter-spacing: 2px;
 
   font-weight: 100;
@@ -477,14 +477,17 @@ h5 {
 
 h2 {
   font-family: 'neue-plak' !important;
-  font-size: 4.1rem;
+  font-size: 3.5vw;
   color: #ffffff;
+  text-align: center;
+  margin-right: -3.5vw;
 }
 
 .description-text {
-  margin-top: 0rem;
+  margin-right: -4vw;
   letter-spacing: 1px;
   text-align: center;
+  max-height: 70vh;
 }
 
 a {
@@ -509,7 +512,7 @@ a {
 }
 
 .card {
-  flex-basis: 45%;
+  flex-basis: 100%;
   padding: 0px;
   border: 1px solid #cccccc00;
   background-color: #ffffff00;
@@ -537,22 +540,23 @@ h4 {
 }
 
 $total-lines-custom: 8;
-$left-offset-custom: 1.813rem;
-$clip-height-custom: 3.125rem;
-$line-height-custom: $clip-height-custom - 0.313rem;
+$left-offset-custom: 1.9vw;
+$clip-height-custom: 3.2vw;
+$line-height-custom: $clip-height-custom - 0.256vw;
 
 .Words {
   margin: 0;
   padding: 2% 0;
   font-family: alro, Helvetica, Arial, sans-serif;
-  font-size: 3.438rem;
+  font-size: 2.81vw;
   font-weight: 900;
   text-transform: uppercase;
   transform: translate3d(0, 0, 0);
   -webkit-font-smoothing: antialiased;
   font-kerning: normal;
   -webkit-text-size-adjust: 100%;
-  margin-right: 25%;
+  margin-right: 49%;
+  margin-bottom: 3vh;
 }
 
 .Words-line {
@@ -578,9 +582,9 @@ $line-height-custom: $clip-height-custom - 0.313rem;
 p {
   height: $clip-height-custom;
   //line-height: $line-height-custom;
-  padding: 0 0.625rem;
+  padding: 0 0.51vw;
   transition: all 0.5s ease-in-out;
-  transform: translate3d(0, -1.25rem, 0);
+  transform: translate3d(0, -1vw 0);
   vertical-align: top;
   white-space: nowrap;
   color: #ffffff;
@@ -588,11 +592,11 @@ p {
 
 .Words:hover {
   p {
-    transform: translate3d(0, -($clip-height-custom)-1.875, 0);
+    transform: translate3d(0, -($clip-height-custom)-1, 0);
   }
 }
 
 .recapped-photo {
-  margin-top: 2rem;
-  max-width: 25rem;
+  margin-top: 2.4rem;
+  max-width: 23vw;
 }
