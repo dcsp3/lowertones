@@ -169,8 +169,9 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            // SO PEOPLE CAN TEST DEV WHILE IMPORT NOT WORKING
+            //runImport();
 
-            runImport();
         } else if (activeProfile.contains("dev")) {
             try {
                 // if local change files to local path

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
-import { UserManagementService } from 'app/admin/user-management/service/user-management.service';
 import { PreferencesService } from './preferences.service';
 import { AppUserService } from 'app/entities/app-user/service/app-user.service';
 import { AppUserFormService, AppUserFormGroup } from 'app/entities/app-user/update/app-user-form.service';
 import { IAppUser } from 'app/entities/app-user/app-user.model';
+import { Router } from '@angular/router';
+import { LoginService } from 'app/login/login.service';
 
 const initialAccount: Account = {} as Account;
 
@@ -23,10 +24,11 @@ export class PreferencesComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private userManagementService: UserManagementService,
     private appUserFormService: AppUserFormService,
     private appUserService: AppUserService,
-    private preferencesService: PreferencesService
+    private preferencesService: PreferencesService,
+    private router: Router,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -102,15 +104,32 @@ export class PreferencesComponent implements OnInit {
     }
   }
 
-  deleteThisUser(): void {
+  signOutAllDevices(): void {
+    const confirmation = confirm('Are you sure you want to sign out of all devices? This will log you out immediately');
+    if (confirmation) {
+      this.preferencesService.signOutAllDevices(this.login).subscribe(
+        () => {
+          console.log('Successfully signed out of all devices.');
+          this.loginService.logout();
+          this.router.navigateByUrl('/'); // Redirect to the home page
+        },
+        error => {
+          console.error('Error signing out of all devices:', error);
+        }
+      );
+    }
+  }
+
+  deleteCurrentUser(): void {
     // Delete this user and corresponding app user
     const confirmation = confirm('Are you sure you want to delete your account? This action cannot be undone.');
-    if (confirmation) {
-      this.userManagementService.delete(this.login).subscribe(
-        // Call deleteUser method from UserManagementService
+    if (confirmation && this.login != 'admin') {
+      this.preferencesService.deleteCurrentUser(this.login).subscribe(
+        //
         () => {
           console.log('Account deleted');
-          // Redirect the user to a different page or log them out
+          this.loginService.logout();
+          this.router.navigateByUrl('/'); // Redirect to the home page
         },
         error => {
           console.error('Error deleting user:', error);
