@@ -116,8 +116,8 @@ export class TableviewComponent implements OnInit {
   producerChips: string[] = [];
   Explicitness: Choice[] = [];
   selectedExplicitness: Choice;
-  scanType: Choice[];
-  selectedScanType: string = '';
+  playlists: Playlist[];
+  selectedPlaylist!: Playlist;
   tableStates: Choice[];
   selectedTableState: Choice;
   pagePair: PagePair = { user: 0, staging: 0 };
@@ -156,16 +156,18 @@ export class TableviewComponent implements OnInit {
 
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
-    this.scanType = [
-      { label: 'My Entire Library', value: 'entireLibrary' },
-      { label: 'My Top Songs', value: 'topSongs' },
+    this.playlists = [
+      { name: 'My Entire Library', spotifyId: 'entireLibrary', snapshotId: 'null' },
+      { name: 'My Top Songs', spotifyId: 'topSongs', snapshotId: 'null' },
     ];
 
+    this.selectedPlaylist = { name: 'My Top Songs', spotifyId: 'topSongs', snapshotId: 'null' };
     this.selectedSongCount = 0;
   }
 
   ngOnInit(): void {
     this.fetchPlaylists();
+
     this.genSongList();
     this.filteredSongData = this.songDataInUse;
     this.columns = [
@@ -319,20 +321,45 @@ export class TableviewComponent implements OnInit {
     return lastEntry;
   }
 
+  getPlaylistData(): void {
+    console.log(this.selectedPlaylist);
+  }
+
   fetchPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (response: Playlist[]) => {
         const playlistOptions = response.map((playlist: Playlist) => ({
-          label: playlist.name,
-          value: playlist.spotifyId,
+          name: playlist.name,
+          spotifyId: playlist.spotifyId,
+          snapshotId: playlist.snapshotId,
         }));
-        this.scanType = [...this.scanType, ...playlistOptions];
+        this.playlists = [...this.playlists, ...playlistOptions];
       },
       error: error => {
         console.error('Error fetching playlists:', error);
       },
     });
   }
+
+  /*
+
+  genSongList(): void {
+    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
+    const headers: Headers = new Headers();
+    headers.set('Authorization', 'Bearer ' + token);
+    const request: RequestInfo = new Request('/api/top-playlist', {
+      method: 'GET',
+      headers: headers,
+    });
+
+    const response = fetch(request);
+    const jsonData = response.then(response => response.json());
+    jsonData.then(data => {
+      this.jsonBlob = data;
+      console.log(data);
+      this.fillSongTable();
+    });
+  }*/
 
   genSongList(): void {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);

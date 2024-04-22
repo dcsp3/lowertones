@@ -40,15 +40,16 @@
         <ng-template let-node pTemplate="PlaylistElement">
           <!--<button pButton [style]="{ 'max-width': '100%' }" label="Submit" (click)="scrape()"></button>-->
           <p-listbox
-            [options]="scanType"
-            [(ngModel)]="selectedScanType"
+            [options]="playlists"
+            [(ngModel)]="selectedPlaylist"
+            (ngModelChange)="getPlaylistData()"
             [filter]="true"
             [listStyle]="{ 'max-height': '30vh' }"
-            optionLabel="label"
+            optionLabel="name"
             autoWidth="false"
           >
             <ng-template let-item pTemplate="item">
-              <div title="{{ item.label }}">{{ item.label }}</div>
+              <div title="{{ item.name }}">{{ item.name }}</div>
             </ng-template>
           </p-listbox>
         </ng-template>
