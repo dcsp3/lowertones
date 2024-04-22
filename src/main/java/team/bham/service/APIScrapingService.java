@@ -174,6 +174,7 @@ public class APIScrapingService {
                 Song s = getSongScraped(track.getId(), existingSongs);
                 if (s == null) {
                     s = storeTrack(track, album);
+                    existingSongs.add(s);
 
                     SongArtistJoin songArtistJoin = new SongArtistJoin();
                     songArtistJoin.setSong(s);
