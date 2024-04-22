@@ -30,6 +30,19 @@
         placeholder="Select a playlist"
         styleClass="custom-dropdown"
       >
+        <ng-template let-playlist pTemplate="item">
+          <div class="playlist-item">
+            <img [src]="playlist.image" class="playlist-image" onError="this.src='assets/default-playlist-image.png';" />
+            {{ playlist.label }}
+          </div>
+        </ng-template>
+
+        <ng-template let-playlist pTemplate="selectedItem">
+          <div class="playlist-item">
+            <img [src]="playlist.image" class="playlist-image-selected" onError="this.src='assets/default-playlist-image.png';" />
+            {{ playlist.label }}
+          </div>
+        </ng-template>
       </p-dropdown>
     </div>
 

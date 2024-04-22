@@ -132,10 +132,14 @@ export class NetworkComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
-        this.playlists = data.map(playlist => ({
-          label: playlist.name,
-          value: playlist.id,
-        }));
+        this.playlists = data.map(playlist => {
+          const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
+          return {
+            label: playlist.name,
+            value: playlist.id,
+            image: image,
+          };
+        });
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);

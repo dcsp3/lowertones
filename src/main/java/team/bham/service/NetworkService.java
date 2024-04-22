@@ -335,6 +335,10 @@ public class NetworkService {
                 Map<String, Object> info = new HashMap<>();
                 info.put("id", playlist.getId());
                 info.put("name", playlist.getPlaylistName());
+                info.put("imgSmall", playlist.getPlaylistImageSmall());
+                info.put("imgMedium", playlist.getPlaylistImageMedium());
+                info.put("imgLarge", playlist.getPlaylistImageLarge());
+
                 return info;
             })
             .collect(Collectors.toList());
