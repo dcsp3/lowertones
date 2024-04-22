@@ -70,6 +70,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'RelatedArtists' },
         loadChildren: () => import('./related-artists/related-artists.module').then(m => m.RelatedArtistsModule),
       },
+      {
+        path: 'vault',
+        data: { pageTitle: 'Vaults' },
+        loadChildren: () => import('./vault/vault.module').then(m => m.VaultModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

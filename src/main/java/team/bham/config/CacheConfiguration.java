@@ -77,6 +77,7 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Contributor.class.getName() + ".songs");
             createCache(cm, team.bham.domain.RelatedArtists.class.getName());
             createCache(cm, team.bham.domain.Album.class.getName() + ".mainArtists");
+            createCache(cm, team.bham.domain.Vault.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

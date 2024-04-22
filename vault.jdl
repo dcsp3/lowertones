@@ -1,0 +1,9 @@
+entity Vault {
+	sourcePlaylistID String,
+	playlistName String,
+	resultPlaylistID String,
+	frequency String,
+	type String,
+	playlistCoverURL String,
+	playlistSnapshotID String
+}

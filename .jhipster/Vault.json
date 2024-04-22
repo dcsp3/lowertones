@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20240422122911",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "vault",
+  "fields": [
+    {
+      "fieldName": "sourcePlaylistID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "playlistName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "resultPlaylistID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "frequency",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "playlistCoverURL",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "playlistSnapshotID",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Vault",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}
