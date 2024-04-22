@@ -177,10 +177,13 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         // run import
         try {
             System.out.println("8");
-
+            System.out.println("Importing artist data...");
             Map<Long, Long> artistIDMap = databaseImportService.importArtists("/tmp/downloaded_files/artists_table.csv");
+            System.out.println("Importing album data...");
             Map<Long, Long> albumIDMap = databaseImportService.importAlbums("/tmp/downloaded_files/album_table.csv");
+            System.out.println("Importing artist album links...");
             databaseImportService.importArtistAlbumLinks("/tmp/downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
+            System.out.println("Importing track data...");
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_1.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_2.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_3.csv", albumIDMap);
@@ -195,7 +198,9 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_12.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_13.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_14.csv", albumIDMap);
+            System.out.println("importing genres...");
             databaseImportService.importGenres("/tmp/downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
+            System.out.println("importing related artists...");
             databaseImportService.importRelatedArtists("/tmp/downloaded_files/related_artists.csv");
             // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
             // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",
