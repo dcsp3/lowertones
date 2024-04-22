@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } fro
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ToggleButton } from 'primeng/togglebutton';
 
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 

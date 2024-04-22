@@ -42,7 +42,7 @@ public interface MainArtistRepository extends MainArtistRepositoryWithBagRelatio
         "JOIN saj.song s " +
         "JOIN s.playlistSongJoins psj " +
         "WHERE psj.playlist.id = :playlistId " +
-        "GROUP BY a.id, a.artistName, a.artistSpotifyID, a.artistImageLarge"
+        "GROUP BY a.id, a.artistName, a.artistSpotifyID, a.artistImageSmall, a.artistImageMedium, a.artistImageLarge"
     )
     List<MainArtist> findArtistDetailsByPlaylistId(@Param("playlistId") Long playlistId);
 }

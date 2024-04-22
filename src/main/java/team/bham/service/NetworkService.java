@@ -348,29 +348,53 @@ public class NetworkService {
         double minDistance = 100.0;
         double maxDistance = 600.0;
 
-        int totalSongs = playlistSongJoinRepository.findSongsByPlaylistId(playlistId).size();
-
-        JSONArray jsonArtistsArray = new JSONArray();
+        Map<MainArtist, Integer> songCountByArtist = new HashMap<>();
 
         for (MainArtist artist : artists) {
             int songsByArtist = playlistSongJoinRepository.countSongsByArtistInPlaylist(artist.getArtistSpotifyID(), playlistId);
+            songCountByArtist.put(artist, songsByArtist);
+        }
 
-            double distance = calculateDistance(songsByArtist, totalSongs, minDistance, maxDistance);
+        artists.sort(Comparator.comparingInt(songCountByArtist::get).reversed());
+
+        // Limit the number of artists to 35 (dont wanna break the user's GPU also no space on graph RIP)
+        if (artists.size() > 35) {
+            artists = artists.subList(0, 35);
+        }
+
+        JSONArray jsonArtistsArray = new JSONArray();
+        int count = 0;
+
+        for (MainArtist artist : artists) {
+            double distance = minDistance + ((double) (maxDistance - minDistance) / (artists.size() - 1)) * (count + 1);
 
             JSONObject jsonArtist = new JSONObject();
             jsonArtist.put("id", artist.getArtistSpotifyID());
             jsonArtist.put("name", artist.getArtistName());
             jsonArtist.put("genres", mapGenres(artist.getSpotifyGenreEntities()));
-            jsonArtist.put("imageUrl", artist.getArtistImageLarge() == null ? JSONObject.NULL : artist.getArtistImageLarge());
+            jsonArtist.put("imageUrl", getImageUrl(artist));
             jsonArtist.put("distance", distance);
             jsonArtist.put("songsInLibrary", countSongsByArtistInLibrary(appUser, artist.getArtistSpotifyID()));
 
             jsonArtistsArray.put(jsonArtist);
+            count++;
         }
 
         JSONObject graphData = new JSONObject();
         graphData.put("artists", jsonArtistsArray);
         return graphData;
+    }
+
+    private String getImageUrl(MainArtist artist) {
+        if (artist.getArtistImageLarge() != null) {
+            return artist.getArtistImageLarge();
+        } else if (artist.getArtistImageMedium() != null) {
+            return artist.getArtistImageMedium();
+        } else if (artist.getArtistImageSmall() != null) {
+            return artist.getArtistImageSmall();
+        } else {
+            return "src\\main\\webapp\\content\\images\\default.jpg";
+        }
     }
 
     public JSONObject calculatePlaylistStats(Long playlistId) {
@@ -419,11 +443,6 @@ public class NetworkService {
             jsonGenresArray.put(genreEntity.getSpotifyGenre());
         }
         return jsonGenresArray;
-    }
-
-    private double calculateDistance(int songsByArtist, int totalSongs, double minDistance, double maxDistance) {
-        double distanceRatio = (double) songsByArtist / totalSongs;
-        return minDistance + (maxDistance - minDistance) * distanceRatio;
     }
 
     @Transactional
