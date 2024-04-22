@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,14 @@ import team.bham.domain.AppUser;
 import team.bham.domain.MainArtist;
 import team.bham.domain.Playlist;
 import team.bham.domain.PlaylistSongJoin;
+import team.bham.domain.RelatedArtists;
 import team.bham.domain.Song;
 import team.bham.domain.SongArtistJoin;
 import team.bham.domain.SpotifyGenreEntity;
 import team.bham.repository.MainArtistRepository;
 import team.bham.repository.PlaylistRepository;
 import team.bham.repository.PlaylistSongJoinRepository;
+import team.bham.repository.RelatedArtistsRepository;
 import team.bham.repository.SongArtistJoinRepository;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
@@ -53,6 +57,9 @@ public class NetworkService {
 
     @Autowired
     private MainArtistRepository mainArtistRepository;
+
+    @Autowired
+    private RelatedArtistsRepository relatedArtistsRepository;
 
     public NetworkService(SpotifyAPIWrapperService apiWrapper, UserService userService, UtilService utilService) {
         this.apiWrapper = apiWrapper;
@@ -187,6 +194,54 @@ public class NetworkService {
         return categoryDetails;
     }
 
+    private List<String> extractSpotifyIDs(JSONArray artists) {
+        List<String> spotifyIDs = new ArrayList<>();
+        for (int i = 0; i < artists.length(); i++) {
+            spotifyIDs.add(artists.getJSONObject(i).getString("id"));
+        }
+        return spotifyIDs;
+    }
+
+    // awful way of doing it but cant use DB query because of the RelatedArtist type def :(
+    private Map<String, Set<String>> constructRelatedArtistsMap(List<RelatedArtists> relatedArtistsList, Set<String> artistSpotifyIdsSet) {
+        Map<String, Set<String>> relatedArtistsMap = new HashMap<>();
+        for (RelatedArtists ra : relatedArtistsList) {
+            String mainArtistId = ra.getMainArtistSptfyID();
+            Set<String> relatedIds = new HashSet<>();
+
+            relatedIds.add(ra.getRelatedArtistSpotifyID1());
+            relatedIds.add(ra.getRelatedArtistSpotifyID2());
+            relatedIds.add(ra.getRelatedArtistSpotifyID3());
+            relatedIds.add(ra.getRelatedArtistSpotifyID4());
+            relatedIds.add(ra.getRelatedArtistSpotifyID5());
+            relatedIds.add(ra.getRelatedArtistSpotifyID6());
+            relatedIds.add(ra.getRelatedArtistSpotifyID7());
+            relatedIds.add(ra.getRelatedArtistSpotifyID8());
+            relatedIds.add(ra.getRelatedArtistSpotifyID9());
+            relatedIds.add(ra.getRelatedArtistSpotifyID10());
+            relatedIds.add(ra.getRelatedArtistSpotifyID11());
+            relatedIds.add(ra.getRelatedArtistSpotifyID12());
+            relatedIds.add(ra.getRelatedArtistSpotifyID13());
+            relatedIds.add(ra.getRelatedArtistSpotifyID14());
+            relatedIds.add(ra.getRelatedArtistSpotifyID15());
+            relatedIds.add(ra.getRelatedArtistSpotifyID16());
+            relatedIds.add(ra.getRelatedArtistSpotifyID17());
+            relatedIds.add(ra.getRelatedArtistSpotifyID18());
+            relatedIds.add(ra.getRelatedArtistSpotifyID19());
+            relatedIds.add(ra.getRelatedArtistSpotifyID20());
+
+            relatedIds.removeIf(relatedId -> relatedId == null || !artistSpotifyIdsSet.contains(relatedId));
+            relatedArtistsMap.put(mainArtistId, relatedIds);
+        }
+        return relatedArtistsMap;
+    }
+
+    private JSONObject convertMapToJson(Map<String, Set<String>> relatedArtistsMap) {
+        JSONObject jsonMap = new JSONObject();
+        relatedArtistsMap.forEach((key, value) -> jsonMap.put(key, new JSONArray(value)));
+        return jsonMap;
+    }
+
     public ResponseEntity<String> getShortTermTopArtists(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
         if (appUser == null) {
@@ -197,9 +252,16 @@ public class NetworkService {
         JSONObject shortTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, short_term).getData();
         JSONArray artists = shortTermArtists.getJSONArray("items");
 
+        List<String> artistSpotifyIds = extractSpotifyIDs(artists);
+        Set<String> artistSpotifyIdsSet = new HashSet<>(artistSpotifyIds);
+
+        List<RelatedArtists> relatedArtistsList = relatedArtistsRepository.findRelatedArtistsByMainArtistSpotifyIDs(artistSpotifyIdsSet);
+        Map<String, Set<String>> relatedArtistsMap = constructRelatedArtistsMap(relatedArtistsList, artistSpotifyIdsSet);
+
         JSONObject result = new JSONObject();
-        result.put("graphData", extractArtistDetails(artists, appUser)); // Pass user to method
+        result.put("graphData", extractArtistDetails(artists, appUser));
         result.put("stats", calculateStats(artists, appUser, short_term));
+        result.put("relatedArtists", convertMapToJson(relatedArtistsMap));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
@@ -214,10 +276,16 @@ public class NetworkService {
         JSONObject mediumTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, medium_term).getData();
         JSONArray artists = mediumTermArtists.getJSONArray("items");
 
+        List<String> artistSpotifyIds = extractSpotifyIDs(artists);
+        Set<String> artistSpotifyIdsSet = new HashSet<>(artistSpotifyIds);
+
+        List<RelatedArtists> relatedArtistsList = relatedArtistsRepository.findRelatedArtistsByMainArtistSpotifyIDs(artistSpotifyIdsSet);
+        Map<String, Set<String>> relatedArtistsMap = constructRelatedArtistsMap(relatedArtistsList, artistSpotifyIdsSet);
+
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists, appUser));
         result.put("stats", calculateStats(artists, appUser, medium_term));
-
+        result.put("relatedArtists", convertMapToJson(relatedArtistsMap));
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
 
@@ -231,9 +299,16 @@ public class NetworkService {
         JSONObject longTermArtists = apiWrapper.getCurrentUserTopArtists(appUser, long_term).getData();
         JSONArray artists = longTermArtists.getJSONArray("items");
 
+        List<String> artistSpotifyIds = extractSpotifyIDs(artists);
+        Set<String> artistSpotifyIdsSet = new HashSet<>(artistSpotifyIds);
+
+        List<RelatedArtists> relatedArtistsList = relatedArtistsRepository.findRelatedArtistsByMainArtistSpotifyIDs(artistSpotifyIdsSet);
+        Map<String, Set<String>> relatedArtistsMap = constructRelatedArtistsMap(relatedArtistsList, artistSpotifyIdsSet);
+
         JSONObject result = new JSONObject();
         result.put("graphData", extractArtistDetails(artists, appUser));
         result.put("stats", calculateStats(artists, appUser, long_term));
+        result.put("relatedArtists", convertMapToJson(relatedArtistsMap));
 
         return new ResponseEntity<>(result.toString(), HttpStatus.OK);
     }
@@ -362,9 +437,22 @@ public class NetworkService {
             JSONObject stats = calculatePlaylistStats(playlistId);
             JSONObject graphData = getArtistsDetailsFromPlaylist(appUser, playlistId);
 
+            JSONArray artistsArray = graphData.getJSONArray("artists");
+            Set<String> artistSpotifyIds = new HashSet<>();
+            for (int i = 0; i < artistsArray.length(); i++) {
+                JSONObject artist = artistsArray.getJSONObject(i);
+                artistSpotifyIds.add(artist.getString("id"));
+            }
+
+            List<RelatedArtists> relatedArtistsList = relatedArtistsRepository.findRelatedArtistsByMainArtistSpotifyIDs(artistSpotifyIds);
+            Map<String, Set<String>> relatedArtistsMap = constructRelatedArtistsMap(relatedArtistsList, artistSpotifyIds);
+            JSONObject relatedArtistsJson = convertMapToJson(relatedArtistsMap);
+
             JSONObject result = new JSONObject();
             result.put("stats", stats);
             result.put("graphData", graphData);
+            result.put("relatedArtists", relatedArtistsJson);
+
             return new ResponseEntity<>(result.toString(), HttpStatus.OK);
         } catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the playlist stats");
