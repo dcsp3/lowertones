@@ -43,6 +43,7 @@ export class PreferencesComponent implements OnInit {
     this.preferencesService.getAppUser().subscribe(appUser => {
       this.appUser = appUser; // Load the entity for this app user
       this.appUserForm = this.appUserFormService.createAppUserFormGroup(this.appUser);
+      const discoverWeeklyBufferSettingsValue = this.appUserForm.get('discoverWeeklyBufferSettings')?.value;
     });
   }
 
@@ -80,10 +81,20 @@ export class PreferencesComponent implements OnInit {
     });
     */
 
+  toggleEmailUpdates(): void {
+    if (this.appUserForm) {
+      const currentValue = this.appUserForm.get('discoverWeeklyBufferSettings')?.value;
+      const newValue = currentValue === 0 ? 1 : 0;
+      this.appUserForm.get('discoverWeeklyBufferSettings')?.setValue(newValue);
+      this.savePreferences(); // Call savePreferences to save the updated value
+    }
+  }
+
   savePreferences(): void {
     // Update this app user based on the app user form input
+
     const updatedAppUser = this.appUserForm?.getRawValue(); // Get the updated appUser form value
-    if (updatedAppUser?.id != null) {
+    if (updatedAppUser?.id != null && this.appUserForm) {
       this.appUserService.update(updatedAppUser as IAppUser).subscribe(
         () => {
           // Update the appUser entity in the database
