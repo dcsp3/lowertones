@@ -6,6 +6,9 @@
 	acme_ca ACME
 }
 DOMAIN {
+	log {
+        output file /var/log/caddy/access.log
+    }
 	handle_errors {
 		respond "This production version of the app will only become available after a tagged commit has been made on the main branch.
 		
@@ -18,6 +21,9 @@ DOMAIN {
 	reverse_proxy http://teamproject-prd:8080
 }
 dev.DOMAIN {
+	log {
+        output file /var/log/caddy/access.log
+    }
 	handle_errors {
 		respond "Error
 		
@@ -28,7 +34,10 @@ dev.DOMAIN {
 	reverse_proxy http://teamproject-dev:8080
 }
 
-#edit the below to serve on a custom domain
-#example.com {
-#    reverse_proxy http://teamproject-prod:8080
-#}
+www.lowertones.com {
+    redir https://lowertones.com{uri}
+}
+
+lowertones.com {
+    reverse_proxy http://teamproject-dev:8080
+}

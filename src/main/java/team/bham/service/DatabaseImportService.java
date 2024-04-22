@@ -53,8 +53,8 @@ public class DatabaseImportService {
                     .spotifyAlbumUPC(record.get("spotify_album_upc"))
                     .spotifyAlbumEAN(record.get("spotify_album_ean"))
                     .spotifyAlbumISRC(record.get("spotify_album_isrc"))
-                    .dateAddedToDB(LocalDate.parse(record.get("date_added_to_db")))
-                    .dateLastModified(LocalDate.parse(record.get("date_last_modified")))
+                    .dateAddedToDB(LocalDate.now())
+                    .dateLastModified(LocalDate.now())
                     .musicbrainzMetadataAdded(Boolean.parseBoolean(record.get("musicbrainz_metadata_added")))
                     .musicbrainzID(record.get("musicbrainz_id"));
                 // entityManager.persist(albumRepository);
@@ -159,8 +159,8 @@ public class DatabaseImportService {
                 .setParameter(19, record.get("song_valence"))
                 .setParameter(20, record.get("song_key"))
                 .setParameter(21, record.get("song_time_signature"))
-                .setParameter(22, record.get("song_date_added_to_db"))
-                .setParameter(23, record.get("song_date_last_modified"))
+                .setParameter(22, LocalDate.now())
+                .setParameter(23, LocalDate.now())
                 .setParameter(24, record.get("recording_mbid"))
                 .setParameter(25, newAlbumId)
                 .executeUpdate();

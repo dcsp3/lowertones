@@ -53,7 +53,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         "11VhS3QEtAoAsNn5RpFEPJFTKYcg48lRG",
         "117ZdHqqqotLcxhzaKVmCHDeJxXKhOzte",
         "1JGcSAOYMku_Dw_ieCxRpSGfYAHnMfCho",
-        "1L7l_NDetlGyyoq0brgOKTkJJ1CmPBqHD",
+        "18Qxk5cjdE-XMzdu3IUAhZCzUhq2VgWX9",
         "1-Gvt-ZPiBbXUEuh6w32M62HnsZDhbPEP",
         "1rsFFrZKDX1i_98MYsx1U379nc1P3KeEM",
         "1nsPTRp4siIRRQPD1qzMTOn2PHGnY-vE_",
@@ -159,6 +159,16 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
                 System.out.println("6");
             }
             System.out.println("7");
+            System.out.println("7");
+            System.out.println("7");
+            System.out.println("7");
+
+            //wait 10 seconds
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             runImport();
         } else if (activeProfile.contains("dev")) {
@@ -177,10 +187,13 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         // run import
         try {
             System.out.println("8");
-
+            System.out.println("Importing artist data...");
             Map<Long, Long> artistIDMap = databaseImportService.importArtists("/tmp/downloaded_files/artists_table.csv");
+            System.out.println("Importing album data...");
             Map<Long, Long> albumIDMap = databaseImportService.importAlbums("/tmp/downloaded_files/album_table.csv");
+            System.out.println("Importing artist album links...");
             databaseImportService.importArtistAlbumLinks("/tmp/downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
+            System.out.println("Importing track data...");
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_1.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_2.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_3.csv", albumIDMap);
@@ -195,7 +208,9 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_12.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_13.csv", albumIDMap);
             databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_14.csv", albumIDMap);
+            System.out.println("importing genres...");
             databaseImportService.importGenres("/tmp/downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
+            System.out.println("importing related artists...");
             databaseImportService.importRelatedArtists("/tmp/downloaded_files/related_artists.csv");
             // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
             // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",
