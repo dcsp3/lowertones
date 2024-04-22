@@ -25,9 +25,9 @@
       <div class="preferenceTitle">
         <label>Text size</label>
         <select id="dropdown" class="custom-dropdown" formControlName="textSize" (change)="savePreferences()">
-          <option value="100" [selected]="appUserForm?.get('textSize')?.value === 100">Normal</option>
-          <option value="115" [selected]="appUserForm?.get('textSize')?.value === 115">Large</option>
-          <option value="125" [selected]="appUserForm?.get('textSize')?.value === 125">Extra Large</option>
+          <option value="100" [selected]="appUserForm.get('textSize')?.value === 100">Normal</option>
+          <option value="115" [selected]="appUserForm.get('textSize')?.value === 115">Large</option>
+          <option value="125" [selected]="appUserForm.get('textSize')?.value === 125">Extra Large</option>
         </select>
       </div>
       <div class="preferenceSubtitle">Increase text size for better readability.</div>
@@ -83,7 +83,7 @@
     <div class="button-container">
       <button class="btn btn-primary">Sign out of all devices</button>
       <br />
-      <button (click)="deleteThisUser()" class="btn btn-primary">Delete account</button>
+      <button (click)="deleteCurrentUser()" class="btn btn-primary">Delete account</button>
     </div>
   </div>
 </div>
