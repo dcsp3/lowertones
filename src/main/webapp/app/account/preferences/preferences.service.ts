@@ -19,4 +19,8 @@ export class PreferencesService {
   deleteCurrentUser(login: string): Observable<{}> {
     return this.http.delete(`${this.userResourceUrl}/${login}`);
   }
+
+  signOutAllDevices(login: string): Observable<void> {
+    return this.http.post<void>('/api/account/preferences/' + login, {});
+  }
 }

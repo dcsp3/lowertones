@@ -72,16 +72,9 @@
     </div>
 
     <br />
-    <div class="preferenceTitle">Spotify account</div>
-    <div class="preferenceSubtitle">The Spotify account linked to your Lowertones account.</div>
-    <div class="button-container">
-      <a href="" class="btn btn-primary">Link to a different Spotify account</a>
-    </div>
-
-    <br />
     <h2>Security</h2>
     <div class="button-container">
-      <button class="btn btn-primary">Sign out of all devices</button>
+      <button (click)="signOutAllDevices()" class="btn btn-primary">Sign out of all devices</button>
       <br />
       <button (click)="deleteCurrentUser()" class="btn btn-primary">Delete account</button>
     </div>

@@ -104,6 +104,22 @@ export class PreferencesComponent implements OnInit {
     }
   }
 
+  signOutAllDevices(): void {
+    const confirmation = confirm('Are you sure you want to sign out of all devices? This will log you out immediately');
+    if (confirmation) {
+      this.preferencesService.signOutAllDevices(this.login).subscribe(
+        () => {
+          console.log('Successfully signed out of all devices.');
+          this.loginService.logout();
+          this.router.navigateByUrl('/'); // Redirect to the home page
+        },
+        error => {
+          console.error('Error signing out of all devices:', error);
+        }
+      );
+    }
+  }
+
   deleteCurrentUser(): void {
     // Delete this user and corresponding app user
     const confirmation = confirm('Are you sure you want to delete your account? This action cannot be undone.');

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import team.bham.config.Constants;
 import team.bham.domain.AppUser;
+import team.bham.security.jwt.TokenProvider;
 import team.bham.service.PreferencesService;
 import team.bham.service.UserService;
 import tech.jhipster.web.util.HeaderUtil;
@@ -24,19 +25,31 @@ public class PreferencesResource {
     private final PreferencesService preferencesService;
     private AppUser appUser;
     private final UserService userService;
+    private final TokenProvider tokenProvider;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public PreferencesResource(PreferencesService preferencesService, UserService userService) {
+    public PreferencesResource(PreferencesService preferencesService, UserService userService, TokenProvider tokenProvider) {
         this.preferencesService = preferencesService;
         this.userService = userService;
+        this.tokenProvider = tokenProvider;
     }
 
     @PostMapping("/account/preferences")
     public ResponseEntity<AppUser> getAppUser(Authentication authentication) {
         appUser = preferencesService.getAppUser(authentication);
         return ResponseEntity.ok(appUser);
+    }
+
+    @PostMapping("/account/preferences/{login}")
+    public ResponseEntity<Void> signOutAllDevices(
+        @PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login,
+        Authentication authentication
+    ) {
+        log.debug("REST request to delete User: {}", login);
+        tokenProvider.invalidateAllTokensForUser(login);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/account/preferences/{login}")

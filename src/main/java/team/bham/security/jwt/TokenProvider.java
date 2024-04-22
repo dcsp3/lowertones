@@ -39,6 +39,9 @@ public class TokenProvider {
 
     private final SecurityMetersService securityMetersService;
 
+    // Map to store token versions for each user
+    private final Map<String, Integer> tokenVersions = new HashMap<>();
+
     public TokenProvider(JHipsterProperties jHipsterProperties, SecurityMetersService securityMetersService) {
         byte[] keyBytes;
         String secret = jHipsterProperties.getSecurity().getAuthentication().getJwt().getBase64Secret();
@@ -63,6 +66,8 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {
+        // Get the user's token version
+        int tokenVersion = tokenVersions.getOrDefault(authentication.getName(), 0);
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
@@ -77,6 +82,7 @@ public class TokenProvider {
             .builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
+            .claim("token_version", tokenVersion)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)
             .compact();
@@ -122,5 +128,10 @@ public class TokenProvider {
         }
 
         return false;
+    }
+
+    public void invalidateAllTokensForUser(String username) {
+        // Increment the token version for the user
+        tokenVersions.merge(username, 1, Integer::sum);
     }
 }
