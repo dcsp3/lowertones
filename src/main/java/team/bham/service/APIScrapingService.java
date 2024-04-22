@@ -163,10 +163,12 @@ public class APIScrapingService {
                 MainArtist a = getArtistScraped(track.getArtist().getSpotifyId(), existingArtists);
                 if (a == null) {
                     a = storeArtist(track.getArtist());
+                    existingArtists.add(a);
                 }
                 Album album = getAlbumScraped(track.getAlbum().getSpotifyId(), existingAlbums);
                 if (album == null) {
                     album = storeAlbum(track.getAlbum());
+                    existingAlbums.add(album);
                 }
 
                 //check if song already exists. if not, store in db and create song-artist join
@@ -174,6 +176,7 @@ public class APIScrapingService {
                 Song s = getSongScraped(track.getId(), existingSongs);
                 if (s == null) {
                     s = storeTrack(track, album);
+                    existingSongs.add(s);
 
                     SongArtistJoin songArtistJoin = new SongArtistJoin();
                     songArtistJoin.setSong(s);
