@@ -34,7 +34,10 @@ dev.DOMAIN {
 	reverse_proxy http://teamproject-dev:8080
 }
 
-#edit the below to serve on a custom domain
-lowertones.com {
+www.yourdomain.com {
+    redir https://yourdomain.com{uri}
+}
+
+yourdomain.com {
     reverse_proxy http://teamproject-dev:8080
 }
