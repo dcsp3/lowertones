@@ -20,7 +20,7 @@ DOMAIN {
 	}
 	reverse_proxy http://teamproject-prd:8080
 }
-dev.DOMAIN {
+team37.dev.bham.team {
 	log {
         output file /var/log/caddy/access.log
     }
