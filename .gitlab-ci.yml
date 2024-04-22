@@ -76,7 +76,8 @@ deploy-dev:
     URL: '${CI_PROJECT_NAME}.bham.team'
     #ACME test SSL certificate retrival - VM must be public (not behine a proxy), have ports 80 443 open and have caddy web server enabed in install-app.sh
     #use one of the following instead  to get real SSL certs 'https://acme-v02.api.letsencrypt.org/directory' 'https://acme.zerossl.com/v2/DV90'
-    ACME: 'https://acme-staging-v02.api.letsencrypt.org/directory'
+    #ACME: 'https://acme-staging-v02.api.letsencrypt.org/directory'
+    ACME: 'https://acme-v02.api.letsencrypt.org/directory'
   before_script:
     # copy SSH config
     - mkdir -p ~/.ssh
