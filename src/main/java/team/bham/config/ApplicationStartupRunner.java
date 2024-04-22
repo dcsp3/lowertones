@@ -159,6 +159,16 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
                 System.out.println("6");
             }
             System.out.println("7");
+            System.out.println("7");
+            System.out.println("7");
+            System.out.println("7");
+
+            //wait 10 seconds
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             runImport();
         } else if (activeProfile.contains("dev")) {

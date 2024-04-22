@@ -34,10 +34,10 @@ dev.DOMAIN {
 	reverse_proxy http://teamproject-dev:8080
 }
 
-www.yourdomain.com {
-    redir https://yourdomain.com{uri}
+www.lowertones.com {
+    redir https://lowertones.com{uri}
 }
 
-yourdomain.com {
+lowertones.com {
     reverse_proxy http://teamproject-dev:8080
 }
