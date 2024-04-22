@@ -35,6 +35,7 @@ export class PreferencesComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.login = account.login;
+        this.userForm.get('email')?.setValue(account.email);
         this.userForm.patchValue(account); // Link this user form to this user
       }
     });
@@ -42,51 +43,42 @@ export class PreferencesComponent implements OnInit {
     this.preferencesService.getAppUser().subscribe(appUser => {
       this.appUser = appUser; // Load the entity for this app user
       this.appUserForm = this.appUserFormService.createAppUserFormGroup(this.appUser);
-      // Create an app user form and pre-load with the existing values
     });
   }
 
   userForm = new FormGroup({
-    // Form to update this user entity
-    firstName: new FormControl(initialAccount.firstName, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
-    }),
-    lastName: new FormControl(initialAccount.lastName, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
-    }),
     email: new FormControl(initialAccount.email, {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
-    langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
-
-    currentPassword: new FormControl('', { nonNullable: true, validators: Validators.required }),
-    newPassword: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
-    }),
-    confirmPassword: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
-    }),
-
-    activated: new FormControl(initialAccount.activated, { nonNullable: true }),
-    authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
-    imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
-    login: new FormControl(initialAccount.login, { nonNullable: true }),
   });
 
   saveUser(): void {
     // Update this JHipster user based on the user form input
     this.success = false;
+    const email = this.userForm.get('email')?.value; // Extracting the email value
+    if (email) {
+      this.preferencesService.updateEmail(email).subscribe(
+        () => {
+          this.success = true;
+          console.log('Email updated!');
+          //this.accountService.authenticate(initialAccount);
+        },
+        error => {
+          console.error('Error updating email:', error);
+        }
+      );
+    }
+  }
+
+  /*
     const account = this.userForm.getRawValue();
     this.accountService.save(account).subscribe(() => {
       this.success = true;
+
       this.accountService.authenticate(account);
     });
-  }
+    */
 
   savePreferences(): void {
     // Update this app user based on the app user form input

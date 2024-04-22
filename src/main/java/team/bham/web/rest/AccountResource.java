@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.User;
 import team.bham.repository.UserRepository;
@@ -132,6 +134,30 @@ public class AccountResource {
             userDTO.getLangKey(),
             userDTO.getImageUrl()
         );
+    }
+
+    /**
+     * {@code POST /account/update-email} : update the current user's email.
+     *
+     * @param email the new email.
+     * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
+     * @throws AccountResourceException {@code 500 (Internal Server Error)} if the current user login wasn't found.
+     */
+    @PostMapping("/account/update-email")
+    public void updateEmail(@RequestParam("email") String email, Authentication authentication) {
+        String userLogin = authentication.getName();
+
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(email);
+        if (existingUser.isPresent() && !existingUser.get().getLogin().equalsIgnoreCase(userLogin)) {
+            throw new EmailAlreadyUsedException();
+        }
+
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+
+        userService.updateEmail(userLogin, email, authentication);
     }
 
     /**

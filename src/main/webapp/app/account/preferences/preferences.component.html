@@ -34,20 +34,16 @@
       <br />
     </form>
 
-    <h2 *ngIf="userForm.value.login">Account details</h2>
-
-    <div class="alert alert-success" *ngIf="success">
-      <strong>Preferences saved!</strong>
-    </div>
+    <h2>Account details</h2>
 
     <jhi-alert-error></jhi-alert-error>
 
-    <form name="form" role="form" (ngSubmit)="saveUser()" [formGroup]="userForm" *ngIf="userForm.value.login" novalidate>
+    <form name="form" role="form" (ngSubmit)="saveUser()" [formGroup]="userForm">
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Your email" formControlName="email" data-cy="email" />
 
-        <div *ngIf="userForm.get('email')!.invalid && (userForm.get('email')!.dirty || userForm.get('email')!.touched)">
+        <div *ngIf="userForm.get('email')!.dirty || userForm.get('email')!.touched">
           <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.required"> Your email is required. </small>
 
           <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.email"> Your email is invalid. </small>
@@ -64,6 +60,11 @@
 
       <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary" data-cy="submit">Save</button>
     </form>
+
+    <br />
+    <div class="alert alert-success" *ngIf="success">
+      <strong>Email saved!</strong>
+    </div>
 
     <br />
     <div class="preferenceTitle">Password</div>

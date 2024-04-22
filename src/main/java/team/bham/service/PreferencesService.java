@@ -36,6 +36,15 @@ public class PreferencesService {
         return appUserRepository.findByUserId(user.getId()).get();
     }
 
+    public void updateEmail(String login, String email) {
+        userRepository
+            .findOneByLogin(login)
+            .ifPresent(user -> {
+                user.setEmail(email);
+                userRepository.save(user);
+            });
+    }
+
     public void deleteCurrentUser(String login) {
         appUserService.deleteUser(login);
         userRepository

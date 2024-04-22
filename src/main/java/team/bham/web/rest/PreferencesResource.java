@@ -1,5 +1,6 @@
 package team.bham.web.rest;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
