@@ -83,8 +83,8 @@ deploy-dev:
     - cp src/main/ci/ssh-config ~/.ssh/config
     - chmod 0600 ~/.ssh/config
     # copy in SSH key
-    - cp ${RSA_VPS} ~/.ssh/tpvm
-    - chmod 0600 ~/.ssh/tpvm
+    - cp ${RSA_VPS} ~/.ssh/vps
+    - chmod 0600 ~/.ssh/vps
     #install and configure SSH on the gitlab-runner
     - chmod og= $RSA
     - apk update && apk add openssh-client sshpass
