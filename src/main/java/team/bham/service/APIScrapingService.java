@@ -110,11 +110,13 @@ public class APIScrapingService {
             try {
                 appUserScraping.put(username, ScrapingProgress.RUNNING);
                 AppUser appUser = userService.resolveAppUser(username);
+                System.out.println("Entering scrape task for user " + username);
                 scrape(appUser);
                 return CompletableFuture.completedFuture(null);
             } finally {
                 appUserScraping.put(username, ScrapingProgress.FINISHED);
                 userLock.unlock();
+                System.out.println("Scraping finished :)");
             }
         } else {
             System.out.println("Scrape task already running for user " + username + "!! Skipping");
@@ -138,10 +140,16 @@ public class APIScrapingService {
             if (playlist != null) {
                 //snapshot id same - skip
                 if (playlist.getPlaylistSnapshotID().equals(playlistIds.get(i).getSnapshotId())) {
+                    System.out.println(
+                        "Playlist " + playlist.getPlaylistName() + " (" + playlist.getPlaylistSpotifyID() + ") already up to date."
+                    );
                     continue;
                 }
                 //otherwise - maybe just delete all playlist-song joins???? todo
-            } else playlist = new Playlist();
+            } else {
+                System.out.println("Scraping new playlist " + curSimplePlaylist.getName() + " (" + curSimplePlaylist.getSpotifyId() + ")");
+                playlist = new Playlist();
+            }
 
             //grab full playlist details from simple playlist id
             SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, curSimplePlaylist.getSpotifyId()).getData();
@@ -242,6 +250,8 @@ public class APIScrapingService {
                 playlistSongJoinRepository.save(playlistSongJoin);
                 //todo: genre stuff.
             }
+
+            System.out.println("Scraping finished for " + curSimplePlaylist.getName() + " (" + curSimplePlaylist.getSpotifyId() + ")");
         }
     }
 

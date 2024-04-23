@@ -179,7 +179,17 @@ public class SpotifyAPIWrapperService {
 
         Boolean getNextPage = true;
         while (getNextPage) {
-            JSONArray tracks = trackInfo.getJSONArray("items");
+            JSONArray tracks = new JSONArray();
+            try {
+                tracks = trackInfo.getJSONArray("items");
+            } catch (Exception e) {
+                //some playlists are incredibly cursed
+                System.out.println("What the fuck is this playlist?? " + trackInfo.toString());
+                SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
+                res.setData(playlist);
+                res.setSuccess(true);
+                return res;
+            }
 
             for (int i = 0; i < tracks.length(); i++) {
                 JSONObject trackJSON = null;
