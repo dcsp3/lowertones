@@ -1,13 +1,22 @@
 package team.bham.web.rest;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestController;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
@@ -38,5 +47,10 @@ public class TableviewResource {
         ArrayList<SpotifySimplifiedPlaylist> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
         SpotifyPlaylist p = apiWrapper.getPlaylistDetails(appUser, playlistIds.get(0).getSpotifyId()).getData();
         return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
+    @GetMapping("/tableview-user-playlists")
+    public ResponseEntity<List<Map<String, Object>>> getUserPlaylistNames(Authentication authentication) {
+        return tableviewService.getUserPlaylistNames(authentication);
     }
 }

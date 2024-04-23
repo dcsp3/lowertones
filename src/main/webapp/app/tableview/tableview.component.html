@@ -52,11 +52,13 @@
             (ngModelChange)="getPlaylistData()"
             [filter]="true"
             [listStyle]="{ 'max-height': '30vh' }"
-            optionLabel="name"
+            optionLabel="label"
             autoWidth="false"
           >
             <ng-template let-item pTemplate="item">
-              <div title="{{ item.name }}">{{ item.name }}</div>
+              <img [src]="item.image" class="playlist-image-selected" />
+              <!--onError="this.src='assets/default-playlist-image.png';"-->
+              <div title="{{ item.label }}">{{ item.label }}</div>
             </ng-template>
           </p-listbox>
         </ng-template>
@@ -318,7 +320,7 @@
               </ng-container>
 
               <ng-container *ngIf="!loadingSongs && song['placeholder']">
-                <span style="color: transparent; user-select: none">Placeholder</span>
+                <span style="color: transparent; user-select: none">hi</span>
               </ng-container>
               <ng-container *ngIf="!song['placeholder']">
                 <ng-container *ngIf="col.value === 'explicit'; else normalField">

@@ -3,6 +3,7 @@ import { TreeNode } from 'primeng/api';
 import { TableviewTreeService } from '../../../java/team/bham/service/TableviewTreeService';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TableviewService } from './tableview.service';
 
 interface SongEntry {
   placeholder: boolean;
@@ -38,23 +39,12 @@ interface Choice {
 interface Playlist {
   name: string;
   spotifyId: string;
-  snapshotId: string;
+  image: string;
 }
 
 interface PagePair {
   user: number;
   staging: number;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-class PlaylistService {
-  private apiUrl = '/api/get-user-playlists';
-  constructor(private http: HttpClient) {}
-  getPlaylists(): Observable<any> {
-    return this.http.get(this.apiUrl);
-  }
 }
 
 @Injectable({
@@ -116,8 +106,8 @@ export class TableviewComponent implements OnInit {
   producerChips: string[] = [];
   Explicitness: Choice[] = [];
   selectedExplicitness: Choice;
-  playlists: Playlist[];
-  selectedPlaylist!: Playlist;
+  playlists: any[];
+  selectedPlaylist!: any;
   tableStates: Choice[];
   selectedTableState: Choice;
   pagePair: PagePair = { user: 0, staging: 0 };
@@ -125,7 +115,7 @@ export class TableviewComponent implements OnInit {
   tableRows: number = 15;
   entryCount: number = 0;
 
-  constructor(private playlistService: PlaylistService, private scrapeService: ScrapeService) {
+  constructor(private tableviewService: TableviewService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = this.placeholderSong;
       this.songData[i] = songEntry;
@@ -157,11 +147,11 @@ export class TableviewComponent implements OnInit {
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
     this.playlists = [
-      { name: 'My Entire Library', spotifyId: 'entireLibrary', snapshotId: 'null' },
-      { name: 'My Top Songs', spotifyId: 'topSongs', snapshotId: 'null' },
+      { name: 'My Entire Library', spotifyId: 'entireLibrary', image: 'null' },
+      { name: 'My Top Songs', spotifyId: 'topSongs', image: 'null' },
     ];
 
-    this.selectedPlaylist = { name: 'My Top Songs', spotifyId: 'topSongs', snapshotId: 'null' };
+    this.selectedPlaylist = { name: 'My Top Songs', spotifyId: 'topSongs', image: 'null' };
     this.selectedSongCount = 0;
   }
 
@@ -325,18 +315,20 @@ export class TableviewComponent implements OnInit {
     console.log(this.selectedPlaylist);
   }
 
-  fetchPlaylists() {
-    this.playlistService.getPlaylists().subscribe({
-      next: (response: Playlist[]) => {
-        const playlistOptions = response.map((playlist: Playlist) => ({
-          name: playlist.name,
-          spotifyId: playlist.spotifyId,
-          snapshotId: playlist.snapshotId,
-        }));
-        this.playlists = [...this.playlists, ...playlistOptions];
+  fetchPlaylists(): void {
+    this.tableviewService.getPlaylists().subscribe({
+      next: (data: any[]) => {
+        this.playlists = data.map(playlist => {
+          const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
+          return {
+            label: playlist.name,
+            value: playlist.id,
+            image: image,
+          };
+        });
       },
       error: error => {
-        console.error('Error fetching playlists:', error);
+        console.error('There was an error fetching the playlists', error);
       },
     });
   }
