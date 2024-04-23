@@ -18,7 +18,7 @@
   <div id="sidebar" class="tbv-divs">
     <!-- FILTERS START -->
 
-    <div class="sidebar-search" style="width: 100%; margin: auto">
+    <div class="sidebar-search">
       <div class="p-inputgroup">
         <input
           style="width: 80%; border-bottom-left-radius: 0px"
@@ -34,7 +34,9 @@
 
     <div class="sidebar-tree">
       <p-tree [value]="filters" class="w-full md:w-30rem">
-        <ng-template let-node pTemplate="default"> {{ node.label }} </ng-template>
+        <ng-template let-node pTemplate="default">
+          {{ node.label }}
+        </ng-template>
 
         <!--Playlist Select-->
         <ng-template let-node pTemplate="PlaylistElement">
