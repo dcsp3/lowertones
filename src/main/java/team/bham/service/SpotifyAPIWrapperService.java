@@ -120,6 +120,28 @@ public class SpotifyAPIWrapperService {
         return res;
     }
 
+    public SpotifyAPIResponse<JSONObject> createPlaylist(AppUser user, String playlistName) {
+        String endpoint = "https://api.spotify.com/v1/users/" + user.getSpotifyUserID() + "/playlists";
+
+        JSONObject body = new JSONObject();
+        body.put("name", playlistName);
+        return APICall(HttpMethod.POST, endpoint, body, user);
+    }
+
+    public SpotifyAPIResponse<JSONObject> addItemsToPlaylist(AppUser user, String playlistId) {
+        String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+
+        JSONObject body = new JSONObject();
+        JSONArray uris = new JSONArray();
+
+        uris.put("spotify:track:7sVbKoBdhXtYCEOO6qC1SN");
+        uris.put("spotify:track:7lsepdNR69a3PS9pWMNICd");
+
+        body.put("uris", uris);
+
+        return APICall(HttpMethod.POST, endpoint, body, user);
+    }
+
     public SpotifyAPIResponse<JSONObject> getPlaylistTracks(AppUser user, String playlistId) {
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
         return APICall(HttpMethod.GET, endpoint, user);
