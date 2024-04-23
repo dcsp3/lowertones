@@ -15,6 +15,138 @@ Main page styles
   font-style: normal;
 }
 
+.hero-center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+h4 {
+  font-family: 'neue-plak', sans-serif;
+  color: #ffffff;
+  font-size: 1.1vw !important;
+  letter-spacing: 2px;
+  text-transform: none !important;
+  font-weight: 200 !important;
+}
+
+.hero-title {
+  font-family: 'neue-plak' !important;
+  font-size: 3vw;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 4vh;
+  margin-right: 1vh;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 82%;
+  height: 100%;
+  margin-top: -4rem;
+}
+
+.column {
+  flex-grow: 1;
+  flex-basis: 50%;
+  text-align: center;
+  max-height: 80vh;
+  padding: 50px;
+}
+
+.logo-img {
+  height: 45px;
+  width: 15vw;
+  display: inline-block;
+  vertical-align: middle;
+  background: url('../../content/images/lowertones-white-logo-alphabg-large.png') no-repeat center center;
+  background-size: contain;
+  transform: scale(1.3);
+  position: relative;
+  top: -3px;
+  //padding-right: 160px;
+}
+
+.scroll-down-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin-top: 72vh;
+}
+
+.scroll-down {
+  font-family: 'neue-plak' !important;
+  font-size: 0.9vw;
+  color: #ffffff;
+  margin-bottom: 3vh;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.chevron {
+  position: absolute;
+  width: 28px;
+  height: 8px;
+  opacity: 0;
+  transform: scale3d(0.5, 0.5, 0.5);
+  animation: move 3s ease-out infinite;
+}
+
+.chevron:first-child {
+  animation: move 3s ease-out 1s infinite;
+}
+
+.chevron:nth-child(2) {
+  animation: move 3s ease-out 2s infinite;
+}
+
+.chevron:before,
+.chevron:after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 51%;
+  background: #fff;
+}
+
+.chevron:before {
+  left: 0;
+  transform: skew(0deg, 30deg);
+}
+
+.chevron:after {
+  right: 0;
+  width: 50%;
+  transform: skew(0deg, -30deg);
+}
+
+@keyframes move {
+  25% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(30px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+  }
+}
+
 .particle {
   /* Starting values */
   --angle: (5 * var(--index));
@@ -87,6 +219,7 @@ Main page styles
 
 .card {
   background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
+  background-clip: padding-box;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
@@ -99,6 +232,9 @@ Main page styles
   position: relative; /* Make sure it’s relative for absolute children */
   z-index: 0;
   overflow: visible;
+  flex-basis: 100%;
+  padding: 0px;
+  background-color: #ffffff00;
 }
 
 .card-content {

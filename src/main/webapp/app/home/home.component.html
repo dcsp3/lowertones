@@ -1,12 +1,46 @@
 <main class="et-main">
   <section class="et-slide" id="hero">
-    <h3>
-      Welcome to Lowertones, where you can easily scan and organize your Spotify library. Our intuitive tabular form allows you to view your
-      library at a glance, while the filters on the left help you find specific songs or albums. With our search bar at the top, you can
-      quickly locate any track or artist. Start exploring your music collection today!
-    </h3>
-    <div class="center" style="--total: 1080">
-      <div *ngFor="let particle of particles; let i = index" class="particle" [style]="{ '--index': i }"></div>
+    <div class="card">
+      <div class="hero-center-content">
+        <h2 class="hero-title">Welcome To</h2>
+        <span class="logo-img"></span>
+
+        <div class="columns">
+          <div class="column">
+            <h4>
+              Unlock the full potential of your Spotify library.
+              <br />
+              <br />
+
+              Effortlessly connect and organize your music into a powerful, intuitive interface.
+              <br />
+              <br />
+
+              Explore connections between your favorite artists with our unique Network feature and delve deeper with ReCAPD to uncover the
+              talented musicians and producers behind your favorite tracks.
+              <br />
+              <br />
+
+              Tailor your playlists with advanced sorting options, and ensure you never miss a beat with the Discover Weekly Buffer.
+              <br />
+              <br />
+
+              Step into a personalized audio journey where every playlist is curated perfectly just for you.
+            </h4>
+          </div>
+          <div class="column">
+            <div class="center" style="--total: 1080">
+              <div *ngFor="let particle of particles; let i = index" class="particle" [style]="{ '--index': i }"></div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-down-container">
+          <div class="chevron"></div>
+          <div class="chevron"></div>
+          <div class="chevron"></div>
+          <span class="scroll-down"> Scroll Down </span>
+        </div>
+      </div>
     </div>
   </section>
 
