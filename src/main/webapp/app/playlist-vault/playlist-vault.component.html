@@ -9,99 +9,35 @@
 
     <div class="selection-card">
       <div class="user-input">
-        <div class="tabs-container">
-          <button
-            type="button"
-            class="tab"
-            [class.active]="activeTab === 'custom'"
-            [class.inactive]="activeTab !== 'custom'"
-            (click)="setActiveTab('custom')"
-          >
-            Custom
-          </button>
-          <button
-            type="button"
-            class="tab"
-            [class.active]="activeTab === 'spotify'"
-            [class.inactive]="activeTab !== 'spotify'"
-            (click)="setActiveTab('spotify')"
-          >
-            Spotify Generated
-          </button>
-        </div>
+        <form id="customForm">
+          <div class="form-group">
+            <label for="playlistName">Playlist Name</label>
+            <input type="text" id="playlistName" name="playlistName" />
+          </div>
 
-        <!-- Tab content for Custom Playlist -->
-        <div *ngIf="activeTab === 'custom'" id="custom" class="tab-content">
-          <form id="customForm">
-            <div class="form-group">
-              <label for="playlistName">Playlist Name</label>
-              <input type="text" id="playlistName" name="playlistName" />
-            </div>
+          <div class="form-group">
+            <label for="link">Link</label>
+            <input type="text" id="link" name="link" />
+          </div>
 
-            <div class="form-group">
-              <label for="link">Link</label>
-              <input type="text" id="link" name="link" />
-            </div>
+          <div class="form-group">
+            <label for="playlistCover">Playlist Cover (optional)</label>
+            <input type="text" id="playlistCover" name="playlistCover" />
+          </div>
 
-            <div class="form-group">
-              <label for="playlistCover">Playlist Cover (optional)</label>
-              <input type="text" id="playlistCover" name="playlistCover" />
-            </div>
+          <div class="form-group">
+            <label for="frequency">Update Frequency</label>
+            <select id="frequency" name="frequency">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label for="frequency">Update Frequency</label>
-              <select id="frequency" name="frequency">
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </div>
-
-            <div class="button-container">
-              <button type="submit" class="add-to-vault-btn">Add to Vault</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Tab content for Spotify Generated Playlist -->
-        <!-- Tab content for Spotify Generated Playlist -->
-        <!-- Tab content for Spotify Generated Playlist -->
-        <div *ngIf="activeTab === 'spotify'" id="spotify" class="tab-content">
-          <form id="spotifyForm">
-            <div class="form-group">
-              <label for="playlistName">Playlist Name</label>
-              <input type="text" id="playlistName" name="playlistName" />
-            </div>
-
-            <div class="form-group">
-              <label for="frequency">Type</label>
-              <select id="frequency" name="frequency" (change)="onPlaylistTypeChange($event)">
-                <option value="Discover Weekly">Discover Weekly</option>
-                <option value="Release Radar">Release Radar</option>
-                <option value="daily">Daily Mix 1</option>
-                <option value="daily">Daily Mix 2</option>
-                <option value="daily">Daily Mix 3</option>
-                <option value="daily">Daily Mix 4</option>
-                <option value="daily">Daily Mix 5</option>
-                <option value="daily">Daily Mix 6</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="link">Link</label>
-              <input type="text" id="link" name="link" />
-            </div>
-
-            <div class="form-group">
-              <label for="playlistCover">Playlist Cover (optional)</label>
-              <input type="text" id="playlistCover" name="playlistCover" />
-            </div>
-
-            <div class="button-container">
-              <button type="submit" class="add-to-vault-btn">Add to Vault</button>
-            </div>
-          </form>
-        </div>
+          <div class="button-container">
+            <button type="submit" class="add-to-vault-btn">Add to Vault</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
