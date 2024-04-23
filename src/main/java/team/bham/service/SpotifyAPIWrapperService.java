@@ -162,9 +162,9 @@ public class SpotifyAPIWrapperService {
 
         JSONArray images = playlistJSON.optJSONArray("images");
         if (images != null && images.length() > 0) {
-            playlist.setPlaylistImageLarge(images.length() > 0 ? images.getJSONObject(0).optString("url", null) : null);
-            playlist.setPlaylistImageMedium(images.length() > 1 ? images.getJSONObject(1).optString("url", null) : null);
-            playlist.setPlaylistImageSmall(images.length() > 2 ? images.getJSONObject(2).optString("url", null) : null);
+            playlist.setPlaylistImageLarge(images.length() > 0 ? images.getJSONObject(0).optString("url", "") : "");
+            playlist.setPlaylistImageMedium(images.length() > 1 ? images.getJSONObject(1).optString("url", "") : "");
+            playlist.setPlaylistImageSmall(images.length() > 2 ? images.getJSONObject(2).optString("url", "") : "");
         } else {
             // Log or handle the scenario where no images are available
             System.out.println("No images available for this playlist.");
