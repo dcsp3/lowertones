@@ -5,7 +5,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,6 +42,29 @@ public class DatabaseImportService {
         this.mainArtistRepository = mainArtistRepository;
     }
 
+    public static LocalDate parseDate(String dateString) {
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+            .appendOptional(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            .appendOptional(DateTimeFormatter.ofPattern("MM-yyyy"))
+            .appendOptional(DateTimeFormatter.ofPattern("yyyy"))
+            .toFormatter(Locale.ENGLISH)
+            .withResolverStyle(ResolverStyle.LENIENT); // Use lenient resolving to handle incomplete dates
+
+        try {
+            LocalDate date = LocalDate.parse(dateString, formatter);
+            // Handle cases where year or month might be default
+            if (dateString.length() == 4) { // Only year is provided
+                date = date.withMonth(1).withDayOfMonth(1); // Set to January 1st of the year
+            } else if (dateString.length() == 7 && dateString.contains("-")) { // Year and month provided
+                date = date.withDayOfMonth(1); // Set to the first of the month
+            }
+            return date;
+        } catch (DateTimeParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
+            return null;
+        }
+    }
+
     @Transactional
     public Map<Long, Long> importAlbums(String filePath) throws IOException {
         Map<Long, Long> idMapping = new HashMap<>();
@@ -46,7 +76,7 @@ public class DatabaseImportService {
                     .albumSpotifyID(record.get("album_spotify_id"))
                     .albumName(record.get("album_name"))
                     .albumCoverArt(record.get("album_cover_art"))
-                    .albumReleaseDate(LocalDate.parse(record.get("album_release_date")))
+                    .albumReleaseDate(parseDate(record.get("album_release_date")))
                     .releaseDatePrecision(ReleaseDatePrecision.valueOf(record.get("release_date_precision").toUpperCase()))
                     .albumPopularity(Integer.parseInt(record.get("album_popularity")))
                     .albumType(AlbumType.valueOf(record.get("album_type").toUpperCase()))
@@ -215,6 +245,33 @@ public class DatabaseImportService {
                 .setParameter(20, record.get("RELATED_ARTIST_SPOTIFY_ID_18"))
                 .setParameter(21, record.get("RELATED_ARTIST_SPOTIFY_ID_19"))
                 .setParameter(22, record.get("RELATED_ARTIST_SPOTIFY_ID_20"))
+                .executeUpdate();
+        }
+    }
+
+    public void importContributors(String filePath) throws IOException {
+        Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
+        for (CSVRecord record : records) {
+            entityManager
+                .createNativeQuery("INSERT INTO CONTRIBUTORS (ID, NAME, ROLE, INSTRUMENT, MUSICBRAINZ_ID) VALUES (?, ?, ?, ?, ?)")
+                .setParameter(1, record.get("id"))
+                .setParameter(2, record.get("individual_artist_name"))
+                .setParameter(3, record.get("role"))
+                .setParameter(4, record.get("instrument"))
+                .setParameter(5, record.get("artist_mbid"))
+                .executeUpdate();
+        }
+    }
+
+    public void importContributorSongMapping(String filePath) throws IOException {
+        Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
+        for (CSVRecord record : records) {
+            entityManager
+                .createNativeQuery("INSERT INTO REL_SONG_TABLE__CONTRIBUTOR (CONTRIBUTOR_ID, SONG_TABLE_ID) VALUES (?, ?)")
+                .setParameter(1, record.get("CONTRIBUTOR_ID"))
+                .setParameter(2, record.get("SONG_TABLE_ID"))
                 .executeUpdate();
         }
     }

@@ -1,8 +1,11 @@
 package team.bham.web.rest;
 
+import com.google.gson.JsonObject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -10,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -246,5 +250,17 @@ public class SongResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/mbid-spotify-song-mapping/{id}")
+    public ResponseEntity<Map<String, String>> getMBIDBySpotify(@PathVariable String id) {
+        String mbid = songRepository.findSongBySpotifyId(id).getRecordingMBID();
+        Map<String, String> response = new HashMap<>();
+        if (mbid != null) {
+            response.put("MusicBrainz-Recording-ID", mbid);
+        } else if (mbid == null) {
+            response.put("error", "No artist found with that Spotify ID");
+        }
+        return ResponseEntity.ok(response);
     }
 }

@@ -88,6 +88,8 @@ public class SecurityConfiguration {
         .antMatchers("/api/account/reset-password/finish").permitAll()
         .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
         .antMatchers("/api/spotify/exchange-code").permitAll() // Permit all access to this endpoint
+        .antMatchers("/api/mbid-spotify-song-mapping/**").permitAll()
+        .antMatchers("/api/mbid-spotify-artist-mapping/**").permitAll()
         .antMatchers("/api/**").authenticated()
         .antMatchers("/management/health").permitAll()
         .antMatchers("/management/health/**").permitAll()

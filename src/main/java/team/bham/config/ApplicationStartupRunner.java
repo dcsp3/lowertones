@@ -37,26 +37,40 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
     private static final String SERVICE_ACCOUNT_FILE = "./src/main/resources/config/drive_login.json";
 
     private static final String[] FILE_IDS = {
-        "1yvfzKwXk76Tt1juzvN3gzK2BClHdh-aC",
-        "1KWIlGCkjOq5CvCRdPFRa63rH96rxk2PP",
-        "1lD5LWiCn_N3BsQ-aDckt2NHHFumFLvV_",
-        "16GD7tqluTms1lWmC9kIawjAMR2w7p8vi",
-        "1wPNCJ2rNdOraMxeYmXlKUGdo6s3KlLzz",
-        "1AeT5ZzHnGkoAgD64EXaVPkHA8eqmTUYa",
-        "1ws7pDG-GXylmgRpkZa0E_U5_y3-k_lq-",
-        "12NeB3tcsqrx3BJHj4EHVJz-nzPq9Ak_H",
-        "15qL7JRpaP-1Mt_lGXEuefiIWcD8aFgaE",
-        "1u9DUcWMkYo_bETMayKhrrb6X9EnaMvl-",
-        "1qXY2NKpIgpAjJdGiU6YFAabFZvX4jYYW",
-        "1KC5Zfes1RZT5S38MoACN37-zJht_aQDq",
-        "1xgEKW5PqgCzgnM4EEQyNcwIx_7OOXlb2",
-        "11VhS3QEtAoAsNn5RpFEPJFTKYcg48lRG",
-        "117ZdHqqqotLcxhzaKVmCHDeJxXKhOzte",
-        "1JGcSAOYMku_Dw_ieCxRpSGfYAHnMfCho",
-        "18Qxk5cjdE-XMzdu3IUAhZCzUhq2VgWX9",
-        "1-Gvt-ZPiBbXUEuh6w32M62HnsZDhbPEP",
-        "1rsFFrZKDX1i_98MYsx1U379nc1P3KeEM",
-        "1nsPTRp4siIRRQPD1qzMTOn2PHGnY-vE_",
+        "1qXXWnNcyfSEFeeJ1How11bY8QiWJDkkT",
+        "1K6mjK69grqvMv6J-Wb6ra5tdePEeY_GB",
+        "19WAvky8Gwe_3eo0AGipNRogsFS5ZQhth",
+        "1UtN9son_AZ3X5q0t9zFtrl3uSXKnV4z-",
+        "1QBGgdEtkIcq0znJdJKECHriNgFgckUIO",
+        "1hCzb7caSxKGphkJYNeoadhiy7t8XPgKp",
+        "1W_ynQoNyHx4C9Q_I_agJN8qFhPj2wgM7",
+        "1MyeCUa98Mms41PV0k6mqeexE7gESshSe",
+        "1-WBbQX6fZEk2NERN_g_kfRAqxWk1EDfP",
+        "1iGCXDKhTdTJrNAEqlV8TcxzV8Ro_eHh3",
+        "15ES-u_jApE_vnGIc2mUpUiKR-tQXfEiG",
+        "1n5zAOBoMxMwUVKXQS5wcqv6bCYa_qQmP",
+        "1LaWfYdvo-4hfzFjzCH35ff3j8uciPdqO",
+        "1-fsEwPk_Afy0YSRMKwB8Z1pWDuwMyCwK",
+        "1KcAgg79_L452Jd2zF_tLQfEZmtDje3PL",
+        "1lLMlumvPnUr8jVrIWj0_VDUWcnyjCKVW",
+        "1XsYLOaXGO_nU33413rCnIH5e_Yp9HhxZ",
+        "1WEwidxq3Q6xdwA0IhNSj38xK_zp80ntF",
+        "152s5A9ZxJpA4d99HgYFBX3E4iWS6VdXg",
+        "1Kk9Cy4anzIN861GvQCrbAzbhILjw4HJm",
+        "1Hzi4XNf6rAhp2A01_gIPrzFJKtbnRWIS",
+        "1gQvU70BfI0UXLkgueaS66o0rnYTHo33I",
+        "1-FGSWY1HK9kitvDsVb2V8ussj6KB6kQk",
+        "15gVSlpVxSDDtE7ANhijAFd_I9tY-Jocp",
+        "14BZ0OVnYOSjpYObt7auMFjt1o6jl3s26",
+        "1BvVURLhPLm4LQiwB9rZ7YuL2lNS5VmbW",
+        "1dk7XvOUvuTeEkvXoVSAk9zP5q9o1bvQC",
+        "19yv3Dp02fdu21mJtKtLtllLRjZhfmMkT",
+        "1Jr2kOKigf7iPWpMEhoJ8WbghEpXr0gE1",
+        "1njyUIAy-45-rw0okiiBDLXmNKRHQJxhm",
+        "1buPJI6k--0T7s9hm1wSjzN73YfU42q7r",
+        "1pXC96LImehWGrJfyiNwDAp8Eb3xrjT3O",
+        "1kf67RfkkypP-rbkrgUTpzu158I9Jjb6L",
+        "",
     };
 
     @Value("${spring.liquibase.contexts}")
@@ -106,7 +120,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
             }
             System.out.println("3");
 
-            String outputDirectory = "/tmp/downloaded_files";
+            String outputDirectory = "./tmp/downloaded_files";
             java.io.File fileOutputDir = new java.io.File(outputDirectory);
             if (!fileOutputDir.exists()) {
                 if (fileOutputDir.mkdirs()) {
@@ -175,7 +189,7 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         } else if (activeProfile.contains("dev")) {
             try {
                 // if local change files to local path
-                // runImport();
+                //runImport();
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -189,58 +203,185 @@ public class ApplicationStartupRunner implements ApplicationListener<Application
         try {
             System.out.println("8");
             System.out.println("Importing artist data...");
-            Map<Long, Long> artistIDMap = databaseImportService.importArtists("/tmp/downloaded_files/artists_table.csv");
+            Map<Long, Long> artistIDMap = databaseImportService.importArtists(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\artist_data.csv"
+            );
             System.out.println("artist data imported successfully!");
-            System.out.println("Importing album data...");
-            Map<Long, Long> albumIDMap = databaseImportService.importAlbums("/tmp/downloaded_files/album_table.csv");
+
+            System.out.println("Importing album data part 1...");
+            Map<Long, Long> albumIDMap = databaseImportService.importAlbums(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\album_full.csv"
+            );
+            //System.out.println("Importing album data part 2...");
+            //albumIDMap.putAll(databaseImportService.importAlbums("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\album_part_2.csv"));
             System.out.println("album data imported successfully!");
+
             System.out.println("Importing artist album links...");
-            databaseImportService.importArtistAlbumLinks("/tmp/downloaded_files/artist_album_mapping.csv", albumIDMap, artistIDMap);
+            databaseImportService.importArtistAlbumLinks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\artist_album_mapping.csv",
+                albumIDMap,
+                artistIDMap
+            );
             System.out.println("artist album links imported successfully!");
+
             System.out.println("Importing track data part 1...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_0.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_1.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 2...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_1.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_2.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 3...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_2.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_3.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 4...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_3.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_4.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 5...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_4.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_5.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 6...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_5.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_6.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 7...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_6.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_7.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 8...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_7.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_8.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 9...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_8.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_9.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 10...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_9.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_10.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 11...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_10.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_11.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 12...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_11.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_12.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 13...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_12.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_13.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 14...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_13.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_14.csv",
+                albumIDMap
+            );
             System.out.println("Importing track data part 15...");
-            databaseImportService.importTracks("/tmp/downloaded_files/tracks_part_14.csv", albumIDMap);
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_15.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 16...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_16.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 17...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_17.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 18...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_18.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 19...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_19.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 20...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_20.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 21...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_21.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 22...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_22.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 23...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_23.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 24...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_24.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 25...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_25.csv",
+                albumIDMap
+            );
+            System.out.println("Importing track data part 26...");
+            databaseImportService.importTracks(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\tracks_part_26.csv",
+                albumIDMap
+            );
             System.out.println("Track data imported successfully!");
+
             System.out.println("importing genres...");
-            databaseImportService.importGenres("/tmp/downloaded_files/SPOTIFY_GENRE_ENTITY.csv", artistIDMap);
+            databaseImportService.importGenres(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\spotify_genre_entity_data.csv",
+                artistIDMap
+            );
             System.out.println("Genres imported successfully!");
+
             System.out.println("importing related artists...");
-            databaseImportService.importRelatedArtists("/tmp/downloaded_files/related_artists.csv");
+            databaseImportService.importRelatedArtists(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\related_artists_data.csv"
+            );
             System.out.println("Related artists imported successfully!");
-            // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
-            // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",
-            // artistIDMap);
-            // databaseImportService.importSongArtistLinks???
-            // databaseImportService.importSongGenreLinks???
-            // databaseImportService.importContributor("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify
-            // Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\contributors_table.csv");
+
+            System.out.println("importing contributors part 1...");
+            databaseImportService.importContributors("tmp/downloaded_files/contributor_part_1.csv");
+            System.out.println("importing contributors part 2...");
+            databaseImportService.importContributors("tmp/downloaded_files/contributor_part_2.csv");
+            System.out.println("Contributors imported successfully!");
+
+            System.out.println("importing contributor song mappings...");
+            databaseImportService.importContributorSongMapping(
+                "C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\PRODFILES\\contributor_song_mapping.csv"
+            );
+            System.out.println("Contributor song mappings imported successfully!");
+            // databaseImportService.importMBAttributions("C:\\Users\\Music\\Desktop\\PROJECTS\\Spotify Project\\SCRAPED_DATA\\FINISHED\\NEWEST\\mb_attributions_table.csv",artistIDMap);
+
         } catch (Exception e) {
             System.out.println("Error importing data: " + e.getMessage());
         }

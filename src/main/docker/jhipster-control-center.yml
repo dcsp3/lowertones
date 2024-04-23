@@ -38,7 +38,7 @@ services:
       # Patch /etc/hosts to support resolving host.docker.internal to the internal IP address used by the host in all OSes
       - echo "`ip route | grep default | cut -d ' ' -f3` host.docker.internal" | tee -a /etc/hosts > /dev/null && java -jar /jhipster-control-center.jar
     environment:
-      - _JAVA_OPTIONS=-Xmx6g -Xms4g
+      - _JAVA_OPTIONS=-Xmx6g -Xms2g
       - SPRING_PROFILES_ACTIVE=prod,api-docs,static
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
       - SPRING_SECURITY_USER_PASSWORD=admin

@@ -2,7 +2,9 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -44,7 +46,9 @@ public class MainArtistResource {
      * {@code POST  /main-artists} : Create a new mainArtist.
      *
      * @param mainArtist the mainArtist to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new mainArtist, or with status {@code 400 (Bad Request)} if the mainArtist has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new mainArtist, or with status {@code 400 (Bad Request)} if
+     *         the mainArtist has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/main-artists")
@@ -63,11 +67,14 @@ public class MainArtistResource {
     /**
      * {@code PUT  /main-artists/:id} : Updates an existing mainArtist.
      *
-     * @param id the id of the mainArtist to save.
+     * @param id         the id of the mainArtist to save.
      * @param mainArtist the mainArtist to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated mainArtist,
-     * or with status {@code 400 (Bad Request)} if the mainArtist is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the mainArtist couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated mainArtist,
+     *         or with status {@code 400 (Bad Request)} if the mainArtist is not
+     *         valid,
+     *         or with status {@code 500 (Internal Server Error)} if the mainArtist
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/main-artists/{id}")
@@ -95,14 +102,19 @@ public class MainArtistResource {
     }
 
     /**
-     * {@code PATCH  /main-artists/:id} : Partial updates given fields of an existing mainArtist, field will ignore if it is null
+     * {@code PATCH  /main-artists/:id} : Partial updates given fields of an
+     * existing mainArtist, field will ignore if it is null
      *
-     * @param id the id of the mainArtist to save.
+     * @param id         the id of the mainArtist to save.
      * @param mainArtist the mainArtist to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated mainArtist,
-     * or with status {@code 400 (Bad Request)} if the mainArtist is not valid,
-     * or with status {@code 404 (Not Found)} if the mainArtist is not found,
-     * or with status {@code 500 (Internal Server Error)} if the mainArtist couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated mainArtist,
+     *         or with status {@code 400 (Bad Request)} if the mainArtist is not
+     *         valid,
+     *         or with status {@code 404 (Not Found)} if the mainArtist is not
+     *         found,
+     *         or with status {@code 500 (Internal Server Error)} if the mainArtist
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/main-artists/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -169,8 +181,10 @@ public class MainArtistResource {
     /**
      * {@code GET  /main-artists} : get all the mainArtists.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mainArtists in body.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of mainArtists in body.
      */
     @GetMapping("/main-artists")
     public List<MainArtist> getAllMainArtists(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
@@ -186,7 +200,8 @@ public class MainArtistResource {
      * {@code GET  /main-artists/:id} : get the "id" mainArtist.
      *
      * @param id the id of the mainArtist to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the mainArtist, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the mainArtist, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/main-artists/{id}")
     public ResponseEntity<MainArtist> getMainArtist(@PathVariable Long id) {
@@ -209,5 +224,17 @@ public class MainArtistResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/mbid-spotify-artist-mapping/{id}")
+    public ResponseEntity<Map<String, String>> getMBIDBySpotify(@PathVariable String id) {
+        String mbid = mainArtistRepository.findArtistBySpotifyId(id).getMusicbrainzID();
+        Map<String, String> response = new HashMap<>();
+        if (mbid != null) {
+            response.put("MusicBrainz-Recording-ID", mbid);
+        } else if (mbid == null) {
+            response.put("error", "No artist found with that Spotify ID");
+        }
+        return ResponseEntity.ok(response);
     }
 }

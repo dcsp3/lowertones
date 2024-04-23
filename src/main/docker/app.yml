@@ -5,7 +5,7 @@ services:
     image: 'teamproject:latest'
     restart: always
     environment:
-      - _JAVA_OPTIONS=-Xmx6g -Xms4g
+      - _JAVA_OPTIONS=-Xmx6g -Xms2g
       - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://teamproject-postgresql:5432/teamproject
