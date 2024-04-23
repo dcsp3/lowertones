@@ -29,6 +29,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -70,6 +71,7 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
     SkeletonModule,
     SelectButtonModule,
     ToolbarModule,
+    TooltipModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here

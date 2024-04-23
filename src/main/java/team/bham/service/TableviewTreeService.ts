@@ -7,6 +7,7 @@ export class TableviewTreeService {
       {
         key: '0',
         label: 'Playlists',
+        tooltip: 'Select what tracks you want to work with',
         data: 'PlaylistSelect',
         icon: 'pi pi-fw pi-heart',
         children: [

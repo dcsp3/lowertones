@@ -292,6 +292,12 @@
   }
   /*
             style="width: 25%;  "*/
+
+  //SIZE CHANGES TO VH
+
+  .p-component {
+    font-size: 1.757vh !important;
+  }
 }
 
 .center-container {
@@ -345,4 +351,29 @@
 .cellright > div {
   text-align: right;
   margin: auto;
+}
+
+.node-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.node-container-child-1 {
+}
+
+.node-container-child-2 {
+  //margin-left: 10%;
+  margin-right: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1vh;
+  height: 2.1vh;
+  border-radius: 50%;
+  border: 0.22vh solid rgb(197, 197, 197);
+}
+.node-container-child-2 > div {
+  font-size: 1.7vh;
+  color: rgb(197, 197, 197);
 }

@@ -35,7 +35,12 @@
     <div class="sidebar-tree">
       <p-tree [value]="filters" class="w-full md:w-30rem">
         <ng-template let-node pTemplate="default">
-          {{ node.label }}
+          <div class="node-container">
+            <div class="node-container-child-1">{{ node.label }}</div>
+            <div class="node-container-child-2" pTooltip="{{ node.tooltip }}">
+              <div>?</div>
+            </div>
+          </div>
         </ng-template>
 
         <!--Playlist Select-->
