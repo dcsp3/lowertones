@@ -6,19 +6,37 @@ import { choice } from '../recapped/models';
 
 // takes the data from the backend VisualisationsDTO
 interface VisualisationsDTO {
-  topArtist1Percent: number;
-  topArtist2Percent: number;
-  topArtist3Percent: number;
-  topArtist4Percent: number;
-  topArtist5Percent: number;
-  topArtist6Percent: number;
+  numOfSongs: number;
+  topArtist1Count: number;
+  topArtist2Count: number;
+  topArtist3Count: number;
+  topArtist4Count: number;
+  topArtist5Count: number;
 
   topArtist1Name: String;
   topArtist2Name: String;
   topArtist3Name: String;
   topArtist4Name: String;
   topArtist5Name: String;
-  topArtist6Name: String;
+
+  topGenre1Percent: number;
+  topGenre2Percent: number;
+  topGenre3Percent: number;
+  topGenre4Percent: number;
+  topGenre5Percent: number;
+
+  topGenre1Name: String;
+  topGenre2Name: String;
+  topGenre3Name: String;
+  topGenre4Name: String;
+  topGenre5Name: String;
+
+  // variables for the features of the users liked songs
+  Avgpopularity: number;
+  AvgDanceability: number;
+  AvgEnergy: number;
+  AvgAcousticness: number;
+  AvgTempo: number;
 }
 
 interface Playlist {

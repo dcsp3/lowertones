@@ -44,6 +44,127 @@ public class VisualisationsDTO {
     public VisualisationsDTO() {}
 
     // Getters and Setters of the above variables
+
+    public int getTopGenre1Percent() {
+        return topGenre1Percent;
+    }
+
+    public void setTopGenre1Percent(int topGenre1Percent) {
+        this.topGenre1Percent = topGenre1Percent;
+    }
+
+    public int getTopGenre2Percent() {
+        return topGenre2Percent;
+    }
+
+    public void setTopGenre2Percent(int topGenre2Percent) {
+        this.topGenre2Percent = topGenre2Percent;
+    }
+
+    public int getTopGenre3Percent() {
+        return topGenre3Percent;
+    }
+
+    public void setTopGenre3Percent(int topGenre3Percent) {
+        this.topGenre3Percent = topGenre3Percent;
+    }
+
+    public int getTopGenre4Percent() {
+        return topGenre4Percent;
+    }
+
+    public void setTopGenre4Percent(int topGenre4Percent) {
+        this.topGenre4Percent = topGenre4Percent;
+    }
+
+    public int getTopGenre5Percent() {
+        return topGenre5Percent;
+    }
+
+    public void setTopGenre5Percent(int topGenre5Percent) {
+        this.topGenre5Percent = topGenre5Percent;
+    }
+
+    public String getTopGenre1Name() {
+        return topGenre1Name;
+    }
+
+    public void setTopGenre1Name(String topGenre1Name) {
+        this.topGenre1Name = topGenre1Name;
+    }
+
+    public String getTopGenre2Name() {
+        return topGenre2Name;
+    }
+
+    public void setTopGenre2Name(String topGenre2Name) {
+        this.topGenre2Name = topGenre2Name;
+    }
+
+    public String getTopGenre3Name() {
+        return topGenre3Name;
+    }
+
+    public void setTopGenre3Name(String topGenre3Name) {
+        this.topGenre3Name = topGenre3Name;
+    }
+
+    public String getTopGenre4Name() {
+        return topGenre4Name;
+    }
+
+    public void setTopGenre4Name(String topGenre4Name) {
+        this.topGenre4Name = topGenre4Name;
+    }
+
+    public String getTopGenre5Name() {
+        return topGenre5Name;
+    }
+
+    public void setTopGenre5Name(String topGenre5Name) {
+        this.topGenre5Name = topGenre5Name;
+    }
+
+    public float getAvgpopularity() {
+        return Avgpopularity;
+    }
+
+    public void setAvgpopularity(float avgpopularity) {
+        Avgpopularity = avgpopularity;
+    }
+
+    public float getAvgDanceability() {
+        return AvgDanceability;
+    }
+
+    public void setAvgDanceability(float avgDanceability) {
+        AvgDanceability = avgDanceability;
+    }
+
+    public float getAvgEnergy() {
+        return AvgEnergy;
+    }
+
+    public void setAvgEnergy(float avgEnergy) {
+        AvgEnergy = avgEnergy;
+    }
+
+    public float getAvgAcousticness() {
+        return AvgAcousticness;
+    }
+
+    public void setAvgAcousticness(float avgAcousticness) {
+        AvgAcousticness = avgAcousticness;
+    }
+
+    public float getAvgTempo() {
+        return AvgTempo;
+    }
+
+    public void setAvgTempo(float avgTempo) {
+        AvgTempo = avgTempo;
+    }
+
     public int getNumOfSongs() {
         return numOfSongs;
     }
