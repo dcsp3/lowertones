@@ -303,10 +303,13 @@ public class DatabaseImportService {
         Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : records) {
+            Long CONTRIBUTOR_ID = Long.parseLong(record.get("CONTRIBUTOR_ID"));
+            Long SONG_TABLE_ID = Long.parseLong(record.get("SONG_TABLE_ID"));
+
             entityManager
                 .createNativeQuery("INSERT INTO REL_SONG_TABLE__CONTRIBUTOR (CONTRIBUTOR_ID, SONG_TABLE_ID) VALUES (?, ?)")
-                .setParameter(1, record.get("CONTRIBUTOR_ID"))
-                .setParameter(2, record.get("SONG_TABLE_ID"))
+                .setParameter(1, CONTRIBUTOR_ID)
+                .setParameter(2, SONG_TABLE_ID)
                 .executeUpdate();
         }
     }
