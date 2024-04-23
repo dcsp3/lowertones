@@ -94,6 +94,19 @@ public class UtilService {
     }
 
     @Transactional
+    public List<Song> getPlaylistSongs(String playlistId) {
+        Set<Song> playlistSongsSet = new HashSet<>();
+        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
+        playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
+        for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
+            playlistSongsSet.add(playlistSongJoin.getSong());
+        }
+        List<Song> entireLibrarySongsList = new ArrayList<>(playlistSongsSet);
+        return entireLibrarySongsList;
+    }
+
+    @Transactional
     public List<Song> getEntireLibrarySongsAddedInTimeframe(AppUser user, LocalDate startDate, LocalDate endDate) {
         long appUserId = user.getId();
         Set<Song> entireLibrarySongsSet = new HashSet<>();

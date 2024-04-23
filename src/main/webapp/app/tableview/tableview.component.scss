@@ -65,7 +65,6 @@
   color: rgba(255, 255, 255, 0.87);
   /*padding: 1.25rem;*/
   border-radius: 4px;
-  min-height: 100%;
 }
 
 .p-tree .p-tree-container .p-treenode {
@@ -97,7 +96,7 @@
 
 .sidebar-tree {
   flex: 1;
-  overflow: auto;
+  max-height: 100%;
 }
 
 #table-content {
@@ -212,6 +211,8 @@
     border-bottom-left-radius: 4px !important;
     border-bottom-right-radius: 4px !important;
     min-height: 100% !important;
+    max-height: 82vh;
+    overflow: auto;
   }
   .p-tree-wrapper .p-tree-container {
     overflow: auto !important;
