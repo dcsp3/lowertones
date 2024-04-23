@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import liquibase.datatype.core.BigIntType;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
@@ -173,11 +174,14 @@ public class DatabaseImportService {
             //Long oldAlbumId = Long.valueOf(record.get("album_id"));
             System.out.println("oldAlbumId: " + oldAlbumId);
             Long newAlbumId = albumIdMapping.get(oldAlbumId);
+
+            Long id = Long.parseLong(record.get("id"));
+
             entityManager
                 .createNativeQuery(
                     "INSERT INTO SONG_TABLE (ID, SONG_SPOTIFY_ID, SONG_TITLE, SONG_DURATION, SONG_ALBUM_TYPE, SONG_ALBUM_ID, SONG_EXPLICIT, SONG_POPULARITY, SONG_PREVIEW_URL, SONG_TRACK_FEATURES_ADDED, SONG_ACOUSTICNESS, SONG_DANCEABILITY, SONG_ENERGY, SONG_INSTRUMENTALNESS, SONG_LIVENESS, SONG_LOUDNESS, SONG_SPEECHINESS, SONG_TEMPO, SONG_VALENCE, SONG_KEY, SONG_TIME_SIGNATURE, SONG_DATE_ADDED_TO_DB, SONG_DATE_LAST_MODIFIED, RECORDING_MBID, ALBUM_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                 )
-                .setParameter(1, record.get("id"))
+                .setParameter(1, id)
                 .setParameter(2, record.get("song_spotify_id"))
                 .setParameter(3, record.get("song_title"))
                 .setParameter(4, record.get("song_duration"))
@@ -214,10 +218,11 @@ public class DatabaseImportService {
             Long oldArtistId = (long) (Double.parseDouble(record.get("MAIN_ARTIST_ID")));
             //Long oldAlbumId = Long.valueOf(record.get("album_id"));
             Long newArtistId = artistIdMapping.get(oldArtistId);
+            Long id = Long.parseLong(record.get("ID"));
 
             entityManager
                 .createNativeQuery("INSERT INTO SPOTIFY_GENRE_ENTITY (ID, SPOTIFY_GENRE, MAIN_ARTIST_ID) VALUES (?, ?, ?)")
-                .setParameter(1, record.get("ID"))
+                .setParameter(1, id)
                 .setParameter(2, record.get("SPOTIFY_GENRE"))
                 .setParameter(3, newArtistId)
                 .executeUpdate();
@@ -228,11 +233,13 @@ public class DatabaseImportService {
         Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : records) {
+            Long id = Long.parseLong(record.get("ID"));
+
             entityManager
                 .createNativeQuery(
                     "INSERT INTO RELATED_ARTISTS (ID, MAIN_ARTIST_SPTFY_ID, RELATED_ARTIST_SPOTIFY_ID_1, RELATED_ARTIST_SPOTIFY_ID_2, RELATED_ARTIST_SPOTIFY_ID_3, RELATED_ARTIST_SPOTIFY_ID_4, RELATED_ARTIST_SPOTIFY_ID_5, RELATED_ARTIST_SPOTIFY_ID_6,RELATED_ARTIST_SPOTIFY_ID_7, RELATED_ARTIST_SPOTIFY_ID_8, RELATED_ARTIST_SPOTIFY_ID_9, RELATED_ARTIST_SPOTIFY_ID_10, RELATED_ARTIST_SPOTIFY_ID_11, RELATED_ARTIST_SPOTIFY_ID_12, RELATED_ARTIST_SPOTIFY_ID_13, RELATED_ARTIST_SPOTIFY_ID_14, RELATED_ARTIST_SPOTIFY_ID_15, RELATED_ARTIST_SPOTIFY_ID_16, RELATED_ARTIST_SPOTIFY_ID_17, RELATED_ARTIST_SPOTIFY_ID_18, RELATED_ARTIST_SPOTIFY_ID_19, RELATED_ARTIST_SPOTIFY_ID_20) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                 )
-                .setParameter(1, record.get("ID"))
+                .setParameter(1, id)
                 .setParameter(2, record.get("MAIN_ARTIST_SPTFY_ID"))
                 .setParameter(3, record.get("RELATED_ARTIST_SPOTIFY_ID_1"))
                 .setParameter(4, record.get("RELATED_ARTIST_SPOTIFY_ID_2"))
@@ -262,9 +269,11 @@ public class DatabaseImportService {
         Reader in = new FileReader(filePath, StandardCharsets.UTF_8);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : records) {
+            Long id = Long.parseLong(record.get("id"));
+
             entityManager
                 .createNativeQuery("INSERT INTO CONTRIBUTOR (ID, NAME, ROLE, INSTRUMENT, MUSICBRAINZ_ID) VALUES (?, ?, ?, ?, ?)")
-                .setParameter(1, record.get("id"))
+                .setParameter(1, id)
                 .setParameter(2, record.get("individual_artist_name"))
                 .setParameter(3, record.get("role"))
                 .setParameter(4, record.get("instrument"))
