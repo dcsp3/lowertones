@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.apiguardian.api.API;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -381,6 +382,26 @@ public class SpotifyAPIWrapperService {
         //failed: timeout
         apiResponse.setSuccess(false);
         return apiResponse;
+    }
+
+    //fml... so much code duplication
+    private SpotifyAPIResponse<JSONObject> APICall(HttpMethod method, String endpoint, JSONObject body, AppUser user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
+        SpotifyAPIResponse<JSONObject> apiResponse = new SpotifyAPIResponse<>();
+
+        HttpEntity<String> entity = new HttpEntity<>(body.toString(), headers);
+        ResponseEntity<String> response = null;
+        try {
+            response = restTemplate.exchange(endpoint, method, entity, String.class);
+            apiResponse.setData(new JSONObject(response.getBody()));
+            apiResponse.setSuccess(true);
+            return apiResponse;
+        } catch (HttpStatusCodeException e) {
+            HttpStatus status = e.getStatusCode();
+            //todo: all this (refresh etc.... lazy)
+            throw new RuntimeException("bruh: " + status + " " + e.getResponseBodyAsString());
+        }
     }
 
     //todo: thoroughly test this
