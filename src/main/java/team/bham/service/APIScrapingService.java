@@ -180,9 +180,11 @@ public class APIScrapingService {
             playlist.setPlaylistSpotifyID(curPlaylist.getPlaylistId());
             playlist.setPlaylistSnapshotID(curPlaylist.getSnapshotId());
             playlist.setPlaylistName(curPlaylist.getName());
-            playlist.setPlaylistImageSmall(curPlaylist.getPlaylistImageSmall());
-            playlist.setPlaylistImageMedium(curPlaylist.getPlaylistImageMedium());
-            playlist.setPlaylistImageLarge(curPlaylist.getPlaylistImageLarge());
+            playlist.setPlaylistImageSmall(curPlaylist.getPlaylistImageSmall().length() > 254 ? null : curPlaylist.getPlaylistImageSmall());
+            playlist.setPlaylistImageMedium(
+                curPlaylist.getPlaylistImageMedium().length() > 254 ? null : curPlaylist.getPlaylistImageMedium()
+            );
+            playlist.setPlaylistImageLarge(curPlaylist.getPlaylistImageLarge().length() > 254 ? null : curPlaylist.getPlaylistImageLarge());
             playlistRepository.save(playlist);
 
             //todo: reduce to Set<>, remove duplicates
