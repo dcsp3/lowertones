@@ -19,6 +19,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 import javax.swing.text.StyledEditorKit.BoldAction;
@@ -70,6 +74,8 @@ public class APIScrapingService {
     private final UserService userService;
     private final SpotifyAPIWrapperService apiWrapper;
 
+    private final ConcurrentHashMap<String, Lock> appUserLocks = new ConcurrentHashMap<>();
+
     public APIScrapingService(
         UserRepository userRepository,
         AppUserRepository appUserRepository,
@@ -97,9 +103,19 @@ public class APIScrapingService {
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CompletableFuture<Void> beginScrapeTask(String username) {
-        AppUser appUser = userService.resolveAppUser(username);
-        scrape(appUser);
-        return CompletableFuture.completedFuture(null);
+        Lock userLock = appUserLocks.computeIfAbsent(username, k -> new ReentrantLock());
+        if (userLock.tryLock()) {
+            try {
+                AppUser appUser = userService.resolveAppUser(username);
+                scrape(appUser);
+                return CompletableFuture.completedFuture(null);
+            } finally {
+                userLock.unlock();
+            }
+        } else {
+            System.out.println("Scrape task already running for user " + username + "!! Skipping");
+            return CompletableFuture.completedFuture(null);
+        }
     }
 
     @Transactional
