@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.*;
 import team.bham.domain.*;
 import team.bham.domain.enumeration.AlbumType;
 import team.bham.domain.enumeration.ReleaseDatePrecision;
+import team.bham.domain.enumeration.ScrapingProgress;
 import team.bham.repository.*;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
@@ -75,6 +76,7 @@ public class APIScrapingService {
     private final SpotifyAPIWrapperService apiWrapper;
 
     private final ConcurrentHashMap<String, Lock> appUserLocks = new ConcurrentHashMap<>();
+    private final HashMap<String, ScrapingProgress> appUserScraping = new HashMap<>();
 
     public APIScrapingService(
         UserRepository userRepository,
@@ -106,10 +108,12 @@ public class APIScrapingService {
         Lock userLock = appUserLocks.computeIfAbsent(username, k -> new ReentrantLock());
         if (userLock.tryLock()) {
             try {
+                appUserScraping.put(username, ScrapingProgress.RUNNING);
                 AppUser appUser = userService.resolveAppUser(username);
                 scrape(appUser);
                 return CompletableFuture.completedFuture(null);
             } finally {
+                appUserScraping.put(username, ScrapingProgress.FINISHED);
                 userLock.unlock();
             }
         } else {
@@ -414,6 +418,14 @@ public class APIScrapingService {
         song.setAlbum(album);
         songRepository.save(song);
         return song;
+    }
+
+    public ScrapingProgress getScrapingProgress(String username) {
+        ScrapingProgress progress = appUserScraping.getOrDefault(username, ScrapingProgress.NOT_STARTED);
+        if (progress == ScrapingProgress.FINISHED) {
+            appUserScraping.put(username, ScrapingProgress.NOT_STARTED);
+        }
+        return progress;
     }
 
     private ArrayList<String> removeScrapedArtists(List<String> artistSpotifyIds, List<MainArtist> artists) {

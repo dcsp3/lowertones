@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import team.bham.domain.*;
 import team.bham.domain.enumeration.AlbumType;
 import team.bham.domain.enumeration.ReleaseDatePrecision;
+import team.bham.domain.enumeration.ScrapingProgress;
 import team.bham.repository.*;
 import team.bham.service.APIScrapingService;
 import team.bham.service.APIWrapper.*;
@@ -95,6 +96,11 @@ public class APIScrapingResource {
         CompletableFuture<Void> future = apiScrapingService.beginScrapeTask(authentication.getName());
 
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping("/scrape-progress")
+    public ResponseEntity<ScrapingProgress> getScrapeProgress(Authentication authentication) {
+        return new ResponseEntity<>(apiScrapingService.getScrapingProgress(authentication.getName()), HttpStatus.OK);
     }
 
     @Transactional
