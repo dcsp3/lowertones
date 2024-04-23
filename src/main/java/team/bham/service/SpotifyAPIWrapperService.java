@@ -128,14 +128,18 @@ public class SpotifyAPIWrapperService {
         return APICall(HttpMethod.POST, endpoint, body, user);
     }
 
-    public SpotifyAPIResponse<JSONObject> addItemsToPlaylist(AppUser user, String playlistId) {
+    public SpotifyAPIResponse<JSONObject> addItemsToPlaylist(AppUser user, String playlistId, ArrayList<String> playlistIds) {
         String endpoint = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
 
         JSONObject body = new JSONObject();
         JSONArray uris = new JSONArray();
 
-        uris.put("spotify:track:7sVbKoBdhXtYCEOO6qC1SN");
-        uris.put("spotify:track:7lsepdNR69a3PS9pWMNICd");
+        //uris.put("spotify:track:7sVbKoBdhXtYCEOO6qC1SN");
+        //uris.put("spotify:track:7lsepdNR69a3PS9pWMNICd");
+        //todo: these should be batched.
+        for (int i = 0; i < playlistIds.size(); i++) {
+            uris.put("spotify:track:" + playlistIds.get(i));
+        }
 
         body.put("uris", uris);
 
