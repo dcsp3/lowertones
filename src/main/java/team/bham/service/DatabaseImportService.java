@@ -176,6 +176,20 @@ public class DatabaseImportService {
             Long newAlbumId = albumIdMapping.get(oldAlbumId);
 
             Long id = Long.parseLong(record.get("id"));
+            Long popularity = Long.parseLong(record.get("song_popularity"));
+            Long key = Long.parseLong(record.get("song_key"));
+            Long timeSig = Long.parseLong(record.get("song_time_signature"));
+            Long duration = Long.parseLong(record.get("song_duration"));
+
+            Float songAcousticness = Float.parseFloat(record.get("song_acousticness"));
+            Float songDanceability = Float.parseFloat(record.get("song_danceability"));
+            Float songEnergy = Float.parseFloat(record.get("song_energy"));
+            Float songInstrumentalness = Float.parseFloat(record.get("song_instrumentalness"));
+            Float songLiveness = Float.parseFloat(record.get("song_liveness"));
+            Float songLoudness = Float.parseFloat(record.get("song_loudness"));
+            Float songSpeechiness = Float.parseFloat(record.get("song_speechiness"));
+            Float songTempo = Float.parseFloat(record.get("song_tempo"));
+            Float songValence = Float.parseFloat(record.get("song_valence"));
 
             entityManager
                 .createNativeQuery(
@@ -184,24 +198,24 @@ public class DatabaseImportService {
                 .setParameter(1, id)
                 .setParameter(2, record.get("song_spotify_id"))
                 .setParameter(3, record.get("song_title"))
-                .setParameter(4, record.get("song_duration"))
+                .setParameter(4, duration)
                 .setParameter(5, record.get("song_album_type"))
                 .setParameter(6, record.get("song_album_id"))
                 .setParameter(7, record.get("song_explicit"))
-                .setParameter(8, record.get("song_popularity"))
+                .setParameter(8, popularity)
                 .setParameter(9, record.get("song_preview_url"))
                 .setParameter(10, record.get("song_track_features_added"))
-                .setParameter(11, record.get("song_acousticness"))
-                .setParameter(12, record.get("song_danceability"))
-                .setParameter(13, record.get("song_energy"))
-                .setParameter(14, record.get("song_instrumentalness"))
-                .setParameter(15, record.get("song_liveness"))
-                .setParameter(16, record.get("song_loudness"))
-                .setParameter(17, record.get("song_speechiness"))
-                .setParameter(18, record.get("song_tempo"))
-                .setParameter(19, record.get("song_valence"))
-                .setParameter(20, record.get("song_key"))
-                .setParameter(21, record.get("song_time_signature"))
+                .setParameter(11, songAcousticness)
+                .setParameter(12, songDanceability)
+                .setParameter(13, songEnergy)
+                .setParameter(14, songInstrumentalness)
+                .setParameter(15, songLiveness)
+                .setParameter(16, songLoudness)
+                .setParameter(17, songSpeechiness)
+                .setParameter(18, songTempo)
+                .setParameter(19, songValence)
+                .setParameter(20, key)
+                .setParameter(21, timeSig)
                 .setParameter(22, LocalDate.now())
                 .setParameter(23, LocalDate.now())
                 .setParameter(24, record.get("recording_mbid"))
