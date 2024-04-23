@@ -1,6 +1,7 @@
 package team.bham.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -21,6 +22,9 @@ public class Vault implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "source_playlist_id")
     private String sourcePlaylistID;
@@ -43,6 +47,9 @@ public class Vault implements Serializable {
     @Column(name = "playlist_snapshot_id")
     private String playlistSnapshotID;
 
+    @Column(name = "date_last_updated")
+    private LocalDate dateLastUpdated;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -56,6 +63,19 @@ public class Vault implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public Vault userId(Long userId) {
+        this.setUserId(userId);
+        return this;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getSourcePlaylistID() {
@@ -149,6 +169,19 @@ public class Vault implements Serializable {
         this.playlistSnapshotID = playlistSnapshotID;
     }
 
+    public LocalDate getDateLastUpdated() {
+        return this.dateLastUpdated;
+    }
+
+    public Vault dateLastUpdated(LocalDate dateLastUpdated) {
+        this.setDateLastUpdated(dateLastUpdated);
+        return this;
+    }
+
+    public void setDateLastUpdated(LocalDate dateLastUpdated) {
+        this.dateLastUpdated = dateLastUpdated;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -173,6 +206,7 @@ public class Vault implements Serializable {
     public String toString() {
         return "Vault{" +
             "id=" + getId() +
+            ", userId=" + getUserId() +
             ", sourcePlaylistID='" + getSourcePlaylistID() + "'" +
             ", playlistName='" + getPlaylistName() + "'" +
             ", resultPlaylistID='" + getResultPlaylistID() + "'" +
@@ -180,6 +214,7 @@ public class Vault implements Serializable {
             ", type='" + getType() + "'" +
             ", playlistCoverURL='" + getPlaylistCoverURL() + "'" +
             ", playlistSnapshotID='" + getPlaylistSnapshotID() + "'" +
+            ", dateLastUpdated='" + getDateLastUpdated() + "'" +
             "}";
     }
 }

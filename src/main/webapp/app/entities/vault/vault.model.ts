@@ -1,5 +1,8 @@
+import dayjs from 'dayjs/esm';
+
 export interface IVault {
   id: number;
+  userId?: number | null;
   sourcePlaylistID?: string | null;
   playlistName?: string | null;
   resultPlaylistID?: string | null;
@@ -7,6 +10,7 @@ export interface IVault {
   type?: string | null;
   playlistCoverURL?: string | null;
   playlistSnapshotID?: string | null;
+  dateLastUpdated?: dayjs.Dayjs | null;
 }
 
 export type NewVault = Omit<IVault, 'id'> & { id: null };

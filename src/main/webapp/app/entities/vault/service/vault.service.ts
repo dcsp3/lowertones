@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IVault, NewVault } from '../vault.model';
 
 export type PartialUpdateVault = Partial<IVault> & Pick<IVault, 'id'>;
+
+type RestOf<T extends IVault | NewVault> = Omit<T, 'dateLastUpdated'> & {
+  dateLastUpdated?: string | null;
+};
+
+export type RestVault = RestOf<IVault>;
+
+export type NewRestVault = RestOf<NewVault>;
+
+export type PartialUpdateRestVault = RestOf<PartialUpdateVault>;
 
 export type EntityResponseType = HttpResponse<IVault>;
 export type EntityArrayResponseType = HttpResponse<IVault[]>;
@@ -19,24 +32,35 @@ export class VaultService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(vault: NewVault): Observable<EntityResponseType> {
-    return this.http.post<IVault>(this.resourceUrl, vault, { observe: 'response' });
+    const copy = this.convertDateFromClient(vault);
+    return this.http.post<RestVault>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   update(vault: IVault): Observable<EntityResponseType> {
-    return this.http.put<IVault>(`${this.resourceUrl}/${this.getVaultIdentifier(vault)}`, vault, { observe: 'response' });
+    const copy = this.convertDateFromClient(vault);
+    return this.http
+      .put<RestVault>(`${this.resourceUrl}/${this.getVaultIdentifier(vault)}`, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   partialUpdate(vault: PartialUpdateVault): Observable<EntityResponseType> {
-    return this.http.patch<IVault>(`${this.resourceUrl}/${this.getVaultIdentifier(vault)}`, vault, { observe: 'response' });
+    const copy = this.convertDateFromClient(vault);
+    return this.http
+      .patch<RestVault>(`${this.resourceUrl}/${this.getVaultIdentifier(vault)}`, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IVault>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<RestVault>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IVault[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<RestVault[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -69,5 +93,31 @@ export class VaultService {
       return [...vaultsToAdd, ...vaultCollection];
     }
     return vaultCollection;
+  }
+
+  protected convertDateFromClient<T extends IVault | NewVault | PartialUpdateVault>(vault: T): RestOf<T> {
+    return {
+      ...vault,
+      dateLastUpdated: vault.dateLastUpdated?.format(DATE_FORMAT) ?? null,
+    };
+  }
+
+  protected convertDateFromServer(restVault: RestVault): IVault {
+    return {
+      ...restVault,
+      dateLastUpdated: restVault.dateLastUpdated ? dayjs(restVault.dateLastUpdated) : undefined,
+    };
+  }
+
+  protected convertResponseFromServer(res: HttpResponse<RestVault>): HttpResponse<IVault> {
+    return res.clone({
+      body: res.body ? this.convertDateFromServer(res.body) : null,
+    });
+  }
+
+  protected convertResponseArrayFromServer(res: HttpResponse<RestVault[]>): HttpResponse<IVault[]> {
+    return res.clone({
+      body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
+    });
   }
 }

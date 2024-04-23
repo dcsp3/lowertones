@@ -119,6 +119,9 @@ public class VaultResource {
         Optional<Vault> result = vaultRepository
             .findById(vault.getId())
             .map(existingVault -> {
+                if (vault.getUserId() != null) {
+                    existingVault.setUserId(vault.getUserId());
+                }
                 if (vault.getSourcePlaylistID() != null) {
                     existingVault.setSourcePlaylistID(vault.getSourcePlaylistID());
                 }
@@ -139,6 +142,9 @@ public class VaultResource {
                 }
                 if (vault.getPlaylistSnapshotID() != null) {
                     existingVault.setPlaylistSnapshotID(vault.getPlaylistSnapshotID());
+                }
+                if (vault.getDateLastUpdated() != null) {
+                    existingVault.setDateLastUpdated(vault.getDateLastUpdated());
                 }
 
                 return existingVault;

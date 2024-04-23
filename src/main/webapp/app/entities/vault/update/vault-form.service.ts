@@ -18,6 +18,7 @@ type VaultFormDefaults = Pick<NewVault, 'id'>;
 
 type VaultFormGroupContent = {
   id: FormControl<IVault['id'] | NewVault['id']>;
+  userId: FormControl<IVault['userId']>;
   sourcePlaylistID: FormControl<IVault['sourcePlaylistID']>;
   playlistName: FormControl<IVault['playlistName']>;
   resultPlaylistID: FormControl<IVault['resultPlaylistID']>;
@@ -25,6 +26,7 @@ type VaultFormGroupContent = {
   type: FormControl<IVault['type']>;
   playlistCoverURL: FormControl<IVault['playlistCoverURL']>;
   playlistSnapshotID: FormControl<IVault['playlistSnapshotID']>;
+  dateLastUpdated: FormControl<IVault['dateLastUpdated']>;
 };
 
 export type VaultFormGroup = FormGroup<VaultFormGroupContent>;
@@ -44,6 +46,7 @@ export class VaultFormService {
           validators: [Validators.required],
         }
       ),
+      userId: new FormControl(vaultRawValue.userId),
       sourcePlaylistID: new FormControl(vaultRawValue.sourcePlaylistID),
       playlistName: new FormControl(vaultRawValue.playlistName),
       resultPlaylistID: new FormControl(vaultRawValue.resultPlaylistID),
@@ -51,6 +54,7 @@ export class VaultFormService {
       type: new FormControl(vaultRawValue.type),
       playlistCoverURL: new FormControl(vaultRawValue.playlistCoverURL),
       playlistSnapshotID: new FormControl(vaultRawValue.playlistSnapshotID),
+      dateLastUpdated: new FormControl(vaultRawValue.dateLastUpdated),
     });
   }
 

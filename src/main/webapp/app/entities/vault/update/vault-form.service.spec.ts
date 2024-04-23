@@ -20,6 +20,7 @@ describe('Vault Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            userId: expect.any(Object),
             sourcePlaylistID: expect.any(Object),
             playlistName: expect.any(Object),
             resultPlaylistID: expect.any(Object),
@@ -27,6 +28,7 @@ describe('Vault Form Service', () => {
             type: expect.any(Object),
             playlistCoverURL: expect.any(Object),
             playlistSnapshotID: expect.any(Object),
+            dateLastUpdated: expect.any(Object),
           })
         );
       });
@@ -37,6 +39,7 @@ describe('Vault Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            userId: expect.any(Object),
             sourcePlaylistID: expect.any(Object),
             playlistName: expect.any(Object),
             resultPlaylistID: expect.any(Object),
@@ -44,6 +47,7 @@ describe('Vault Form Service', () => {
             type: expect.any(Object),
             playlistCoverURL: expect.any(Object),
             playlistSnapshotID: expect.any(Object),
+            dateLastUpdated: expect.any(Object),
           })
         );
       });

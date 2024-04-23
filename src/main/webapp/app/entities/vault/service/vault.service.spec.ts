@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IVault } from '../vault.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../vault.test-samples';
 
-import { VaultService } from './vault.service';
+import { VaultService, RestVault } from './vault.service';
 
-const requireRestSample: IVault = {
+const requireRestSample: RestVault = {
   ...sampleWithRequiredData,
+  dateLastUpdated: sampleWithRequiredData.dateLastUpdated?.format(DATE_FORMAT),
 };
 
 describe('Vault Service', () => {

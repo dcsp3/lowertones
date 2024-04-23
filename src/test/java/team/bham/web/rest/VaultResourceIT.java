@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,6 +31,9 @@ import team.bham.repository.VaultRepository;
 @WithMockUser
 class VaultResourceIT {
 
+    private static final Long DEFAULT_USER_ID = 1L;
+    private static final Long UPDATED_USER_ID = 2L;
+
     private static final String DEFAULT_SOURCE_PLAYLIST_ID = "AAAAAAAAAA";
     private static final String UPDATED_SOURCE_PLAYLIST_ID = "BBBBBBBBBB";
 
@@ -49,6 +54,9 @@ class VaultResourceIT {
 
     private static final String DEFAULT_PLAYLIST_SNAPSHOT_ID = "AAAAAAAAAA";
     private static final String UPDATED_PLAYLIST_SNAPSHOT_ID = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_DATE_LAST_UPDATED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE_LAST_UPDATED = LocalDate.now(ZoneId.systemDefault());
 
     private static final String ENTITY_API_URL = "/api/vaults";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -75,13 +83,15 @@ class VaultResourceIT {
      */
     public static Vault createEntity(EntityManager em) {
         Vault vault = new Vault()
+            .userId(DEFAULT_USER_ID)
             .sourcePlaylistID(DEFAULT_SOURCE_PLAYLIST_ID)
             .playlistName(DEFAULT_PLAYLIST_NAME)
             .resultPlaylistID(DEFAULT_RESULT_PLAYLIST_ID)
             .frequency(DEFAULT_FREQUENCY)
             .type(DEFAULT_TYPE)
             .playlistCoverURL(DEFAULT_PLAYLIST_COVER_URL)
-            .playlistSnapshotID(DEFAULT_PLAYLIST_SNAPSHOT_ID);
+            .playlistSnapshotID(DEFAULT_PLAYLIST_SNAPSHOT_ID)
+            .dateLastUpdated(DEFAULT_DATE_LAST_UPDATED);
         return vault;
     }
 
@@ -93,13 +103,15 @@ class VaultResourceIT {
      */
     public static Vault createUpdatedEntity(EntityManager em) {
         Vault vault = new Vault()
+            .userId(UPDATED_USER_ID)
             .sourcePlaylistID(UPDATED_SOURCE_PLAYLIST_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
             .resultPlaylistID(UPDATED_RESULT_PLAYLIST_ID)
             .frequency(UPDATED_FREQUENCY)
             .type(UPDATED_TYPE)
             .playlistCoverURL(UPDATED_PLAYLIST_COVER_URL)
-            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .dateLastUpdated(UPDATED_DATE_LAST_UPDATED);
         return vault;
     }
 
@@ -121,6 +133,7 @@ class VaultResourceIT {
         List<Vault> vaultList = vaultRepository.findAll();
         assertThat(vaultList).hasSize(databaseSizeBeforeCreate + 1);
         Vault testVault = vaultList.get(vaultList.size() - 1);
+        assertThat(testVault.getUserId()).isEqualTo(DEFAULT_USER_ID);
         assertThat(testVault.getSourcePlaylistID()).isEqualTo(DEFAULT_SOURCE_PLAYLIST_ID);
         assertThat(testVault.getPlaylistName()).isEqualTo(DEFAULT_PLAYLIST_NAME);
         assertThat(testVault.getResultPlaylistID()).isEqualTo(DEFAULT_RESULT_PLAYLIST_ID);
@@ -128,6 +141,7 @@ class VaultResourceIT {
         assertThat(testVault.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testVault.getPlaylistCoverURL()).isEqualTo(DEFAULT_PLAYLIST_COVER_URL);
         assertThat(testVault.getPlaylistSnapshotID()).isEqualTo(DEFAULT_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testVault.getDateLastUpdated()).isEqualTo(DEFAULT_DATE_LAST_UPDATED);
     }
 
     @Test
@@ -160,13 +174,15 @@ class VaultResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vault.getId().intValue())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
             .andExpect(jsonPath("$.[*].sourcePlaylistID").value(hasItem(DEFAULT_SOURCE_PLAYLIST_ID)))
             .andExpect(jsonPath("$.[*].playlistName").value(hasItem(DEFAULT_PLAYLIST_NAME)))
             .andExpect(jsonPath("$.[*].resultPlaylistID").value(hasItem(DEFAULT_RESULT_PLAYLIST_ID)))
             .andExpect(jsonPath("$.[*].frequency").value(hasItem(DEFAULT_FREQUENCY)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE)))
             .andExpect(jsonPath("$.[*].playlistCoverURL").value(hasItem(DEFAULT_PLAYLIST_COVER_URL)))
-            .andExpect(jsonPath("$.[*].playlistSnapshotID").value(hasItem(DEFAULT_PLAYLIST_SNAPSHOT_ID)));
+            .andExpect(jsonPath("$.[*].playlistSnapshotID").value(hasItem(DEFAULT_PLAYLIST_SNAPSHOT_ID)))
+            .andExpect(jsonPath("$.[*].dateLastUpdated").value(hasItem(DEFAULT_DATE_LAST_UPDATED.toString())));
     }
 
     @Test
@@ -181,13 +197,15 @@ class VaultResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(vault.getId().intValue()))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
             .andExpect(jsonPath("$.sourcePlaylistID").value(DEFAULT_SOURCE_PLAYLIST_ID))
             .andExpect(jsonPath("$.playlistName").value(DEFAULT_PLAYLIST_NAME))
             .andExpect(jsonPath("$.resultPlaylistID").value(DEFAULT_RESULT_PLAYLIST_ID))
             .andExpect(jsonPath("$.frequency").value(DEFAULT_FREQUENCY))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE))
             .andExpect(jsonPath("$.playlistCoverURL").value(DEFAULT_PLAYLIST_COVER_URL))
-            .andExpect(jsonPath("$.playlistSnapshotID").value(DEFAULT_PLAYLIST_SNAPSHOT_ID));
+            .andExpect(jsonPath("$.playlistSnapshotID").value(DEFAULT_PLAYLIST_SNAPSHOT_ID))
+            .andExpect(jsonPath("$.dateLastUpdated").value(DEFAULT_DATE_LAST_UPDATED.toString()));
     }
 
     @Test
@@ -210,13 +228,15 @@ class VaultResourceIT {
         // Disconnect from session so that the updates on updatedVault are not directly saved in db
         em.detach(updatedVault);
         updatedVault
+            .userId(UPDATED_USER_ID)
             .sourcePlaylistID(UPDATED_SOURCE_PLAYLIST_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
             .resultPlaylistID(UPDATED_RESULT_PLAYLIST_ID)
             .frequency(UPDATED_FREQUENCY)
             .type(UPDATED_TYPE)
             .playlistCoverURL(UPDATED_PLAYLIST_COVER_URL)
-            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .dateLastUpdated(UPDATED_DATE_LAST_UPDATED);
 
         restVaultMockMvc
             .perform(
@@ -230,6 +250,7 @@ class VaultResourceIT {
         List<Vault> vaultList = vaultRepository.findAll();
         assertThat(vaultList).hasSize(databaseSizeBeforeUpdate);
         Vault testVault = vaultList.get(vaultList.size() - 1);
+        assertThat(testVault.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testVault.getSourcePlaylistID()).isEqualTo(UPDATED_SOURCE_PLAYLIST_ID);
         assertThat(testVault.getPlaylistName()).isEqualTo(UPDATED_PLAYLIST_NAME);
         assertThat(testVault.getResultPlaylistID()).isEqualTo(UPDATED_RESULT_PLAYLIST_ID);
@@ -237,6 +258,7 @@ class VaultResourceIT {
         assertThat(testVault.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testVault.getPlaylistCoverURL()).isEqualTo(UPDATED_PLAYLIST_COVER_URL);
         assertThat(testVault.getPlaylistSnapshotID()).isEqualTo(UPDATED_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testVault.getDateLastUpdated()).isEqualTo(UPDATED_DATE_LAST_UPDATED);
     }
 
     @Test
@@ -308,10 +330,10 @@ class VaultResourceIT {
         partialUpdatedVault.setId(vault.getId());
 
         partialUpdatedVault
-            .sourcePlaylistID(UPDATED_SOURCE_PLAYLIST_ID)
+            .userId(UPDATED_USER_ID)
+            .playlistName(UPDATED_PLAYLIST_NAME)
             .resultPlaylistID(UPDATED_RESULT_PLAYLIST_ID)
-            .frequency(UPDATED_FREQUENCY)
-            .playlistCoverURL(UPDATED_PLAYLIST_COVER_URL);
+            .type(UPDATED_TYPE);
 
         restVaultMockMvc
             .perform(
@@ -325,13 +347,15 @@ class VaultResourceIT {
         List<Vault> vaultList = vaultRepository.findAll();
         assertThat(vaultList).hasSize(databaseSizeBeforeUpdate);
         Vault testVault = vaultList.get(vaultList.size() - 1);
-        assertThat(testVault.getSourcePlaylistID()).isEqualTo(UPDATED_SOURCE_PLAYLIST_ID);
-        assertThat(testVault.getPlaylistName()).isEqualTo(DEFAULT_PLAYLIST_NAME);
+        assertThat(testVault.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testVault.getSourcePlaylistID()).isEqualTo(DEFAULT_SOURCE_PLAYLIST_ID);
+        assertThat(testVault.getPlaylistName()).isEqualTo(UPDATED_PLAYLIST_NAME);
         assertThat(testVault.getResultPlaylistID()).isEqualTo(UPDATED_RESULT_PLAYLIST_ID);
-        assertThat(testVault.getFrequency()).isEqualTo(UPDATED_FREQUENCY);
-        assertThat(testVault.getType()).isEqualTo(DEFAULT_TYPE);
-        assertThat(testVault.getPlaylistCoverURL()).isEqualTo(UPDATED_PLAYLIST_COVER_URL);
+        assertThat(testVault.getFrequency()).isEqualTo(DEFAULT_FREQUENCY);
+        assertThat(testVault.getType()).isEqualTo(UPDATED_TYPE);
+        assertThat(testVault.getPlaylistCoverURL()).isEqualTo(DEFAULT_PLAYLIST_COVER_URL);
         assertThat(testVault.getPlaylistSnapshotID()).isEqualTo(DEFAULT_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testVault.getDateLastUpdated()).isEqualTo(DEFAULT_DATE_LAST_UPDATED);
     }
 
     @Test
@@ -347,13 +371,15 @@ class VaultResourceIT {
         partialUpdatedVault.setId(vault.getId());
 
         partialUpdatedVault
+            .userId(UPDATED_USER_ID)
             .sourcePlaylistID(UPDATED_SOURCE_PLAYLIST_ID)
             .playlistName(UPDATED_PLAYLIST_NAME)
             .resultPlaylistID(UPDATED_RESULT_PLAYLIST_ID)
             .frequency(UPDATED_FREQUENCY)
             .type(UPDATED_TYPE)
             .playlistCoverURL(UPDATED_PLAYLIST_COVER_URL)
-            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID);
+            .playlistSnapshotID(UPDATED_PLAYLIST_SNAPSHOT_ID)
+            .dateLastUpdated(UPDATED_DATE_LAST_UPDATED);
 
         restVaultMockMvc
             .perform(
@@ -367,6 +393,7 @@ class VaultResourceIT {
         List<Vault> vaultList = vaultRepository.findAll();
         assertThat(vaultList).hasSize(databaseSizeBeforeUpdate);
         Vault testVault = vaultList.get(vaultList.size() - 1);
+        assertThat(testVault.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testVault.getSourcePlaylistID()).isEqualTo(UPDATED_SOURCE_PLAYLIST_ID);
         assertThat(testVault.getPlaylistName()).isEqualTo(UPDATED_PLAYLIST_NAME);
         assertThat(testVault.getResultPlaylistID()).isEqualTo(UPDATED_RESULT_PLAYLIST_ID);
@@ -374,6 +401,7 @@ class VaultResourceIT {
         assertThat(testVault.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testVault.getPlaylistCoverURL()).isEqualTo(UPDATED_PLAYLIST_COVER_URL);
         assertThat(testVault.getPlaylistSnapshotID()).isEqualTo(UPDATED_PLAYLIST_SNAPSHOT_ID);
+        assertThat(testVault.getDateLastUpdated()).isEqualTo(UPDATED_DATE_LAST_UPDATED);
     }
 
     @Test

@@ -6,6 +6,10 @@
   "entityTableName": "vault",
   "fields": [
     {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    },
+    {
       "fieldName": "sourcePlaylistID",
       "fieldType": "String"
     },
@@ -32,6 +36,10 @@
     {
       "fieldName": "playlistSnapshotID",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "dateLastUpdated",
+      "fieldType": "LocalDate"
     }
   ],
   "fluentMethods": true,

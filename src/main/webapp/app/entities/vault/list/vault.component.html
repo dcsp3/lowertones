@@ -38,6 +38,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="userId">
+            <div class="d-flex">
+              <span>User Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="sourcePlaylistID">
             <div class="d-flex">
               <span>Source Playlist ID</span>
@@ -80,6 +86,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="dateLastUpdated">
+            <div class="d-flex">
+              <span>Date Last Updated</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -88,6 +100,7 @@
           <td>
             <a [routerLink]="['/vault', vault.id, 'view']">{{ vault.id }}</a>
           </td>
+          <td>{{ vault.userId }}</td>
           <td>{{ vault.sourcePlaylistID }}</td>
           <td>{{ vault.playlistName }}</td>
           <td>{{ vault.resultPlaylistID }}</td>
@@ -95,6 +108,7 @@
           <td>{{ vault.type }}</td>
           <td>{{ vault.playlistCoverURL }}</td>
           <td>{{ vault.playlistSnapshotID }}</td>
+          <td>{{ vault.dateLastUpdated | formatMediumDate }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/vault', vault.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
