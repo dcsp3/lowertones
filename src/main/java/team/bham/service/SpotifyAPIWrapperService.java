@@ -236,7 +236,7 @@ public class SpotifyAPIWrapperService {
             JSONObject responseJSON = response.getData();
             JSONArray albumsJSON = responseJSON.getJSONArray("albums");
             for (int j = 0; j < albumsJSON.length(); j++) {
-                JSONObject albumJSON = albumsJSON.getJSONObject(i);
+                JSONObject albumJSON = albumsJSON.getJSONObject(j);
                 SpotifyAlbum album = new SpotifyAlbum();
                 album.setAlbumType(albumJSON.getString("album_type"));
                 album.setSpotifyId(albumJSON.getString("id"));
