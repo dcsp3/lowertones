@@ -142,7 +142,7 @@
   <section id="network-tab" class="et-slide">
     <div style="height: 60px"></div>
     <div class="card">
-      <h1 id="networkHeading">network</h1>
+      <h1 id="networkHeading">NETWORK</h1>
       <div class="card-content">
         <div class="graph-container">
           <div #graphContainer class="graph"></div>
@@ -150,15 +150,14 @@
         <div class="content">
           <div class="info-card">
             <h5 class="card-text">
-              Network maps your listening habits by extracting data from Spotify. Customize your view by choosing between top artists in
-              different timeframes or your playlists. Toggle connections based on artist similarity and explore stats like top artists, top
-              genres and your mainstream factor!
+              Network maps your listening habits extracting data from your Spotify account by analysing your listening habits.
               <br />
               <br />
-              Start visualizing your music network today!
+              The visualization can be tailored to reflect different periods, such as recent listens or all-time favorites, and connections
+              can be toggled based on artist similarity.
+              <br />
             </h5>
-            <button>Go To Network</button>
-            <button>How It Works</button>
+            <a href="/data-methodology" id="howItWorksButton"><span>How It Works</span></a>
           </div>
           <br />
           <br />
@@ -209,9 +208,8 @@
                 <div class="top-artist-text">
                   <div class="artist-controls">
                     <span id="topArtistName">Future</span>
-                    <div id="playButton">❚❚</div>
+                    <div id="playButton"><span>❚❚</span></div>
                   </div>
-                  <!-- Separate Track Name -->
                   <div class="artist-track">
                     <span id="topArtistTopTrack">We Don't Trust You</span>
                   </div>
@@ -242,7 +240,7 @@
                   ></div>
                   <span class="popularity-score">{{ displayScore }}%</span>
                 </div>
-                <span class="taste-category">Trending🔥</span>
+                <span class="taste-category">Popular✨</span>
               </div>
             </div>
           </div>

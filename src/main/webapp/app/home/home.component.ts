@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, fromEvent } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { LocationService } from '../shared/location.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private sectionIds = ['hero', 'tableview-tab', 'recapd-tab', 'network-tab', 'visualisations-tab', 'getstarted-tab'];
 
   constructor(private accountService: AccountService, private router: Router, private locationService: LocationService) {}
+  private resizeSubject = new Subject<Event>();
 
   ngOnInit(): void {
     this.accountService
@@ -48,6 +49,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(account => (this.account = account));
     const totalParticles = 360 * 2; // Or any number you prefer
     this.particles = Array.from({ length: totalParticles }, (_, i) => i + 1);
+
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe(event => this.handleResize(event));
+  }
+
+  private handleResize(event: Event) {
+    const currentSection = this.getCurrentSectionInView();
+    if (currentSection === 'network-tab') {
+      clearGraph(this.graphContainer.nativeElement);
+      this.fetchAndRenderGraph();
+      this.hasGraphBeenRendered = true;
+    }
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -368,6 +382,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const elements = getElements(this.graphData.graphData, userImageUrl);
       this.animateScore(66.97);
       renderGraph(this.graphContainer.nativeElement, elements.nodes, elements.links);
+      this.hasGraphBeenRendered = true;
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
     }

@@ -224,17 +224,57 @@ h4 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   max-width: 90%;
-  height: 95%; /* You might need to adjust this to 'auto' if content overflows */
+  height: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative; /* Make sure it’s relative for absolute children */
+  position: relative;
   z-index: 0;
   overflow: visible;
   flex-basis: 100%;
   padding: 0px;
   background-color: #ffffff00;
+}
+
+/* Network Section */
+
+#network-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4%;
+}
+
+#network-tab h5 {
+  font-size: 1.3vw;
+  color: #ffffff;
+  margin-bottom: 1vw;
+}
+
+#network-tab h1 {
+  font-family: 'neue-plak';
+  letter-spacing: 2.5px;
+  font-size: 3vw;
+  margin-left: 58%;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+#howItWorksButton {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #2424248c;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  font-size: 1.1vw;
+  transition: background-color 0.2s ease;
+}
+
+#howItWorksButton:hover {
+  background-color: #202020af;
 }
 
 .card-content {
@@ -252,7 +292,8 @@ h4 {
   align-self: flex-start;
   border-radius: 0.375rem;
   left: 1%;
-  background: linear-gradient(to bottom, #8676a6, #a4a2bb); /* Gradient from purple to white */
+  top: 8%;
+  background: linear-gradient(to bottom, #8676a6, #a4a2bb);
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
   position: absolute;
 }
@@ -261,7 +302,7 @@ h4 {
   align-self: flex-start;
   border-radius: 0.375rem;
   align-items: center;
-  background: linear-gradient(to bottom, #8676a6, #a4a2bb); /* Gradient from purple to white */
+  background: linear-gradient(to bottom, #8676a6, #a4a2bb);
 }
 
 @keyframes subtle-zoom {
@@ -275,49 +316,36 @@ h4 {
 }
 
 .info-card {
-  position: absolute; /* Adjust if the card needs to be within the flow instead */
-  top: 12%; /* Align to the top of the parent container */
-  left: 60.5%;
-  width: 30vw;
-  background: #fff;
+  position: absolute;
+  top: 12%;
+  left: 58.5%;
+  width: 33vw;
+  height: 36vh;
+  background-color: rgba(108, 46, 124, 0);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
   text-align: center;
-  z-index: 2; /* Make sure it's above other elements if needed */
-}
-
-#networkHeading {
-  margin-top: 1rem;
-}
-
-.card-header {
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.card-text {
-  font-size: 1.2rem;
-  color: #666;
+  z-index: 2;
 }
 
 .stats-cards {
-  width: 80vw; /* Adjust width as necessary */
-  height: 60vh; /* Adjust height as necessary */
-  margin: 20px auto; /* Center the container */
-  overflow: hidden; /* Keeps child elements within the container */
+  width: 80vw;
+  height: 60vh;
+  margin: 20px auto;
+  overflow: hidden;
 }
 
 .top-artist,
 .top-genre,
 .mainstream-score {
   position: absolute;
-  width: 25vw; /* Adjust width if necessary */
-  transform-origin: center; /* Ensures rotation happens centrally */
-  transition: transform 0.3s ease-in-out; /* Smooth transformation */
+  width: 30vw;
+  transform-origin: center;
+  transition: transform 0.3s ease-in-out;
   scale: 0.8;
-  box-shadow: 2px 20px 30px rgba(0, 0, 0, 0.2); /* Increased box shadow for more depth */
-  background: linear-gradient(to bottom, #8578e2, #8676a6); /* Gradient from purple to white */
+  box-shadow: 2px 20px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom, #8578e2, #8676a6);
   border-radius: 10px;
   color: white;
 }
@@ -325,29 +353,31 @@ h4 {
 .top-artist {
   top: 51%;
   left: 52%;
-  transform: rotate(-3deg); /* Tilt left */
+  transform: rotate(-3deg);
   z-index: 6;
+  height: 28vh;
 }
 
 .mainstream-score {
   top: 55%;
-  left: 75%;
-  transform: rotate(3deg); /* Tilt right */
+  left: 73%;
+  transform: rotate(3deg);
   z-index: 6;
   opacity: 100%;
+  height: 22vh;
 }
 
 .top-genre {
   top: 76%;
   left: 63%;
   z-index: 5;
+  height: 17vh;
 }
 
-/* Optional: Hover effect to lift card on hover */
 .top-artist:hover,
 .top-genre:hover,
 .mainstream-score:hover {
-  transform: scale(1.05) rotate(0deg); /* Un-rotate and scale up slightly */
+  transform: scale(1.05) rotate(0deg);
 }
 
 .top-artist-container,
@@ -367,61 +397,46 @@ h4 {
 .top-artist-text {
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
+  margin-left: 0.7vw;
   align-items: start;
 }
 
 .artist-controls {
   display: flex;
-  align-items: center; /* Ensures vertical alignment */
-  gap: 10px; /* Maintains a consistent space between elements */
-}
-
-#topArtistName {
-  font-size: 35px;
+  align-items: center;
+  gap: 0.5vw;
 }
 
 #playButton {
-  width: 35px; /* Fixed width */
-  height: 35px; /* Fixed height */
-  border-radius: 50%; /* Circle shape */
-  background-color: #202020; /* Dark background for button */
-  color: white; /* Ensures text/icon is visible */
-  border: none; /* Removes the border for a cleaner look */
-  cursor: pointer; /* Cursor indicates clickable button */
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-color: #202020;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0; /* Reset padding to prevent size adjustments */
-  font-size: 20px; /* Adjust font size as needed but keep it consistent */
-  line-height: 1; /* Ensures the icons don't affect the button's line height */
-}
-
-#topArtistImage {
-  border-radius: 0.375rem; /* Rounded corners */
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .sound-wave {
   display: flex;
-  justify-content: center; /* Adjusted for better distribution */
+  justify-content: center;
   align-items: flex-end;
   width: 100%;
-  height: 30px; /* Height of the wave area */
   position: absolute;
   bottom: 0;
   left: 0;
-  overflow: hidden; /* Prevents bars from flowing out of the container */
+  overflow: hidden;
   z-index: 1000;
 }
 
 .bar {
-  width: 5px; /* Adjust the width of each bar if needed */
-  height: 10px; /* Initial height of each bar */
-  margin: 0 1px; /* Adjust the spacing between bars if needed */
+  width: 0.4vw;
+  height: 1.5vw;
+  margin: 0 1px;
   background-color: white;
-  border-radius: 2px; /* Rounds the bars */
+  border-radius: 2px;
   animation: sound-wave-animation 1s infinite ease-in-out;
 }
 
@@ -519,31 +534,26 @@ h4 {
 @keyframes sound-wave-animation {
   0%,
   100% {
-    height: 5px;
+    height: 1.2vw;
   }
   50% {
-    height: 20px;
-  } /* Adjust the height to how tall you want the bars to go */
-}
-
-.artist-track {
-  font-size: 20px;
-  margin-top: 5px; /* Space between controls and track name */
+    height: 0.25vw;
+  }
 }
 
 .mainstream-score-container {
   flex-direction: column;
-  justify-content: center; /* Centers children vertically in the container */
-  align-items: center; /* Centers children horizontally in the container */
+  justify-content: center;
+  align-items: center;
 }
 
 .score-bar {
   position: relative;
-  width: 60%; /* Full width of the container */
-  height: 25px; /* Height of the bar */
-  background-color: #ddd; /* Background of the unfilled bar */
+  width: 20vw;
+  height: 4vh;
+  background-color: #ddd;
   border-radius: 5px;
-  overflow: hidden; /* Ensures that the inner div doesn't spill out of the border radius */
+  overflow: hidden;
 }
 
 .score-fill {
@@ -553,7 +563,6 @@ h4 {
   height: 100%;
   width: 66.97%;
   text-align: center;
-  line-height: 20px; /* Aligns text vertically */
   color: white;
   position: absolute;
   left: 0;
@@ -566,11 +575,12 @@ h4 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 1.25vw;
 }
 
 .taste-category {
-  margin-top: 5px;
-  font-size: 25px;
+  margin-top: 0.3vw;
+  font-size: 2vw;
 }
 
 .top-genre-container {
@@ -579,7 +589,26 @@ h4 {
 }
 
 #topGenre {
-  font-size: 25px;
+  font-size: 2vw;
+}
+
+.top-artist-container img {
+  width: 7vw;
+  height: 7vw;
+  border-radius: 0.375rem;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.artist-controls span {
+  font-size: 1.3vw;
+}
+
+#topArtistName {
+  font-size: 2.3vw;
+}
+
+#topArtistTopTrack {
+  font-size: 1.3vw;
 }
 
 .stats-header {
@@ -589,6 +618,11 @@ h4 {
   padding: 10px;
   font-size: 25px;
   text-align: center;
+  height: 8vh;
+}
+
+.stats-header span {
+  font-size: 1.8vw;
 }
 
 /* Recapped Section */
