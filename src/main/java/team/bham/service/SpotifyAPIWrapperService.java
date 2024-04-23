@@ -161,6 +161,9 @@ public class SpotifyAPIWrapperService {
         playlist.setName(playlistJSON.getString("name"));
 
         JSONArray images = playlistJSON.optJSONArray("images");
+        playlist.setPlaylistImageSmall("");
+        playlist.setPlaylistImageMedium("");
+        playlist.setPlaylistImageLarge("");
         if (images != null && images.length() > 0) {
             playlist.setPlaylistImageLarge(images.length() > 0 ? images.getJSONObject(0).optString("url", "") : "");
             playlist.setPlaylistImageMedium(images.length() > 1 ? images.getJSONObject(1).optString("url", "") : "");
