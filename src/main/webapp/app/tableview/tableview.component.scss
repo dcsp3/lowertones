@@ -92,13 +92,11 @@
 }
 
 .sidebar-search {
-  flex: 0.05;
-  max-height: 5vh;
+  width: 100%;
 }
 
 .sidebar-tree {
-  flex: 0.95;
-  max-height: 82vh;
+  flex: 1;
   overflow: auto;
 }
 
