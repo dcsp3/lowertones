@@ -157,18 +157,43 @@ public class APIScrapingService {
             playlist.setPlaylistImageLarge(curPlaylist.getPlaylistImageLarge());
             playlistRepository.save(playlist);
 
+            //todo: reduce to Set<>, remove duplicates
+            ArrayList<String> unscrapedArtists = removeScrapedArtists(artistSpotifyIds, existingArtists);
+            ArrayList<SpotifyArtist> unscrapedArtistsData = apiWrapper.getArtistInfo(unscrapedArtists, appUser).getData();
+            HashMap<String, SpotifyArtist> unscrapedArtistsMap = new HashMap<>();
+            for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
+                unscrapedArtistsMap.put(unscrapedArtist.getSpotifyId(), unscrapedArtist);
+            }
+
+            //todo: same for albums
+            ArrayList<String> unscrapedAlbums = removeScrapedAlbums(albumSpotifyIds, existingAlbums);
+            ArrayList<SpotifyAlbum> unscrapedAlbumData = apiWrapper.getAlbumInfo(unscrapedAlbums, appUser).getData();
+            HashMap<String, SpotifyAlbum> unscrapedAlbumMap = new HashMap<>();
+            for (SpotifyAlbum unscrapedAlbum : unscrapedAlbumData) {
+                unscrapedAlbumMap.put(unscrapedAlbum.getSpotifyId(), unscrapedAlbum);
+            }
+
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();
             Set<SpotifyTrack> trackSet = new HashSet<>(tracks);
             for (SpotifyTrack track : trackSet) {
-                MainArtist a = getArtistScraped(track.getArtist().getSpotifyId(), existingArtists);
-                if (a == null) {
-                    a = storeArtist(track.getArtist());
+                //if the artist is in the hashmap, then we know it's unscraped
+                MainArtist a = null;
+                if (unscrapedArtistsMap.containsKey(track.getArtist().getSpotifyId())) {
+                    a = storeArtist(unscrapedArtistsMap.get(track.getArtist().getSpotifyId()));
+                    //remove from map and add to existing artists.
+                    unscrapedArtistsMap.remove(track.getArtist().getSpotifyId());
                     existingArtists.add(a);
+                } else {
+                    a = getArtistScraped(track.getArtist().getSpotifyId(), existingArtists);
                 }
-                Album album = getAlbumScraped(track.getAlbum().getSpotifyId(), existingAlbums);
-                if (album == null) {
-                    album = storeAlbum(track.getAlbum());
+
+                Album album = null;
+                if (unscrapedAlbumMap.containsKey(track.getAlbum().getSpotifyId())) {
+                    album = storeAlbum(unscrapedAlbumMap.get(track.getAlbum().getSpotifyId()));
+                    unscrapedAlbumMap.remove(track.getAlbum().getSpotifyId());
                     existingAlbums.add(album);
+                } else {
+                    album = getAlbumScraped(track.getAlbum().getSpotifyId(), existingAlbums);
                 }
 
                 //check if song already exists. if not, store in db and create song-artist join
@@ -369,6 +394,26 @@ public class APIScrapingService {
         song.setAlbum(album);
         songRepository.save(song);
         return song;
+    }
+
+    private ArrayList<String> removeScrapedArtists(List<String> artistSpotifyIds, List<MainArtist> artists) {
+        ArrayList<String> reduced = new ArrayList<>();
+        for (String id : artistSpotifyIds) {
+            if (getArtistScraped(id, artists) == null) {
+                reduced.add(id);
+            }
+        }
+        return reduced;
+    }
+
+    private ArrayList<String> removeScrapedAlbums(List<String> albumSpotifyIds, List<Album> albums) {
+        ArrayList<String> reduced = new ArrayList<>();
+        for (String id : albumSpotifyIds) {
+            if (getAlbumScraped(id, albums) == null) {
+                reduced.add(id);
+            }
+        }
+        return reduced;
     }
 
     private Song getSongScraped(String spotifyId, List<Song> curSongs) {
