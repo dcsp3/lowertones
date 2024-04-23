@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,26 +43,34 @@ public class DatabaseImportService {
         this.mainArtistRepository = mainArtistRepository;
     }
 
+    private static final DateTimeFormatter ISO_LOCAL_DATE = DateTimeFormatter.ISO_LOCAL_DATE; // yyyy-MM-dd
+    private static final DateTimeFormatter YEAR_MONTH_FORMATTER = new DateTimeFormatterBuilder()
+        .appendPattern("yyyy-MM")
+        .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+        .toFormatter();
+    private static final DateTimeFormatter YEAR_FORMATTER = new DateTimeFormatterBuilder()
+        .appendPattern("yyyy")
+        .parseDefaulting(ChronoField.MONTH_OF_YEAR, 1)
+        .parseDefaulting(ChronoField.DAY_OF_MONTH, 1)
+        .toFormatter();
+
     public static LocalDate parseDate(String dateString) {
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-            .appendOptional(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-            .appendOptional(DateTimeFormatter.ofPattern("MM-yyyy"))
-            .appendOptional(DateTimeFormatter.ofPattern("yyyy"))
-            .toFormatter(Locale.ENGLISH)
-            .withResolverStyle(ResolverStyle.LENIENT); // Use lenient resolving to handle incomplete dates
+        if (dateString.startsWith("0000")) {
+            dateString = "1900" + dateString.substring(4); // Replace "0000" with "1900"
+        }
 
         try {
-            LocalDate date = LocalDate.parse(dateString, formatter);
-            // Handle cases where year or month might be default
-            if (dateString.length() == 4) { // Only year is provided
-                date = date.withMonth(1).withDayOfMonth(1); // Set to January 1st of the year
-            } else if (dateString.length() == 7 && dateString.contains("-")) { // Year and month provided
-                date = date.withDayOfMonth(1); // Set to the first of the month
+            return LocalDate.parse(dateString, ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e1) {
+            try {
+                return LocalDate.parse(dateString, YEAR_MONTH_FORMATTER);
+            } catch (DateTimeParseException e2) {
+                try {
+                    return LocalDate.parse(dateString, YEAR_FORMATTER);
+                } catch (DateTimeParseException e3) {
+                    throw new DateTimeParseException("Failed to parse date: " + dateString, dateString, 0);
+                }
             }
-            return date;
-        } catch (DateTimeParseException e) {
-            System.err.println("Error parsing date: " + e.getMessage());
-            return null;
         }
     }
 
@@ -254,7 +263,7 @@ public class DatabaseImportService {
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader().parse(in);
         for (CSVRecord record : records) {
             entityManager
-                .createNativeQuery("INSERT INTO CONTRIBUTORS (ID, NAME, ROLE, INSTRUMENT, MUSICBRAINZ_ID) VALUES (?, ?, ?, ?, ?)")
+                .createNativeQuery("INSERT INTO CONTRIBUTOR (ID, NAME, ROLE, INSTRUMENT, MUSICBRAINZ_ID) VALUES (?, ?, ?, ?, ?)")
                 .setParameter(1, record.get("id"))
                 .setParameter(2, record.get("individual_artist_name"))
                 .setParameter(3, record.get("role"))
