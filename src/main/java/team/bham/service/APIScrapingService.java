@@ -159,18 +159,22 @@ public class APIScrapingService {
 
             //todo: reduce to Set<>, remove duplicates
             ArrayList<String> unscrapedArtists = removeScrapedArtists(artistSpotifyIds, existingArtists);
-            ArrayList<SpotifyArtist> unscrapedArtistsData = apiWrapper.getArtistInfo(unscrapedArtists, appUser).getData();
             HashMap<String, SpotifyArtist> unscrapedArtistsMap = new HashMap<>();
-            for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
-                unscrapedArtistsMap.put(unscrapedArtist.getSpotifyId(), unscrapedArtist);
+            if (unscrapedArtists.size() > 0) {
+                ArrayList<SpotifyArtist> unscrapedArtistsData = apiWrapper.getArtistInfo(unscrapedArtists, appUser).getData();
+                for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
+                    unscrapedArtistsMap.put(unscrapedArtist.getSpotifyId(), unscrapedArtist);
+                }
             }
 
             //todo: same for albums
             ArrayList<String> unscrapedAlbums = removeScrapedAlbums(albumSpotifyIds, existingAlbums);
-            ArrayList<SpotifyAlbum> unscrapedAlbumData = apiWrapper.getAlbumInfo(unscrapedAlbums, appUser).getData();
             HashMap<String, SpotifyAlbum> unscrapedAlbumMap = new HashMap<>();
-            for (SpotifyAlbum unscrapedAlbum : unscrapedAlbumData) {
-                unscrapedAlbumMap.put(unscrapedAlbum.getSpotifyId(), unscrapedAlbum);
+            if (unscrapedAlbums.size() > 0) {
+                ArrayList<SpotifyAlbum> unscrapedAlbumData = apiWrapper.getAlbumInfo(unscrapedAlbums, appUser).getData();
+                for (SpotifyAlbum unscrapedAlbum : unscrapedAlbumData) {
+                    unscrapedAlbumMap.put(unscrapedAlbum.getSpotifyId(), unscrapedAlbum);
+                }
             }
 
             ArrayList<SpotifyTrack> tracks = curPlaylist.getTracks();

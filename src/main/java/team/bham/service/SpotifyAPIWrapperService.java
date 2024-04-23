@@ -370,9 +370,10 @@ public class SpotifyAPIWrapperService {
                         return apiResponse;
                     }
                 } else {
-                    apiResponse.setSuccess(false);
-                    apiResponse.setStatus(status);
-                    return apiResponse;
+                    throw new RuntimeException("bruh: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
+                    //apiResponse.setSuccess(false);
+                    //apiResponse.setStatus(status);
+                    //return apiResponse;
                 }
             }
         }
