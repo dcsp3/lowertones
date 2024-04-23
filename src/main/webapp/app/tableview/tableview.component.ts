@@ -134,11 +134,11 @@ export class TableviewComponent implements OnInit {
     this.songDataInUse = this.songData;
 
     this.tableStates = [
-      { label: 'Your Playlist', value: 'user' },
+      { label: 'Working Playlist', value: 'user' },
       { label: 'Staging Playlist', value: 'staging' },
     ];
 
-    this.selectedTableState = { label: 'Your Playlist', value: 'user' };
+    this.selectedTableState = { label: 'Working Playlist', value: 'user' };
 
     this.searchTypes = [
       { label: 'Titles & Artists', value: 'both' },

@@ -7,7 +7,7 @@ export class TableviewTreeService {
       {
         key: '0',
         label: 'Playlists',
-        tooltip: 'Select what tracks you want to work with',
+        tooltip: 'Select the tracks you want to use in the Working Playlist',
         data: 'PlaylistSelect',
         icon: 'pi pi-fw pi-heart',
         children: [
@@ -22,6 +22,11 @@ export class TableviewTreeService {
       {
         key: '1',
         label: 'Search Type',
+        tooltip:
+          'Select how you want your search to be applied:\n' +
+          '\nTitles & Artists - Search is applied to both titles and artists' +
+          '\nTitles - Search is applied to titles only' +
+          '\nArtists - Search is applied to artists only',
         data: 'SearchType',
         icon: 'pi pi-fw pi-search',
         children: [
@@ -35,14 +40,15 @@ export class TableviewTreeService {
       },
       {
         key: '2',
-        label: 'Song Duration',
-        data: 'SongDuration',
+        label: 'Track Duration',
+        tooltip: 'Filter by track duration',
+        data: 'TrackDuration',
         icon: 'pi pi-fw pi-hourglass',
         children: [
           {
             key: '2-1',
-            label: 'SongDuration',
-            data: 'SongDuration',
+            label: 'TrackDuration',
+            data: 'TrackDuration',
             type: 'DurationElement',
           },
         ],
@@ -50,6 +56,7 @@ export class TableviewTreeService {
       {
         key: '3',
         label: 'Release Years',
+        tooltip: 'Filter by track release years\nFormat - yyyy',
         data: 'ReleaseYears',
         icon: 'pi pi-fw pi-calendar',
         children: [
@@ -64,6 +71,7 @@ export class TableviewTreeService {
       {
         key: '4',
         label: 'Popularity',
+        tooltip: 'Filter by track popularity',
         data: 'Popularity',
         icon: 'pi pi-fw pi-globe',
         children: [
@@ -78,6 +86,7 @@ export class TableviewTreeService {
       {
         key: '5',
         label: 'Tempo',
+        tooltip: 'Filter by track tempo',
         data: 'Tempo',
         icon: 'pi pi-fw pi-stopwatch',
         children: [
@@ -92,6 +101,7 @@ export class TableviewTreeService {
       {
         key: '6',
         label: 'Song Features',
+        tooltip: 'Filter by song features',
         data: 'Song Features',
         icon: 'pi pi-fw pi-list',
         children: [
@@ -106,6 +116,7 @@ export class TableviewTreeService {
       {
         key: '7',
         label: 'Artist Search',
+        tooltip: "Filter by multiple artists\nPress Enter to confirm artist's name",
         data: 'ArtistSearch',
         icon: 'pi pi-fw pi-users',
         children: [
@@ -120,6 +131,7 @@ export class TableviewTreeService {
       {
         key: '8',
         label: 'Producer Search',
+        tooltip: "Filter by multiple producers\nPress Enter to confirm producer's name",
         data: 'ProducerSearch',
         icon: 'pi pi-fw pi-tag',
         children: [
@@ -134,6 +146,11 @@ export class TableviewTreeService {
       {
         key: '9',
         label: 'Explicitness',
+        tooltip:
+          'Filter by specific explicitness\n' +
+          '\nBoth - Both Explicit and Non-Explicit tracks will be shown' +
+          '\nExplicit - Only Explicit tracks will be shown' +
+          '\nNon-Explicit - only Non-Explicit tracks will be shown',
         data: 'Explicitness',
         icon: 'pi pi-fw pi-exclamation-triangle',
         children: [
@@ -148,6 +165,7 @@ export class TableviewTreeService {
       {
         key: '10',
         label: 'Column Selection',
+        tooltip: 'Select which columns are shown in the table',
         data: 'ColumnSelection',
         icon: 'pi pi-fw pi-table',
         children: [
