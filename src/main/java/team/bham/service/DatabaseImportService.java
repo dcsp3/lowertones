@@ -180,7 +180,6 @@ public class DatabaseImportService {
             Long key = Long.parseLong(record.get("song_key"));
             Long timeSig = Long.parseLong(record.get("song_time_signature"));
             Long duration = Long.parseLong(record.get("song_duration"));
-
             Float songAcousticness = Float.parseFloat(record.get("song_acousticness"));
             Float songDanceability = Float.parseFloat(record.get("song_danceability"));
             Float songEnergy = Float.parseFloat(record.get("song_energy"));
@@ -190,6 +189,10 @@ public class DatabaseImportService {
             Float songSpeechiness = Float.parseFloat(record.get("song_speechiness"));
             Float songTempo = Float.parseFloat(record.get("song_tempo"));
             Float songValence = Float.parseFloat(record.get("song_valence"));
+            String explicitText = record.get("song_explicit");
+            boolean explicit = "true".equalsIgnoreCase(explicitText);
+            String featuresAddedText = record.get("song_track_features_added");
+            boolean featuresAdded = "true".equalsIgnoreCase(featuresAddedText);
 
             entityManager
                 .createNativeQuery(
@@ -201,10 +204,10 @@ public class DatabaseImportService {
                 .setParameter(4, duration)
                 .setParameter(5, record.get("song_album_type"))
                 .setParameter(6, record.get("song_album_id"))
-                .setParameter(7, record.get("song_explicit"))
+                .setParameter(7, explicit)
                 .setParameter(8, popularity)
                 .setParameter(9, record.get("song_preview_url"))
-                .setParameter(10, record.get("song_track_features_added"))
+                .setParameter(10, featuresAdded)
                 .setParameter(11, songAcousticness)
                 .setParameter(12, songDanceability)
                 .setParameter(13, songEnergy)

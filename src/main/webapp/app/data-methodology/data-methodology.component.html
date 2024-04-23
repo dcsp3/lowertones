@@ -15,7 +15,9 @@
           started with the low-hanging fruit - artists with a Spotify URL in their MusicBrainz profile, and then led to a more complex
           process of matching artists based on their name and the names of their albums. The resulting Artist MBID to Spotify mapping for
           the artists is available for download
-          <a href="https://drive.google.com/file/d/1G5Y0Ye6RHYyQ1-xLlf2es9X3MdcPbPp8/view?usp=drive_link" style="text-decoration: none"
+          <a
+            href="https://drive.google.com/file/d/1G5Y0Ye6RHYyQ1-xLlf2es9X3MdcPbPp8/view?usp=drive_link"
+            style="text-decoration: none; color: #ddbce7"
             >here</a
           >. Once we had the Spotify ID to MusicBrainz ID mapping for artist, we could then move onto mapping MusicBrainz tracks to Spotify
           tracks. <br /><br />
@@ -23,8 +25,20 @@
           contributors) for all tracks with them on their platform. Due to the nature of our service, we only require a mapping between
           Spotify tracks and MusicBrainz tracks, where the MusicBrainz track has a contributor. The resulting Spotify track to MusicBrainz
           track mapping is available for download
-          <a href="https://drive.google.com/file/d/1CNT2uZuk7gP_YGX_dHl-sOn-jUmz_XwD/view?usp=sharing" style="text-decoration: none">here</a
+          <a
+            href="https://drive.google.com/file/d/1CNT2uZuk7gP_YGX_dHl-sOn-jUmz_XwD/view?usp=sharing"
+            style="text-decoration: none; color: #ddbce7"
+            >here</a
           >. <br /><br />
+          We have published 2 public REST APIs for access to this dataset:
+          <br />
+          <br />
+          <code>https://team37.bham.team/api/mbid-spotify-song-mapping/spotify-song-id</code>
+          <br />- given a Spotify song ID, this will return a MusicBrainz Recording ID, if in our system.
+          <br />
+          <br />
+          <code>https://team37.bham.team/api/mbid-spotify-artist-mapping/spotify-artist-id</code>
+          <br />- given a Spotify artist ID, this will return a MusicBrainz Artist ID, if in our system.
         </p>
       </div>
 

@@ -19,7 +19,7 @@
   margin: 20px auto;
   max-width: 90%;
   height: 100%;
-  min-height: 83vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +42,12 @@
   width: 100%;
 }
 
+code {
+  color: var(--white);
+  font-family: monospace;
+  font-size: 0.9vw;
+}
+
 p {
   font-family: 'neue-plak', sans-serif;
   color: #ffffff;
@@ -61,7 +67,7 @@ h2 {
   font-size: 3vw;
   color: #ffffff;
   text-align: center;
-  margin-top: -10vh;
+  margin-top: -20vh;
 }
 
 .recapd-title {
