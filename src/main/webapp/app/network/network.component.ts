@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } fro
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ToggleButton } from 'primeng/togglebutton';
 
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
@@ -131,10 +132,14 @@ export class NetworkComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
-        this.playlists = data.map(playlist => ({
-          label: playlist.name,
-          value: playlist.id,
-        }));
+        this.playlists = data.map(playlist => {
+          const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
+          return {
+            label: playlist.name,
+            value: playlist.id,
+            image: image,
+          };
+        });
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);
@@ -293,10 +298,12 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
     return fetch(request)
       .then(response => response.json())
-      .then((data: { graphData: Artist[]; stats: any }) => {
+      .then((data: { graphData: Artist[]; stats: any; relatedArtists: any }) => {
         if (!data.graphData || data.graphData.length === 0) {
           throw new Error('No artist data found');
         }
+
+        this.setArtistConnections(data.relatedArtists, data.graphData);
 
         this.topArtistName = this.truncateText(data.stats.topArtistName, 9);
         this.topArtistImage = data.stats.topArtistImage;
@@ -321,6 +328,10 @@ export class NetworkComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         throw error;
       });
+  }
+
+  private setArtistConnections(relatedArtistsById: { [key: string]: string[] }, artists: Artist[]): void {
+    this.artistConnections = { ...relatedArtistsById };
   }
 
   truncateText(text: string, maxLength: number): string {
@@ -399,6 +410,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
   };
 
   async renderGraphBasedOnConnections(includeConnections: boolean): Promise<void> {
+    clearGraph(this.graphContainer.nativeElement);
     try {
       const containerWidth = this.graphContainer.nativeElement.offsetWidth;
       const containerHeight = this.graphContainer.nativeElement.offsetHeight;
@@ -406,7 +418,9 @@ export class NetworkComponent implements OnInit, OnDestroy {
       const userImageUrl = await this.fetchUserImage();
       const artistsData = await this.fetchTopArtists(this.timeRange);
 
-      const elements = getElements(artistsData, userImageUrl, includeConnections ? this.artistConnections : {});
+      const connections = includeConnections ? this.artistConnections : {};
+      const elements = getElements(artistsData, userImageUrl, connections);
+
       renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
     } catch (error) {
       console.error('Error rendering graph:', error);

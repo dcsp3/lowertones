@@ -148,6 +148,7 @@ public class SpotifyAPIWrapperService {
         //String nextPageURL = trackInfo.isNull("next") ? null : trackInfo.getString("next");
 
         ArrayList<String> trackIds = new ArrayList<>();
+        ArrayList<String> artistIds = new ArrayList<>();
 
         Boolean getNextPage = true;
         while (getNextPage) {
@@ -160,6 +161,7 @@ public class SpotifyAPIWrapperService {
                     SpotifyTrack track = genTrackFromJSON(trackJSON);
                     playlist.addTrack(track);
                     trackIds.add(track.getId());
+                    artistIds.add(track.getArtist().getSpotifyId());
                 }
             }
 
@@ -179,30 +181,116 @@ public class SpotifyAPIWrapperService {
         //    }
         //}
 
+        //TESTING STUFF, IGNORE
+
+        //grab ext. artist info
+        //SpotifyAPIResponse<ArrayList<SpotifyArtist>> artistInfoResponse = getArtistInfo(artistIds, user);
+        //if(artistInfoResponse.getSuccess()) {
+        //    ArrayList<SpotifyArtist> artistInfo = artistInfoResponse.getData();
+        //    for(int i = 0; i < artistInfo.size(); i++) {
+        //        playlist.getTracks().get(i).setMainArtist(artistInfo.get(i));
+        //    }
+        // }
+
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
         res.setData(playlist);
         res.setSuccess(true);
         return res;
     }
 
+    public SpotifyAPIResponse<ArrayList<SpotifyAlbum>> getAlbumInfo(ArrayList<String> albumIds, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/albums?ids=";
+        ArrayList<String> batches = batchSpotifyIDs(albumIds, 20);
+        ArrayList<SpotifyAlbum> albums = new ArrayList<>();
+        for (int i = 0; i < batches.size(); i++) {
+            String curEndpoint = endpoint + batches.get(i);
+            SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
+            //todo: propagate apiresponse errors down
+            JSONObject responseJSON = response.getData();
+            JSONArray albumsJSON = responseJSON.getJSONArray("albums");
+            for (int j = 0; j < albumsJSON.length(); j++) {
+                JSONObject albumJSON = albumsJSON.getJSONObject(i);
+                SpotifyAlbum album = new SpotifyAlbum();
+                album.setAlbumType(albumJSON.getString("album_type"));
+                album.setSpotifyId(albumJSON.getString("id"));
+                album.setName(albumJSON.getString("name"));
+                album.setNumTracks(albumJSON.getInt("total_tracks"));
+                album.setPopularity(albumJSON.optInt("popularity", 0));
+                String releaseDateUnformatted = albumJSON.getString("release_date");
+                switch (albumJSON.getString("release_date_precision")) {
+                    case "year":
+                        album.setReleasePrecision(SpotifyReleasePrecision.YEAR);
+                        releaseDateUnformatted += "-01-01";
+                        break;
+                    case "month":
+                        album.setReleasePrecision(SpotifyReleasePrecision.MONTH);
+                        releaseDateUnformatted += "-01";
+                        break;
+                    case "day":
+                        album.setReleasePrecision(SpotifyReleasePrecision.DAY);
+                        break;
+                }
+                try {
+                    album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                } catch (Exception e) {
+                    //fuck
+                    album.setReleaseDate(LocalDate.now());
+                }
+                JSONArray albumArt = albumJSON.getJSONArray("images");
+                if (albumArt.length() > 0) {
+                    album.setCoverArtURL(albumArt.getJSONObject(0).getString("url"));
+                } else {
+                    //hacky
+                    album.setCoverArtURL("");
+                }
+
+                albums.add(album);
+            }
+        }
+
+        return new SpotifyAPIResponse<ArrayList<SpotifyAlbum>>(true, HttpStatus.OK, albums);
+    }
+
+    public SpotifyAPIResponse<ArrayList<SpotifyArtist>> getArtistInfo(ArrayList<String> artistIds, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/artists?ids=";
+        ArrayList<String> batches = batchSpotifyIDs(artistIds, 50);
+        ArrayList<SpotifyArtist> artists = new ArrayList<>();
+        for (int i = 0; i < batches.size(); i++) {
+            String curEndpoint = endpoint + batches.get(i);
+            SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
+            JSONObject responseJSON = response.getData();
+
+            JSONArray artistsJSON = responseJSON.getJSONArray("artists");
+            for (int j = 0; j < artistsJSON.length(); j++) {
+                JSONObject artistJSON = artistsJSON.getJSONObject(j);
+                SpotifyArtist artist = new SpotifyArtist();
+                artist.setName(artistJSON.getString("name"));
+                artist.setSpotifyId(artistJSON.getString("id"));
+                artist.setPopularity(artistJSON.optInt("popularity", 0));
+                if (artistJSON.has("images")) {
+                    JSONArray artistImages = artistJSON.getJSONArray("images");
+                    for (int k = 0; k < artistImages.length(); k++) {
+                        JSONObject imageJSON = artistImages.getJSONObject(k);
+                        SpotifyImage image = new SpotifyImage();
+                        image.setUrl(imageJSON.getString("url"));
+                        image.setWidth(imageJSON.getInt("width"));
+                        image.setHeight(imageJSON.getInt("height"));
+                        artist.addImage(image);
+                    }
+                }
+
+                artists.add(artist);
+            }
+        }
+
+        return new SpotifyAPIResponse<ArrayList<SpotifyArtist>>(true, HttpStatus.OK, artists);
+    }
+
     public SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> getTrackAudioFeatures(ArrayList<String> trackIds, AppUser user) {
         String endpoint = "https://api.spotify.com/v1/audio-features?ids=";
 
         //split into batches of 100 ids
-        ArrayList<String> batches = new ArrayList<>();
-        String curBatch = "";
-        for (int i = 0; i < trackIds.size(); i++) {
-            curBatch += trackIds.get(i);
-            if (i > 0 && ((i % 100) == 99)) {
-                batches.add(curBatch);
-                curBatch = "";
-            } else if (i != trackIds.size() - 1) {
-                curBatch += ",";
-            }
-        }
-        if (curBatch.length() > 0) {
-            batches.add(curBatch);
-        }
+        ArrayList<String> batches = batchSpotifyIDs(trackIds, 100);
         ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
         for (int i = 0; i < batches.size(); i++) {
             String curEndpoint = endpoint + batches.get(i);
@@ -282,8 +370,10 @@ public class SpotifyAPIWrapperService {
                         return apiResponse;
                     }
                 } else {
-                    apiResponse.setSuccess(false);
-                    return apiResponse;
+                    throw new RuntimeException("bruh: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
+                    //apiResponse.setSuccess(false);
+                    //apiResponse.setStatus(status);
+                    //return apiResponse;
                 }
             }
         }
@@ -404,5 +494,23 @@ public class SpotifyAPIWrapperService {
         track.setMainArtist(mainArtist);
 
         return track;
+    }
+
+    private ArrayList<String> batchSpotifyIDs(ArrayList<String> ids, int maxPerBatch) {
+        ArrayList<String> batches = new ArrayList<>();
+        String curBatch = "";
+        for (int i = 0; i < ids.size(); i++) {
+            curBatch += ids.get(i);
+            if (i > 0 && ((i % maxPerBatch) == maxPerBatch - 1)) {
+                batches.add(curBatch);
+                curBatch = "";
+            } else if (i != ids.size() - 1) {
+                curBatch += ",";
+            }
+        }
+        if (curBatch.length() > 0) {
+            batches.add(curBatch);
+        }
+        return batches;
     }
 }

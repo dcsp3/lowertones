@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
+import { PreferencesService } from 'app/account/preferences/preferences.service';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { AppUserService } from 'app/entities/app-user/service/app-user.service';
 
 @Component({
   selector: 'jhi-main',
@@ -10,7 +12,13 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+    private preferencesService: PreferencesService,
+    private renderer: Renderer2
+  ) {} // Inject Renderer2 for DOM manipulation
 
   ngOnInit(): void {
     // try to log in automatically
@@ -19,6 +27,17 @@ export class MainComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.updateTitle();
+      }
+    });
+
+    // Get user preferences and apply styles
+    this.preferencesService.getAppUser().subscribe(appUser => {
+      // Apply styles based on user preferences
+      if (appUser.highContrastMode) {
+        this.renderer.addClass(document.body, 'high-contrast'); // Apply high contrast styles
+        console.log('High contrast mode applied!');
+      } else {
+        this.renderer.removeClass(document.body, 'high-contrast'); // Remove high contrast styles
       }
     });
   }

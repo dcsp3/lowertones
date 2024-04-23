@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AppUserFormGroupInput = IAppUser | PartialWithRequiredKeyOf<NewAppUser>;
 
-type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'highContrastMode'>;
+type AppUserFormDefaults = Pick<NewAppUser, 'id' | 'highContrastMode' | 'textSize'>;
 
 type AppUserFormGroupContent = {
   id: FormControl<IAppUser['id'] | NewAppUser['id']>;
@@ -104,6 +104,7 @@ export class AppUserFormService {
     return {
       id: null,
       highContrastMode: false,
+      textSize: 100,
     };
   }
 }

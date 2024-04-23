@@ -12,6 +12,10 @@ public class SpotifyArtist {
 
     //todo: more shit for this (img, etc.)
 
+    public SpotifyArtist() {
+        images = new ArrayList<SpotifyImage>();
+    }
+
     public void setName(String name) {
         this.name = name;
     }

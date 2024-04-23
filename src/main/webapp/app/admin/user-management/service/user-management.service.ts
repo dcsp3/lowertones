@@ -10,6 +10,7 @@ import { IUser } from '../user-management.model';
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
   private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
+  private userResourceUrl = this.applicationConfigService.getEndpointFor('api/account/preferences');
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   create(user: IUser): Observable<IUser> {
@@ -31,6 +32,11 @@ export class UserManagementService {
 
   delete(login: string): Observable<{}> {
     return this.http.delete(`${this.resourceUrl}/${login}`);
+  }
+
+  deleteCurrentUser(login: string): Observable<{}> {
+    console.log(this.userResourceUrl + '/' + login);
+    return this.http.delete(`${this.userResourceUrl}/${login}`);
   }
 
   authorities(): Observable<string[]> {

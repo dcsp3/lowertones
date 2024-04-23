@@ -5,14 +5,19 @@
 
 <div class="content">
   <div class="text-container">
-    <h2>Additional features</h2>
-    <div class="preferenceTitle">
-      <label>Email updates</label>
-      <input type="checkbox" name="emailUpdates" />
-    </div>
-    <div class="preferenceSubtitle">Get notified when there is an update to Lowertones.</div>
-
     <form [formGroup]="appUserForm" *ngIf="appUserForm" (ngSubmit)="savePreferences()">
+      <h2>Additional features</h2>
+      <div class="preferenceTitle">
+        <label>Email updates</label>
+        <input
+          type="checkbox"
+          id="toggleEmailUpdates"
+          [checked]="appUserForm.get('discoverWeeklyBufferSettings')?.value === 0"
+          (change)="toggleEmailUpdates()"
+        />
+      </div>
+      <div class="preferenceSubtitle">Get notified when there is an update to Lowertones.</div>
+
       <br />
       <h2>Accessibility</h2>
       <div class="preferenceTitle">
@@ -25,29 +30,25 @@
       <div class="preferenceTitle">
         <label>Text size</label>
         <select id="dropdown" class="custom-dropdown" formControlName="textSize" (change)="savePreferences()">
-          <option value="100" [selected]="appUserForm?.get('textSize')?.value === 100">Normal</option>
-          <option value="115" [selected]="appUserForm?.get('textSize')?.value === 115">Large</option>
-          <option value="125" [selected]="appUserForm?.get('textSize')?.value === 125">Extra Large</option>
+          <option value="100" [selected]="appUserForm.get('textSize')?.value === 100">Normal</option>
+          <option value="115" [selected]="appUserForm.get('textSize')?.value === 115">Large</option>
+          <option value="125" [selected]="appUserForm.get('textSize')?.value === 125">Extra Large</option>
         </select>
       </div>
       <div class="preferenceSubtitle">Increase text size for better readability.</div>
       <br />
     </form>
 
-    <h2 *ngIf="userForm.value.login">Account details</h2>
-
-    <div class="alert alert-success" *ngIf="success">
-      <strong>Preferences saved!</strong>
-    </div>
+    <h2>Account details</h2>
 
     <jhi-alert-error></jhi-alert-error>
 
-    <form name="form" role="form" (ngSubmit)="saveUser()" [formGroup]="userForm" *ngIf="userForm.value.login" novalidate>
+    <form name="form" role="form" (ngSubmit)="saveUser()" [formGroup]="userForm">
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Your email" formControlName="email" data-cy="email" />
 
-        <div *ngIf="userForm.get('email')!.invalid && (userForm.get('email')!.dirty || userForm.get('email')!.touched)">
+        <div *ngIf="userForm.get('email')!.dirty || userForm.get('email')!.touched">
           <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.required"> Your email is required. </small>
 
           <small class="form-text text-danger" *ngIf="userForm.get('email')?.errors?.email"> Your email is invalid. </small>
@@ -66,24 +67,22 @@
     </form>
 
     <br />
+    <div class="alert alert-success" *ngIf="success">
+      <strong>Email saved!</strong>
+    </div>
+
+    <br />
     <div class="preferenceTitle">Password</div>
     <div class="button-container">
       <a href="account/password" class="btn btn-primary">Change password</a>
     </div>
 
     <br />
-    <div class="preferenceTitle">Spotify account</div>
-    <div class="preferenceSubtitle">The Spotify account linked to your Lowertones account.</div>
-    <div class="button-container">
-      <a href="" class="btn btn-primary">Link to a different Spotify account</a>
-    </div>
-
-    <br />
     <h2>Security</h2>
     <div class="button-container">
-      <button class="btn btn-primary">Sign out of all devices</button>
+      <button (click)="signOutAllDevices()" class="btn btn-primary">Sign out of all devices</button>
       <br />
-      <button (click)="deleteThisUser()" class="btn btn-primary">Delete account</button>
+      <button (click)="deleteCurrentUser()" class="btn btn-primary">Delete account</button>
     </div>
   </div>
 </div>

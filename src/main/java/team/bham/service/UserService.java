@@ -11,6 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -299,6 +300,21 @@ public class UserService {
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
             });
+    }
+
+    public void updateEmail(String login, String email, Authentication authentication) {
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.getLogin().equals(authentication.getName())) {
+                user.setEmail(email);
+                userRepository.save(user);
+            } else {
+                // Throw an exception or handle unauthorized access
+            }
+        } else {
+            // Handle user not found
+        }
     }
 
     @Transactional

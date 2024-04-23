@@ -31,7 +31,7 @@ interface Artist {
 function getElements(artists: Artist[], userImg: string, connections: { [key: string]: string[] }): { nodes: Node[]; links: Link[] } {
   let nextId = 1;
   const nodes: Node[] = [{ id: 0, name: 'User', type: 'user', genre: '', img: userImg, rank: 0, songsInLibrary: 0 }];
-  const idMap: { [key: string]: number } = {};
+  const idMap: { [key: string]: number } = { User: 0 };
   const links: Link[] = [];
 
   artists.forEach(artist => {
@@ -43,28 +43,31 @@ function getElements(artists: Artist[], userImg: string, connections: { [key: st
       genre: artist.genres[0] || 'unknown',
       img: artist.imageUrl,
       rank: artist.distance,
-      songsInLibrary: artist.songsInLibrary || 0, // Ensure this is fetched correctly
+      songsInLibrary: artist.songsInLibrary || 0,
     });
-    idMap[artist.name] = nodeId;
-    links.push({
-      source: 0,
-      target: nodeId,
-      distance: artist.distance,
-    });
+    idMap[artist.id] = nodeId; // Mapping external artist ID to internal node ID
   });
 
-  Object.entries(connections).forEach(([artistName, connectedArtists]) => {
-    const sourceId = idMap[artistName];
-    connectedArtists.forEach(connectedArtistName => {
-      const targetId = idMap[connectedArtistName];
-      if (sourceId && targetId) {
-        links.push({
-          source: sourceId,
-          target: targetId,
-          distance: 100,
-        });
-      }
+  artists.forEach(artist => {
+    // Adding links from user to each artist
+    links.push({
+      source: 0,
+      target: idMap[artist.id],
+      distance: artist.distance,
     });
+
+    // Adding artist-to-artist connections
+    if (connections[artist.id]) {
+      connections[artist.id].forEach(connectedArtistId => {
+        if (idMap[connectedArtistId]) {
+          links.push({
+            source: idMap[artist.id],
+            target: idMap[connectedArtistId],
+            distance: 600, // Arbitrary distance or derived value
+          });
+        }
+      });
+    }
   });
 
   return { nodes, links };

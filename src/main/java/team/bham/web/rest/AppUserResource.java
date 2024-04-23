@@ -53,9 +53,10 @@ public class AppUserResource {
         if (appUser.getId() != null) {
             throw new BadRequestAlertException("A new appUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        appUser = appUser.textSize(100);
         AppUser result = appUserRepository.save(appUser);
         return ResponseEntity
-            .created(new URI("/api/app-users/" + result.getId()))
+            .created(new URI("/api/app-users/" + result.getId() + " with text size set to " + appUser.getTextSize()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
