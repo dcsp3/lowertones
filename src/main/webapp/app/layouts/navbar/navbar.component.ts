@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, of, catchError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Subscription, of, catchError, Observable, timer } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
+import { Message } from 'primeng/api';
 
 import { VERSION } from 'app/app.constants';
 import { Account } from 'app/core/auth/account.model';
@@ -17,6 +18,29 @@ import { HttpClient } from '@angular/common/http';
 import { SpotifyAuthcodeHandlerService } from '../../services/spotify-authcode-handler.service';
 import { LocationService } from '../../shared/location.service';
 import { IsLinkedService } from '../../shared/is-linked.service';
+
+export enum ScrapingProgress {
+  RUNNING = 'RUNNING',
+  FINISHED = 'FINISHED',
+  NOT_STARTED = 'NOT_STARTED',
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ScrapeService {
+  private apiUrl = '/api';
+  constructor(private http: HttpClient) {}
+  beginScrape(): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/scrape`, {});
+  }
+  getScrapeProgress(): Observable<ScrapingProgress> {
+    return this.http.get<ScrapingProgress>(`${this.apiUrl}/scrape-progress`);
+  }
+  checkIfScrapeNeeded(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/has-scraped`);
+  }
+}
 
 @Component({
   selector: 'jhi-navbar',
@@ -33,8 +57,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
   currentSection: string | null = null;
+  messages: Message[] = [];
+
+  scanInProgress = false;
+  scanCompleteNotif = false;
+
+  private pollingSubscription: Subscription = new Subscription();
 
   constructor(
+    private scrapeService: ScrapeService,
     private isLinkedService: IsLinkedService,
     private locationService: LocationService,
     private cookieService: CookieService,
@@ -86,6 +117,46 @@ export class NavbarComponent implements OnInit, OnDestroy {
         );
       }
     });
+    this.startScrapingProcess();
+  }
+
+  checkScrapingStatus() {
+    this.scrapeService.checkIfScrapeNeeded().subscribe(needed => {
+      if (needed) {
+        // this.();
+      } else {
+        console.log('No scrape needed.');
+      }
+    });
+  }
+
+  startScrapingProcess() {
+    this.scrapeService.beginScrape().subscribe(() => {
+      this.pollScrapeProgress();
+      console.log('Scraping process started.');
+    });
+  }
+
+  pollScrapeProgress() {
+    this.scanInProgress = true;
+    this.pollingSubscription = timer(0, 1000)
+      .pipe(
+        switchMap(() => this.scrapeService.getScrapeProgress()),
+        takeWhile(progress => progress !== ScrapingProgress.FINISHED, true)
+      )
+      .subscribe(progress => {
+        if (progress === ScrapingProgress.FINISHED) {
+          this.scanInProgress = false;
+          this.showCompleteNotification();
+        }
+      });
+  }
+
+  showCompleteNotification() {
+    this.scanCompleteNotif = true;
+    setTimeout(() => {
+      this.scanCompleteNotif = false;
+    }, 3000);
   }
 
   collapseNavbar(): void {
@@ -187,6 +258,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.tabSubscription) {
       this.tabSubscription.unsubscribe();
+    }
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
     }
   }
 }

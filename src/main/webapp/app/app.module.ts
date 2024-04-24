@@ -30,6 +30,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
+import { MessagesModule } from 'primeng/messages';
 
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -58,6 +59,7 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
 
 @NgModule({
   imports: [
+    MessagesModule,
     BrowserModule,
     BrowserAnimationsModule,
     TreeModule,

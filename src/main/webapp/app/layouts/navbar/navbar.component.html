@@ -75,6 +75,19 @@
     <div class="navbar-right">
       <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
         <!-- likely remove this entire div later, as OG login / signup is unneeded-->
+        <p-messages *ngIf="scanInProgress" severity="warn">
+          <ng-template pTemplate>
+            <img src="../../../content/images/loading-gif.gif" width="18" />
+            <div class="ml-2">Scanning library...</div>
+          </ng-template>
+        </p-messages>
+
+        <p-messages *ngIf="scanCompleteNotif" severity="success">
+          <ng-template pTemplate>
+            <div class="ml-2">&#10003; Scan complete!</div>
+          </ng-template>
+        </p-messages>
+
         <ul class="navbar-nav ms-auto">
           <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
           <li

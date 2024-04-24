@@ -92,15 +92,15 @@ public class APIScrapingResource {
     @PostMapping("/scrape")
     public ResponseEntity<Boolean> ScrapeUserPlaylists(Authentication authentication) {
         //AppUser appUser = userService.resolveAppUser(authentication.getName());
-
         CompletableFuture<Void> future = apiScrapingService.beginScrapeTask(authentication.getName());
-
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping("/scrape-progress")
     public ResponseEntity<ScrapingProgress> getScrapeProgress(Authentication authentication) {
-        return new ResponseEntity<>(apiScrapingService.getScrapingProgress(authentication.getName()), HttpStatus.OK);
+        ScrapingProgress progress = apiScrapingService.getScrapingProgress(authentication.getName());
+        System.out.println("Scrape Progress: " + progress); // Simple logging
+        return new ResponseEntity<>(progress, HttpStatus.OK);
     }
 
     @Transactional

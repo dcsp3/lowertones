@@ -1,5 +1,12 @@
 //@import 'node_modules/bootstrap/scss/bootstrap';
 
+@font-face {
+  font-family: 'neue-plak';
+  src: url('../../../content/fonts/NeuePlakcustom3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* ==========================================================================
 Navbar
 ========================================================================== */
@@ -21,6 +28,9 @@ Navbar
   .dropdown-item.active:hover {
     background-color: #6c559b;
   }
+}
+.ml-2 {
+  margin-left: 0.5rem !important;
 }
 
 .nav-link {
@@ -106,4 +116,26 @@ Logo styles
 }
 .navbar-brand.logo {
   padding-right: 10px;
+}
+
+:host ::ng-deep {
+  .p-message .p-message-wrapper {
+    padding: 0.4rem 0.6rem;
+  }
+  .p-message {
+    margin: 0;
+  }
+  .p-message.p-message-success {
+    background-color: #bee0c600;
+    border: solid #c3e6cb00;
+    color: #ffffff;
+  }
+  .p-message.p-message-warn {
+    background-color: #bee0c600;
+    border: solid #c3e6cb00;
+    color: #ffffff;
+  }
+  .p-component {
+    font-family: 'neue-plak';
+  }
 }
