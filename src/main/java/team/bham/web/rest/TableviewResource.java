@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestController;
 import team.bham.domain.AppUser;
@@ -52,5 +53,13 @@ public class TableviewResource {
     @GetMapping("/tableview-user-playlists")
     public ResponseEntity<List<Map<String, Object>>> getUserPlaylistNames(Authentication authentication) {
         return tableviewService.getUserPlaylistNames(authentication);
+    }
+
+    @GetMapping("/tableview-playlist-songs")
+    public ResponseEntity<List<Map<String, Object>>> getUserPlaylistSongs(
+        @RequestParam("playlistId") String playlistId,
+        Authentication authentication
+    ) {
+        return tableviewService.getUserPlaylistSongs(playlistId, authentication);
     }
 }

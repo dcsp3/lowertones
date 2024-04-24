@@ -81,7 +81,7 @@ public class TableviewService {
             .stream()
             .map(playlist -> {
                 Map<String, Object> info = new HashMap<>();
-                info.put("id", playlist.getId());
+                info.put("id", playlist.getPlaylistSpotifyID());
                 info.put("name", playlist.getPlaylistName());
                 info.put("imgSmall", playlist.getPlaylistImageSmall());
                 info.put("imgMedium", playlist.getPlaylistImageMedium());
@@ -92,5 +92,54 @@ public class TableviewService {
             .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(playlistInfo);
+    }
+
+    //this is what I'm working on at the moment
+    @Transactional
+    public ResponseEntity<List<Map<String, Object>>> getUserPlaylistSongs(String playlistId, Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        System.out.println("\n\n\n\n\n\n\n");
+        System.out.println("is this thing on");
+        System.out.println(playlistId);
+        System.out.println("\n\n\n\n\n\n\n");
+
+        List<Song> songs = utilService.getPlaylistSongs(playlistId);
+
+        System.out.println("\n\n\n\n\n\n\n");
+        System.out.println("does this thing work");
+        System.out.println(playlistId);
+        System.out.println("\n\n\n\n\n\n\n");
+
+        List<Map<String, Object>> songInfo = songs
+            .stream()
+            .map(song -> {
+                Map<String, Object> info = new HashMap<>();
+                System.out.println("\n here's text" + song.getSongTitle());
+                info.put("title", song.getSongTitle());
+                //info.put("artist", song.getSongArtist());
+                //info.put("contributor", song.());
+                info.put("length", song.getSongDuration());
+                info.put("explicit", song.getSongExplicit());
+                info.put("popularity", song.getSongPopularity());
+                //info.put("release", song.getSong());
+                info.put("acousticness", song.getSongAcousticness());
+                info.put("danceability", song.getSongDanceability());
+                info.put("instrumentalness", song.getSongInstrumentalness());
+                info.put("energy", song.getSongEnergy());
+                info.put("liveness", song.getSongLiveness());
+                info.put("loudness", song.getSongLoudness());
+                info.put("speechiness", song.getSongSpeechiness());
+                info.put("valence", song.getSongValence());
+                info.put("tempo", song.getSongTempo());
+
+                return info;
+            })
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(songInfo);
     }
 }
