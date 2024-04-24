@@ -16,7 +16,6 @@
 }
 
 .highContrast {
-  // Override certain colours when in high contrast mode
   background-color: rgb(50, 50, 50) !important;
   .preferenceSubtitle {
     color: yellow;

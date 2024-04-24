@@ -12,6 +12,10 @@
   width: 100%; // Ensures the footer extends full width
 }
 
+.highContrast {
+  background-color: rgba(50, 50, 50, 0.8) !important;
+}
+
 .footer p {
   margin: 0; // Removes default paragraph margin
   font-size: small;

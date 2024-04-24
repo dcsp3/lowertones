@@ -21,7 +21,7 @@ export class PreferencesComponent implements OnInit {
   login = ''; // This user's name (unique and shared between user/appuser)
   appUserForm: AppUserFormGroup | undefined;
   appUser: IAppUser | undefined;
-  highContrastMode = false;
+  elementsToStyle = ['.container', '.text-container', '.navbar', '.footer'];
 
   constructor(
     private accountService: AccountService,
@@ -45,15 +45,22 @@ export class PreferencesComponent implements OnInit {
       this.appUser = appUser; // Load the entity for this app user
       this.appUserForm = this.appUserFormService.createAppUserFormGroup(this.appUser);
     });
-
-    this.checkHighContrast();
   }
 
-  public checkHighContrast(): void {
+  private checkHighContrast(): void {
     this.preferencesService.getHighContrast().subscribe(
       highContrast => {
-        this.highContrastMode = highContrast;
-        console.log('High contrast: ' + highContrast);
+        this.elementsToStyle.forEach(selector => {
+          // Apply to navbar and footer immediately
+          const element = document.querySelector(selector);
+          if (highContrast) {
+            element?.classList.add('highContrast');
+            console.log('High contrast applied to ' + selector);
+          } else {
+            element?.classList.remove('highContrast');
+            console.log('High contrast removed from ' + selector);
+          }
+        });
       },
       error => {
         console.error('Error retrieving high contrast mode:', error);
@@ -77,7 +84,6 @@ export class PreferencesComponent implements OnInit {
         () => {
           this.success = true;
           console.log('Email updated!');
-          //this.accountService.authenticate(initialAccount);
         },
         error => {
           console.error('Error updating email:', error);
@@ -85,15 +91,6 @@ export class PreferencesComponent implements OnInit {
       );
     }
   }
-
-  /*
-    const account = this.userForm.getRawValue();
-    this.accountService.save(account).subscribe(() => {
-      this.success = true;
-
-      this.accountService.authenticate(account);
-    });
-    */
 
   toggleEmailUpdates(): void {
     if (this.appUserForm) {
@@ -111,7 +108,6 @@ export class PreferencesComponent implements OnInit {
     if (updatedAppUser?.id != null && this.appUserForm) {
       this.appUserService.update(updatedAppUser as IAppUser).subscribe(
         () => {
-          // Update the appUser entity in the database
           console.log('Preferences saved successfully!');
           this.checkHighContrast();
         },
