@@ -55,6 +55,7 @@ import { PlaylistVaultComponent } from './playlist-vault/playlist-vault.componen
 import { GDPRComponent } from './gdpr/gdpr.component';
 import { LinkSpotifyComponent } from './link-spotify/link-spotify.component';
 import { DataMethodologyComponent } from './data-methodology/data-methodology.component';
+import { CustomToastComponent } from './custom-toast/custom-toast.component';
 
 @NgModule({
   imports: [
@@ -110,6 +111,7 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
     PlaylistVaultComponent,
     GDPRComponent,
     LinkSpotifyComponent,
+    CustomToastComponent,
     DataMethodologyComponent,
   ],
   bootstrap: [MainComponent],
