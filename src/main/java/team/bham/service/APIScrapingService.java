@@ -435,7 +435,9 @@ public class APIScrapingService {
         song.setSongDateLastModified(LocalDate.now());
         song.setSongPreviewURL(track.getPreviewUrl());
         song.setSongTrackFeaturesAdded(false);
-        //awful, todo: remove
+
+        //runtime scraping of audio features is too slow/broken.. :(
+        /*//awful, todo: remove
         if (track.getAudioFeatures() != null) {
             song.setSongTrackFeaturesAdded(true);
             song.setSongAcousticness(track.getAudioFeatures().getAcousticness());
@@ -449,7 +451,7 @@ public class APIScrapingService {
             song.setSongValence(track.getAudioFeatures().getValence());
             song.setSongKey(track.getAudioFeatures().getKey());
             song.setSongTimeSignature(track.getAudioFeatures().getTimeSignature());
-        }
+        }*/
         song.setAlbum(album);
         songRepository.save(song);
         return song;

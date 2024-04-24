@@ -55,7 +55,7 @@ class ScrapeService {
   constructor(private http: HttpClient) {}
   scrape(): Observable<any> {
     console.log('in class');
-    return this.http.get(this.apiUrl);
+    return this.http.post<boolean>(this.apiUrl, {});
   }
 }
 
@@ -86,6 +86,7 @@ export class TableviewComponent implements OnInit {
     valence: 0,
     tempo: 0,
   };
+  placeholderList: SongEntry[] = [];
   songDataInUse: SongEntry[] = [];
   filteredSongData: SongEntry[] = [];
   selectedSongs: SongEntry[] = [];
@@ -119,6 +120,10 @@ export class TableviewComponent implements OnInit {
     for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = this.placeholderSong;
       this.songData[i] = songEntry;
+    }
+
+    for (let i = 0; i < 15; i++) {
+      this.placeholderList.push({ ...this.placeholderSong });
     }
 
     this.songDataInUse = this.songData;
@@ -156,9 +161,9 @@ export class TableviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.scrape();
     this.fetchPlaylists();
 
-    this.genSongList();
     this.filteredSongData = this.songDataInUse;
     this.columns = [
       { value: 'title', label: 'Title', short: 'Title' },
@@ -250,9 +255,9 @@ export class TableviewComponent implements OnInit {
   }
 
   scrape() {
-    console.log('starting scrape');
-    this.scrapeService.scrape();
-    console.log('finished scrape');
+    this.scrapeService.scrape().subscribe((response: boolean) => {
+      console.log('Scrape in progress');
+    });
   }
 
   truncate(num: number): number {
@@ -313,6 +318,7 @@ export class TableviewComponent implements OnInit {
 
   getPlaylistData(): void {
     console.log(this.selectedPlaylist);
+    this.genSongList();
   }
 
   fetchPlaylists(): void {
@@ -321,8 +327,8 @@ export class TableviewComponent implements OnInit {
         this.playlists = data.map(playlist => {
           const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
           return {
-            label: playlist.name,
-            value: playlist.id,
+            name: playlist.name,
+            spotifyId: playlist.id,
             image: image,
           };
         });
@@ -334,26 +340,7 @@ export class TableviewComponent implements OnInit {
   }
 
   /*
-
-  genSongList(): void {
-    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
-    const headers: Headers = new Headers();
-    headers.set('Authorization', 'Bearer ' + token);
-    const request: RequestInfo = new Request('/api/top-playlist', {
-      method: 'GET',
-      headers: headers,
-    });
-
-    const response = fetch(request);
-    const jsonData = response.then(response => response.json());
-    jsonData.then(data => {
-      this.jsonBlob = data;
-      console.log(data);
-      this.fillSongTable();
-    });
-  }*/
-
-  genSongList(): void {
+   genSongList(): void {
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
@@ -370,7 +357,53 @@ export class TableviewComponent implements OnInit {
       this.fillSongTable();
     });
   }
+  */
 
+  genSongList(): void {
+    this.loadingSongs = true;
+    if (this.selectedTableState.value === 'user') {
+      this.songDataInUse = this.placeholderList;
+      this.applySearch();
+    }
+    console.log('the ID being used: ' + this.selectedPlaylist.spotifyId);
+
+    this.tableviewService.getPlaylistData(this.selectedPlaylist.spotifyId).subscribe({
+      next: (data: any[]) => {
+        this.songData = data.map(songEntry => ({
+          placeholder: false,
+          title: songEntry.title,
+          artist: 'ipsum',
+          contributor: 'contributor',
+          length: songEntry.length,
+          explicit: false,
+          popularity: 0,
+          release: 'N/A',
+          acousticness: 0,
+          danceability: 0,
+          instrumentalness: 0,
+          energy: 0,
+          liveness: 0,
+          loudness: 0,
+          speechiness: 0,
+          valence: 0,
+          tempo: 0,
+        }));
+
+        console.log('here is how long the list is' + this.songData.length);
+        if (this.selectedTableState.value === 'user') {
+          this.songDataInUse = this.songData;
+        }
+
+        this.applySearch();
+        this.loadingSongs = false;
+      },
+      error: error => {
+        console.error('There was an error fetching the playlists', error);
+        this.loadingSongs = false;
+      },
+    });
+  }
+  /*
   fillSongTable(): void {
     const numTracks = this.jsonBlob.tracks.length;
     for (let i = 0; i < numTracks; i++) {
@@ -421,5 +454,5 @@ export class TableviewComponent implements OnInit {
     this.songData = this.songData.slice(0, numTracks);
     this.applySearch();
     this.loadingSongs = false;
-  }
+  }*/
 }

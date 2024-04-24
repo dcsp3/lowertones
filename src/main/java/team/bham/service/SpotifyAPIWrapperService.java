@@ -413,8 +413,14 @@ public class SpotifyAPIWrapperService {
                     continue;
                 } else if (status == HttpStatus.UNAUTHORIZED) {
                     if (!refreshAccessToken(user)) {
+                        //wtf?
                         apiResponse.setSuccess(false);
                         return apiResponse;
+                    } else {
+                        //set new access token in request headers
+                        headers = new HttpHeaders();
+                        headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
+                        entity = new HttpEntity<>(headers);
                     }
                 } else {
                     throw new RuntimeException("bruh: " + e.getStatusCode() + " " + e.getResponseBodyAsString());

@@ -397,7 +397,7 @@ public class NetworkService {
         } else if (artist.getArtistImageSmall() != null) {
             return artist.getArtistImageSmall();
         } else {
-            return "src\\main\\webapp\\content\\images\\default.jpg";
+            return "";
         }
     }
 

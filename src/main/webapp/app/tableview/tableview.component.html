@@ -52,13 +52,13 @@
             (ngModelChange)="getPlaylistData()"
             [filter]="true"
             [listStyle]="{ 'max-height': '30vh' }"
-            optionLabel="label"
+            optionLabel="name"
             autoWidth="false"
           >
             <ng-template let-item pTemplate="item">
               <img [src]="item.image" class="playlist-image-selected" />
               <!--onError="this.src='assets/default-playlist-image.png';"-->
-              <div title="{{ item.label }}">{{ item.label }}</div>
+              <div title="{{ item.name }}">{{ item.name }}</div>
             </ng-template>
           </p-listbox>
         </ng-template>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TableviewService {
   private playlistUrl = '/api/tableview-user-playlists';
-  private playlistDataUrl = '/api/tableview-playlist';
+  private playlistSongsUrl = '/api/tableview-playlist-songs';
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +15,9 @@ export class TableviewService {
     return this.http.get<string[]>(this.playlistUrl);
   }
 
-  getPlaylistData(playlistId: number): Observable<any> {
-    return this.http.get<any>(`${this.playlistDataUrl}/${playlistId}/data`);
+  getPlaylistData(playlistId: string): Observable<any> {
+    const params = new HttpParams().set('playlistId', playlistId);
+
+    return this.http.get<any>(this.playlistSongsUrl, { params: params });
   }
 }
