@@ -104,6 +104,18 @@ public class APIScrapingResource {
     }
 
     @Transactional
+    @GetMapping("/has-scraped")
+    public ResponseEntity<Boolean> userHasScraped(Authentication authentication) {
+        try {
+            AppUser appUser = userService.resolveAppUser(authentication.getName());
+            return new ResponseEntity<>(appUser.getPlaylists().size() > 0, HttpStatus.OK);
+        } catch (Exception e) {
+            //appuser doesn't exist
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+    }
+
+    @Transactional
     @PostMapping("/test")
     public ResponseEntity<Boolean> test(Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
