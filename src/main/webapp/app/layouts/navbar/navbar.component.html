@@ -60,12 +60,10 @@
           <a
             class="nav-link underline-link"
             routerLink="/playlist-vault"
-            (click)="navigateIfAuthenticated('/playlist-vault', 'playlist-vault-tab')"
-            [class.active-nav-link]="currentSection === 'playlist-vault-tab'"
+            (click)="navigateIfAuthenticated('/playlist-vault', 'vault-tab')"
+            [class.active-nav-link]="currentSection === 'vault-tab'"
           >
-            <span>
-              <span>Vault</span>
-            </span>
+            <span>Vault</span>
           </a>
         </li>
       </div>
