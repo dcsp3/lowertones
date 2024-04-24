@@ -1,10 +1,10 @@
-<div class="container" [class.highContrast]="highContrastMode">
+<div class="container">
   <h1 class="title">Preferences</h1>
   <h2 class="subtitle">Customise your experience</h2>
 </div>
 
 <div class="content">
-  <div class="text-container" [class.highContrast]="highContrastMode">
+  <div class="text-container">
     <form [formGroup]="appUserForm" *ngIf="appUserForm" (ngSubmit)="savePreferences()">
       <div class="categoryTitle">Additional features</div>
       <div class="preferenceTitle">

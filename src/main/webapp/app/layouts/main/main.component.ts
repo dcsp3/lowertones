@@ -2,9 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { PreferencesService } from 'app/account/preferences/preferences.service';
-
 import { AccountService } from 'app/core/auth/account.service';
-import { AppUserService } from 'app/entities/app-user/service/app-user.service';
 
 @Component({
   selector: 'jhi-main',
@@ -12,13 +10,16 @@ import { AppUserService } from 'app/entities/app-user/service/app-user.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+  // Define the list of all CSS selectors representing elements to style
+  elementsToStyle: string[] = ['.navbar', '.footer', '.container', '.text-container', '.card'];
+
   constructor(
     private accountService: AccountService,
     private titleService: Title,
     private router: Router,
     private preferencesService: PreferencesService,
     private renderer: Renderer2
-  ) {} // Inject Renderer2 for DOM manipulation
+  ) {}
 
   ngOnInit(): void {
     // try to log in automatically
@@ -30,16 +31,7 @@ export class MainComponent implements OnInit {
       }
     });
 
-    // Get user preferences and apply styles
-    this.preferencesService.getAppUser().subscribe(appUser => {
-      // Apply styles based on user preferences
-      if (appUser.highContrastMode) {
-        this.renderer.addClass(document.body, 'high-contrast'); // Apply high contrast styles
-        console.log('High contrast mode applied!');
-      } else {
-        this.renderer.removeClass(document.body, 'high-contrast'); // Remove high contrast styles
-      }
-    });
+    this.checkHighContrast();
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
@@ -56,5 +48,43 @@ export class MainComponent implements OnInit {
       pageTitle = 'Teamproject';
     }
     this.titleService.setTitle(pageTitle);
+    this.checkHighContrast();
+  }
+
+  private checkHighContrast(): void {
+    // Apply or remove high contrast to the CSS of the current page
+    this.preferencesService.getHighContrast().subscribe(
+      highContrast => {
+        // Apply or remove highContrast class to the body element based on the condition
+        if (highContrast) {
+          this.applyHighContrast();
+        } else {
+          this.removeHighContrast();
+        }
+      },
+      error => {
+        this.removeHighContrast();
+      }
+    );
+  }
+
+  private applyHighContrast(): void {
+    this.elementsToStyle.forEach(selector => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.classList.add('highContrast');
+      }
+    });
+    console.log('Applied high contrast');
+  }
+
+  private removeHighContrast(): void {
+    this.elementsToStyle.forEach(selector => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.classList.remove('highContrast');
+      }
+    });
+    console.log('Removed high contrast');
   }
 }

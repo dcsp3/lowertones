@@ -38,8 +38,8 @@
 
 .daily-mix {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 19vw;
+  height: auto;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
   border-radius: 10px;
@@ -51,12 +51,16 @@
 .discover-weekly {
   right: 20%;
   z-index: 2;
+  width: 21vw;
+  height: auto;
 }
 
 .release-radar {
   right: 27%;
   transform: rotate(10deg);
   z-index: 3;
+  width: 21vw;
+  height: auto;
 }
 
 .discover-weekly,
@@ -73,21 +77,21 @@
 
 .selection-card {
   flex: 1;
-  padding: 20px;
+  padding: 15px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80%;
 }
 
 .user-input {
   display: flex;
-  min-width: 20vw;
+  width: 30vw;
   height: 80vh;
-  padding: 20px;
+  padding: 5px;
   align-self: flex-end;
   border-radius: 8px;
   background-color: #e7e7e7;
@@ -98,49 +102,54 @@
 }
 
 #customForm {
-  margin-top: auto;
   width: 100%;
 }
 
 .form-group {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
+  justify-content: left;
+  margin: 0.5vw;
+  padding: 0.5vw;
   width: 100%;
 }
 
 .form-group label {
   flex: 0 0 11vw;
-  margin-right: 2rem;
-  font-size: 1.25rem;
+  margin-right: 0.5vw;
+  font-size: 1.2vw;
 }
 
-.form-group input[type='text'],
+.form-group input,
 .form-group select {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 1vw;
   text-align: center;
+  font-size: 1.2vw;
   background-color: rgba(0, 0, 0, 0.668);
+  width: 12vw;
+  height: 2.5vw;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1vw;
 }
 
 button.add-to-vault-btn {
   padding: 10px 15px;
+  font-size: 1.25vw;
   background-color: rgba(26, 20, 37, 0.548);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 }
 
 button.add-to-vault-btn:hover {
@@ -153,18 +162,49 @@ button.add-to-vault-btn:hover {
 }
 
 .playlist-table table {
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
+  text-align: center;
+  background-color: #f2f2f249;
+}
+
+.playlist-table th,
+.playlist-table td {
+  border: 1px solid #dddddd63;
+  padding: 10px;
+  text-align: center;
 }
 
 .playlist-table th {
-  border: 2px solid #ddd;
-  padding: 10px;
-  text-align: left;
+  background-color: #f2f2f260;
+  height: 2vw;
+  font-weight: bold;
+  font-size: 1.2vw;
 }
 
-.playlist-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background: #f2f2f227;
+  height: 1.3vw;
+  font-size: 1vw;
+}
+
+.playlist-table button {
+  border: none;
+  width: 1vw;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.playlist-table button:hover {
+  color: red; /* Change color on hover for better visual feedback */
+}
+
+.no-data-message {
+  text-align: center;
+  margin-top: 1vw;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.5vw;
+  color: #ffffff;
+  background-color: rgba(255, 0, 0, 0.103);
 }

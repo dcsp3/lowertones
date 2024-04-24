@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   particles: number[] = [];
   private readonly destroy$ = new Subject<void>();
-  private sectionIds = ['hero', 'tableview-tab', 'recapd-tab', 'network-tab', 'visualisations-tab', 'getstarted-tab'];
+  private sectionIds = ['hero', 'tableview-tab', 'recapd-tab', 'network-tab', 'visualisations-tab', 'vault-tab', 'getstarted-tab'];
 
   constructor(private accountService: AccountService, private router: Router, private locationService: LocationService) {}
   private resizeSubject = new Subject<Event>();

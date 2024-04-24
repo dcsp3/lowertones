@@ -33,6 +33,19 @@ Navbar
   margin-left: 0.5rem !important;
 }
 
+.highContrast {
+  background-color: rgba(50, 50, 50, 0.8) !important;
+  .dropdown-menu {
+    background-color: rgb(50, 50, 50) !important;
+  }
+  .dropdown-item.active {
+    background-color: rgb(50, 50, 50) !important;
+  }
+  .dropdown-item.active:hover {
+    background-color: #66b1f1 !important;
+  }
+}
+
 .nav-link {
   font-weight: normal;
   color: #ffffff;
