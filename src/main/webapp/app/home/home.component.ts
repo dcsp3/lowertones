@@ -57,11 +57,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private handleResize(event: Event) {
     const currentSection = this.getCurrentSectionInView();
-    if (currentSection === 'network-tab') {
-      clearGraph(this.graphContainer.nativeElement);
-      this.fetchAndRenderGraph();
-      this.hasGraphBeenRendered = true;
-    }
+    clearGraph(this.graphContainer.nativeElement);
+    this.fetchAndRenderGraph();
+    this.hasGraphBeenRendered = true;
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -71,7 +69,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.locationService.setCurrentTab(currentSection!);
 
     if (currentSection === 'network-tab' && !this.hasGraphBeenRendered) {
-      console.log('Fetching and rendering graph for network-tab'); // Verify this is triggered
       this.fetchAndRenderGraph();
       this.hasGraphBeenRendered = true; // Set the flag to true after rendering
     }
