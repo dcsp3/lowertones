@@ -15,6 +15,17 @@
   animation: fadeInUp 0.5s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
 
+.highContrast {
+  // Override certain colours when in high contrast mode
+  background-color: rgb(50, 50, 50) !important;
+  .preferenceSubtitle {
+    color: yellow;
+  }
+  input[type='checkbox'] {
+    background-color: white !important;
+  }
+}
+
 .content {
   //all content after the title and subtitle
   font-size: 18px;
@@ -47,6 +58,10 @@
   :focus {
     color: white;
   }
+}
+
+.categoryTitle {
+  font-size: 38px;
 }
 
 .preferenceTitle {

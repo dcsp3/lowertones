@@ -1,6 +1,5 @@
 package team.bham.web.rest;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +40,12 @@ public class PreferencesResource {
     public ResponseEntity<AppUser> getAppUser(Authentication authentication) {
         appUser = preferencesService.getAppUser(authentication);
         return ResponseEntity.ok(appUser);
+    }
+
+    @PostMapping("/account/preferences/highContrast")
+    public ResponseEntity<Boolean> getHighContrast(Authentication authentication) {
+        appUser = preferencesService.getAppUser(authentication);
+        return ResponseEntity.ok(appUser.getHighContrastMode());
     }
 
     @PostMapping("/account/preferences/{login}")

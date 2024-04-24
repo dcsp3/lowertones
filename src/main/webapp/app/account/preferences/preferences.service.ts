@@ -16,6 +16,10 @@ export class PreferencesService {
     return this.http.post<IAppUser>('/api/account/preferences', {});
   }
 
+  getHighContrast(): Observable<boolean> {
+    return this.http.post<boolean>('/api/account/preferences/highContrast', {});
+  }
+
   updateEmail(email: string): Observable<void> {
     const params = new HttpParams().set('email', email); // Constructing the request parameters with the email
     return this.http.post<void>(`/api/account/update-email`, null, { params });

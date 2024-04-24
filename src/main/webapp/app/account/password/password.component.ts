@@ -5,16 +5,20 @@ import { Observable } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { PasswordService } from './password.service';
+import { PreferencesService } from '../preferences/preferences.service';
 
 @Component({
   selector: 'jhi-password',
   templateUrl: './password.component.html',
+  styleUrls: ['./password.component.scss'],
 })
 export class PasswordComponent implements OnInit {
   doNotMatch = false;
   error = false;
   success = false;
+  highContrastMode = false;
   account$?: Observable<Account | null>;
+
   passwordForm = new FormGroup({
     currentPassword: new FormControl('', { nonNullable: true, validators: Validators.required }),
     newPassword: new FormControl('', {
@@ -27,10 +31,27 @@ export class PasswordComponent implements OnInit {
     }),
   });
 
-  constructor(private passwordService: PasswordService, private accountService: AccountService) {}
+  constructor(
+    private passwordService: PasswordService,
+    private accountService: AccountService,
+    private preferencesService: PreferencesService
+  ) {}
 
   ngOnInit(): void {
     this.account$ = this.accountService.identity();
+    this.checkHighContrast();
+  }
+
+  public checkHighContrast(): void {
+    this.preferencesService.getHighContrast().subscribe(
+      highContrast => {
+        this.highContrastMode = highContrast;
+        console.log('High contrast: ' + highContrast);
+      },
+      error => {
+        console.error('Error retrieving high contrast mode:', error);
+      }
+    );
   }
 
   changePassword(): void {

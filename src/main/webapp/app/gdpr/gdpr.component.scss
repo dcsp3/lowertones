@@ -15,6 +15,10 @@
   animation: fadeInUp 0.5s cubic-bezier(0.42, 0, 0.58, 1) 0.2s forwards;
 }
 
+.highContrast {
+  background-color: rgb(50, 50, 50) !important;
+}
+
 .title,
 .subtitle {
   font-family: 'Dela Gothic One', cursive;

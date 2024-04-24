@@ -10,6 +10,7 @@ import { PasswordResetInitComponent } from './password-reset/init/password-reset
 import { PasswordResetFinishComponent } from './password-reset/finish/password-reset-finish.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { accountState } from './account.route';
+import { PreferencesService } from './preferences/preferences.service';
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(accountState)],
@@ -22,5 +23,6 @@ import { accountState } from './account.route';
     PasswordResetFinishComponent,
     PreferencesComponent,
   ],
+  providers: [PreferencesService],
 })
 export class AccountModule {}

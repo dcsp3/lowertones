@@ -21,6 +21,7 @@ export class PreferencesComponent implements OnInit {
   login = ''; // This user's name (unique and shared between user/appuser)
   appUserForm: AppUserFormGroup | undefined;
   appUser: IAppUser | undefined;
+  highContrastMode = false;
 
   constructor(
     private accountService: AccountService,
@@ -43,8 +44,21 @@ export class PreferencesComponent implements OnInit {
     this.preferencesService.getAppUser().subscribe(appUser => {
       this.appUser = appUser; // Load the entity for this app user
       this.appUserForm = this.appUserFormService.createAppUserFormGroup(this.appUser);
-      const discoverWeeklyBufferSettingsValue = this.appUserForm.get('discoverWeeklyBufferSettings')?.value;
     });
+
+    this.checkHighContrast();
+  }
+
+  public checkHighContrast(): void {
+    this.preferencesService.getHighContrast().subscribe(
+      highContrast => {
+        this.highContrastMode = highContrast;
+        console.log('High contrast: ' + highContrast);
+      },
+      error => {
+        console.error('Error retrieving high contrast mode:', error);
+      }
+    );
   }
 
   userForm = new FormGroup({
@@ -99,6 +113,7 @@ export class PreferencesComponent implements OnInit {
         () => {
           // Update the appUser entity in the database
           console.log('Preferences saved successfully!');
+          this.checkHighContrast();
         },
         error => {
           console.error('Error saving preferences:', error);

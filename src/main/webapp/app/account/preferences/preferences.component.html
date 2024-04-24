@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container" [class.highContrast]="highContrastMode">
   <h1 class="title">Preferences</h1>
   <h2 class="subtitle">Customise your experience</h2>
 </div>
 
 <div class="content">
-  <div class="text-container">
+  <div class="text-container" [class.highContrast]="highContrastMode">
     <form [formGroup]="appUserForm" *ngIf="appUserForm" (ngSubmit)="savePreferences()">
-      <h2>Additional features</h2>
+      <div class="categoryTitle">Additional features</div>
       <div class="preferenceTitle">
         <label>Email updates</label>
         <input
@@ -16,10 +16,10 @@
           (change)="toggleEmailUpdates()"
         />
       </div>
-      <div class="preferenceSubtitle">Get notified when there is an update to Lowertones.</div>
+      <div class="preferenceSubtitle">Get notified as soon as we release an update.</div>
 
       <br />
-      <h2>Accessibility</h2>
+      <div class="categoryTitle">Accessibility</div>
       <div class="preferenceTitle">
         <label>High colour contrast</label>
         <input type="checkbox" id="toggleHighContrast" formControlName="highContrastMode" (change)="savePreferences()" />
@@ -39,7 +39,7 @@
       <br />
     </form>
 
-    <h2>Account details</h2>
+    <div class="categoryTitle">Account details</div>
 
     <jhi-alert-error></jhi-alert-error>
 
@@ -78,7 +78,7 @@
     </div>
 
     <br />
-    <h2>Security</h2>
+    <div class="categoryTitle">Security</div>
     <div class="button-container">
       <button (click)="signOutAllDevices()" class="btn btn-primary">Sign out of all devices</button>
       <br />

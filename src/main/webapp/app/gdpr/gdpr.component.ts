@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PreferencesService } from 'app/account/preferences/preferences.service';
 
 @Component({
   selector: 'jhi-gdpr',
@@ -6,7 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gdpr.component.scss'],
 })
 export class GDPRComponent implements OnInit {
-  constructor() {}
+  highContrastMode = false;
 
-  ngOnInit(): void {}
+  constructor(private preferencesService: PreferencesService) {}
+
+  ngOnInit(): void {
+    this.preferencesService.getHighContrast().subscribe(
+      highContrast => {
+        this.highContrastMode = highContrast;
+        console.log('High contrast: ' + highContrast);
+      },
+      error => {
+        console.error('Error retrieving high contrast mode:', error);
+      }
+    );
+  }
 }
