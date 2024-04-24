@@ -172,9 +172,7 @@ public class DatabaseImportService {
         for (CSVRecord record : records) {
             Long oldAlbumId = (long) (Double.parseDouble(record.get("album_id")));
             //Long oldAlbumId = Long.valueOf(record.get("album_id"));
-            System.out.println("oldAlbumId: " + oldAlbumId);
             Long newAlbumId = albumIdMapping.get(oldAlbumId);
-
             Long id = Long.parseLong(record.get("id"));
             Long popularity = Long.parseLong(record.get("song_popularity"));
             Long key = Long.parseLong(record.get("song_key"));

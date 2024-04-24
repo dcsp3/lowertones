@@ -19,6 +19,7 @@ import team.bham.domain.Song;
 import team.bham.domain.SongArtistJoin;
 import team.bham.repository.PlaylistRepository;
 import team.bham.repository.SongRepository;
+import team.bham.service.APIScrapingService;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.APIWrapper.SpotifyTrack;
@@ -32,14 +33,17 @@ public class UtilService {
     private final SpotifyAPIWrapperService spotifyAPIWrapperService;
     private final SongRepository songRepository;
     private final APIScrapingResource apiScrapingResource;
+    private final APIScrapingService apiScrapingService;
 
     @Autowired
     public UtilService(
+        APIScrapingService apiScrapingService,
         PlaylistRepository playlistRepository,
         SpotifyAPIWrapperService spotifyAPIWrapperService,
         SongRepository songRepository,
         APIScrapingResource apiScrapingResource
     ) {
+        this.apiScrapingService = apiScrapingService;
         this.playlistRepository = playlistRepository;
         this.spotifyAPIWrapperService = spotifyAPIWrapperService;
         this.songRepository = songRepository;
@@ -141,6 +145,13 @@ public class UtilService {
             }
         }
         return topSongs;
+    }
+
+    @Transactional
+    public List<MainArtist> getUserTopArtists(AppUser user, SpotifyTimeRange timeRange) {
+        SpotifyAPIResponse<JSONObject> topArtistsJson = spotifyAPIWrapperService.getCurrentUserTopArtists(user, timeRange);
+        List<MainArtist> list = apiScrapingService.storeArtistsFromTopArtists(topArtistsJson, user);
+        return list;
     }
 
     @Transactional

@@ -54,7 +54,6 @@ import team.bham.domain.enumeration.ScrapingProgress;
 import team.bham.repository.*;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
-import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.service.UserService;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -323,6 +322,30 @@ public class APIScrapingService {
         //todo: images
         mainArtistRepository.save(mainArtist);
         return mainArtist;
+    }
+
+    @Transactional
+    public List<MainArtist> storeArtistsFromTopArtists(SpotifyAPIResponse<JSONObject> topArtistsJson, AppUser appUser) {
+        List<String> artistSpotifyIds = topArtistsJson
+            .getData()
+            .getJSONArray("items")
+            .toList()
+            .stream()
+            .map(artist -> Optional.ofNullable(artist).map(a -> (Map<String, Object>) a).map(a -> (String) a.get("id")).orElse(null))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        List<MainArtist> existingArtists = mainArtistRepository.findByArtistSpotifyIDIn(artistSpotifyIds);
+        ArrayList<String> unscrapedArtists = removeScrapedArtists(artistSpotifyIds, existingArtists);
+        List<MainArtist> newlyScrapedArtists = new ArrayList<>();
+        if (unscrapedArtists.size() > 0) {
+            List<SpotifyArtist> unscrapedArtistsData = apiWrapper.getArtistInfo(unscrapedArtists, appUser).getData();
+            for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
+                newlyScrapedArtists.add(storeArtist(unscrapedArtist));
+            }
+        }
+        List<MainArtist> topArtists = existingArtists;
+        topArtists.addAll(newlyScrapedArtists);
+        return topArtists;
     }
 
     @Transactional

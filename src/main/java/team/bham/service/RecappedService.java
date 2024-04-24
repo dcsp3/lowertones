@@ -298,19 +298,15 @@ public class RecappedService {
         } else {
             closestTimeRange = timeRange;
         }
-        SpotifyAPIResponse<JSONObject> topArtistsFromTimeRange = spotifyAPIWrapperService.getCurrentUserTopArtists(
-            appUser,
-            closestTimeRange
-        );
+
+        List<MainArtist> topArtists = utilService.getUserTopArtists(appUser, closestTimeRange);
+
         String topArtistUnder1kFollowersID = null;
         String topArtistUnder10kFollowersID = null;
         String topArtistUnder100kFollowersID = null;
-        JSONArray items = topArtistsFromTimeRange.getData().getJSONArray("items");
-        for (int i = 0; i < items.length(); i++) {
-            JSONObject artist = items.getJSONObject(i);
-            JSONObject followers = artist.getJSONObject("followers");
-            int followerCount = followers.getInt("total");
-            String artistId = artist.getString("id");
+        for (int i = 0; i < topArtists.size(); i++) {
+            int followerCount = topArtists.get(i).getArtistFollowers();
+            String artistId = topArtists.get(i).getArtistSpotifyID();
 
             if (topArtistUnder1kFollowersID == null && followerCount < 1000) {
                 topArtistUnder1kFollowersID = artistId;
@@ -325,7 +321,6 @@ public class RecappedService {
                 break;
             }
         }
-        /* THIS WILL ONLY WORK WHEN GETTING THE TOP ARTISTS ADDS TO THE DATABASE
         MainArtist topUnder1k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder1kFollowersID);
         MainArtist topUnder10k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder10kFollowersID);
         MainArtist topUnder100k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder100kFollowersID);
@@ -335,24 +330,19 @@ public class RecappedService {
         dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
         dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
         dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
-        */
-
-        // Construct the DTO with the gathered information
-        // constructRecappedDTO(dto, sortedContributors, imageUrl,
-        // additionalAlbumCovers);
 
         System.out.println("duration: " + duration);
         System.out.println("mainArtists: " + mainArtists.size());
 
         //TEST DATA
+
+        /*
         dto.setTopUnder1kName("1kartist");
         dto.setTopUnder1kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setTopUnder10kName("10kartist");
         dto.setTopUnder10kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setTopUnder100kName("100kartist");
         dto.setTopUnder100kImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
-
-        /*
         dto.setNumOneArtistName("Kenny Beats");
         dto.setNumOneAristNumSongs(1344);
         dto.setNumTwoArtistName("KaytranadaKaytranadaKaytranadaKaytranada");
@@ -369,6 +359,7 @@ public class RecappedService {
         dto.setNumFourArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
         dto.setNumFiveArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
         */
+
         dto.setNumOneFirstCoverImg("https://i.scdn.co/image/ab67616d0000b2735c2bbb4d4a66a70310705a26");
         dto.setNumOneFirstSongTitle("Leonard");
         dto.setNumOneFirstSongMainArtist("Kenny Beatseasedae");

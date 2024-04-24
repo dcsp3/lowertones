@@ -29,6 +29,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
+import team.bham.service.APIScrapingService;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
 
