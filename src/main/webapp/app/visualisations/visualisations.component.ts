@@ -51,7 +51,7 @@ interface Playlist {
 export class VisualisationsService {
   private apiUrl = '/api/visualisations';
   constructor(private http: HttpClient) {}
-  getShortTermArtists(): Observable<VisualisationsDTO> {
+  getVisualisations(): Observable<VisualisationsDTO> {
     return this.http.get<VisualisationsDTO>(this.apiUrl);
   }
 }
@@ -73,8 +73,6 @@ class PlaylistService {
   styleUrls: ['./visualisations.component.scss'],
 })
 export class VisualisationsComponent implements OnInit {
-  response: any;
-
   scanType: choice[];
   selectedScanType: string = '';
   @ViewChild('pieChartSvg', { static: true }) private pieChartSvg!: ElementRef;
@@ -88,61 +86,88 @@ export class VisualisationsComponent implements OnInit {
     ];
   }
 
+  response?: VisualisationsDTO;
   ngOnInit() {
-    this.createPieChart();
-    this.createBarChart1();
-    this.createBarChart2();
-    this.fetchPlaylists();
-
-    this.visualisationsService.getShortTermArtists().subscribe({
+    console.log('Getting visualisation');
+    this.visualisationsService.getVisualisations().subscribe({
       next: response => {
-        this.response = response;
+        console.log('Response:', response);
+        if (response) {
+          this.response = response;
+          console.log('topGenre1Percent:', this.response.topGenre1Percent);
+          this.createPieChart();
+          this.createBarChart1();
+          this.createBarChart2();
+          this.fetchPlaylists();
+        }
+      },
+      error: error => {
+        console.error('Error fetching visualisations:', error);
       },
     });
   }
 
   private createPieChart() {
-    const data = [10, 20, 30, 40, 50];
+    if (this.response) {
+      const data = [
+        this.response?.topGenre1Percent * 100,
+        this.response?.topGenre4Percent * 100,
+        this.response?.topGenre3Percent * 100,
+        this.response?.topGenre2Percent * 100,
+        this.response?.topGenre1Percent * 100,
+      ];
+      this.response?.numOfSongs;
+      console.log(this.response?.topGenre1Name);
+      console.log(this.response?.topGenre2Name);
+      console.log(this.response?.topGenre3Name);
+      console.log(this.response?.topGenre4Name);
+      console.log(this.response?.topGenre5Name);
+      this.response?.topGenre1Name;
+      this.response?.topGenre2Name;
+      this.response?.topGenre3Name;
+      this.response?.topGenre4Name;
+      this.response?.topGenre5Name;
 
-    const width = 300;
-    const height = 300;
-    const radius = Math.min(width, height) / 2;
+      const width = 300;
+      const height = 300;
+      const radius = Math.min(width, height) / 2;
 
-    const color = d3
-      .scaleOrdinal()
-      .domain(data.map((d, i) => i.toString()))
-      .range(d3.schemeCategory10);
+      const color = d3
+        .scaleOrdinal()
+        .domain(data.map((d, i) => i.toString()))
+        .range(d3.schemeCategory10);
 
-    const svg = d3
-      .select(this.pieChartSvg.nativeElement)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', `translate(${width / 2},${height / 2})`);
+      const svg = d3
+        .select(this.pieChartSvg.nativeElement)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
 
-    const pie = d3
-      .pie()
-      .value((d: any) => d)
-      .sort(null);
+      const pie = d3
+        .pie()
+        .value((d: any) => d)
+        .sort(null);
 
-    const path = d3
-      .arc()
-      .outerRadius(radius - 10)
-      .innerRadius(0);
+      const path = d3
+        .arc()
+        .outerRadius(radius - 10)
+        .innerRadius(0);
 
-    const arc = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc');
+      const arc = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc');
 
-    arc
-      .append('path')
-      .attr('d', (d: any) => path(d))
-      .attr('fill', (d: any, i: any) => color(i.toString()) as string);
+      arc
+        .append('path')
+        .attr('d', (d: any) => path(d))
+        .attr('fill', (d: any, i: any) => color(i.toString()) as string);
 
-    arc
-      .append('text')
-      .attr('transform', (d: any) => `translate(${path.centroid(d)})`)
-      .attr('dy', '0.35em')
-      .text((d: any) => d.data);
+      arc
+        .append('text')
+        .attr('transform', (d: any) => `translate(${path.centroid(d)})`)
+        .attr('dy', '0.35em')
+        .text((d: any) => d.data);
+    }
   }
 
   private createBarChart1() {

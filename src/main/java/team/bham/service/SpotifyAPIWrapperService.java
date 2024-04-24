@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.apiguardian.api.API;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -94,6 +95,7 @@ public class SpotifyAPIWrapperService {
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=50";
         JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        System.out.println("PLALTIST RESPONSE: " + response.toString());
         JSONArray playlistEntriesJSON = response.getJSONArray("items");
         ArrayList<SpotifySimplifiedPlaylist> playlists = new ArrayList<SpotifySimplifiedPlaylist>();
         int totalPlaylists = response.getInt("total");

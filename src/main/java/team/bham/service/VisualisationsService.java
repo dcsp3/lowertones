@@ -50,12 +50,11 @@ public class VisualisationsService {
         for (int i = 0; i < playlistArtists.size(); i++) {
             playlistGenreEntities.addAll(playlistArtists.get(i).getSpotifyGenreEntities());
         }
-
         List<String> playlistGenres = null;
         for (int i = 0; i < playlistGenreEntities.size(); i++) {
             playlistGenres.add(playlistGenreEntities.get(i).getSpotifyGenre());
         }
-
+        System.out.println("playlistGenres" + playlistGenres);
         List<String> topFive = findTopFiveFrequentStrings(playlistGenres);
 
         int numOfSongs = playlistSongs.size();
