@@ -6,6 +6,8 @@
 /src/test/javascript/coverage/
 /.vscode/
 .gitignore
+/src/main/resources/.h2.server.properties
+
 
 ######################
 # Node

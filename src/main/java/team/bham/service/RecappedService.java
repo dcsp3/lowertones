@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -68,10 +70,21 @@ public class RecappedService {
     @Transactional(readOnly = true)
     private Map<Contributor, Long> countContributorsByRoleAndSongs(String role, List<Song> songs) {
         List<Long> songIds = songs.stream().map(Song::getId).collect(Collectors.toList());
-        List<Object[]> results = contributorRepository.countContributorsByRoleAndSongIds(role, songIds);
+        System.out.println("songIds: " + songIds);
+        List<Contributor> allContributors = contributorRepository.findContributorsBySongIds(songIds);
+        List<Contributor> filteredContributorsByRole = allContributors
+            .stream()
+            .filter(c -> c.getRole() != null && (c.getRole().equalsIgnoreCase(role) || c.getRole().contains(role)))
+            .collect(Collectors.toList());
+        Map<String, List<Contributor>> groupedById = filteredContributorsByRole
+            .stream()
+            .collect(Collectors.groupingBy(Contributor::getMusicbrainzID));
         Map<Contributor, Long> contributorCountMap = new HashMap<>();
-        for (Object[] result : results) {
-            contributorCountMap.put((Contributor) result[0], (Long) result[1]);
+        for (Map.Entry<String, List<Contributor>> entry : groupedById.entrySet()) {
+            List<Contributor> contributors = entry.getValue();
+            Contributor representative = contributors.get(0); // pick the first contributor as representative
+            long count = contributors.size();
+            contributorCountMap.put(representative, count);
         }
         return contributorCountMap;
     }
@@ -82,26 +95,41 @@ public class RecappedService {
         Integer thresholdRatio = 95;
         Integer thresholdPartialRatio = 90;
         JSONArray artists = response.getJSONObject("artists").getJSONArray("items");
+        List<JSONObject> exactMatches = new ArrayList<>();
+        List<JSONObject> partialMatches = new ArrayList<>();
+
         for (int i = 0; i < artists.length(); i++) {
             JSONObject artist = artists.getJSONObject(i);
             String artistName = artist.getString("name");
-            int similarity = FuzzySearch.ratio(name, artistName);
-            if (similarity > thresholdRatio) {
-                JSONArray images = artist.getJSONArray("images");
-                if (images.length() > 0) {
-                    return images.getJSONObject(0).getString("url");
-                }
+            int fullMatchRatio = FuzzySearch.ratio(name, artistName);
+            int partialMatchRatio = FuzzySearch.partialRatio(name, artistName);
+
+            if (fullMatchRatio > thresholdRatio) {
+                exactMatches.add(artist);
+            } else if (partialMatchRatio > thresholdPartialRatio) {
+                partialMatches.add(artist);
             }
         }
-        for (int i = 0; i < artists.length(); i++) {
-            JSONObject artist = artists.getJSONObject(i);
-            String artistName = artist.getString("name");
-            int similarity = FuzzySearch.partialRatio(name, artistName);
-            if (similarity > thresholdPartialRatio) {
-                JSONArray images = artist.getJSONArray("images");
-                if (images.length() > 0) {
-                    return images.getJSONObject(0).getString("url");
-                }
+
+        JSONObject bestExactMatch = exactMatches
+            .stream()
+            .max(Comparator.comparingInt(artist -> artist.getJSONObject("followers").getInt("total")))
+            .orElse(null);
+        if (bestExactMatch != null) {
+            JSONArray images = bestExactMatch.getJSONArray("images");
+            if (images.length() > 0) {
+                return images.getJSONObject(0).getString("url");
+            }
+        }
+
+        JSONObject bestPartialMatch = partialMatches
+            .stream()
+            .max(Comparator.comparingInt(artist -> artist.getJSONObject("followers").getInt("total")))
+            .orElse(null);
+        if (bestPartialMatch != null) {
+            JSONArray images = bestPartialMatch.getJSONArray("images");
+            if (images.length() > 0) {
+                return images.getJSONObject(0).getString("url");
             }
         }
         return null;
@@ -115,7 +143,7 @@ public class RecappedService {
         AppUser appUser = appUserRepository.findByUserId(user.getId()).get();
         long appUserId = appUser.getId();
         List<Song> songs = new ArrayList<>();
-        int duration = 0;
+        long duration = 0;
         SpotifyTimeRange timeRange = null;
         LocalDate startDate = null;
         LocalDate endDate = null;
@@ -144,12 +172,12 @@ public class RecappedService {
                         System.err.println("Invalid date format: " + e.getMessage());
                     }
                 } else {
-                    System.out.println("timeframe is here      :" + request.getTimeframe());
+                    System.out.println("timeframe is here:" + request.getTimeframe());
                     System.err.println("Unknown timeframe format");
                 }
                 break;
         }
-        System.out.println("scantype is here      :" + request.getScanType());
+        System.out.println("scantype is here:" + request.getScanType());
 
         // 2. Get song list, artist list, duration based on request
         if (request.getScanType().equals("entireLibrary")) {
@@ -178,33 +206,73 @@ public class RecappedService {
         // get total duration of songs in milliseconds
         for (int i = 0; i < songs.size(); i++) {
             System.out.println("song duration scanning: " + songs.get(i).getSongTitle() + " + duration: " + songs.get(i).getSongDuration());
+            System.out.println("current duration is: " + duration);
             System.out.println("current i is: " + i);
             duration = duration + songs.get(i).getSongDuration();
         }
-        dto.setTotalDuration(duration / 60000);
+        duration = duration / 60000;
+        dto.setTotalDuration(((int) duration));
 
-        // 3. Get Contributors for each song, count the number of occurrences, and save
-        // the top 5
+        // 3. Get Contributors for each song, count the number of occurrences, and save the top 5
         Map<Contributor, Long> topContributors = countContributorsByRoleAndSongs(request.getMusicianType().name(), songs);
+        dto.setTotalContributors(topContributors.size());
+
+        System.out.println("topContributors here: " + topContributors);
 
         // Sort the map by value and pick the top 5 contributors
-        List<Map.Entry<Contributor, Long>> sortedContributors = topContributors
+        Map<Contributor, Long> top5Contributors = topContributors
             .entrySet()
             .stream()
             .sorted(Map.Entry.<Contributor, Long>comparingByValue().reversed())
             .limit(5)
-            .collect(Collectors.toList());
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        System.out.println("top5Contributors here: " + top5Contributors);
+
+        int count = 1;
+        String[] names = new String[5];
+        int[] numSongs = new int[5];
+        for (Map.Entry<Contributor, Long> entry : top5Contributors.entrySet()) {
+            Contributor contributor = entry.getKey();
+            String name = contributor.getName();
+            names[count - 1] = name;
+            numSongs[count - 1] = entry.getValue().intValue();
+            count++;
+        }
+        dto.setNumOneArtistName(names[0]);
+        dto.setNumTwoArtistName(names[1]);
+        dto.setNumThreeArtistName(names[2]);
+        dto.setNumFourArtistName(names[3]);
+        dto.setNumFiveArtistName(names[4]);
+        dto.setNumOneAristNumSongs(numSongs[0]);
+        dto.setNumTwoAristNumSongs(numSongs[1]);
+        dto.setNumThreeAristNumSongs(numSongs[2]);
+        dto.setNumFourAristNumSongs(numSongs[3]);
+        dto.setNumFiveAristNumSongs(numSongs[4]);
 
         // 4. For the top contributors, check for a Spotify image or an album cover
 
+        String[] images = new String[5];
+        for (int i = 0; i < 5; i++) {
+            images[i] = getContributorImageUrl(names[i], appUser);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            if (images[i] == null) {
+                //TO DO - SET IMAGE TO TOP ALBUM COVER
+                images[i] = "https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb";
+            }
+        }
+        dto.setNumOneArtistImage(images[0]);
+        dto.setNumTwoArtistImage(images[1]);
+        dto.setNumThreeArtistImage(images[2]);
+        dto.setNumFourArtistImage(images[3]);
+        dto.setNumFiveArtistImage(images[4]);
+
+        System.out.println("images here: " + images[0] + images[1] + images[2] + images[3] + images[4]);
+        System.out.println("names here: " + names[0] + names[1] + names[2] + names[3] + names[4]);
+
         //TEST USAGE
         System.out.println("KENNY BEATS IMG" + getContributorImageUrl("Kenny Beats", appUser));
-
-        //String numOneImageUrl = getContributorImageUrl(sortedContributors.get(0).getKey().getName(), appUser);
-        //String numTwoImageUrl = getContributorImageUrl(sortedContributors.get(1).getKey().getName(), appUser);
-        //String numThreeImageUrl = getContributorImageUrl(sortedContributors.get(2).getKey().getName(), appUser);
-        //String numFourImageUrl = getContributorImageUrl(sortedContributors.get(3).getKey().getName(), appUser);
-        //String numFiveImageUrl = getContributorImageUrl(sortedContributors.get(4).getKey().getName(), appUser);
 
         // 5. Get 2 other album covers for top songs by the top contributor
         //List<String> additionalAlbumCovers = getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
@@ -276,8 +344,7 @@ public class RecappedService {
         System.out.println("duration: " + duration);
         System.out.println("mainArtists: " + mainArtists.size());
 
-        dto.setTotalContributors(100);
-
+        //TEST DATA
         dto.setTopUnder1kName("1kartist");
         dto.setTopUnder1kImage("https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb");
         dto.setTopUnder10kName("10kartist");
@@ -285,6 +352,7 @@ public class RecappedService {
         dto.setTopUnder100kName("100kartist");
         dto.setTopUnder100kImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
 
+        /*
         dto.setNumOneArtistName("Kenny Beats");
         dto.setNumOneAristNumSongs(1344);
         dto.setNumTwoArtistName("KaytranadaKaytranadaKaytranadaKaytranada");
@@ -300,7 +368,7 @@ public class RecappedService {
         dto.setNumThreeArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
         dto.setNumFourArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
         dto.setNumFiveArtistImage("https://i.scdn.co/image/ab67616100005174069ff978752054a7e015daab");
-
+        */
         dto.setNumOneFirstCoverImg("https://i.scdn.co/image/ab67616d0000b2735c2bbb4d4a66a70310705a26");
         dto.setNumOneFirstSongTitle("Leonard");
         dto.setNumOneFirstSongMainArtist("Kenny Beatseasedae");

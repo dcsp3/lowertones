@@ -15,4 +15,7 @@ import team.bham.service.dto.RecappedRequest;
 public interface ContributorRepository extends JpaRepository<Contributor, Long> {
     @Query("SELECT c, COUNT(c) FROM Contributor c " + "JOIN c.songs s " + "WHERE s.id IN :songIds AND c.role = :role " + "GROUP BY c")
     List<Object[]> countContributorsByRoleAndSongIds(@Param("role") String role, @Param("songIds") List<Long> songIds);
+
+    @Query("SELECT DISTINCT c FROM Contributor c JOIN c.songs s WHERE s.id IN :songIds")
+    List<Contributor> findContributorsBySongIds(@Param("songIds") List<Long> songIds);
 }
