@@ -767,3 +767,137 @@ p {
   margin-top: 2.4rem;
   max-width: 23vw;
 }
+
+/* Vault Section */
+
+#vault-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4%;
+}
+
+.vault-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#vaultHeading {
+  font-family: 'neue-plak';
+  letter-spacing: 2px;
+  font-size: 5vw;
+  margin-left: 53%;
+  color: #ffffff;
+  font-weight: bold;
+  margin-bottom: 32%;
+}
+
+.playlist-covers-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.playlist-covers-top img {
+  transition: scale 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-covers-top img:hover {
+  scale: 1.02;
+}
+
+.daily-mix {
+  position: relative;
+  width: 18vw;
+  height: 18vw;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+  right: 23%;
+  bottom: 23%;
+  z-index: 1;
+}
+
+.discover-weekly {
+  position: relative;
+  right: 23%;
+  bottom: 23%;
+  z-index: 2;
+  width: 18.5vw;
+  height: auto;
+}
+
+.playlist-covers-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.playlist-covers-bottom img {
+  transition: scale 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-covers-bottom img:hover {
+  scale: 1.02;
+}
+
+.release-radar {
+  position: relative;
+  width: 18vw;
+  height: auto;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+  right: 23%;
+  top: 24%;
+  z-index: 1;
+}
+
+.on-repeat {
+  position: relative;
+  right: 23%;
+  top: 24%;
+  z-index: 2;
+  width: 18.5vw;
+  height: auto;
+}
+
+.vault-info-card {
+  position: absolute;
+  top: 30%;
+  left: 56%;
+  width: 35vw;
+  height: 45vh;
+  background-color: rgba(108, 46, 124, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  text-align: center;
+  z-index: 2;
+}
+
+#vault-tab h5 {
+  font-size: 1.1vw;
+  color: #ffffff;
+  margin-bottom: 0.6vw;
+}
