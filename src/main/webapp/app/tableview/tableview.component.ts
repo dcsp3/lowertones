@@ -55,7 +55,7 @@ class ScrapeService {
   constructor(private http: HttpClient) {}
   scrape(): Observable<any> {
     console.log('in class');
-    return this.http.get(this.apiUrl);
+    return this.http.post<boolean>(this.apiUrl, {});
   }
 }
 
@@ -161,6 +161,7 @@ export class TableviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.scrape();
     this.fetchPlaylists();
 
     this.filteredSongData = this.songDataInUse;
@@ -254,7 +255,9 @@ export class TableviewComponent implements OnInit {
   }
 
   scrape() {
-    this.scrapeService.scrape();
+    this.scrapeService.scrape().subscribe((response: boolean) => {
+      console.log('Scrape in progress');
+    });
   }
 
   truncate(num: number): number {
