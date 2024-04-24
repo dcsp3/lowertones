@@ -4,36 +4,27 @@
       <img src="../../content/images/daily-mix.webp" alt="Playlist Cover 1" class="daily-mix" />
       <img src="../../content/images/discover-weekly.jpeg" alt="Playlist Cover 2" class="discover-weekly" />
       <img src="../../content/images/release-radar.jpeg" alt="Playlist Cover 3" class="release-radar" />
-      <!-- Repeat the images for infinite effect -->
     </div>
 
     <div class="selection-card">
       <div class="user-input">
-        <form id="customForm">
+        <form (ngSubmit)="addVault()">
           <div class="form-group">
             <label for="playlistName">Playlist Name</label>
-            <input type="text" id="playlistName" name="playlistName" />
+            <input type="text" id="playlistName" name="playlistName" [(ngModel)]="playlistName" required />
           </div>
-
           <div class="form-group">
-            <label for="link">Link</label>
-            <input type="text" id="link" name="link" />
+            <label for="link">Link to Playlist</label>
+            <input type="text" id="link" name="link" [(ngModel)]="link" required />
           </div>
-
-          <div class="form-group">
-            <label for="playlistCover">Playlist Cover (optional)</label>
-            <input type="text" id="playlistCover" name="playlistCover" />
-          </div>
-
           <div class="form-group">
             <label for="frequency">Update Frequency</label>
-            <select id="frequency" name="frequency">
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
+            <select id="frequency" name="frequency" [(ngModel)]="frequency" required>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
             </select>
           </div>
-
           <div class="button-container">
             <button type="submit" class="add-to-vault-btn">Add to Vault</button>
           </div>
@@ -42,46 +33,33 @@
     </div>
   </div>
 
-  <div class="playlist-table">
-    <table>
-      <thead>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Frequency</th>
-        <th>options</th>
-      </thead>
+  <app-custom-toast *ngIf="showToast" [message]="toastMessage" [success]="toastSuccess" [error]="toastError"> </app-custom-toast>
 
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Discover Weekly</td>
-          <td>Spotify Generated</td>
-          <td>Weekly</td>
-          <td>Delete</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Daily Mix</td>
-          <td>Spotify Generated</td>
-          <td>Daily</td>
-          <td>Delete</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>My Custom Playlist</td>
-          <td>Custom</td>
-          <td>Daily</td>
-          <td>Delete</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Release Radar</td>
-          <td>Spotify Generated</td>
-          <td>Weekly</td>
-          <td>Delete</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="playlist-table">
+    <div *ngIf="tableLength > 0; else noDataTemplate">
+      <p-table [value]="vaults">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Playlist Name</th>
+            <th>Frequency</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-vault>
+          <tr>
+            <td>{{ vault.playlistName }}</td>
+            <td>{{ vault.frequency }}</td>
+            <td>{{ vault.dateLastUpdated }}</td>
+            <td>
+              <button pButton type="button" icon="pi pi-trash" (click)="deleteVault(vault.id)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <ng-template #noDataTemplate>
+      <div class="no-data-message">No playlists in Vault</div>
+    </ng-template>
   </div>
 </div>
