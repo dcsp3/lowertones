@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.time.LocalDate;
 import team.bham.domain.Song;
 
 public interface SongWithArtistName {
@@ -18,5 +19,6 @@ public interface SongWithArtistName {
     Float getSongSpeechiness();
     Float getSongTempo();
     Float getSongValence();
+    LocalDate getAlbumReleaseDate();
     String getArtistName();
 }

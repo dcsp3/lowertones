@@ -135,11 +135,15 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("before the big");
+        System.out.println("\n\n\n\n\n\n\n\n");
+
         // List<Song> songs = utilService.getPlaylistSongs(playlistId);
         List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
 
         System.out.println("\n\n\n\n\n\n\n\n");
-        System.out.println(songs.get(0).getArtistName());
+        System.out.println(songs.get(0).getAlbumReleaseDate());
         System.out.println("\n\n\n\n\n\n\n\n");
 
         List<Map<String, Object>> songInfo = songs
@@ -153,7 +157,7 @@ public class TableviewService {
                 info.put("length", song.getSongDuration());
                 info.put("explicit", song.getSongExplicit());
                 info.put("popularity", song.getSongPopularity());
-                // info.put("release", song.getSong());
+                info.put("release", song.getAlbumReleaseDate());
                 info.put("acousticness", song.getSongAcousticness());
                 info.put("danceability", song.getSongDanceability());
                 info.put("instrumentalness", song.getSongInstrumentalness());

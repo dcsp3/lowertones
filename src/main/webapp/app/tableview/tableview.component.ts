@@ -381,6 +381,7 @@ export class TableviewComponent implements OnInit {
 
   genSongList(): void {
     this.loadingSongs = true;
+    this.setPage(0);
     if (this.selectedTableState.value === 'user') {
       this.songDataInUse = this.placeholderList;
       this.applySearch();
@@ -397,7 +398,7 @@ export class TableviewComponent implements OnInit {
           length: this.formatTime(songEntry.length),
           explicit: songEntry.explicit,
           popularity: songEntry.popularity,
-          release: 'N/A',
+          release: songEntry.release,
           acousticness: this.truncate(songEntry.acousticness * 100),
           danceability: this.truncate(songEntry.danceability * 100),
           instrumentalness: this.truncate(songEntry.instrumentalness * 100),
@@ -406,13 +407,15 @@ export class TableviewComponent implements OnInit {
           loudness: songEntry.loudness,
           speechiness: this.truncate(songEntry.speechiness * 100),
           valence: this.truncate(songEntry.valence * 100),
-          tempo: songEntry.tempo,
+          tempo: Math.round(songEntry.tempo * 2) / 2,
           spotifyId: songEntry.spotifyId,
         }));
 
         console.log('here is how long the list is' + this.songData.length);
 
         this.songData = this.consolidateArtists(this.songData);
+
+        console.log('and now: presto! ' + this.songData.length);
 
         if (this.selectedTableState.value === 'user') {
           this.songDataInUse = this.songData;
