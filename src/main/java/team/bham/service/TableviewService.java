@@ -36,6 +36,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.bham.domain.Album;
 import team.bham.domain.AppUser;
 import team.bham.domain.AppUser;
 import team.bham.domain.MainArtist;
@@ -45,11 +46,16 @@ import team.bham.domain.RelatedArtists;
 import team.bham.domain.Song;
 import team.bham.domain.SongArtistJoin;
 import team.bham.domain.SpotifyGenreEntity;
+import team.bham.repository.AlbumRepository;
 import team.bham.repository.MainArtistRepository;
+import team.bham.repository.MainArtistRepository;
+import team.bham.repository.PlaylistRepository;
 import team.bham.repository.PlaylistRepository;
 import team.bham.repository.PlaylistSongJoinRepository;
 import team.bham.repository.RelatedArtistsRepository;
 import team.bham.repository.SongArtistJoinRepository;
+import team.bham.repository.SongRepository;
+import team.bham.repository.SongWithArtistName;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
@@ -63,10 +69,24 @@ public class TableviewService {
     private final UserService userService;
     private final UtilService utilService;
 
-    public TableviewService(SpotifyAPIWrapperService apiWrapper, UserService userService, UtilService utilService) {
+    private final PlaylistRepository playlistRepository;
+    private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
+
+    public TableviewService(
+        SpotifyAPIWrapperService apiWrapper,
+        UserService userService,
+        UtilService utilService,
+        PlaylistRepository playlistRepository,
+        SongRepository songRepository,
+        AlbumRepository albumRepository
+    ) {
         this.apiWrapper = apiWrapper;
         this.userService = userService;
         this.utilService = utilService;
+        this.playlistRepository = playlistRepository;
+        this.songRepository = songRepository;
+        this.albumRepository = albumRepository;
     }
 
     public ResponseEntity<List<Map<String, Object>>> getUserPlaylistNames(Authentication authentication) {
@@ -94,7 +114,20 @@ public class TableviewService {
         return ResponseEntity.ok().body(playlistInfo);
     }
 
-    //this is what I'm working on at the moment
+    @Transactional
+    public List<Song> findSongsByPlaylistId(String playlistId) {
+        Set<Song> playlistSongsSet = new HashSet<>();
+        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
+        playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
+        for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
+            playlistSongsSet.add(playlistSongJoin.getSong());
+        }
+        List<Song> entireLibrarySongsList = new ArrayList<>(playlistSongsSet);
+        return entireLibrarySongsList;
+    }
+
+    // this is what I'm working on at the moment
     @Transactional
     public ResponseEntity<List<Map<String, Object>>> getUserPlaylistSongs(String playlistId, Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
@@ -102,30 +135,25 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        System.out.println("\n\n\n\n\n\n\n");
-        System.out.println("is this thing on");
-        System.out.println(playlistId);
-        System.out.println("\n\n\n\n\n\n\n");
+        // List<Song> songs = utilService.getPlaylistSongs(playlistId);
+        List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
 
-        List<Song> songs = utilService.getPlaylistSongs(playlistId);
-
-        System.out.println("\n\n\n\n\n\n\n");
-        System.out.println("does this thing work");
-        System.out.println(playlistId);
-        System.out.println("\n\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println(songs.get(0).getArtistName());
+        System.out.println("\n\n\n\n\n\n\n\n");
 
         List<Map<String, Object>> songInfo = songs
             .stream()
             .map(song -> {
                 Map<String, Object> info = new HashMap<>();
-                System.out.println("\n here's text" + song.getSongTitle());
+
                 info.put("title", song.getSongTitle());
-                //info.put("artist", song.getSongArtist());
-                //info.put("contributor", song.());
+                info.put("artist", song.getArtistName());
+                // info.put("contributor", song.());
                 info.put("length", song.getSongDuration());
                 info.put("explicit", song.getSongExplicit());
                 info.put("popularity", song.getSongPopularity());
-                //info.put("release", song.getSong());
+                // info.put("release", song.getSong());
                 info.put("acousticness", song.getSongAcousticness());
                 info.put("danceability", song.getSongDanceability());
                 info.put("instrumentalness", song.getSongInstrumentalness());
