@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } fro
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ToggleButton } from 'primeng/togglebutton';
 
 import { clearGraph, getElements, renderGraph } from './topArtistsGraph';
 
 import { NetworkService } from './network.service';
 
-interface Artist {
+export interface Artist {
   distance: number;
   name: string;
   id: string;
@@ -54,11 +53,12 @@ export class NetworkComponent implements OnInit, OnDestroy {
     }
 
     if (tab === 'playlists') {
-      this.selectedPlaylistId = 0;
-      this.clearAllStats(); // Reset stats
-      this.clearGraphAndShowPlaceholder();
+      this.selectedPlaylistId = 1;
+      //this.clearAllStats(); // Reset stats
+      //this.clearGraphAndShowPlaceholder();
+      this.fetchAndRenderGraph(this.activeTab, this.showConnections);
     } else {
-      this.fetchAndRenderGraph(this.timeRange);
+      this.fetchAndRenderGraph(this.activeTab, this.showConnections);
       this.displayGraphPlaceholder = false;
     }
   }
@@ -110,7 +110,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
 
-    this.fetchAndRenderGraph(this.timeRange);
+    this.fetchAndRenderGraph(this.activeTab, this.showConnections);
 
     this.fetchPlaylists();
 
@@ -147,19 +147,19 @@ export class NetworkComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleError(error: any): void {
-    this.errorMessage = 'Failed to load data. Please try again later.';
-  }
+  // handleError(error: any): void {
+  //   this.errorMessage = 'Failed to load data. Please try again later.';
+  // }
 
   onPlaylistChange(playlistId: number): void {
     if (playlistId && playlistId !== 0) {
-      clearGraph(this.graphContainer.nativeElement);
+      //clearGraph(this.graphContainer.nativeElement);
       this.selectedPlaylistId = playlistId;
       this.selectedPlaylist = this.playlists.find(p => p.value === playlistId)?.label || '';
 
       this.displayGraphPlaceholder = false;
       this.stopAudio();
-      this.fetchAndRenderGraphForPlaylist(this.selectedPlaylistId);
+      this.fetchAndRenderGraph(this.activeTab, this.showConnections);
     } else {
       this.selectedPlaylistId = 0;
       this.selectedPlaylist = 'Select a playlist';
@@ -168,74 +168,74 @@ export class NetworkComponent implements OnInit, OnDestroy {
     }
   }
 
-  private fetchAndRenderGraphForPlaylist(playlistId: number): void {
-    if (playlistId === 0) {
-      console.log('No valid playlist ID provided');
-      return;
-    }
+  // private fetchAndRenderGraphForPlaylist(playlistId: number): void {
+  //   if (playlistId === 0) {
+  //     console.log('No valid playlist ID provided');
+  //     return;
+  //   }
 
-    this.isLoading = true;
-    this.networkService.getPlaylistData(playlistId).subscribe({
-      next: playlistData => {
-        this.updatePlaylistStats(playlistData.stats);
-        this.renderGraphBasedOnPlaylistData(playlistData);
-        this.animateScore(parseFloat(this.averagePopularity));
-        this.isLoading = false;
-      },
-      error: error => {
-        console.error('There was an error fetching the playlist data', error);
-        this.displayGraphPlaceholder = true;
-        this.isLoading = false;
-      },
-    });
-  }
+  //   this.isLoading = true;
+  //   this.networkService.getPlaylistData(playlistId).subscribe({
+  //     next: playlistData => {
+  //       this.updatePlaylistStats(playlistData.stats);
+  //       this.renderGraphBasedOnPlaylistData(playlistData);
+  //       this.animateScore(parseFloat(this.averagePopularity));
+  //       this.isLoading = false;
+  //     },
+  //     error: error => {
+  //       console.error('There was an error fetching the playlist data', error);
+  //       this.displayGraphPlaceholder = true;
+  //       this.isLoading = false;
+  //     },
+  //   });
+  // }
 
-  private updatePlaylistStats(stats: any): void {
-    if (stats) {
-      this.topArtistName = this.truncateText(stats.topArtistName, 9);
-      this.topArtistImage = stats.topArtistImage;
-      this.topTrackName = this.truncateText(stats.topTrackByTopArtist.trackName, 25);
-      this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
-      this.topGenre = this.truncateText(stats.topGenre, 25);
-      this.averagePopularity = stats.averagePopularity;
+  // private updatePlaylistStats(stats: any): void {
+  //   if (stats) {
+  //     this.topArtistName = this.truncateText(stats.topArtistName, 9);
+  //     this.topArtistImage = stats.topArtistImage;
+  //     this.topTrackName = this.truncateText(stats.topTrackByTopArtist.trackName, 25);
+  //     this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
+  //     this.topGenre = this.truncateText(stats.topGenre, 25);
+  //     this.averagePopularity = stats.averagePopularity;
 
-      if (stats.tasteCategory) {
-        this.tasteCategoryDetails = {
-          name: stats.tasteCategory.name,
-          colorDark: stats.tasteCategory.colorDark,
-          colorLight: stats.tasteCategory.colorLight,
-        };
-      }
-    }
+  //     if (stats.tasteCategory) {
+  //       this.tasteCategoryDetails = {
+  //         name: stats.tasteCategory.name,
+  //         colorDark: stats.tasteCategory.colorDark,
+  //         colorLight: stats.tasteCategory.colorLight,
+  //       };
+  //     }
+  //   }
 
-    if (stats.topTrackByTopArtist && stats.topTrackByTopArtist.previewUrl !== this.topTrackPreviewUrl) {
-      this.stopAudio();
-      this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
-    } else if (!stats.topTrackByTopArtist) {
-      this.stopAudio();
-      this.topTrackPreviewUrl = '';
-    }
-  }
+  //   if (stats.topTrackByTopArtist && stats.topTrackByTopArtist.previewUrl !== this.topTrackPreviewUrl) {
+  //     this.stopAudio();
+  //     this.topTrackPreviewUrl = stats.topTrackByTopArtist.previewUrl;
+  //   } else if (!stats.topTrackByTopArtist) {
+  //     this.stopAudio();
+  //     this.topTrackPreviewUrl = '';
+  //   }
+  // }
 
-  private async renderGraphBasedOnPlaylistData(playlistData: any, includeConnections: boolean = false): Promise<void> {
-    clearGraph(this.graphContainer.nativeElement);
-    try {
-      const containerWidth = this.graphContainer.nativeElement.offsetWidth;
-      const containerHeight = this.graphContainer.nativeElement.offsetHeight;
-      const userImageUrl = await this.fetchUserImage();
+  // private async renderGraphBasedOnPlaylistData(playlistData: any, includeConnections: boolean = false): Promise<void> {
+  //   clearGraph(this.graphContainer.nativeElement);
+  //   try {
+  //     const containerWidth = this.graphContainer.nativeElement.offsetWidth;
+  //     const containerHeight = this.graphContainer.nativeElement.offsetHeight;
+  //     const userImageUrl = await this.fetchUserImage();
 
-      if (!playlistData.graphData || !playlistData.graphData.artists) {
-        console.error('No artists data available');
-        return;
-      }
-      const artists = playlistData.graphData.artists;
+  //     if (!playlistData.graphData || !playlistData.graphData.artists) {
+  //       console.error('No artists data available');
+  //       return;
+  //     }
+  //     const artists = playlistData.graphData.artists;
 
-      const elements = getElements(artists, userImageUrl, includeConnections ? this.artistConnections : {});
-      renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
-    } catch (error) {
-      console.error('Error rendering graph based on playlist data:', error);
-    }
-  }
+  //     const elements = getElements(artists, userImageUrl, includeConnections ? this.artistConnections : {});
+  //     renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
+  //   } catch (error) {
+  //     console.error('Error rendering graph based on playlist data:', error);
+  //   }
+  // }
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
@@ -245,16 +245,19 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   private onResize(event: Event) {
     clearGraph(this.graphContainer.nativeElement);
-    this.fetchAndRenderGraph(this.timeRange);
+    this.fetchAndRenderGraph(this.activeTab, this.showConnections);
   }
+
+  graphRendered: boolean = false;
 
   private handleTimeRangeChange(newTimeRange: string): void {
     if (newTimeRange !== this.timeRange) {
+      clearGraph(this.graphContainer);
       this.timeRange = newTimeRange;
 
       if (this.connectionsCheckbox.nativeElement.checked) {
         this.connectionsCheckbox.nativeElement.checked = false;
-        this.toggleConnections();
+        this.showConnections = false;
       }
 
       if (this.currentAudio && !this.currentAudio.paused) {
@@ -264,12 +267,14 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.isPlaying = false;
       this.currentAudio = null;
 
-      this.fetchAndRenderGraph(this.timeRange);
+      this.fetchAndRenderGraph(this.activeTab, this.showConnections);
+      this.graphRendered = true;
     }
   }
 
   changeTimeRange(newTimeRange: string): void {
-    this.timeRangeSubject.next(newTimeRange);
+    this.timeRange = newTimeRange;
+    clearGraph(this.graphContainer);
   }
 
   animateScore(finalScore: number): void {
@@ -286,7 +291,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
     }, 25);
   }
 
-  fetchTopArtists(timeRange: string): Promise<Artist[]> {
+  fetchTopArtists(timeRange: string): Promise<{ graphData: Artist[]; stats: any; relatedArtists: any }> {
     this.isLoading = true;
     const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
     const headers: Headers = new Headers();
@@ -303,7 +308,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
           throw new Error('No artist data found');
         }
 
-        this.setArtistConnections(data.relatedArtists, data.graphData);
+        // this.setArtistConnections(data.relatedArtists, data.graphData);
 
         this.topArtistName = this.truncateText(data.stats.topArtistName, 9);
         this.topArtistImage = data.stats.topArtistImage;
@@ -321,7 +326,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
         }
 
         this.isLoading = false;
-        return data.graphData;
+        return data;
       })
       .catch(error => {
         console.error('Error fetching top artists:', error);
@@ -330,9 +335,53 @@ export class NetworkComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setArtistConnections(relatedArtistsById: { [key: string]: string[] }, artists: Artist[]): void {
-    this.artistConnections = { ...relatedArtistsById };
+  async getPlaylistData(playlistId: number): Promise<{ graphData: Artist[]; stats: any; relatedArtists: any }> {
+    this.isLoading = true;
+    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
+    const headers: Headers = new Headers();
+    headers.set('Authorization', 'Bearer ' + token);
+    const request: RequestInfo = new Request(`/api/playlist/${playlistId}/data`, {
+      method: 'GET',
+      headers: headers,
+    });
+    return fetch(request)
+      .then(response => response.json())
+      .then((data: { graphData: Artist[]; stats: any; relatedArtists: any }) => {
+        if (!data.graphData || data.graphData.length === 0) {
+          throw new Error('No playlist data found');
+        }
+
+        // this.setArtistConnections(data.relatedArtists, data.graphData);
+
+        this.topArtistName = this.truncateText(data.stats.topArtistName, 9);
+        this.topArtistImage = data.stats.topArtistImage;
+        this.topTrackName = this.truncateText(data.stats.topTrackByTopArtist.trackName, 25);
+        this.topTrackPreviewUrl = data.stats.topTrackByTopArtist.previewUrl;
+        this.topGenre = this.truncateText(data.stats.topGenre, 25);
+        this.averagePopularity = data.stats.averagePopularity;
+
+        if (data.stats.tasteCategory) {
+          this.tasteCategoryDetails = {
+            name: data.stats.tasteCategory.name,
+            colorDark: data.stats.tasteCategory.colorDark,
+            colorLight: data.stats.tasteCategory.colorLight,
+          };
+        }
+
+        this.isLoading = false;
+        console.log('Received Playlist Data: ', data);
+        return data;
+      })
+      .catch(error => {
+        console.error('Error fetching playlist data:', error);
+        this.isLoading = false;
+        throw error;
+      });
   }
+
+  // private setArtistConnections(relatedArtistsById: { [key: string]: string[] }, artists: Artist[]): void {
+  //   this.artistConnections = { ...relatedArtistsById };
+  // }
 
   truncateText(text: string, maxLength: number): string {
     return text.length > maxLength ? text.substring(0, maxLength) + '' : text;
@@ -393,50 +442,56 @@ export class NetworkComponent implements OnInit, OnDestroy {
       .catch(error => console.error('Error fetching user details:', error));
   }
 
-  toggleConnections(event?: Event): void {
-    const checkboxChecked = event ? (event.target as HTMLInputElement).checked : this.connectionsCheckbox.nativeElement.checked;
+  showConnections: boolean = false;
+
+  toggleConnections(event: any): void {
+    const isChecked = event.target.checked;
+    this.showConnections = isChecked;
+
+    // here i would call updaet graph instead to restart the simulation
 
     clearGraph(this.graphContainer.nativeElement);
-    this.renderGraphBasedOnConnections(checkboxChecked);
+    this.fetchAndRenderGraph(this.activeTab, isChecked);
   }
 
-  artistConnections: { [key: string]: string[] } = {
-    Future: ['Drake', '21 Savage'],
-    Drake: ['Future', 'J. Cole'],
-    'Neck Deep': ['blink-182'],
-    Metallica: ['Slipknot', 'Avenged Sevenfold'],
-    'J. Cole': ['Drake'],
-    Eminem: ['Dr. Dre'],
-  };
+  // async renderGraphBasedOnConnections(includeConnections: boolean): Promise<void> {
+  //   this.graphRendered = false;  // Reset before rendering
+  //   clearGraph(this.graphContainer.nativeElement);
+  //   try {
+  //     const containerWidth = this.graphContainer.nativeElement.offsetWidth;
+  //     const containerHeight = this.graphContainer.nativeElement.offsetHeight;
 
-  async renderGraphBasedOnConnections(includeConnections: boolean): Promise<void> {
+  //     const userImageUrl = await this.fetchUserImage();
+  //     const artistsData = await this.fetchTopArtists(this.timeRange);
+
+  //     const connections = includeConnections ? this.artistConnections : {};
+  //     const elements = getElements(artistsData, userImageUrl, connections);
+
+  //     renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
+  //     this.graphRendered = true;  // Set to true on successful render
+  //   } catch (error) {
+  //     console.error('Error rendering graph:', error);
+  //     this.graphRendered = false;  // Ensure it remains false on failure
+  //   }
+  // }
+
+  private async fetchAndRenderGraph(activeTab: String, includeConnections: boolean): Promise<void> {
     clearGraph(this.graphContainer.nativeElement);
     try {
       const containerWidth = this.graphContainer.nativeElement.offsetWidth;
       const containerHeight = this.graphContainer.nativeElement.offsetHeight;
-
       const userImageUrl = await this.fetchUserImage();
-      const artistsData = await this.fetchTopArtists(this.timeRange);
 
-      const connections = includeConnections ? this.artistConnections : {};
-      const elements = getElements(artistsData, userImageUrl, connections);
+      let artistsData: { graphData: Artist[]; stats: any; relatedArtists: any };
+      if (activeTab === 'topArtists') {
+        artistsData = await this.fetchTopArtists(this.timeRange);
+      } else {
+        artistsData = await this.getPlaylistData(this.selectedPlaylistId);
+      }
 
-      renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
-    } catch (error) {
-      console.error('Error rendering graph:', error);
-    }
-  }
+      console.log('artistsData.graphData:', artistsData.graphData); // Verify structure
+      const elements = getElements(artistsData.graphData, userImageUrl, includeConnections ? artistsData.relatedArtists : {});
 
-  private async fetchAndRenderGraph(timeRange: string, includeConnections: boolean = false): Promise<void> {
-    clearGraph(this.graphContainer.nativeElement);
-    try {
-      const containerWidth = this.graphContainer.nativeElement.offsetWidth;
-      const containerHeight = this.graphContainer.nativeElement.offsetHeight;
-
-      const userImageUrl = await this.fetchUserImage();
-      const artistsData = await this.fetchTopArtists(timeRange);
-
-      const elements = getElements(artistsData, userImageUrl, includeConnections ? this.artistConnections : {});
       this.animateScore(parseFloat(this.averagePopularity));
       renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
     } catch (error) {
