@@ -41,7 +41,7 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
     Song findSongBySpotifyId(String spotifyId);
 
     @Query(
-        value = "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName " +
+        value = "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName, A.ALBUM_RELEASE_DATE as albumReleaseDate " +
         "FROM SONG_TABLE S " +
         "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
         "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
@@ -50,8 +50,9 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
         "JOIN ARTISTS_TABLE AR ON RATA.ARTISTS_TABLE_ID = AR.ID " +
         "WHERE P.PLAYLIST_SPOTIFY_ID = :playlistId " +
         "UNION " +
-        "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName " +
+        "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName, A.ALBUM_RELEASE_DATE as albumReleaseDate " +
         "FROM SONG_TABLE S " +
+        "JOIN ALBUM_TABLE A ON S.SONG_ALBUM_ID = A.ALBUM_SPOTIFY_ID " +
         "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
         "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
         "JOIN SONG_ARTIST_TABLE SA ON S.ID = SA.SONG_ID " +
