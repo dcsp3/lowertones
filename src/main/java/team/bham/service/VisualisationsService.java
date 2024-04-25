@@ -1,6 +1,8 @@
 package team.bham.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
@@ -35,78 +37,155 @@ public class VisualisationsService {
         this.utilService = utilService;
     }
 
-    public VisualisationsDTO top5GenresInPlaylist(Authentication authentication, String playlistId) {
+    @Transactional
+    public VisualisationsDTO getVisualisations(Authentication authentication, String playlistId) {
         VisualisationsDTO dto = new VisualisationsDTO();
         List<Song> playlistSongs = utilService.getPlaylistSongs(playlistId);
-        List<Album> playlistAlbums = null;
+        List<Album> playlistAlbums = new ArrayList<>();
         for (int i = 0; i < playlistSongs.size(); i++) {
             playlistAlbums.add(playlistSongs.get(i).getAlbum());
         }
-        List<MainArtist> playlistArtists = null;
+        List<MainArtist> playlistArtists = new ArrayList<>();
         for (int i = 0; i < playlistAlbums.size(); i++) {
-            playlistAlbums.add(playlistSongs.get(i).getAlbum());
+            playlistArtists.addAll(playlistAlbums.get(i).getMainArtists());
         }
-        List<SpotifyGenreEntity> playlistGenreEntities = null;
+        List<SpotifyGenreEntity> playlistGenreEntities = new ArrayList<>();
         for (int i = 0; i < playlistArtists.size(); i++) {
             playlistGenreEntities.addAll(playlistArtists.get(i).getSpotifyGenreEntities());
         }
-        List<String> playlistGenres = null;
+        List<String> playlistGenres = new ArrayList<>();
         for (int i = 0; i < playlistGenreEntities.size(); i++) {
             playlistGenres.add(playlistGenreEntities.get(i).getSpotifyGenre());
         }
         System.out.println("playlistGenres" + playlistGenres);
-        List<String> topFive = findTopFiveFrequentStrings(playlistGenres);
+        Map<String, Integer> topFive = findTopFiveFrequentStrings(playlistGenres);
 
         int numOfSongs = playlistSongs.size();
+        topFive.forEach((k, v) -> System.out.println("Key: " + k + ", Value: " + v));
 
-        dto.setTopGenre1Name(topFive.get(0));
-        int topGenre1Count = Collections.frequency(playlistGenres, topFive.get(0));
-        dto.setTopGenre1Percent(topGenre1Count / numOfSongs);
+        List<Map.Entry<String, Integer>> entries = new ArrayList<>(topFive.entrySet());
+        for (int i = 0; i < entries.size(); i++) {
+            String genreName = entries.get(i).getKey();
+            int genreCount = entries.get(i).getValue();
+            switch (i) {
+                case 0:
+                    dto.setTopGenre1Name(genreName);
+                    dto.setTopGenre1Percent(genreCount / numOfSongs * 100);
+                    break;
+                case 1:
+                    dto.setTopGenre2Name(genreName);
+                    dto.setTopGenre2Percent(genreCount / numOfSongs * 100);
+                    break;
+                case 2:
+                    dto.setTopGenre3Name(genreName);
+                    dto.setTopGenre3Percent(genreCount / numOfSongs * 100);
+                    break;
+                case 3:
+                    dto.setTopGenre4Name(genreName);
+                    dto.setTopGenre4Percent(genreCount / numOfSongs * 100);
+                    break;
+                case 4:
+                    dto.setTopGenre5Name(genreName);
+                    dto.setTopGenre5Percent(genreCount / numOfSongs * 100);
+                    break;
+            }
+        }
 
-        dto.setTopGenre2Name(topFive.get(1));
-        int topGenre2Count = Collections.frequency(playlistGenres, topFive.get(1));
-        dto.setTopGenre2Percent(topGenre2Count / numOfSongs);
+        List<Map.Entry<String, Integer>> topArtists = findTopNArtistFrequencies(playlistArtists, 5);
+        for (int i = 0; i < topArtists.size(); i++) {
+            String artistName = topArtists.get(i).getKey();
+            int artistCount = topArtists.get(i).getValue();
+            switch (i) {
+                case 0:
+                    dto.setTopArtist1Name(artistName);
+                    dto.setTopArtist1Count(artistCount);
+                    break;
+                case 1:
+                    dto.setTopGenre2Name(artistName);
+                    dto.setTopGenre2Percent(artistCount);
+                    break;
+                case 2:
+                    dto.setTopGenre3Name(artistName);
+                    dto.setTopGenre3Percent(artistCount);
+                    break;
+                case 3:
+                    dto.setTopGenre4Name(artistName);
+                    dto.setTopGenre4Percent(artistCount);
+                    break;
+                case 4:
+                    dto.setTopGenre5Name(artistName);
+                    dto.setTopGenre5Percent(artistCount);
+                    break;
+            }
+        }
 
-        dto.setTopGenre3Name(topFive.get(2));
-        int topGenre3Count = Collections.frequency(playlistGenres, topFive.get(2));
-        dto.setTopGenre3Percent(topGenre3Count / numOfSongs);
+        float Avgpopularity = 0;
+        float AvgDanceability = 0;
+        float AvgEnergy = 0;
+        float AvgAcousticness = 0;
+        float AvgTempo = 0;
+        int numOfNonEmptySongs = 0;
 
-        dto.setTopGenre4Name(topFive.get(3));
-        int topGenre4Count = Collections.frequency(playlistGenres, topFive.get(0));
-        dto.setTopGenre4Percent(topGenre4Count / numOfSongs);
+        for (int i = 0; i < playlistSongs.size(); i++) {
+            if (playlistSongs.get(i).getSongAcousticness() != 0) {
+                AvgAcousticness += playlistSongs.get(i).getSongAcousticness();
+                AvgDanceability += playlistSongs.get(i).getSongDanceability();
+                AvgEnergy += playlistSongs.get(i).getSongEnergy();
+                Avgpopularity += playlistSongs.get(i).getSongPopularity();
+                AvgTempo += playlistSongs.get(i).getSongTempo();
+                numOfNonEmptySongs++;
+            }
+        }
 
-        dto.setTopGenre5Name(topFive.get(4));
-        int topGenre5Count = Collections.frequency(playlistGenres, topFive.get(0));
-        dto.setTopGenre5Percent(topGenre5Count / numOfSongs);
-
-        // still need to set the DTO with top 5 artists and their counts in the playlist
-        // would I return that data in a different DTO or different function?
-
+        dto.setAvgAcousticness(AvgAcousticness / numOfNonEmptySongs);
+        System.out.println("AvgAcousticness: " + AvgAcousticness / numOfNonEmptySongs);
+        dto.setAvgDanceability(AvgDanceability / numOfNonEmptySongs);
+        System.out.println("AvgDanceability: " + AvgDanceability / numOfNonEmptySongs);
+        dto.setAvgEnergy(AvgEnergy / numOfNonEmptySongs);
+        System.out.println("AvgEnergy: " + AvgEnergy / numOfNonEmptySongs);
+        dto.setAvgpopularity(Avgpopularity / numOfNonEmptySongs);
+        System.out.println("Avgpopularity: " + Avgpopularity / numOfNonEmptySongs);
+        dto.setAvgTempo(AvgTempo / numOfNonEmptySongs);
+        System.out.println("AvgTempo: " + AvgTempo / numOfNonEmptySongs);
+        dto.setNumOfSongs(numOfSongs);
+        System.out.println("NumOfSongs: " + numOfSongs);
         return dto;
     }
 
+    public static List<Map.Entry<String, Integer>> findTopNArtistFrequencies(List<MainArtist> artists, int topN) {
+        Map<String, Integer> frequencyMap = new HashMap<>();
+
+        for (MainArtist artist : artists) {
+            String name = artist.getArtistName();
+            frequencyMap.put(name, frequencyMap.getOrDefault(name, 0) + 1);
+        }
+
+        return frequencyMap
+            .entrySet()
+            .stream()
+            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+            .limit(topN)
+            .collect(Collectors.toList());
+    }
+
     // find top 5 genres method
-    public static List<String> findTopFiveFrequentStrings(List<String> inputList) {
+    public static Map<String, Integer> findTopFiveFrequentStrings(List<String> inputList) {
         Map<String, Integer> occurrences = new HashMap<>();
 
-        // Count occurrences of each string
         for (String str : inputList) {
             occurrences.put(str, occurrences.getOrDefault(str, 0) + 1);
         }
 
-        // Sort the map entries by value (occurrences)
         List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(occurrences.entrySet());
         sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        // Extract top 5 most frequent strings
-        List<String> topFive = new ArrayList<>();
+        Map<String, Integer> topFive = new LinkedHashMap<>();
         int count = 0;
         for (Map.Entry<String, Integer> entry : sortedEntries) {
-            topFive.add(entry.getKey());
+            topFive.put(entry.getKey(), entry.getValue());
             count++;
             if (count == 5) break;
         }
-
         return topFive;
     }
 

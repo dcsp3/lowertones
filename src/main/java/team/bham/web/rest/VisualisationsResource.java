@@ -22,9 +22,9 @@ public class VisualisationsResource {
         this.visualisationsService = visualisationsService;
     }
 
-    @GetMapping("/visualisations")
-    public ResponseEntity<VisualisationsDTO> getVisualisations(Authentication authentication) {
-        VisualisationsDTO response = visualisationsService.getShortTermArtists(authentication);
+    @PostMapping("/visualisations")
+    public ResponseEntity<VisualisationsDTO> getVisualisations(Authentication authentication, @RequestBody String playlistId) {
+        VisualisationsDTO response = visualisationsService.getVisualisations(authentication, playlistId);
         return ResponseEntity.ok().body(response);
     }
 }

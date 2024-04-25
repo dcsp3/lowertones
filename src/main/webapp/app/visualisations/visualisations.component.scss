@@ -5,29 +5,33 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
 }
 
 .dropdown {
-  background-color: darkgray;
-}
-
-.container {
-  width: 1400px;
-  height: 400px;
-  position: relative;
-  background-color: darkgray;
+  background-color: transparent !important;
 }
 
 .chart {
   width: 400px;
   height: 400px;
   text-align: center;
-  background-color: darkgray;
-  display: inline-block;
+  background-color: transparent;
   margin-right: 20px;
+  margin-top: 80px;
+}
+
+.chart-title {
+  margin-bottom: 15px;
+}
+
+.chart-title .title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
 }
 
 .chart-description {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 0px;
+  font-size: 18px;
 }

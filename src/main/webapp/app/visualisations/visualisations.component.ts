@@ -51,8 +51,9 @@ interface Playlist {
 export class VisualisationsService {
   private apiUrl = '/api/visualisations';
   constructor(private http: HttpClient) {}
-  getVisualisations(): Observable<VisualisationsDTO> {
-    return this.http.get<VisualisationsDTO>(this.apiUrl);
+
+  getVisualisations(playlistId: string): Observable<VisualisationsDTO> {
+    return this.http.post<VisualisationsDTO>(this.apiUrl, playlistId);
   }
 }
 
@@ -88,8 +89,12 @@ export class VisualisationsComponent implements OnInit {
 
   response?: VisualisationsDTO;
   ngOnInit() {
+    this.fetchPlaylists();
+  }
+
+  getVisualisations(arg: string) {
     console.log('Getting visualisation');
-    this.visualisationsService.getVisualisations().subscribe({
+    this.visualisationsService.getVisualisations(arg).subscribe({
       next: response => {
         console.log('Response:', response);
         if (response) {
@@ -98,13 +103,17 @@ export class VisualisationsComponent implements OnInit {
           this.createPieChart();
           this.createBarChart1();
           this.createBarChart2();
-          this.fetchPlaylists();
         }
       },
       error: error => {
         console.error('Error fetching visualisations:', error);
       },
     });
+  }
+
+  onScanTypeChange(event: any) {
+    console.log('Selected scan type:', event.value.value);
+    this.getVisualisations(event.value.value);
   }
 
   private createPieChart() {
