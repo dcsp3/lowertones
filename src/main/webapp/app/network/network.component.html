@@ -16,6 +16,7 @@
         (click)="setActiveTab('playlists')"
         [class.active]="activeTab === 'playlists'"
         [class.inactive]="activeTab !== 'topArtists'"
+        [disabled]="isLoading"
       >
         Playlists
       </button>
@@ -26,6 +27,7 @@
         [options]="playlists"
         [(ngModel)]="selectedPlaylistId"
         (onChange)="onPlaylistChange($event.value)"
+        [disabled]="isLoading"
         [filter]="true"
         [style]="{ width: '100%', 'min-width': '150px' }"
         styleClass="custom-dropdown"
@@ -47,14 +49,20 @@
     </div>
 
     <div *ngIf="activeTab === 'topArtists'" class="termButtons">
-      <button class="button" [class.selected]="timeRange === 'short-term'" (click)="changeTimeRange('short-term')">Last Month</button>
-      <button class="button" [class.selected]="timeRange === 'medium-term'" (click)="changeTimeRange('medium-term')">Last 6 Months</button>
-      <button class="button" [class.selected]="timeRange === 'long-term'" (click)="changeTimeRange('long-term')">Last Year</button>
+      <button class="button" [class.selected]="timeRange === 'short-term'" (click)="changeTimeRange('short-term')" [disabled]="isLoading">
+        Last Month
+      </button>
+      <button class="button" [class.selected]="timeRange === 'medium-term'" (click)="changeTimeRange('medium-term')" [disabled]="isLoading">
+        Last 6 Months
+      </button>
+      <button class="button" [class.selected]="timeRange === 'long-term'" (click)="changeTimeRange('long-term')" [disabled]="isLoading">
+        Last Year
+      </button>
     </div>
 
     <div class="showConnectionsCheckbox">
       <label class="switch">
-        <input type="checkbox" [(ngModel)]="showConnections" (change)="toggleConnections($event)" [disabled]="graphRendered" />
+        <input type="checkbox" [(ngModel)]="showConnections" (change)="toggleConnections($event)" [disabled]="isLoading" />
         <span class="slider round"></span>
       </label>
       <span id="showConnectionsText">Show Connections</span>
