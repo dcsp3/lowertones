@@ -1,6 +1,8 @@
 package team.bham.repository;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -23,5 +25,11 @@ public interface SongArtistJoinRepository extends JpaRepository<SongArtistJoin, 
     @Query(
         "SELECT sa.song FROM SongArtistJoin sa JOIN sa.song.playlistSongJoins psj WHERE psj.playlist.id = :playlistId AND sa.mainArtist.id = :artistId AND sa.song.songPopularity = (SELECT MAX(s.songPopularity) FROM Song s JOIN s.playlistSongJoins psj2 WHERE psj2.playlist.id = :playlistId AND EXISTS (SELECT saj FROM SongArtistJoin saj WHERE saj.song.id = s.id AND saj.mainArtist.id = :artistId))"
     )
-    Song findTopTrackByPopularArtistInPlaylist(@Param("artistId") Long artistId, @Param("playlistId") Long playlistId);
+    Page<Song> findTopTrackByPopularArtistInPlaylist(
+        @Param("artistId") Long artistId,
+        @Param("playlistId") Long playlistId,
+        Pageable pageable
+    );
+    // Again, use Pageable to limit results
+
 }

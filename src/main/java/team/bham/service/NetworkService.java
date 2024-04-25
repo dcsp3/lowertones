@@ -370,7 +370,10 @@ public class NetworkService {
         int count = 0;
 
         for (MainArtist artist : artists) {
-            double distance = minDistance + ((double) (maxDistance - minDistance) / (artists.size() - 1)) * (count + 1);
+            double distance = minDistance;
+            if (artists.size() > 1) {
+                distance += ((double) (maxDistance - minDistance) / (artists.size() - 1)) * count;
+            }
 
             JSONObject jsonArtist = new JSONObject();
             jsonArtist.put("id", artist.getArtistSpotifyID());
@@ -412,7 +415,10 @@ public class NetworkService {
             stats.put("topArtistName", mostPopularArtist.getArtistName());
             stats.put("topArtistImage", mostPopularArtist.getArtistImageLarge());
 
-            Song topTrack = songArtistJoinRepository.findTopTrackByPopularArtistInPlaylist(artistId, playlistId);
+            Song topTrack = songArtistJoinRepository
+                .findTopTrackByPopularArtistInPlaylist(artistId, playlistId, PageRequest.of(0, 1))
+                .getContent()
+                .get(0);
             if (topTrack != null) {
                 JSONObject topTrackByTopArtist = new JSONObject();
                 topTrackByTopArtist.put("previewUrl", topTrack.getSongPreviewURL());
