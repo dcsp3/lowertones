@@ -334,6 +334,12 @@ export class TableviewComponent implements OnInit {
             image: image,
           };
         });
+
+        // Check if there are any playlists and set the first one as selected
+        if (this.playlists.length > 0) {
+          this.selectedPlaylist = this.playlists[0];
+          this.getPlaylistData();
+        }
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);

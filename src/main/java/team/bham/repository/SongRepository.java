@@ -61,17 +61,16 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
         nativeQuery = true
     )
     List<SongWithArtistName> findSongsByPlaylistId(@Param("playlistId") String playlistId);
-    /* 
-    @Query("SELECT s FROM Song s " +
-        "JOIN FETCH s.album a " +
-        "LEFT JOIN FETCH a.mainArtists " +
-        "WHERE s.id = :songId")
-    Optional<Song> findSongWithAlbumAndArtistsById(@Param("songId") Long songId);
 
-    @Query("SELECT s FROM Song s " +
-        "JOIN FETCH s.album a " +
-        "LEFT JOIN FETCH a.mainArtists " +
-        "WHERE a.id = :albumId")
-    List<Song> findSongsWithAlbumAndArtistsByAlbumId(@Param("albumId") Long albumId);
-*/
+    @Query(
+        value = "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, C.NAME as contributorName, C.ROLE as contributorRole, C.INSTRUMENT as contributorInstrument " +
+        "FROM SONG_TABLE S " +
+        "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
+        "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
+        "JOIN REL_SONG_TABLE__CONTRIBUTOR RSTC ON S.ID = RSTC.SONG_TABLE_ID " +
+        "JOIN CONTRIBUTOR C ON RSTC.CONTRIBUTOR_ID = C.ID " +
+        "WHERE P.PLAYLIST_SPOTIFY_ID = :playlistId AND (S.SONG_TITLE <> '' AND S.SONG_DURATION <> 0);",
+        nativeQuery = true
+    )
+    List<SongWithCollaborators> findSongsCollaboratorsByPlaylistId(@Param("playlistId") String playlistId);
 }

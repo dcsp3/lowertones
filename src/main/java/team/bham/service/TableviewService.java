@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONArray;
@@ -56,6 +55,7 @@ import team.bham.repository.RelatedArtistsRepository;
 import team.bham.repository.SongArtistJoinRepository;
 import team.bham.repository.SongRepository;
 import team.bham.repository.SongWithArtistName;
+import team.bham.repository.SongWithCollaborators;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
@@ -135,16 +135,13 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        System.out.println("\n\n\n\n\n\n\n\n");
-        System.out.println("before the big");
-        System.out.println("\n\n\n\n\n\n\n\n");
-
-        // List<Song> songs = utilService.getPlaylistSongs(playlistId);
         List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
+        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
 
-        System.out.println("\n\n\n\n\n\n\n\n");
-        System.out.println(songs.get(0).getAlbumReleaseDate());
-        System.out.println("\n\n\n\n\n\n\n\n");
+        // Group collaborators by spotifyId
+        Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
+            .stream()
+            .collect(Collectors.groupingBy(SongWithCollaborators::getSongSpotifyId));
 
         List<Map<String, Object>> songInfo = songs
             .stream()
@@ -153,7 +150,6 @@ public class TableviewService {
                 info.put("spotifyId", song.getSongSpotifyId());
                 info.put("title", song.getSongTitle());
                 info.put("artist", song.getArtistName());
-                // info.put("contributor", song.());
                 info.put("length", song.getSongDuration());
                 info.put("explicit", song.getSongExplicit());
                 info.put("popularity", song.getSongPopularity());
@@ -167,6 +163,24 @@ public class TableviewService {
                 info.put("speechiness", song.getSongSpeechiness());
                 info.put("valence", song.getSongValence());
                 info.put("tempo", song.getSongTempo());
+
+                if (collaboratorMap.containsKey(song.getSongSpotifyId())) {
+                    List<SongWithCollaborators> collaborators = collaboratorMap.get(song.getSongSpotifyId());
+                    List<String> names = collaborators.stream().map(SongWithCollaborators::getContributorName).collect(Collectors.toList());
+                    List<String> roles = collaborators.stream().map(SongWithCollaborators::getContributorRole).collect(Collectors.toList());
+                    List<String> instruments = collaborators
+                        .stream()
+                        .map(SongWithCollaborators::getContributorInstrument)
+                        .collect(Collectors.toList());
+
+                    info.put("contributorNames", names);
+                    info.put("contributorRoles", roles);
+                    info.put("contributorInstruments", instruments);
+
+                    System.out.println("\n\n\n\n\n\n\n");
+                    System.out.println(names);
+                    System.out.println("\n\n\n\n\n\n\n");
+                }
 
                 return info;
             })
