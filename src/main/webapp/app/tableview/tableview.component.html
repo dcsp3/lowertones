@@ -235,8 +235,25 @@
             <span *ngIf="option.value === 'staging'">{{ option.label }} ({{ selectedSongCount }})</span>
           </ng-template>
         </p-selectButton>
+        <button pButton type="button" label="Export.." icon="pi pi-file-export" (click)="showExportPopup()"></button>
       </p-toolbar>
     </div>
+
+    <p-dialog
+      [showHeader]="false"
+      [(visible)]="exportPopupVisible"
+      [modal]="true"
+      [responsive]="true"
+      [dismissableMask]="true"
+      (onHide)="resetExportNameError()"
+    >
+      <div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem">
+        <input type="text" id="exportName" pInputText [(ngModel)]="exportName" placeholder="Enter playlist name..." />
+        <small *ngIf="exportNameError" style="color: red">Enter a playlist name.</small>
+        <small *ngIf="exportItemsError" style="color: red">Select at least one song to export.</small>
+        <button pButton type="button" label="Export to Spotify" class="spotify-export-button" (click)="exportStagingPlaylist()"></button>
+      </div>
+    </p-dialog>
 
     <div class="table-div">
       <!-- currentPageReportTemplate="Showing {first} to {{ getNumberOfLastEntry() }} of {{ countSongsNoPlaceholder(filteredSongData) }} entries" -->
