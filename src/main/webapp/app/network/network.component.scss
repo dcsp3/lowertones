@@ -120,8 +120,16 @@
   color: white;
 }
 
-:host ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
-  background-color: #f7f7f7;
+:host ::ng-deep .p-dropdown-panel .p-dropdown-header {
+  padding: 2px;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-filter {
+  background-color: #5f5c72;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  background-color: #5f5c72;
   color: black;
 }
 

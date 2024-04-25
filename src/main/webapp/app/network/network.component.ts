@@ -59,29 +59,29 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.fetchAndRenderGraph(this.activeTab, this.showConnections);
     } else {
       this.fetchAndRenderGraph(this.activeTab, this.showConnections);
-      this.displayGraphPlaceholder = false;
+      // this.displayGraphPlaceholder = false;
     }
   }
 
-  private clearAllStats(): void {
-    this.topArtistName = '';
-    this.topArtistImage = '';
-    this.topTrackName = '';
-    this.topTrackPreviewUrl = '';
-    this.topGenre = '';
-    this.averagePopularity = '';
-    this.tasteCategoryDetails = null;
+  // private clearAllStats(): void {
+  //   this.topArtistName = '';
+  //   this.topArtistImage = '';
+  //   this.topTrackName = '';
+  //   this.topTrackPreviewUrl = '';
+  //   this.topGenre = '';
+  //   this.averagePopularity = '';
+  //   this.tasteCategoryDetails = null;
 
-    this.displayScore = '0.00';
-    this.isPlaying = false;
-  }
+  //   this.displayScore = '0.00';
+  //   this.isPlaying = false;
+  // }
 
-  displayGraphPlaceholder: boolean = false;
+  // displayGraphPlaceholder: boolean = false;
 
-  private clearGraphAndShowPlaceholder(): void {
-    clearGraph(this.graphContainer.nativeElement);
-    this.displayGraphPlaceholder = true;
-  }
+  // private clearGraphAndShowPlaceholder(): void {
+  //   clearGraph(this.graphContainer.nativeElement);
+  //   this.displayGraphPlaceholder = true;
+  // }
 
   playlists: any[] = [];
   selectedPlaylist: string = '';
@@ -157,13 +157,15 @@ export class NetworkComponent implements OnInit, OnDestroy {
       this.selectedPlaylistId = playlistId;
       this.selectedPlaylist = this.playlists.find(p => p.value === playlistId)?.label || '';
 
-      this.displayGraphPlaceholder = false;
+      // find playlist image here w/ api call
+
+      // this.displayGraphPlaceholder = false;
       this.stopAudio();
       this.fetchAndRenderGraph(this.activeTab, this.showConnections);
     } else {
       this.selectedPlaylistId = 0;
       this.selectedPlaylist = 'Select a playlist';
-      this.displayGraphPlaceholder = true;
+      // this.displayGraphPlaceholder = true;
       clearGraph(this.graphContainer.nativeElement);
     }
   }
