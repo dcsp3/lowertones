@@ -117,7 +117,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
         );
       }
     });
-    this.startScrapingProcess();
+    this.accountService.getAuthenticationState().subscribe(account => {
+      this.account = account;
+      if (account) {
+        console.log('User is authenticated, starting scraping process.');
+        this.startScrapingProcess();
+      } else {
+        console.log('User is not authenticated.');
+      }
+    });
   }
 
   checkScrapingStatus() {
