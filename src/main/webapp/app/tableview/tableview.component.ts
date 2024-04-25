@@ -339,25 +339,12 @@ export class TableviewComponent implements OnInit {
     });
   }
 
-  /*
-   genSongList(): void {
-    const token = sessionStorage.getItem('jhi-authenticationToken')?.slice(1, -1);
-    const headers: Headers = new Headers();
-    headers.set('Authorization', 'Bearer ' + token);
-    const request: RequestInfo = new Request('/api/top-playlist', {
-      method: 'GET',
-      headers: headers,
-    });
-
-    const response = fetch(request);
-    const jsonData = response.then(response => response.json());
-    jsonData.then(data => {
-      this.jsonBlob = data;
-      console.log(data);
-      this.fillSongTable();
-    });
+  formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
   }
-  */
 
   genSongList(): void {
     this.loadingSongs = true;
@@ -374,7 +361,7 @@ export class TableviewComponent implements OnInit {
           title: songEntry.title,
           artist: songEntry.artist,
           contributor: 'contributor',
-          length: songEntry.length,
+          length: this.formatTime(songEntry.length),
           explicit: songEntry.explicit,
           popularity: songEntry.popularity,
           release: 'N/A',
@@ -403,56 +390,4 @@ export class TableviewComponent implements OnInit {
       },
     });
   }
-  /*
-  fillSongTable(): void {
-    const numTracks = this.jsonBlob.tracks.length;
-    for (let i = 0; i < numTracks; i++) {
-      let songEntry: SongEntry = {
-        placeholder: true,
-        title: 'lorem',
-        artist: 'ipsum',
-        contributor: 'contributor',
-        length: 'sdfss',
-        explicit: false,
-        popularity: 0,
-        release: 'N/A',
-        acousticness: 0,
-        danceability: 0,
-        instrumentalness: 0,
-        energy: 0,
-        liveness: 0,
-        loudness: 0,
-        speechiness: 0,
-        valence: 0,
-        tempo: 0,
-      };
-
-      songEntry.placeholder = false;
-      songEntry.title = this.jsonBlob.tracks[i].name;
-      songEntry.artist = this.jsonBlob.tracks[i].artist.name;
-      songEntry.explicit = this.jsonBlob.tracks[i].explicit;
-      songEntry.popularity = this.jsonBlob.tracks[i].popularity;
-      songEntry.release = this.jsonBlob.tracks[i].album.releaseDate;
-      songEntry.acousticness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.acousticness * 100);
-      songEntry.danceability = this.truncate(this.jsonBlob.tracks[i].audioFeatures.danceability * 100);
-      songEntry.instrumentalness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.instrumentalness * 100);
-      songEntry.energy = this.truncate(this.jsonBlob.tracks[i].audioFeatures.energy * 100);
-      songEntry.liveness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.liveness * 100);
-      songEntry.loudness = this.jsonBlob.tracks[i].audioFeatures.loudness;
-      songEntry.speechiness = this.truncate(this.jsonBlob.tracks[i].audioFeatures.speechiness * 100);
-      songEntry.valence = this.truncate(this.jsonBlob.tracks[i].audioFeatures.valence * 100);
-      songEntry.tempo = this.jsonBlob.tracks[i].audioFeatures.tempo;
-
-      //handle length
-      let length = this.jsonBlob.tracks[i].duration;
-      const lenFormatted = new Date(length).toISOString().substr(11, 8);
-      songEntry.length = lenFormatted;
-
-      this.songData[i] = songEntry;
-    }
-
-    this.songData = this.songData.slice(0, numTracks);
-    this.applySearch();
-    this.loadingSongs = false;
-  }*/
 }
