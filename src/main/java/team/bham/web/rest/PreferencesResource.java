@@ -48,12 +48,18 @@ public class PreferencesResource {
         return ResponseEntity.ok(appUser.getHighContrastMode());
     }
 
+    @PostMapping("/account/preferences/textSize")
+    public ResponseEntity<Number> getTextSize(Authentication authentication) {
+        appUser = preferencesService.getAppUser(authentication);
+        return ResponseEntity.ok(appUser.getTextSize());
+    }
+
     @PostMapping("/account/preferences/{login}")
     public ResponseEntity<Void> signOutAllDevices(
         @PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login,
         Authentication authentication
     ) {
-        log.debug("REST request to delete User: {}", login);
+        log.debug("REST request to invalidate tokens of User: {}", login);
         tokenProvider.invalidateAllTokensForUser(login);
         return ResponseEntity.ok().build();
     }

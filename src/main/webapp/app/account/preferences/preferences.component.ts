@@ -8,6 +8,7 @@ import { AppUserFormService, AppUserFormGroup } from 'app/entities/app-user/upda
 import { IAppUser } from 'app/entities/app-user/app-user.model';
 import { Router } from '@angular/router';
 import { LoginService } from 'app/login/login.service';
+import { MainComponent } from 'app/layouts/main/main.component';
 
 const initialAccount: Account = {} as Account;
 
@@ -21,7 +22,7 @@ export class PreferencesComponent implements OnInit {
   login = ''; // This user's name (unique and shared between user/appuser)
   appUserForm: AppUserFormGroup | undefined;
   appUser: IAppUser | undefined;
-  elementsToStyle = ['.container', '.text-container', '.navbar', '.footer'];
+  highContrastElements = ['.container', '.text-container', '.navbar', '.footer'];
 
   constructor(
     private accountService: AccountService,
@@ -29,7 +30,8 @@ export class PreferencesComponent implements OnInit {
     private appUserService: AppUserService,
     private preferencesService: PreferencesService,
     private router: Router,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private mainComponent: MainComponent
   ) {}
 
   ngOnInit(): void {
@@ -47,27 +49,6 @@ export class PreferencesComponent implements OnInit {
     });
   }
 
-  private checkHighContrast(): void {
-    this.preferencesService.getHighContrast().subscribe(
-      highContrast => {
-        this.elementsToStyle.forEach(selector => {
-          // Apply to navbar and footer immediately
-          const element = document.querySelector(selector);
-          if (highContrast) {
-            element?.classList.add('highContrast');
-            console.log('High contrast applied to ' + selector);
-          } else {
-            element?.classList.remove('highContrast');
-            console.log('High contrast removed from ' + selector);
-          }
-        });
-      },
-      error => {
-        console.error('Error retrieving high contrast mode:', error);
-      }
-    );
-  }
-
   userForm = new FormGroup({
     email: new FormControl(initialAccount.email, {
       nonNullable: true,
@@ -83,7 +64,6 @@ export class PreferencesComponent implements OnInit {
       this.preferencesService.updateEmail(email).subscribe(
         () => {
           this.success = true;
-          console.log('Email updated!');
         },
         error => {
           console.error('Error updating email:', error);
@@ -103,13 +83,11 @@ export class PreferencesComponent implements OnInit {
 
   savePreferences(): void {
     // Update this app user based on the app user form input
-
     const updatedAppUser = this.appUserForm?.getRawValue(); // Get the updated appUser form value
-    if (updatedAppUser?.id != null && this.appUserForm) {
+    if (updatedAppUser?.id && this.appUserForm) {
       this.appUserService.update(updatedAppUser as IAppUser).subscribe(
         () => {
-          console.log('Preferences saved successfully!');
-          this.checkHighContrast();
+          this.mainComponent.applyPreferences();
         },
         error => {
           console.error('Error saving preferences:', error);
@@ -123,7 +101,6 @@ export class PreferencesComponent implements OnInit {
     if (confirmation) {
       this.preferencesService.signOutAllDevices(this.login).subscribe(
         () => {
-          console.log('Successfully signed out of all devices.');
           this.loginService.logout();
           this.router.navigateByUrl('/'); // Redirect to the home page
         },
@@ -139,9 +116,7 @@ export class PreferencesComponent implements OnInit {
     const confirmation = confirm('Are you sure you want to delete your account? This action cannot be undone.');
     if (confirmation && this.login != 'admin') {
       this.preferencesService.deleteCurrentUser(this.login).subscribe(
-        //
         () => {
-          console.log('Account deleted');
           this.loginService.logout();
           this.router.navigateByUrl('/'); // Redirect to the home page
         },

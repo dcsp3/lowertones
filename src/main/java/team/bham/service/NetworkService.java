@@ -346,7 +346,7 @@ public class NetworkService {
         return ResponseEntity.ok().body(playlistInfo);
     }
 
-    public JSONObject getArtistsDetailsFromPlaylist(AppUser appUser, Long playlistId) {
+    public JSONArray getArtistsDetailsFromPlaylist(AppUser appUser, Long playlistId) {
         List<MainArtist> artists = mainArtistRepository.findArtistDetailsByPlaylistId(playlistId);
 
         double minDistance = 100.0;
@@ -384,9 +384,7 @@ public class NetworkService {
             count++;
         }
 
-        JSONObject graphData = new JSONObject();
-        graphData.put("artists", jsonArtistsArray);
-        return graphData;
+        return jsonArtistsArray;
     }
 
     private String getImageUrl(MainArtist artist) {
@@ -458,9 +456,7 @@ public class NetworkService {
 
         try {
             JSONObject stats = calculatePlaylistStats(playlistId);
-            JSONObject graphData = getArtistsDetailsFromPlaylist(appUser, playlistId);
-
-            JSONArray artistsArray = graphData.getJSONArray("artists");
+            JSONArray artistsArray = getArtistsDetailsFromPlaylist(appUser, playlistId);
             Set<String> artistSpotifyIds = new HashSet<>();
             for (int i = 0; i < artistsArray.length(); i++) {
                 JSONObject artist = artistsArray.getJSONObject(i);
@@ -473,7 +469,7 @@ public class NetworkService {
 
             JSONObject result = new JSONObject();
             result.put("stats", stats);
-            result.put("graphData", graphData);
+            result.put("graphData", artistsArray);
             result.put("relatedArtists", relatedArtistsJson);
 
             return new ResponseEntity<>(result.toString(), HttpStatus.OK);

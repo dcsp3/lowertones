@@ -11,14 +11,13 @@ import { AccountService } from 'app/core/auth/account.service';
 })
 export class MainComponent implements OnInit {
   // Define the list of all CSS selectors representing elements to style
-  elementsToStyle: string[] = ['.navbar', '.footer', '.container', '.text-container', '.card'];
+  highContrastElements: string[] = ['.navbar', '.footer', '.container', '.text-container', '.card'];
 
   constructor(
     private accountService: AccountService,
     private titleService: Title,
     private router: Router,
-    private preferencesService: PreferencesService,
-    private renderer: Renderer2
+    private preferencesService: PreferencesService
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +30,7 @@ export class MainComponent implements OnInit {
       }
     });
 
-    this.checkHighContrast();
+    this.applyPreferences(); //ALSO SCALES NAVBAR, NEED TO STOP THIS
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
@@ -48,14 +47,13 @@ export class MainComponent implements OnInit {
       pageTitle = 'Teamproject';
     }
     this.titleService.setTitle(pageTitle);
-    this.checkHighContrast();
+    this.applyPreferences();
   }
 
-  private checkHighContrast(): void {
+  public applyPreferences(): void {
     // Apply or remove high contrast to the CSS of the current page
     this.preferencesService.getHighContrast().subscribe(
       highContrast => {
-        // Apply or remove highContrast class to the body element based on the condition
         if (highContrast) {
           this.applyHighContrast();
         } else {
@@ -66,25 +64,64 @@ export class MainComponent implements OnInit {
         this.removeHighContrast();
       }
     );
+
+    this.preferencesService.getTextSize().subscribe(
+      textSize => {
+        this.applyTextSize(textSize);
+      },
+      error => {
+        console.error('Error retrieving text size preference:', error);
+      }
+    );
   }
 
   private applyHighContrast(): void {
-    this.elementsToStyle.forEach(selector => {
+    this.highContrastElements.forEach(selector => {
       const element = document.querySelector(selector);
       if (element) {
         element.classList.add('highContrast');
       }
     });
-    console.log('Applied high contrast');
   }
 
   private removeHighContrast(): void {
-    this.elementsToStyle.forEach(selector => {
+    this.highContrastElements.forEach(selector => {
       const element = document.querySelector(selector);
       if (element) {
         element.classList.remove('highContrast');
       }
     });
-    console.log('Removed high contrast');
+  }
+
+  public applyTextSize(textSize: number): void {
+    const scalingFactors: { [key: number]: number } = { 0: 1.0, 100: 1.0, 115: 1.05, 125: 1.13 };
+    const scalingFactor = scalingFactors[textSize] || 1.0; // Default to 100% scaling if size not found
+    const allElements = document.querySelectorAll('*'); // Get all elements in the DOM
+
+    // Filter elements that have a font-size property
+    const elementsWithFontSize = Array.from(allElements).filter(element => {
+      const computedStyle = window.getComputedStyle(element);
+      return computedStyle.getPropertyValue('font-size') !== '';
+    });
+
+    elementsWithFontSize.forEach(element => {
+      (element as HTMLElement).style.fontSize = ''; // Revert font size to default
+    });
+
+    elementsWithFontSize.forEach(element => {
+      // Loop through each element and scale its font size
+      const computedStyle = window.getComputedStyle(element); // Get the computed style of the element
+      const fontSizeString = computedStyle.getPropertyValue('font-size'); // Get the font size as a string
+      const currentFontSize = parseFloat(fontSizeString); // Parse the font size string to a number
+
+      if (!isNaN(currentFontSize)) {
+        // Check if the font size is a valid number
+        // Check if the element or its parent belongs to the navbar
+        if (!element.closest('.navbar')) {
+          const newFontSize = currentFontSize * scalingFactor; // Calculate the new font size
+          (element as HTMLElement).style.fontSize = newFontSize + 'px'; // Apply the new font size to the element
+        }
+      }
+    });
   }
 }

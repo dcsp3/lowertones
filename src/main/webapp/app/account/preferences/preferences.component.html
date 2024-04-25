@@ -30,7 +30,9 @@
       <div class="preferenceTitle">
         <label>Text size</label>
         <select id="dropdown" class="custom-dropdown" formControlName="textSize" (change)="savePreferences()">
-          <option value="100" [selected]="appUserForm.get('textSize')?.value === 100">Normal</option>
+          <option value="100" [selected]="appUserForm.get('textSize')?.value === 100 || appUserForm.get('textSize')?.value === 0">
+            Normal
+          </option>
           <option value="115" [selected]="appUserForm.get('textSize')?.value === 115">Large</option>
           <option value="125" [selected]="appUserForm.get('textSize')?.value === 125">Extra Large</option>
         </select>
