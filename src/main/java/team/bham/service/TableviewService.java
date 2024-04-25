@@ -176,10 +176,16 @@ public class TableviewService {
                     info.put("contributorNames", names);
                     info.put("contributorRoles", roles);
                     info.put("contributorInstruments", instruments);
+                    info.put("contributor", true);
 
                     System.out.println("\n\n\n\n\n\n\n");
                     System.out.println(names);
                     System.out.println("\n\n\n\n\n\n\n");
+                } else {
+                    info.put("contributorNames", new String[0]);
+                    info.put("contributorRoles", new String[0]);
+                    info.put("contributorInstruments", new String[0]);
+                    info.put("contributor", false);
                 }
 
                 return info;
