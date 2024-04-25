@@ -225,7 +225,7 @@ function updateGraph(node: any, link: any, label: any, width: number, height: nu
       let topPosition;
 
       if (d.y >= height / 2) {
-        topPosition = d.y - radius - cardHeight;
+        topPosition = d.y - 1.75 * radius - cardHeight;
       } else {
         topPosition = d.y + cardHeight / 2;
       }
