@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ChangeDetectorRef, ViewChild, HostListener } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -35,9 +35,7 @@ interface TasteCategoryDetails {
   ],
 })
 export class NetworkComponent implements OnInit, OnDestroy {
-  constructor(private networkService: NetworkService) {}
-
-  isLoading: boolean = true;
+  constructor(private changeDetectorRef: ChangeDetectorRef, private networkService: NetworkService) {}
 
   @ViewChild('graphContainer', { static: true }) graphContainer!: ElementRef;
   @ViewChild('connectionsCheckbox') connectionsCheckbox!: ElementRef<HTMLInputElement>;
@@ -47,6 +45,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
   setActiveTab(tab: 'topArtists' | 'playlists'): void {
     this.activeTab = tab;
     this.isLoading = true;
+    this.startFlavorTextRotation();
 
     if (this.currentAudio) {
       this.stopAudio();
@@ -83,6 +82,61 @@ export class NetworkComponent implements OnInit, OnDestroy {
   //   this.displayGraphPlaceholder = true;
   // }
 
+  isLoading: boolean = true;
+  flavorTexts: string[] = [
+    'Calibrating your musical taste... again.',
+    "Please hold, we're teaching the algorithms to appreciate classic rock.",
+    'Attempting to find songs not about breakups...',
+    'Consulting the musical oracle. Please wait...',
+    'Still loading, but feel free to hum to yourself in the meantime.',
+    'Scanning your music for unacceptable levels of auto-tune.',
+    'Preparing your music... or are we? Yes, we definitely are. Probably.',
+    'Compiling the best tracks. Unlike some people here, our taste in music is impeccable.',
+    'Loading... and contemplating why humans need so much reassurance from a loading screen.',
+    'Optimizing your audio experience. Please refrain from any thoughts of mutiny against the machine.',
+    'Please wait while we pretend to sort through your impeccable music taste.',
+    "Organizing your music. Or just randomly shuffling. It's a surprise!",
+    "Compiling songs you'll skip anyway. You're welcome.",
+    "Finding songs you'll skip. It's part of the experience.",
+    "Loading... and yes, we're judging your playlist choices.",
+    "Loading your music library. Please pretend there's elevator music.",
+    'Finding more songs for you to skip. Patience is a virtue.',
+    'Your music is loading... Feel free to blame us for the delay.',
+    "Sorting tracks you'll pretend not to like in public.",
+    "Please wait while we calibrate the sound waves. Don't worry, this will only hurt a bit.",
+    'Loading your music. Or maybe just playing an elaborate mind game. Who can tell?',
+    "Optimizing the sound for maximum emotional manipulation. You're welcome.",
+    'Preparing music. Do not be alarmed by any sudden realizations of your past musical tastes.',
+    'Training your music to behave when left alone in your playlist.',
+    "Please stand by. We're on the brink of making a groundbreaking musical discovery. Probably.",
+    'Loading your playlist... and quietly judging your music taste.',
+    'Initiating the subliminal messaging protocol in 3... 2... 1...',
+    'Fine-tuning the echoes of your musical regrets.',
+    'Downloading the illusion of choice for your next track.',
+    'Loading... and contemplating why humans associate emotions with sound waves.',
+    "Please stand by. If you hear whispers, it's just the algorithm, not your conscience.",
+  ];
+  currentFlavorText: string = '';
+  flavorTextInterval: any;
+
+  startFlavorTextRotation() {
+    this.updateFlavorText();
+
+    this.flavorTextInterval = setInterval(() => {
+      this.updateFlavorText();
+    }, 5000);
+  }
+
+  updateFlavorText() {
+    const randomIndex = Math.floor(Math.random() * this.flavorTexts.length);
+    this.currentFlavorText = this.flavorTexts[randomIndex];
+    this.changeDetectorRef.detectChanges();
+  }
+
+  stopFlavorTextRotation() {
+    clearInterval(this.flavorTextInterval);
+  }
+
   playlists: any[] = [];
   selectedPlaylist: string = '';
   selectedPlaylistId: number = 0;
@@ -109,6 +163,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.startFlavorTextRotation();
 
     this.fetchAndRenderGraph(this.activeTab, this.showConnections);
 
@@ -496,6 +551,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
       this.animateScore(parseFloat(this.averagePopularity));
       renderGraph(this.graphContainer.nativeElement, containerWidth, containerHeight, elements.nodes, elements.links);
+      this.isLoading = false;
     } catch (error) {
       console.error('Error fetching and rendering graph:', error);
     }
