@@ -270,7 +270,7 @@
     padding: 1.4vh 0.8vh !important;
   }
   .p-datatable .p-datatable-tbody > tr > td {
-    padding: 0.5rem 0.8rem !important;
+    padding: 0.5vh 0.7vh !important;
   }
   .p-datatable > .p-datatable-wrapper {
     border-top-left-radius: 4px;
@@ -313,11 +313,12 @@
     font-size: 1.757vh !important;
   }
 
-  .p-tag {
-    padding: 0vh 0.35vw;
-  }
   .p-tag-value {
     font-weight: 600 !important;
+  }
+
+  .contributorButton > button {
+    padding: 0vh 0.4vw;
   }
 }
 
@@ -325,6 +326,12 @@
   .p-tooltip {
     max-width: fit-content;
     font-size: 1.757vh;
+  }
+  div.p-overlaypanel-content {
+    padding: 1vh 1vw !important;
+  }
+  .p-tag {
+    margin: 0.5vh 0.2vw;
   }
 }
 
@@ -365,7 +372,7 @@
   width: 10%;
 }
 .colcontributor {
-  width: 5%;
+  width: 0%;
 }
 .colsmall {
   width: 0%;
@@ -405,8 +412,4 @@
   font-size: 1.65vh;
   color: rgba(179, 220, 250, 0.75);
   user-select: none;
-}
-
-.contributorButton > button {
-  height: 2px;
 }
