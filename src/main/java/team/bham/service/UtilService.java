@@ -91,7 +91,9 @@ public class UtilService {
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
         for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
-            playlistSongsSet.add(playlistSongJoin.getSong());
+            if (playlistSongJoin.getSongDateAdded().isAfter(startDate) && playlistSongJoin.getSongDateAdded().isBefore(endDate)) {
+                playlistSongsSet.add(playlistSongJoin.getSong());
+            }
         }
         List<Song> entireLibrarySongsList = new ArrayList<>(playlistSongsSet);
         return entireLibrarySongsList;
@@ -120,7 +122,9 @@ public class UtilService {
             playlistSongJoins.addAll(userPlaylists.get(i).getPlaylistSongJoins());
         }
         for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
-            entireLibrarySongsSet.add(playlistSongJoin.getSong());
+            if (playlistSongJoin.getSongDateAdded().isAfter(startDate) && playlistSongJoin.getSongDateAdded().isBefore(endDate)) {
+                entireLibrarySongsSet.add(playlistSongJoin.getSong());
+            }
         }
         List<Song> entireLibrarySongsList = new ArrayList<>(entireLibrarySongsSet);
         return entireLibrarySongsList;

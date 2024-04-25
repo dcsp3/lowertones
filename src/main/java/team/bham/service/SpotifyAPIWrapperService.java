@@ -202,7 +202,6 @@ public class SpotifyAPIWrapperService {
                     try {
                         ZonedDateTime zonedDateTime = ZonedDateTime.parse(addedDateString, formatter);
                         dateAdded = zonedDateTime.toLocalDate();
-                        // Now you can use dateAdded as a LocalDate object
                     } catch (DateTimeParseException e) {
                         System.err.println("Error parsing date: " + addedDateString);
                         e.printStackTrace();

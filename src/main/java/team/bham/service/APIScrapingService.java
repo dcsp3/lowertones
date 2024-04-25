@@ -247,8 +247,7 @@ public class APIScrapingService {
                 playlistSongJoin.setPlaylist(playlist);
                 playlistSongJoin.setSong(s);
                 playlistSongJoin.setSongOrderIndex(i); //tracks in SpotifyPlaylist obj *should* be in correct order
-                System.out.println("date added: " + track.getDateAdded());
-                playlistSongJoin.setSongDateAdded(LocalDate.now());
+                playlistSongJoin.setSongDateAdded(track.getDateAdded());
                 playlistSongJoinRepository.save(playlistSongJoin);
                 //todo: genre stuff.
             }

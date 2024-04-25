@@ -333,12 +333,18 @@ public class RecappedService {
             MainArtist topUnder1k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder1kFollowersID);
             MainArtist topUnder10k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder10kFollowersID);
             MainArtist topUnder100k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder100kFollowersID);
-            dto.setTopUnder1kName(topUnder1k.getArtistName());
-            dto.setTopUnder10kName(topUnder10k.getArtistName());
-            dto.setTopUnder100kName(topUnder100k.getArtistName());
-            dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
-            dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
-            dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
+            if (topUnder1k != null) {
+                dto.setTopUnder1kName(topUnder1k.getArtistName());
+                dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
+            }
+            if (topUnder10k != null) {
+                dto.setTopUnder10kName(topUnder10k.getArtistName());
+                dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
+            }
+            if (topUnder100k != null) {
+                dto.setTopUnder100kName(topUnder100k.getArtistName());
+                dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
+            }
         }
 
         System.out.println("duration: " + duration);
