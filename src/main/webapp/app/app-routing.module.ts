@@ -54,9 +54,8 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
           component: DataMethodologyComponent,
           data: {
             pageTitle: 'Data Methodology',
-            authorities: [Authority.ADMIN, Authority.USER],
+            authorities: [],
           },
-          canActivate: [UserRouteAccessService],
         },
         {
           path: 'tableview',
