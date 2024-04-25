@@ -130,16 +130,16 @@ export class TableviewTreeService {
       },
       {
         key: '8',
-        label: 'Producer Search',
-        tooltip: "Filter by multiple producers\nPress Enter to confirm producer's name",
-        data: 'ProducerSearch',
+        label: 'Contributor Search',
+        tooltip: "Filter by multiple contributors\nPress Enter to confirm contributor's name",
+        data: 'ContributorSearch',
         icon: 'pi pi-fw pi-tag',
         children: [
           {
             key: '8-1',
-            label: 'ProducerChip',
-            data: 'ProducerChip',
-            type: 'ProducerChipElement',
+            label: 'ContributorChip',
+            data: 'ContributorChip',
+            type: 'ContributorChipElement',
           },
         ],
       },

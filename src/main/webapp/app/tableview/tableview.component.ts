@@ -108,11 +108,11 @@ export class TableviewComponent implements OnInit {
   selectedColumns!: Column[];
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
   yearValues: number[] = new Array(2).fill(undefined);
-  rangeValues: number[] = new Array(2).fill(undefined);
+  popularityValues: number[] = new Array(2).fill(undefined);
   tempoValues: number[] = new Array(2).fill(undefined);
   durationValues: string[] = ['', ''];
   artistChips: string[] = [];
-  producerChips: string[] = [];
+  contributorChips: string[] = [];
   Explicitness: Choice[] = [];
   selectedExplicitness: Choice;
   playlists: any[];

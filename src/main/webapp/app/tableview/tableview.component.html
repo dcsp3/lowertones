@@ -80,7 +80,7 @@
               placeholder="mm:ss"
               type="text"
               [(ngModel)]="durationValues[0]"
-              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
+              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]; console.log(durationValues)"
             ></p-inputMask>
             <b>Max: </b>
             <p-inputMask
@@ -159,8 +159,8 @@
               placeholder="0"
               type="number"
               pInputText
-              [(ngModel)]="rangeValues[0]"
-              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              [(ngModel)]="popularityValues[0]"
+              (ngModelChange)="popularityValues = [popularityValues[0], popularityValues[1]]"
               class="w-full no-spinners"
             />
             <b>Max: </b>
@@ -169,14 +169,14 @@
               placeholder="100"
               type="number"
               pInputText
-              [(ngModel)]="rangeValues[1]"
-              (ngModelChange)="rangeValues = [rangeValues[0], rangeValues[1]]"
+              [(ngModel)]="popularityValues[1]"
+              (ngModelChange)="popularityValues = [popularityValues[0], popularityValues[1]]"
               class="w-full no-spinners"
             />
           </div>
           <!--
             <div style="padding-top: 5%; padding-bottom: 10%">
-              <p-slider [(ngModel)]="rangeValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
+              <p-slider [(ngModel)]="popularityValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
             </div>
             
           </div>-->
@@ -187,9 +187,9 @@
           <p-chips [(ngModel)]="artistChips"></p-chips>
         </ng-template>
 
-        <!--Producer Search-->
-        <ng-template let-node pTemplate="ProducerChipElement">
-          <p-chips [(ngModel)]="producerChips"></p-chips>
+        <!--Contributor Search-->
+        <ng-template let-node pTemplate="ContributorChipElement">
+          <p-chips [(ngModel)]="contributorChips"></p-chips>
         </ng-template>
 
         <!--Explicitness-->
