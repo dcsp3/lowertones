@@ -125,7 +125,12 @@ public class APIScrapingService {
 
     @Transactional
     public void scrape(AppUser appUser) {
-        ArrayList<SpotifySimplifiedPlaylist> playlistIds = apiWrapper.getCurrentUserPlaylists(appUser).getData();
+        SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> userPlaylistResponse = apiWrapper.getCurrentUserPlaylists(appUser);
+        if (!userPlaylistResponse.getSuccess()) {
+            System.out.println("Can't get playlist ids (probably ratelimited). aborting..");
+            return;
+        }
+        ArrayList<SpotifySimplifiedPlaylist> playlistIds = userPlaylistResponse.getData();
         Set<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUser.getId());
         //scrape playlist info, create playlist object, store in repo and add to appuser (store appuser again), ...
         for (int i = 0; i < playlistIds.size(); i++) {

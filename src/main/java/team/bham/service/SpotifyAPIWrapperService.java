@@ -88,11 +88,15 @@ public class SpotifyAPIWrapperService {
 
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=50";
-        JSONObject response = APICall(HttpMethod.GET, endpoint, user).getData();
+        SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, endpoint, user);
+        if (!response.getSuccess()) {
+            return new SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>>(false, HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+        JSONObject responseJSON = response.getData();
         System.out.println("PLALTIST RESPONSE: " + response.toString());
-        JSONArray playlistEntriesJSON = response.getJSONArray("items");
+        JSONArray playlistEntriesJSON = responseJSON.getJSONArray("items");
         ArrayList<SpotifySimplifiedPlaylist> playlists = new ArrayList<SpotifySimplifiedPlaylist>();
-        int totalPlaylists = response.getInt("total");
+        int totalPlaylists = responseJSON.getInt("total");
         for (int i = 0; i < totalPlaylists; i += 50) {
             for (int j = 0; j < playlistEntriesJSON.length(); j++) {
                 JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(j);
@@ -104,10 +108,14 @@ public class SpotifyAPIWrapperService {
                     )
                 );
             }
-            if (!response.isNull("next")) {
-                String nextPageURL = response.getString("next");
-                response = APICall(HttpMethod.GET, nextPageURL, user).getData();
-                playlistEntriesJSON = response.getJSONArray("items");
+            if (!responseJSON.isNull("next")) {
+                String nextPageURL = responseJSON.getString("next");
+                response = APICall(HttpMethod.GET, nextPageURL, user);
+                if (!response.getSuccess()) {
+                    return new SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>>(false, HttpStatus.INTERNAL_SERVER_ERROR, null);
+                }
+                responseJSON = response.getData();
+                playlistEntriesJSON = responseJSON.getJSONArray("items");
             }
         }
 
