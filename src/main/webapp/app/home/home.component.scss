@@ -218,7 +218,7 @@ h4 {
 }
 
 .card {
-  background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
+  background: linear-gradient(200deg, transparent, rgba(255, 233, 230, 0.277), transparent);
   background-clip: padding-box;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -234,7 +234,10 @@ h4 {
   overflow: visible;
   flex-basis: 100%;
   padding: 0px;
-  background-color: #ffffff00;
+  //background-color: #ffffff00;
+  flex-basis: 100%;
+  padding: 0px;
+  border: 1px solid #cccccc00;
 }
 
 /* Network Section */
@@ -679,13 +682,6 @@ a {
   align-items: center;
 }
 
-.card {
-  flex-basis: 100%;
-  padding: 0px;
-  border: 1px solid #cccccc00;
-  background-color: #ffffff00;
-}
-
 h4 {
   font-family: 'neue-plak' !important;
   font-size: 0.875rem;
@@ -900,4 +896,33 @@ p {
   font-size: 1.1vw;
   color: #ffffff;
   margin-bottom: 0.6vw;
+}
+
+.highContrast {
+  .card {
+    background: rgb(50, 50, 50) !important;
+  }
+  .heading,
+  .how-it-works-title {
+    color: yellow !important;
+  }
+  .how-it-works-button {
+    border: 2.5px solid red !important;
+    background-color: rgba(26, 20, 37, 0.548) !important;
+    color: yellow !important;
+  }
+  .daily-mix,
+  .discover-weekly,
+  .release-radar,
+  .on-repeat {
+    border: 2.5px solid yellow !important;
+  }
+  .scroll-down {
+    color: yellow !important;
+  }
+  .top-artist,
+  .mainstream-score,
+  .top-genre {
+    border: 2.5px solid white !important;
+  }
 }

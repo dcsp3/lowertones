@@ -23,6 +23,15 @@
   input[type='checkbox'] {
     background-color: white !important;
   }
+  .custom-dropdown,
+  .form-control,
+  .btn-primary {
+    border: 2.5px solid red !important;
+    border-top-left-radius: 0.5rem; /* Curved top-left corner */
+    border-bottom-left-radius: 0.5rem; /* Curved bottom-left corner */
+    border-top-right-radius: 0.5rem; /* Curved top-right corner */
+    border-bottom-right-radius: 0.5rem; /* Curved bottom-right corner */
+  }
 }
 
 .content {

@@ -13,9 +13,30 @@
   height: 56vh;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
+  background: linear-gradient(200deg, transparent, rgba(255, 246, 230, 0.277), transparent);
   border-radius: 10px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
+.highContrast {
+  background: none !important;
+  background-color: rgb(50, 50, 50) !important;
+  border: yellow !important;
+  .daily-mix,
+  .discover-weekly,
+  .release-radar {
+    border: 5px solid yellow !important;
+  }
+  .form-group input,
+  .form-group select,
+  button.add-to-vault-btn {
+    border: 2.5px solid red !important;
+    background-color: rgba(26, 20, 37, 0.548) !important;
+    color: yellow !important;
+  }
+  button.add-to-vault-btn:hover {
+    background-color: black !important;
+  }
 }
 
 .playlist-covers {

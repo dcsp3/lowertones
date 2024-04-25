@@ -653,3 +653,9 @@ input:checked + .slider:before {
     height: 20px;
   }
 }
+
+.highContrast {
+  .tabs-container {
+    background-color: rgb (50, 50, 50) !important;
+  }
+}

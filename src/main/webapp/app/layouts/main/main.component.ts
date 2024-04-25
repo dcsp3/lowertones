@@ -11,7 +11,7 @@ import { AccountService } from 'app/core/auth/account.service';
 })
 export class MainComponent implements OnInit {
   // Define the list of all CSS selectors representing elements to style
-  highContrastElements: string[] = ['.navbar', '.footer', '.container', '.text-container', '.card'];
+  highContrastElements: string[] = ['.navbar', '.footer', '.container', '.text-container', '.top-section', '.et-main', '.tabs-container'];
 
   constructor(
     private accountService: AccountService,
@@ -62,6 +62,7 @@ export class MainComponent implements OnInit {
       },
       error => {
         this.removeHighContrast();
+        console.log('Could not find highContrast for appuser: ', error);
       }
     );
 
@@ -79,6 +80,7 @@ export class MainComponent implements OnInit {
     this.highContrastElements.forEach(selector => {
       const element = document.querySelector(selector);
       if (element) {
+        console.log(element);
         element.classList.add('highContrast');
       }
     });

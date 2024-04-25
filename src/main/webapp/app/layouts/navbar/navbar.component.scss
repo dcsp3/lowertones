@@ -34,8 +34,15 @@ Navbar
 }
 
 .highContrast {
+  .nav-link {
+    color: yellow !important;
+  }
+  .dropdown-menu {
+    border: 3px solid yellow !important;
+  }
   background-color: rgba(50, 50, 50, 0.8) !important;
   .dropdown-menu {
+    color: yellow !important;
     background-color: rgb(50, 50, 50) !important;
   }
   .dropdown-item.active {
