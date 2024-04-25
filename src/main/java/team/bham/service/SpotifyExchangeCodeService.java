@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.SpotifyExchangeCode;
 import team.bham.repository.SpotifyExchangeCodeRepository;
@@ -72,8 +73,13 @@ public class SpotifyExchangeCodeService {
         System.out.println("URL HERE: " + url);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        ResponseEntity<String> responseEntity = restTemplate.exchange(spotifyTokenUrl, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = null;
+        try {
+            responseEntity = restTemplate.exchange(spotifyTokenUrl, HttpMethod.POST, requestEntity, String.class);
+        } catch (HttpStatusCodeException e) {
+            System.out.println("wtf?? " + requestEntity.getHeaders().toString() + " " + requestEntity.getBody().toString());
+            System.out.println("\n\n\n\n\n" + e.getResponseBodyAsString());
+        }
 
         String errorBody = responseEntity.getBody();
         System.out.println("Failed to exchange code for access token: " + errorBody);

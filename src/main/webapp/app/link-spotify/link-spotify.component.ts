@@ -45,7 +45,7 @@ export class LinkSpotifyComponent implements OnInit {
   loginWithSpotify(event: MouseEvent): void {
     console.log('Login Event Intialised');
     event.stopPropagation();
-    const client_id = '668d334388b04520ba9e25b3d2289e78';
+    const client_id = 'f7a2bfcf05ea495ea670e320a947b96b';
     const redirect_uri = window.location.origin;
     const state = this.generateRandomString(16);
     const scope =
