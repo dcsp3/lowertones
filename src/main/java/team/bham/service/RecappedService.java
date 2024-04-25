@@ -92,6 +92,7 @@ public class RecappedService {
     @Transactional
     private String getContributorImageUrl(String name, AppUser user) {
         JSONObject response = spotifyAPIWrapperService.search(name, SpotifySearchType.ARTIST, user);
+        System.out.println("response: " + response);
         Integer thresholdRatio = 95;
         Integer thresholdPartialRatio = 90;
         JSONArray artists = response.getJSONObject("artists").getJSONArray("items");
@@ -100,7 +101,9 @@ public class RecappedService {
 
         for (int i = 0; i < artists.length(); i++) {
             JSONObject artist = artists.getJSONObject(i);
+            System.out.println("artistJSON: " + artist);
             String artistName = artist.getString("name");
+            System.out.println("artistName: " + artistName);
             int fullMatchRatio = FuzzySearch.ratio(name, artistName);
             int partialMatchRatio = FuzzySearch.partialRatio(name, artistName);
 
@@ -252,6 +255,7 @@ public class RecappedService {
         // 4. For the top contributors, check for a Spotify image or an album cover
 
         String[] images = new String[5];
+        System.out.println("names here: " + names[0] + ", " + names[1] + ", " + names[2] + ", " + names[3] + ", " + names[4]);
         for (int i = 0; i < 5; i++) {
             images[i] = getContributorImageUrl(names[i], appUser);
         }
