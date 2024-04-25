@@ -192,16 +192,16 @@ export class TableviewComponent implements OnInit {
       { value: 'release', label: 'Release Date', short: 'Release Date' },
       { value: 'popularity', label: 'Popularity', short: 'Pop' },
       { value: 'explicit', label: 'Explicit', short: 'Exp' },
+      { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
+      { value: 'danceability', label: 'Danceability', short: 'Dan' },
+      { value: 'instrumentalness', label: 'Instrumentalness', short: 'Ins' },
+      { value: 'energy', label: 'Energy', short: 'Ene' },
+      { value: 'liveness', label: 'Liveness', short: 'Liv' },
+      { value: 'loudness', label: 'Loudness', short: 'Lou' },
+      { value: 'speechiness', label: 'Speechiness', short: 'Spe' },
+      { value: 'valence', label: 'Valence', short: 'Val' },
+      { value: 'tempo', label: 'Tempo', short: 'Tem' },
     ];
-    /*[
-      { value: 'title', label: 'Title', short: 'Title'},
-      { value: 'artist', label: 'Artist', short: 'Artist'},
-      { value: 'contributor', label: 'Contributor', short: 'Con'},
-      { value: 'length', label: 'Length', short: 'Length'},
-      { value: 'release', label: 'Release Date', short: 'Release Date'},
-      { value: 'popularity', label: 'Popularity', short: 'Pop'},
-      { value: 'explicit', label: 'Explicit', short: 'Exp'}
-    ]*/
     this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
@@ -378,14 +378,14 @@ export class TableviewComponent implements OnInit {
           explicit: songEntry.explicit,
           popularity: songEntry.popularity,
           release: 'N/A',
-          acousticness: songEntry.acousticness,
-          danceability: songEntry.danceability,
-          instrumentalness: songEntry.instrumentalness,
-          energy: songEntry.energy,
-          liveness: songEntry.liveness,
+          acousticness: this.truncate(songEntry.acousticness * 100),
+          danceability: this.truncate(songEntry.danceability * 100),
+          instrumentalness: this.truncate(songEntry.instrumentalness * 100),
+          energy: this.truncate(songEntry.energy * 100),
+          liveness: this.truncate(songEntry.liveness * 100),
           loudness: songEntry.loudness,
-          speechiness: songEntry.speechiness,
-          valence: songEntry.valence,
+          speechiness: this.truncate(songEntry.speechiness * 100),
+          valence: this.truncate(songEntry.valence * 100),
           tempo: songEntry.tempo,
         }));
 
