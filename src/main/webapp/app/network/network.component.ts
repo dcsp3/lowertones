@@ -331,7 +331,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   changeTimeRange(newTimeRange: string): void {
     this.timeRange = newTimeRange;
-    clearGraph(this.graphContainer);
+    this.fetchAndRenderGraph(this.activeTab, this.showConnections);
   }
 
   animateScore(finalScore: number): void {
