@@ -323,13 +323,33 @@
                 <span style="color: transparent; user-select: none">hi</span>
               </ng-container>
               <ng-container *ngIf="!song['placeholder']">
-                <ng-container *ngIf="col.value === 'explicit'; else normalField">
+                <ng-container *ngIf="col.value === 'explicit'; else otherFields">
                   <div class="center-image">
                     <img style="height: 2.5vh" *ngIf="song[col.value]" src="..\..\content\images\explicit.png" alt="Explicit" />
                   </div>
                 </ng-container>
-                <ng-template #normalField>
-                  <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
+                <ng-template #otherFields>
+                  <ng-container *ngIf="col.value === 'contributor'; else normalField">
+                    <ng-container *ngIf="song['contributor']">
+                      <p-overlayPanel #op>
+                        <ng-container *ngFor="let name of song['contributorNames']; let i = index">
+                          <ng-container
+                            *ngIf="song['contributorInstruments'][i] && song['contributorInstruments'][i].length > 0; else roleTag"
+                          >
+                            <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorInstruments'][i] }}"></p-tag>
+                          </ng-container>
+                          <ng-template #roleTag>
+                            <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorRoles'][i] }}"></p-tag>
+                          </ng-template>
+                        </ng-container>
+                      </p-overlayPanel>
+                      <p-button class="contributorButton" (click)="op.toggle($event)" label="Show"></p-button>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-template #normalField>
+                    <div title="{{ song[col.value] }}">{{ song[col.value] }}</div>
+                  </ng-template>
                 </ng-template>
               </ng-container>
             </td>

@@ -31,6 +31,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessagesModule } from 'primeng/messages';
+import { TagModule } from 'primeng/tag';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { NgbDateAdapter, NgbDatepickerConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -75,6 +77,8 @@ import { CustomToastComponent } from './custom-toast/custom-toast.component';
     SelectButtonModule,
     ToolbarModule,
     TooltipModule,
+    TagModule,
+    OverlayPanelModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here

@@ -9,7 +9,7 @@ interface SongEntry {
   placeholder: boolean;
   title: string;
   artist: string;
-  contributor: string;
+  contributor: boolean;
   length: string;
   explicit: boolean;
   popularity: number;
@@ -24,6 +24,9 @@ interface SongEntry {
   valence: number;
   tempo: number;
   spotifyId: string;
+  contributorNames: string[];
+  contributorRoles: string[];
+  contributorInstruments: string[];
 }
 
 interface Column {
@@ -72,7 +75,7 @@ export class TableviewComponent implements OnInit {
     placeholder: true,
     title: '',
     artist: '',
-    contributor: '',
+    contributor: false,
     length: '',
     explicit: false,
     popularity: 0,
@@ -87,6 +90,9 @@ export class TableviewComponent implements OnInit {
     valence: 0,
     tempo: 0,
     spotifyId: '',
+    contributorNames: [],
+    contributorRoles: [],
+    contributorInstruments: [],
   };
   placeholderList: SongEntry[] = [];
   songDataInUse: SongEntry[] = [];
@@ -194,6 +200,7 @@ export class TableviewComponent implements OnInit {
       { value: 'release', label: 'Release Date', short: 'Rel' },
       { value: 'popularity', label: 'Popularity', short: 'Pop' },
       { value: 'explicit', label: 'Explicit', short: 'Exp' },
+    ]; /*
       { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
       { value: 'danceability', label: 'Danceability', short: 'Dan' },
       { value: 'instrumentalness', label: 'Instrumentalness', short: 'Ins' },
@@ -203,7 +210,7 @@ export class TableviewComponent implements OnInit {
       { value: 'speechiness', label: 'Speechiness', short: 'Spe' },
       { value: 'valence', label: 'Valence', short: 'Val' },
       { value: 'tempo', label: 'Tempo', short: 'Tem' },
-    ];
+    ];*/
     this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
@@ -385,6 +392,46 @@ export class TableviewComponent implements OnInit {
     return Array.from(spotifyIdMap.values());
   }
 
+  printContributorDetails(): void {
+    this.songData.forEach((song, index) => {
+      //console.log(`Song ${index + 1}:`);
+      if (song.contributorNames && song.contributorNames.length > 0) {
+        console.log(song.title);
+        console.log('Contributor Names:', song.contributorNames.join(', '));
+      } else {
+      }
+
+      if (song.contributorRoles && song.contributorRoles.length > 0) {
+        console.log('Contributor Roles:', song.contributorRoles.join(', '));
+      } else {
+      }
+
+      if (song.contributorInstruments && song.contributorInstruments.length > 0) {
+        console.log('Contributor Instruments:', song.contributorInstruments.join(', '));
+      } else {
+      }
+      console.log();
+    });
+  }
+
+  capitalizeWords(inputArray: string[]): string[] {
+    // Check if the input array is empty
+    if (inputArray.length === 0) {
+      return [];
+    }
+
+    return inputArray.map(text => {
+      return text
+        .split(' ')
+        .map(word => {
+          // Make sure we are not trying to capitalize an empty string
+          if (word === '') return word;
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        })
+        .join(' ');
+    });
+  }
+
   genSongList(): void {
     this.loadingSongs = true;
     this.setPage(0);
@@ -400,7 +447,7 @@ export class TableviewComponent implements OnInit {
           placeholder: false,
           title: songEntry.title,
           artist: songEntry.artist,
-          contributor: 'contributor',
+          contributor: songEntry.contributor,
           length: this.formatTime(songEntry.length),
           explicit: songEntry.explicit,
           popularity: songEntry.popularity,
@@ -415,7 +462,12 @@ export class TableviewComponent implements OnInit {
           valence: this.truncate(songEntry.valence * 100),
           tempo: Math.round(songEntry.tempo * 2) / 2,
           spotifyId: songEntry.spotifyId,
+          contributorNames: this.capitalizeWords(songEntry.contributorNames),
+          contributorRoles: this.capitalizeWords(songEntry.contributorRoles),
+          contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
         }));
+
+        this.printContributorDetails();
 
         console.log('here is how long the list is' + this.songData.length);
 
