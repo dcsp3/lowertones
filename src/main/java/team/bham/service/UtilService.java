@@ -132,6 +132,7 @@ public class UtilService {
 
     @Transactional
     public List<Song> getUserTopSongs(AppUser user, SpotifyTimeRange timeRange) {
+        /*
         List<Song> topSongs = new ArrayList<>();
         SpotifyAPIResponse<JSONObject> topSongsJson = spotifyAPIWrapperService.getCurrentUserTopTracks(user, timeRange);
         for (int i = 0; topSongsJson.getData().getJSONArray("items").length() > i; i++) {
@@ -147,8 +148,12 @@ public class UtilService {
                 //NEED TO ADD THE REST OF THE TRACK INFO
                 //apiScrapingResource.storeTrack(track);
             }
-        }
-        return topSongs;
+        } 
+        */
+
+        SpotifyAPIResponse<JSONObject> topSongsJson = spotifyAPIWrapperService.getCurrentUserTopTracks(user, timeRange);
+        List<Song> list = apiScrapingService.storeSongsFromTopSongs(topSongsJson, user);
+        return list;
     }
 
     @Transactional

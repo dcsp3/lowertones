@@ -349,6 +349,31 @@ public class APIScrapingService {
     }
 
     @Transactional
+    public List<Song> storeSongsFromTopSongs(SpotifyAPIResponse<JSONObject> topSongsJson, AppUser appUser) {
+        List<String> songSpotifyIds = topSongsJson
+            .getData()
+            .getJSONArray("items")
+            .toList()
+            .stream()
+            .map(song -> Optional.ofNullable(song).map(a -> (Map<String, Object>) a).map(a -> (String) a.get("id")).orElse(null))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+        List<Song> existingSongs = songRepository.findBySongSpotifyIDIn(songSpotifyIds);
+        ArrayList<String> unscrapedSongs = removeScrapedSongs(songSpotifyIds, existingSongs);
+
+        List<Song> newlyScrapedSongs = new ArrayList<>();
+        if (unscrapedSongs.size() > 0) {
+            List<Song> unscrapedSongsData = apiWrapper.getSong(unscrapedArtists, appUser).getData();
+            for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
+                newlyScrapedArtists.add(storeArtist(unscrapedArtist));
+            }
+        }
+        List<MainArtist> topArtists = existingArtists;
+        topArtists.addAll(newlyScrapedArtists);
+        return topArtists;
+    }
+
+    @Transactional
     public void test(AppUser appUser) {
         //grab full playlist details from simple playlist id
         SpotifyPlaylist curPlaylist = apiWrapper.getPlaylistDetails(appUser, "48DDkoj8vW5JJl1W8vISmC").getData();
@@ -475,6 +500,16 @@ public class APIScrapingService {
         return reduced;
     }
 
+    private ArrayList<String> removeScrapedSongs(List<String> songSpotifyIds, List<Song> songs) {
+        ArrayList<String> reduced = new ArrayList<>();
+        for (String id : songSpotifyIds) {
+            if (getArtistScraped(id, songs) == null) {
+                reduced.add(id);
+            }
+        }
+        return reduced;
+    }
+
     private ArrayList<String> removeScrapedAlbums(List<String> albumSpotifyIds, List<Album> albums) {
         ArrayList<String> reduced = new ArrayList<>();
         for (String id : albumSpotifyIds) {
@@ -497,7 +532,6 @@ public class APIScrapingService {
         for (MainArtist artist : curArtists) {
             if (artist.getArtistSpotifyID().equals(spotifyId)) return artist;
         }
-
         return null;
     }
 
