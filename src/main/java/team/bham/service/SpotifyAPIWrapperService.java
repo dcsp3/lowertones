@@ -256,6 +256,26 @@ public class SpotifyAPIWrapperService {
         return res;
     }
 
+    public SpotifyAPIResponse<ArrayList<SpotifyTrack>> getTrackInfo(ArrayList<String> trackIds, AppUser user) {
+        String endpoint = "https://api.spotify.com/v1/tracks";
+        ArrayList<String> batches = batchSpotifyIDs(trackIds, 50); //docs say 50, don't really trust that
+        ArrayList<SpotifyTrack> tracks = new ArrayList<>();
+        for (int i = 0; i < batches.size(); i++) {
+            String curEndpoint = endpoint + batches.get(i);
+            SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
+            //todo: apiresponse errors
+            JSONObject responseJSON = response.getData();
+            JSONArray tracksJSON = responseJSON.getJSONArray("tracks");
+            for (int j = 0; j < tracksJSON.length(); j++) {
+                JSONObject trackJSON = tracksJSON.getJSONObject(j);
+                SpotifyTrack track = genTrackFromJSON(trackJSON);
+                tracks.add(track);
+            }
+        }
+
+        return new SpotifyAPIResponse<ArrayList<SpotifyTrack>>(true, HttpStatus.OK, tracks);
+    }
+
     public SpotifyAPIResponse<ArrayList<SpotifyAlbum>> getAlbumInfo(ArrayList<String> albumIds, AppUser user) {
         String endpoint = "https://api.spotify.com/v1/albums?ids=";
         ArrayList<String> batches = batchSpotifyIDs(albumIds, 20);

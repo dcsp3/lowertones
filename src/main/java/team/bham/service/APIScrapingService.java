@@ -360,17 +360,35 @@ public class APIScrapingService {
             .collect(Collectors.toList());
         List<Song> existingSongs = songRepository.findBySongSpotifyIDIn(songSpotifyIds);
         ArrayList<String> unscrapedSongs = removeScrapedSongs(songSpotifyIds, existingSongs);
-
         List<Song> newlyScrapedSongs = new ArrayList<>();
         if (unscrapedSongs.size() > 0) {
-            List<Song> unscrapedSongsData = apiWrapper.getSong(unscrapedArtists, appUser).getData();
-            for (SpotifyArtist unscrapedArtist : unscrapedArtistsData) {
-                newlyScrapedArtists.add(storeArtist(unscrapedArtist));
+            List<SpotifyTrack> unscrapedSongData = apiWrapper.getTrackInfo(unscrapedSongs, appUser).getData();
+            for (SpotifyTrack unscrapedSong : unscrapedSongData) {
+                //SLOW
+                //but top tracks is short, so who cares
+                Album album = albumRepository.findAlbumBySpotifyId(unscrapedSong.getAlbum().getSpotifyId());
+                if (album == null) {
+                    album = storeAlbum(unscrapedSong.getAlbum());
+                }
+                MainArtist artist = mainArtistRepository.findArtistBySpotifyId(unscrapedSong.getArtist().getSpotifyId());
+                if (artist == null) {
+                    artist = storeArtist(unscrapedSong.getArtist());
+                }
+                Song song = storeTrack(unscrapedSong, album);
+                newlyScrapedSongs.add(song);
+
+                //add song-artist join
+                SongArtistJoin songArtistJoin = new SongArtistJoin();
+                songArtistJoin.setSong(song);
+                songArtistJoin.setMainArtist(artist);
+                songArtistJoin.setTopTrackIndex(0); //????
+                songArtistJoinRepository.save(songArtistJoin);
             }
         }
-        List<MainArtist> topArtists = existingArtists;
-        topArtists.addAll(newlyScrapedArtists);
-        return topArtists;
+
+        List<Song> topSongs = existingSongs;
+        topSongs.addAll(newlyScrapedSongs);
+        return topSongs;
     }
 
     @Transactional
@@ -503,7 +521,7 @@ public class APIScrapingService {
     private ArrayList<String> removeScrapedSongs(List<String> songSpotifyIds, List<Song> songs) {
         ArrayList<String> reduced = new ArrayList<>();
         for (String id : songSpotifyIds) {
-            if (getArtistScraped(id, songs) == null) {
+            if (getSongScraped(id, songs) == null) {
                 reduced.add(id);
             }
         }
