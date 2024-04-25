@@ -1,12 +1,10 @@
 package team.bham.service;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import jdk.swing.interop.SwingInterOpUtils;
-import org.apiguardian.api.API;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -19,18 +17,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import team.bham.domain.AppUser;
 import team.bham.repository.AppUserRepository;
-import team.bham.service.APIScrapingService;
 import team.bham.service.APIWrapper.*;
 import team.bham.service.APIWrapper.Enums.*;
 
@@ -137,9 +131,9 @@ public class SpotifyAPIWrapperService {
         JSONObject body = new JSONObject();
         JSONArray uris = new JSONArray();
 
-        //uris.put("spotify:track:7sVbKoBdhXtYCEOO6qC1SN");
-        //uris.put("spotify:track:7lsepdNR69a3PS9pWMNICd");
-        //todo: these should be batched.
+        // uris.put("spotify:track:7sVbKoBdhXtYCEOO6qC1SN");
+        // uris.put("spotify:track:7lsepdNR69a3PS9pWMNICd");
+        // todo: these should be batched.
         for (int i = 0; i < playlistIds.size(); i++) {
             uris.put("spotify:track:" + playlistIds.get(i));
         }
@@ -178,7 +172,8 @@ public class SpotifyAPIWrapperService {
 
         JSONObject trackInfo = playlistJSON.getJSONObject("tracks");
 
-        //String nextPageURL = trackInfo.isNull("next") ? null : trackInfo.getString("next");
+        // String nextPageURL = trackInfo.isNull("next") ? null :
+        // trackInfo.getString("next");
 
         ArrayList<String> trackIds = new ArrayList<>();
         ArrayList<String> artistIds = new ArrayList<>();
@@ -189,7 +184,7 @@ public class SpotifyAPIWrapperService {
             try {
                 tracks = trackInfo.getJSONArray("items");
             } catch (Exception e) {
-                //some playlists are incredibly cursed
+                // some playlists are incredibly cursed
                 System.out.println("What the fuck is this playlist?? " + trackInfo.toString());
                 SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
                 res.setData(playlist);
@@ -201,8 +196,21 @@ public class SpotifyAPIWrapperService {
                 JSONObject trackJSON = null;
                 try {
                     trackJSON = ((JSONObject) tracks.get(i)).getJSONObject("track");
+                    String addedDateString = ((JSONObject) tracks.get(i)).getString("added_at");
+                    DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+                    LocalDate dateAdded = null;
+                    try {
+                        ZonedDateTime zonedDateTime = ZonedDateTime.parse(addedDateString, formatter);
+                        dateAdded = zonedDateTime.toLocalDate();
+                        // Now you can use dateAdded as a LocalDate object
+                    } catch (DateTimeParseException e) {
+                        System.err.println("Error parsing date: " + addedDateString);
+                        e.printStackTrace();
+                        continue;
+                    }
                     if (trackJSON.getString("type").equals("track")) {
                         SpotifyTrack track = genTrackFromJSON(trackJSON);
+                        track.setDateAdded(dateAdded);
                         playlist.addTrack(track);
                         trackIds.add(track.getId());
                         artistIds.add(track.getArtist().getSpotifyId());
@@ -210,8 +218,7 @@ public class SpotifyAPIWrapperService {
                 } catch (Exception e) {
                     continue;
                 }
-                //todo: handle episodes separately
-
+                // todo: handle episodes separately
             }
 
             getNextPage = !trackInfo.isNull("next");
@@ -221,24 +228,27 @@ public class SpotifyAPIWrapperService {
             }
         }
 
-        //grab track audio features
-        // SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> audioFeaturesResponse = getTrackAudioFeatures(trackIds, user);
-        //if(audioFeaturesResponse.getSuccess()) {
-        //    ArrayList<SpotifyTrackAudioFeatures> audioFeatures = audioFeaturesResponse.getData();
-        //   for (int i = 0; i < audioFeatures.size(); i++) {
-        //        playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
-        //    }
-        //}
+        // grab track audio features
+        // SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>>
+        // audioFeaturesResponse = getTrackAudioFeatures(trackIds, user);
+        // if(audioFeaturesResponse.getSuccess()) {
+        // ArrayList<SpotifyTrackAudioFeatures> audioFeatures =
+        // audioFeaturesResponse.getData();
+        // for (int i = 0; i < audioFeatures.size(); i++) {
+        // playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
+        // }
+        // }
 
-        //TESTING STUFF, IGNORE
+        // TESTING STUFF, IGNORE
 
-        //grab ext. artist info
-        //SpotifyAPIResponse<ArrayList<SpotifyArtist>> artistInfoResponse = getArtistInfo(artistIds, user);
-        //if(artistInfoResponse.getSuccess()) {
-        //    ArrayList<SpotifyArtist> artistInfo = artistInfoResponse.getData();
-        //    for(int i = 0; i < artistInfo.size(); i++) {
-        //        playlist.getTracks().get(i).setMainArtist(artistInfo.get(i));
-        //    }
+        // grab ext. artist info
+        // SpotifyAPIResponse<ArrayList<SpotifyArtist>> artistInfoResponse =
+        // getArtistInfo(artistIds, user);
+        // if(artistInfoResponse.getSuccess()) {
+        // ArrayList<SpotifyArtist> artistInfo = artistInfoResponse.getData();
+        // for(int i = 0; i < artistInfo.size(); i++) {
+        // playlist.getTracks().get(i).setMainArtist(artistInfo.get(i));
+        // }
         // }
 
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
@@ -254,7 +264,7 @@ public class SpotifyAPIWrapperService {
         for (int i = 0; i < batches.size(); i++) {
             String curEndpoint = endpoint + batches.get(i);
             SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
-            //todo: propagate apiresponse errors down
+            // todo: propagate apiresponse errors down
             JSONObject responseJSON = response.getData();
             JSONArray albumsJSON = responseJSON.getJSONArray("albums");
             for (int j = 0; j < albumsJSON.length(); j++) {
@@ -282,14 +292,14 @@ public class SpotifyAPIWrapperService {
                 try {
                     album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                 } catch (Exception e) {
-                    //fuck
+                    // fuck
                     album.setReleaseDate(LocalDate.now());
                 }
                 JSONArray albumArt = albumJSON.getJSONArray("images");
                 if (albumArt.length() > 0) {
                     album.setCoverArtURL(albumArt.getJSONObject(0).getString("url"));
                 } else {
-                    //hacky
+                    // hacky
                     album.setCoverArtURL("");
                 }
 
@@ -338,13 +348,13 @@ public class SpotifyAPIWrapperService {
     public SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> getTrackAudioFeatures(ArrayList<String> trackIds, AppUser user) {
         String endpoint = "https://api.spotify.com/v1/audio-features?ids=";
 
-        //split into batches of 100 ids
+        // split into batches of 100 ids
         ArrayList<String> batches = batchSpotifyIDs(trackIds, 100);
         ArrayList<SpotifyTrackAudioFeatures> audioFeaturesList = new ArrayList<>();
         for (int i = 0; i < batches.size(); i++) {
             String curEndpoint = endpoint + batches.get(i);
             SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, curEndpoint, user);
-            //audio features seems kinda broken. random 429s
+            // audio features seems kinda broken. random 429s
             if (!response.getSuccess()) {
                 return new SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>>(false, HttpStatus.INTERNAL_SERVER_ERROR, null);
             }
@@ -415,30 +425,30 @@ public class SpotifyAPIWrapperService {
                     continue;
                 } else if (status == HttpStatus.UNAUTHORIZED) {
                     if (!refreshAccessToken(user)) {
-                        //wtf?
+                        // wtf?
                         apiResponse.setSuccess(false);
                         return apiResponse;
                     } else {
-                        //set new access token in request headers
+                        // set new access token in request headers
                         headers = new HttpHeaders();
                         headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
                         entity = new HttpEntity<>(headers);
                     }
                 } else {
                     throw new RuntimeException("bruh: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
-                    //apiResponse.setSuccess(false);
-                    //apiResponse.setStatus(status);
-                    //return apiResponse;
+                    // apiResponse.setSuccess(false);
+                    // apiResponse.setStatus(status);
+                    // return apiResponse;
                 }
             }
         }
 
-        //failed: timeout
+        // failed: timeout
         apiResponse.setSuccess(false);
         return apiResponse;
     }
 
-    //fml... so much code duplication
+    // fml... so much code duplication
     private SpotifyAPIResponse<JSONObject> APICall(HttpMethod method, String endpoint, JSONObject body, AppUser user) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + user.getSpotifyAuthToken());
@@ -453,12 +463,12 @@ public class SpotifyAPIWrapperService {
             return apiResponse;
         } catch (HttpStatusCodeException e) {
             HttpStatus status = e.getStatusCode();
-            //todo: all this (refresh etc.... lazy)
+            // todo: all this (refresh etc.... lazy)
             throw new RuntimeException("bruh: " + status + " " + e.getResponseBodyAsString());
         }
     }
 
-    //todo: thoroughly test this
+    // todo: thoroughly test this
     private boolean refreshAccessToken(AppUser user) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -491,8 +501,8 @@ public class SpotifyAPIWrapperService {
     private SpotifyTrack genTrackFromJSON(JSONObject trackJSON) {
         SpotifyTrack track = new SpotifyTrack();
 
-        //misc track info (name,...)
-        //todo: preview url, etc., check obj type
+        // misc track info (name,...)
+        // todo: preview url, etc., check obj type
         track.setName(trackJSON.getString("name"));
         track.setDuration(trackJSON.getInt("duration_ms"));
         track.setExplicit(trackJSON.getBoolean("explicit"));
@@ -500,7 +510,7 @@ public class SpotifyAPIWrapperService {
         if (trackJSON.has("preview_url") && !trackJSON.isNull("preview_url")) track.setPreviewUrl(trackJSON.getString("preview_url"));
         track.setId(trackJSON.getString("id"));
 
-        //album
+        // album
         JSONObject albumJSON = trackJSON.getJSONObject("album");
         SpotifyAlbum album = new SpotifyAlbum();
         album.setAlbumType(albumJSON.getString("album_type"));
@@ -511,7 +521,7 @@ public class SpotifyAPIWrapperService {
         // album.setReleaseDate(albumJSON.getString("release_date"));
         String releaseDateUnformatted = albumJSON.getString("release_date");
 
-        //hacky, but LocalDate expects month/day to be set.
+        // hacky, but LocalDate expects month/day to be set.
         switch (albumJSON.getString("release_date_precision")) {
             case "year":
                 album.setReleasePrecision(SpotifyReleasePrecision.YEAR);
@@ -528,29 +538,29 @@ public class SpotifyAPIWrapperService {
         try {
             album.setReleaseDate(LocalDate.parse(releaseDateUnformatted, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         } catch (Exception e) {
-            //fuck
+            // fuck
             album.setReleaseDate(LocalDate.now());
         }
         JSONArray albumArt = albumJSON.getJSONArray("images");
         if (albumArt.length() > 0) {
             album.setCoverArtURL(albumArt.getJSONObject(0).getString("url"));
         } else {
-            //hacky
+            // hacky
             album.setCoverArtURL("");
         }
-        //album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
+        // album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
 
         track.setAlbum(album);
         SpotifyTrackAudioFeatures defaultFeatures = new SpotifyTrackAudioFeatures();
         track.setAudioFeatures(defaultFeatures);
 
-        //only care about main artist
+        // only care about main artist
         JSONObject mainArtistJSON = trackJSON.getJSONArray("artists").getJSONObject(0);
         SpotifyArtist mainArtist = new SpotifyArtist();
         mainArtist.setName(mainArtistJSON.getString("name"));
         mainArtist.setSpotifyId(mainArtistJSON.getString("id"));
 
-        //popularity doesn't seem to exist for some artists... wtf?
+        // popularity doesn't seem to exist for some artists... wtf?
         int artistPopularity = (mainArtistJSON.has("popularity") ? mainArtistJSON.getInt("popularity") : 0);
         mainArtist.setPopularity(artistPopularity);
 

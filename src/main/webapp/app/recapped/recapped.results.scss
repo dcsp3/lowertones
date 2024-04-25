@@ -304,6 +304,8 @@
   width: 18.1vw;
   height: 18.1vw;
   border-bottom: 2px solid black;
+  object-fit: cover;
+  object-position: center;
 }
 
 .correct {
@@ -393,6 +395,8 @@
   width: 18.1vw;
   height: 18.1vw;
   border-bottom: 2px solid black;
+  object-fit: cover;
+  object-position: center;
 }
 
 .smaller-artist-card {

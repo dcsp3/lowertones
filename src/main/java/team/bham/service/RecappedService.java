@@ -304,32 +304,42 @@ public class RecappedService {
         String topArtistUnder1kFollowersID = null;
         String topArtistUnder10kFollowersID = null;
         String topArtistUnder100kFollowersID = null;
-        for (int i = 0; i < topArtists.size(); i++) {
-            int followerCount = topArtists.get(i).getArtistFollowers();
-            String artistId = topArtists.get(i).getArtistSpotifyID();
+        if (topArtists != null) {
+            for (int i = 0; i < topArtists.size(); i++) {
+                if (topArtists.get(i) == null) {
+                    System.out.println("topArtists.get(i) is null for artist: " + topArtists.get(i).getArtistName());
+                    continue;
+                }
+                if (topArtists.get(i).getArtistFollowers() == null) {
+                    System.out.println("topArtists.get(i).getArtistFollowers() is null for artist: " + topArtists.get(i).getArtistName());
+                    continue;
+                }
+                int followerCount = topArtists.get(i).getArtistFollowers();
+                String artistId = topArtists.get(i).getArtistSpotifyID();
 
-            if (topArtistUnder1kFollowersID == null && followerCount < 1000) {
-                topArtistUnder1kFollowersID = artistId;
+                if (topArtistUnder1kFollowersID == null && followerCount < 1000) {
+                    topArtistUnder1kFollowersID = artistId;
+                }
+                if (topArtistUnder10kFollowersID == null && followerCount < 10000) {
+                    topArtistUnder10kFollowersID = artistId;
+                }
+                if (topArtistUnder100kFollowersID == null && followerCount < 100000) {
+                    topArtistUnder100kFollowersID = artistId;
+                }
+                if (topArtistUnder1kFollowersID != null && topArtistUnder10kFollowersID != null && topArtistUnder100kFollowersID != null) {
+                    break;
+                }
             }
-            if (topArtistUnder10kFollowersID == null && followerCount < 10000) {
-                topArtistUnder10kFollowersID = artistId;
-            }
-            if (topArtistUnder100kFollowersID == null && followerCount < 100000) {
-                topArtistUnder100kFollowersID = artistId;
-            }
-            if (topArtistUnder1kFollowersID != null && topArtistUnder10kFollowersID != null && topArtistUnder100kFollowersID != null) {
-                break;
-            }
+            MainArtist topUnder1k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder1kFollowersID);
+            MainArtist topUnder10k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder10kFollowersID);
+            MainArtist topUnder100k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder100kFollowersID);
+            dto.setTopUnder1kName(topUnder1k.getArtistName());
+            dto.setTopUnder10kName(topUnder10k.getArtistName());
+            dto.setTopUnder100kName(topUnder100k.getArtistName());
+            dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
+            dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
+            dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
         }
-        MainArtist topUnder1k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder1kFollowersID);
-        MainArtist topUnder10k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder10kFollowersID);
-        MainArtist topUnder100k = mainArtistRepository.findArtistBySpotifyId(topArtistUnder100kFollowersID);
-        dto.setTopUnder1kName(topUnder1k.getArtistName());
-        dto.setTopUnder10kName(topUnder10k.getArtistName());
-        dto.setTopUnder100kName(topUnder100k.getArtistName());
-        dto.setTopUnder1kImage(topUnder1k.getArtistImageLarge());
-        dto.setTopUnder10kImage(topUnder10k.getArtistImageLarge());
-        dto.setTopUnder100kImage(topUnder100k.getArtistImageLarge());
 
         System.out.println("duration: " + duration);
         System.out.println("mainArtists: " + mainArtists.size());
