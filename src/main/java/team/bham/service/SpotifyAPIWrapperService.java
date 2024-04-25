@@ -89,6 +89,7 @@ public class SpotifyAPIWrapperService {
     public SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>> getCurrentUserPlaylists(AppUser user) {
         String endpoint = "https://api.spotify.com/v1/me/playlists?limit=50";
         SpotifyAPIResponse<JSONObject> response = APICall(HttpMethod.GET, endpoint, user);
+
         if (!response.getSuccess()) {
             return new SpotifyAPIResponse<ArrayList<SpotifySimplifiedPlaylist>>(false, HttpStatus.INTERNAL_SERVER_ERROR, null);
         }

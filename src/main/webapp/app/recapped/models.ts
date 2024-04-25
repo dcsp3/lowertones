@@ -10,8 +10,6 @@ export enum MusicianType {
   TRUMPETER = 'TRUMPETER',
   VIOLINIST = 'VIOLINIST',
   DJ = 'DJ',
-  RAPPER = 'RAPPER',
-  SONGWRITER = 'SONGWRITER',
   COMPOSER = 'COMPOSER',
 }
 

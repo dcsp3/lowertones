@@ -133,6 +133,10 @@ public class APIScrapingService {
         ArrayList<SpotifySimplifiedPlaylist> playlistIds = userPlaylistResponse.getData();
         Set<Playlist> userPlaylists = playlistRepository.findPlaylistsByAppUserID(appUser.getId());
         //scrape playlist info, create playlist object, store in repo and add to appuser (store appuser again), ...
+        if (playlistIds == null || playlistIds.size() == 0) {
+            System.out.println("No playlists found for user " + appUser.getName());
+            return;
+        }
         for (int i = 0; i < playlistIds.size(); i++) {
             //check if we've already scraped this playlist
             SpotifySimplifiedPlaylist curSimplePlaylist = playlistIds.get(i);

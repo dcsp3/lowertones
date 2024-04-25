@@ -65,10 +65,11 @@ export class RecappedComponent implements OnInit, AfterViewInit {
 
   maxDate = new Date(Date.now());
   currentPage = 0;
-  totalPages = 6;
+  totalPages = 5;
   scrolling = false;
   scrollUpAccumulator = 0;
   scrollDownAccumulator = 0;
+  numOfFavArtistsUnderPages = 0;
 
   quizCardLeft: QuizCard = { name: '', image: '' };
   quizCardCenter: QuizCard = { name: '', image: '' };
@@ -90,7 +91,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       { label: 'Producers', value: 'producer' },
       { label: 'Mixing Engineers', value: 'mixing_engineer' },
       { label: 'Singers', value: 'singer' },
-      { label: 'Rappers', value: 'rapper' },
       { label: 'Guitarists', value: 'guitarist' },
       { label: 'Bassists', value: 'bassist' },
       { label: 'Drummers', value: 'drummer' },
@@ -99,7 +99,6 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       { label: 'Trumpeters', value: 'trumpeter' },
       { label: 'Saxophonists', value: 'saxophonist' },
       { label: 'DJs', value: 'dj' },
-      { label: 'Songwriters', value: 'songwriter' },
       { label: 'Composers', value: 'composer' },
     ];
     this.scanType = [
@@ -376,6 +375,21 @@ export class RecappedComponent implements OnInit, AfterViewInit {
         this.navigateToPage(0);
         this.initVanillaTiltOnResultsScreen();
         this.quizRandomizer();
+        if (this.response?.topUnder1kName != null) {
+          console.log('topUnder1kName:', this.response?.topUnder1kName);
+          this.numOfFavArtistsUnderPages = 3;
+          console.log('numOfFavArtistsUnderPages:', this.numOfFavArtistsUnderPages);
+        } else if (this.response?.topUnder10kName != null) {
+          console.log('topUnder10kName:', this.response?.topUnder10kName);
+          this.numOfFavArtistsUnderPages = 2;
+          console.log('numOfFavArtistsUnderPages:', this.numOfFavArtistsUnderPages);
+        } else if (this.response?.topUnder100kName != null) {
+          console.log('topUnder100kName:', this.response?.topUnder100kName);
+          this.numOfFavArtistsUnderPages = 1;
+          console.log('numOfFavArtistsUnderPages:', this.numOfFavArtistsUnderPages);
+        } else {
+          this.numOfFavArtistsUnderPages = 0;
+        }
       },
       error: error => {
         this.isLoading = false;
@@ -544,10 +558,11 @@ export class RecappedComponent implements OnInit, AfterViewInit {
       return this.recappedForm.get('timeframe')?.value;
     }
   }
-
+  selectedMusicianTypeValue: string = '';
   getMusicianTypeLabel(): string {
-    const selectedMusicianTypeValue = this.recappedForm.get('musicianType')?.value;
-    return selectedMusicianTypeValue;
+    this.selectedMusicianTypeValue = this.recappedForm.get('musicianType')?.value;
+    this.selectedMusicianTypeValue = this.selectedMusicianTypeValue.replace(/_/g, ' ');
+    return this.selectedMusicianTypeValue;
   }
 
   getTotalLibraryDuration(): string {

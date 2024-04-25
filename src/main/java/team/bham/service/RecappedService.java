@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.bham.domain.Album;
 import team.bham.domain.AppUser;
 import team.bham.domain.Contributor;
 import team.bham.domain.MainArtist;
@@ -89,12 +91,75 @@ public class RecappedService {
         return contributorCountMap;
     }
 
+    @Transactional(readOnly = true)
+    private Map<Contributor, Long> countContributorsByInstrumentAndSongs(String instrument, List<Song> songs) {
+        List<Long> songIds = songs.stream().map(Song::getId).collect(Collectors.toList());
+        System.out.println("songIds: " + songIds);
+        List<Contributor> allContributors = contributorRepository.findContributorsBySongIds(songIds);
+        List<Contributor> filteredContributorsByRole = allContributors
+            .stream()
+            .filter(c ->
+                c.getInstrument() != null && (c.getInstrument().equalsIgnoreCase(instrument) || c.getInstrument().contains(instrument))
+            )
+            .collect(Collectors.toList());
+        Map<String, List<Contributor>> groupedById = filteredContributorsByRole
+            .stream()
+            .collect(Collectors.groupingBy(Contributor::getMusicbrainzID));
+        Map<Contributor, Long> contributorCountMap = new HashMap<>();
+        for (Map.Entry<String, List<Contributor>> entry : groupedById.entrySet()) {
+            List<Contributor> contributors = entry.getValue();
+            Contributor representative = contributors.get(0); // pick the first contributor as representative
+            long count = contributors.size();
+            contributorCountMap.put(representative, count);
+        }
+        return contributorCountMap;
+    }
+
+    @Transactional(readOnly = true)
+    private Map<List<Song>, Contributor> getSongsInLibraryByContributor(List<Song> songs, Contributor contributor) {
+        List<Song> matchedSongs = songs.stream().filter(song -> song.getContributors().contains(contributor)).collect(Collectors.toList());
+        Map<List<Song>, Contributor> result = new HashMap<>();
+        result.put(matchedSongs, contributor);
+        return result;
+    }
+
+    public Map<Contributor, Long> getContributors(String role, List<Song> songs) {
+        switch (role) {
+            case "PRODUCER":
+                return countContributorsByRoleAndSongs("producer", songs);
+            case "MIXING_ENGINEER":
+                return countContributorsByRoleAndSongs("mix", songs);
+            case "BASSIST":
+                return countContributorsByInstrumentAndSongs("bass", songs);
+            case "GUITARIST":
+                return countContributorsByInstrumentAndSongs("guitar", songs);
+            case "DRUMMER":
+                return countContributorsByInstrumentAndSongs("drums", songs);
+            case "SINGER":
+                return countContributorsByRoleAndSongs("vocal", songs);
+            case "SAXOPHONIST":
+                return countContributorsByInstrumentAndSongs("saxophone", songs);
+            case "PIANIST":
+                return countContributorsByInstrumentAndSongs("piano", songs);
+            case "TRUMPETER":
+                return countContributorsByInstrumentAndSongs("trumpet", songs);
+            case "VIOLINIST":
+                return countContributorsByInstrumentAndSongs("violin", songs);
+            case "DJ":
+                return countContributorsByRoleAndSongs("dj", songs);
+            case "COMPOSER":
+                return countContributorsByRoleAndSongs("compose", songs);
+            default:
+                throw new IllegalArgumentException("Invalid Musician Type: " + role);
+        }
+    }
+
     @Transactional
     private String getContributorImageUrl(String name, AppUser user) {
         JSONObject response = spotifyAPIWrapperService.search(name, SpotifySearchType.ARTIST, user);
         System.out.println("response: " + response);
         Integer thresholdRatio = 95;
-        Integer thresholdPartialRatio = 90;
+        Integer thresholdPartialRatio = 95;
         JSONArray artists = response.getJSONObject("artists").getJSONArray("items");
         List<JSONObject> exactMatches = new ArrayList<>();
         List<JSONObject> partialMatches = new ArrayList<>();
@@ -201,7 +266,6 @@ public class RecappedService {
             return dto;
         }
         dto.setTotalSongs(songs.size());
-
         // get main artists from songs
         Set<MainArtist> mainArtists = utilService.getMainArtistsFromSongs(songs);
         dto.setTotalArtists(mainArtists.size());
@@ -217,7 +281,10 @@ public class RecappedService {
         dto.setTotalDuration(((int) duration));
 
         // 3. Get Contributors for each song, count the number of occurrences, and save the top 5
-        Map<Contributor, Long> topContributors = countContributorsByRoleAndSongs(request.getMusicianType().name(), songs);
+        System.out.println("musicianType is here:" + request.getMusicianType());
+
+        Map<Contributor, Long> topContributors = getContributors(request.getMusicianType().name(), songs);
+
         dto.setTotalContributors(topContributors.size());
 
         System.out.println("topContributors here: " + topContributors);
@@ -254,40 +321,6 @@ public class RecappedService {
 
         // 4. For the top contributors, check for a Spotify image or an album cover
 
-        String[] images = new String[5];
-        System.out.println("names here: " + names[0] + ", " + names[1] + ", " + names[2] + ", " + names[3] + ", " + names[4]);
-        for (int i = 0; i < 5; i++) {
-            images[i] = getContributorImageUrl(names[i], appUser);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            if (images[i] == null) {
-                //TO DO - SET IMAGE TO TOP ALBUM COVER
-                images[i] = "https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb";
-            }
-        }
-        dto.setNumOneArtistImage(images[0]);
-        dto.setNumTwoArtistImage(images[1]);
-        dto.setNumThreeArtistImage(images[2]);
-        dto.setNumFourArtistImage(images[3]);
-        dto.setNumFiveArtistImage(images[4]);
-
-        System.out.println("images here: " + images[0] + images[1] + images[2] + images[3] + images[4]);
-        System.out.println("names here: " + names[0] + names[1] + names[2] + names[3] + names[4]);
-
-        //TEST USAGE
-        System.out.println("KENNY BEATS IMG" + getContributorImageUrl("Kenny Beats", appUser));
-
-        // 5. Get 2 other album covers for top songs by the top contributor
-        //List<String> additionalAlbumCovers = getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
-
-        // List<String> additionalAlbumCovers =
-        // getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
-
-        // 6. Get top under 1k, 10k, 100k followers artists
-        System.out.println("start date: " + startDate);
-        System.out.println("end date: " + endDate);
-
         SpotifyTimeRange closestTimeRange;
         if (timeRange == null) {
             LocalDate diff = endDate.minusDays(startDate.toEpochDay());
@@ -302,6 +335,74 @@ public class RecappedService {
         } else {
             closestTimeRange = timeRange;
         }
+        List<Song> topSongs = utilService.getUserTopSongs(appUser, closestTimeRange);
+
+        String[] images = new String[5];
+        for (int i = 0; i < 5; i++) {
+            if (names[i] == null) {
+                continue;
+            }
+            images[i] = getContributorImageUrl(names[i], appUser);
+            if (images[i] == null) {
+                final int index = i;
+                Contributor currentContributor = top5Contributors
+                    .entrySet()
+                    .stream()
+                    .map(Map.Entry::getKey)
+                    .filter(c -> c.getName().equals(names[index]))
+                    .findFirst()
+                    .orElse(null);
+                if (currentContributor != null) {
+                    Map<List<Song>, Contributor> songsByContributor = getSongsInLibraryByContributor(songs, currentContributor);
+                    List<Song> contributorSongs = songsByContributor.keySet().stream().flatMap(List::stream).collect(Collectors.toList());
+                    if (topSongs == null || contributorSongs == null) {
+                        System.out.println("Error: topSongs or contributorSongs is null");
+                        break;
+                    }
+                    System.out.println("topSongsSize: " + topSongs.size());
+                    System.out.println("topSongs: " + topSongs);
+                    System.out.println("contributorSongsSize: " + contributorSongs.size());
+                    System.out.println("contributorSongs: " + contributorSongs);
+
+                    Optional<Song> firstMatchingSong = topSongs.stream().filter(contributorSongs::contains).findFirst();
+                    Album firstMatchingAlbum = firstMatchingSong.map(Song::getAlbum).orElse(null);
+                    if (firstMatchingAlbum != null) {
+                        images[i] = firstMatchingAlbum.getAlbumCoverArt();
+                    } else {
+                        System.out.println("No album cover found for contributor " + names[i]);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            if (images[i] == null && names[i] != null) {
+                //TO DO - SET IMAGE TO TOP ALBUM COVER
+                images[i] = "https://i.scdn.co/image/ab6761610000e5ebae4a51ded0c9a8b75278f5eb";
+            } else if (images[i] == null && names[i] == null) {
+                images[i] = null;
+            }
+        }
+        dto.setNumOneArtistImage(images[0]);
+        dto.setNumTwoArtistImage(images[1]);
+        dto.setNumThreeArtistImage(images[2]);
+        dto.setNumFourArtistImage(images[3]);
+        dto.setNumFiveArtistImage(images[4]);
+
+        System.out.println("images here: " + images[0] + images[1] + images[2] + images[3] + images[4]);
+        System.out.println("names here: " + names[0] + names[1] + names[2] + names[3] + names[4]);
+
+        //TEST USAGE
+
+        // 5. Get 2 other album covers for top songs by the top contributor
+        //List<String> additionalAlbumCovers = getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
+
+        // List<String> additionalAlbumCovers =
+        // getAdditionalAlbumCovers(sortedContributors.get(0).getKey(), songs);
+
+        // 6. Get top under 1k, 10k, 100k followers artists
+        System.out.println("start date: " + startDate);
+        System.out.println("end date: " + endDate);
 
         List<MainArtist> topArtists = utilService.getUserTopArtists(appUser, closestTimeRange);
 
@@ -395,5 +496,4 @@ public class RecappedService {
         }
         return dto;
     }
-    // Add additional service methods as needed
 }

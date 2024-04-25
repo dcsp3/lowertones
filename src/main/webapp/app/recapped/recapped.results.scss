@@ -350,6 +350,15 @@
   height: 100%;
 }
 
+.summary-container-tryagain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 30vh;
+}
+
 .summary-textlarge {
   font-family: 'neue-plak';
   font-size: 4rem;

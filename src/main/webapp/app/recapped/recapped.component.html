@@ -205,7 +205,7 @@
 
   <div *ngIf="currentPage === 2" class="page3">
     <div class="results-container-page3">
-      <div class="your-top-title">Your Top Producers from the Past Year</div>
+      <div class="your-top-title">Your top {{ getMusicianTypeLabel() }} from the past year</div>
       <div class="top-producers">
         <div class="producer-hero">
           <div class="num1artist">
@@ -258,7 +258,7 @@
   <div *ngIf="currentPage === 3">
     <div class="smaller-artist-container">
       <div class="smaller-artist-textlarge">By follower count, these were your favourite artists under..</div>
-      <div class="smaller-artist-subcontainer">
+      <div class="smaller-artist-subcontainer" *ngIf="numOfFavArtistsUnderPages === 3">
         <div class="smaller-artist-card left1k">
           <div class="smaller-artist-textmed">1k followers</div>
           <img src="{{ response.topUnder1kImage }}" alt="{{ response.topUnder1kName }}" class="smaller-artist-card-img" />
@@ -275,52 +275,34 @@
           <div class="smaller-artist-artistname">{{ response.topUnder100kName }}</div>
         </div>
       </div>
+      <div class="smaller-artist-subcontainer" *ngIf="numOfFavArtistsUnderPages === 2">
+        <div class="smaller-artist-card center10k">
+          <div class="smaller-artist-textmed">10k followers</div>
+          <img src="{{ response.topUnder10kImage }}" alt="{{ response.topUnder10kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder10kName }}</div>
+        </div>
+        <div class="smaller-artist-card right100k">
+          <div class="smaller-artist-textmed">100k followers</div>
+          <img src="{{ response.topUnder100kImage }}" alt="{{ response.topUnder100kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder100kName }}</div>
+        </div>
+      </div>
+      <div class="smaller-artist-subcontainer" *ngIf="numOfFavArtistsUnderPages === 1">
+        <div class="smaller-artist-card right100k">
+          <div class="smaller-artist-textmed">100k followers</div>
+          <img src="{{ response.topUnder100kImage }}" alt="{{ response.topUnder100kName }}" class="smaller-artist-card-img" />
+          <div class="smaller-artist-artistname">{{ response.topUnder100kName }}</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div *ngIf="currentPage === 4">
-    <p-table
-      #table
-      [tableStyle]="{ 'min-height': '75.5vh' }"
-      [columns]="columns"
-      [value]="tableData"
-      [paginator]="true"
-      [rows]="13"
-      styleClass="p-datatable-striped"
-      sortMode="multiple"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns" title="{{ col.label }}" pSortableColumn="{{ col.value }}">
-            {{ col.value }}<p-sortIcon field="{{ col.value }}"></p-sortIcon>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-item let-columns="columns">
-        <tr class="p-selectable-row">
-          <td *ngFor="let col of columns">
-            <div title="{{ item[col.value] }}">{{ item[col.value] }}</div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="paginatorleft" let-state>
-        <div class="flex" style="display: flex; justify-content: center">
-          <button
-            type="button"
-            pButton
-            pRipple
-            icon="pi pi-file"
-            (click)="table.exportCSV()"
-            class="mr-2"
-            pTooltip="CSV"
-            tooltipPosition="bottom"
-          ></button>
-        </div>
-      </ng-template>
-    </p-table>
+    <div class="summary-container-tryagain">
+      <div class="summary-textlarge">Thank you for trying ReCAPD</div>
+      <div class="summary-textsmall">Click <a href="/recapped" style="text-decoration: none">here</a> to try a different scan!</div>
+    </div>
   </div>
-
-  <div *ngIf="currentPage === 5">SUMMARY HERE</div>
 
   <div class="page-selector">
     <button (click)="navigateUp()" [disabled]="currentPage <= 0" class="arrow up-arrow">&#9650;</button>

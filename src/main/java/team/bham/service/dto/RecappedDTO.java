@@ -1,5 +1,7 @@
 package team.bham.service.dto;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
+
 public class RecappedDTO {
 
     private int totalSongs;

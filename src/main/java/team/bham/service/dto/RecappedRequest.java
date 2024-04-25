@@ -18,8 +18,6 @@ public class RecappedRequest {
         TRUMPETER,
         VIOLINIST,
         DJ,
-        RAPPER,
-        SONGWRITER,
         COMPOSER,
     }
 
