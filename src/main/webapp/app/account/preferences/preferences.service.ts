@@ -20,6 +20,10 @@ export class PreferencesService {
     return this.http.post<boolean>('/api/account/preferences/highContrast', {});
   }
 
+  getTextSize(): Observable<number> {
+    return this.http.post<number>('/api/account/preferences/textSize', {});
+  }
+
   updateEmail(email: string): Observable<void> {
     const params = new HttpParams().set('email', email); // Constructing the request parameters with the email
     return this.http.post<void>(`/api/account/update-email`, null, { params });
