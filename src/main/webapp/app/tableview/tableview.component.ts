@@ -23,6 +23,7 @@ interface SongEntry {
   speechiness: number;
   valence: number;
   tempo: number;
+  spotifyId: string;
 }
 
 interface Column {
@@ -85,6 +86,7 @@ export class TableviewComponent implements OnInit {
     speechiness: 0,
     valence: 0,
     tempo: 0,
+    spotifyId: '',
   };
   placeholderList: SongEntry[] = [];
   songDataInUse: SongEntry[] = [];
@@ -169,8 +171,8 @@ export class TableviewComponent implements OnInit {
       { value: 'title', label: 'Title', short: 'Title' },
       { value: 'artist', label: 'Artist', short: 'Artist' },
       { value: 'contributor', label: 'Contributor', short: 'Con' },
-      { value: 'length', label: 'Length', short: 'Length' },
-      { value: 'release', label: 'Release Date', short: 'Release Date' },
+      { value: 'length', label: 'Length', short: 'Len' },
+      { value: 'release', label: 'Release Date', short: 'Rel' },
       { value: 'popularity', label: 'Popularity', short: 'Pop' },
       { value: 'explicit', label: 'Explicit', short: 'Exp' },
       { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
@@ -188,8 +190,8 @@ export class TableviewComponent implements OnInit {
       { value: 'title', label: 'Title', short: 'Title' },
       { value: 'artist', label: 'Artist', short: 'Artist' },
       { value: 'contributor', label: 'Contributor', short: 'Con' },
-      { value: 'length', label: 'Length', short: 'Length' },
-      { value: 'release', label: 'Release Date', short: 'Release Date' },
+      { value: 'length', label: 'Length', short: 'Len' },
+      { value: 'release', label: 'Release Date', short: 'Rel' },
       { value: 'popularity', label: 'Popularity', short: 'Pop' },
       { value: 'explicit', label: 'Explicit', short: 'Exp' },
       { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
@@ -346,6 +348,37 @@ export class TableviewComponent implements OnInit {
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
   }
 
+  appendExtraToArtist(songEntries: SongEntry[]): void {
+    const spotifyIdMap = new Map<string, number>();
+
+    // First pass: count occurrences of each spotifyID
+    songEntries.forEach(song => {
+      const count = spotifyIdMap.get(song.spotifyId) ?? 0;
+      spotifyIdMap.set(song.spotifyId, count + 1);
+    });
+
+    // Second pass: append "extra" to artist name if spotifyID occurs more than once
+    songEntries.forEach(song => {
+      if (spotifyIdMap.get(song.spotifyId)! > 1) {
+        song.artist += ' extra';
+      }
+    });
+  }
+
+  consolidateArtists(songEntries: SongEntry[]): SongEntry[] {
+    const spotifyIdMap = new Map<string, SongEntry>();
+
+    for (const song of songEntries) {
+      if (spotifyIdMap.has(song.spotifyId)) {
+        const firstInstance = spotifyIdMap.get(song.spotifyId)!;
+        firstInstance.artist += `, ${song.artist}`;
+      } else {
+        spotifyIdMap.set(song.spotifyId, song);
+      }
+    }
+    return Array.from(spotifyIdMap.values());
+  }
+
   genSongList(): void {
     this.loadingSongs = true;
     if (this.selectedTableState.value === 'user') {
@@ -374,9 +407,13 @@ export class TableviewComponent implements OnInit {
           speechiness: this.truncate(songEntry.speechiness * 100),
           valence: this.truncate(songEntry.valence * 100),
           tempo: songEntry.tempo,
+          spotifyId: songEntry.spotifyId,
         }));
 
         console.log('here is how long the list is' + this.songData.length);
+
+        this.songData = this.consolidateArtists(this.songData);
+
         if (this.selectedTableState.value === 'user') {
           this.songDataInUse = this.songData;
         }

@@ -146,7 +146,7 @@ public class TableviewService {
             .stream()
             .map(song -> {
                 Map<String, Object> info = new HashMap<>();
-
+                info.put("spotifyId", song.getSongSpotifyId());
                 info.put("title", song.getSongTitle());
                 info.put("artist", song.getArtistName());
                 // info.put("contributor", song.());
