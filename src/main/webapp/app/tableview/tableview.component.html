@@ -75,21 +75,9 @@
         <ng-template let-node pTemplate="DurationElement">
           <div style="display: flex; justify-content: space-between">
             <b>Min: </b>
-            <p-inputMask
-              mask="99:99"
-              placeholder="mm:ss"
-              type="text"
-              [(ngModel)]="durationValues[0]"
-              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]; console.log(durationValues)"
-            ></p-inputMask>
+            <p-inputMask mask="99:99" placeholder="mm:ss" type="text" [(ngModel)]="durationRange[0]"></p-inputMask>
             <b>Max: </b>
-            <p-inputMask
-              mask="99:99"
-              placeholder="mm:ss"
-              type="text"
-              [(ngModel)]="durationValues[1]"
-              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
-            ></p-inputMask>
+            <p-inputMask mask="99:99" placeholder="mm:ss" type="text" [(ngModel)]="durationRange[1]"></p-inputMask>
           </div>
         </ng-template>
 
@@ -102,8 +90,7 @@
               placeholder="1900"
               type="number"
               pInputText
-              [(ngModel)]="yearValues[0]"
-              (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+              [(ngModel)]="yearRange[0]"
               class="w-full no-spinners"
             />
             <b>Max: </b>
@@ -112,8 +99,7 @@
               placeholder="2030"
               type="number"
               pInputText
-              [(ngModel)]="yearValues[1]"
-              (ngModelChange)="yearValues = [yearValues[0], yearValues[1]]"
+              [(ngModel)]="yearRange[1]"
               class="w-full no-spinners"
             />
           </div>
@@ -128,8 +114,7 @@
               placeholder="60"
               type="number"
               pInputText
-              [(ngModel)]="tempoValues[0]"
-              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              [(ngModel)]="tempoRange[0]"
               class="w-full no-spinners"
             />
             <b>Max: </b>
@@ -138,20 +123,46 @@
               placeholder="120"
               type="number"
               pInputText
-              [(ngModel)]="tempoValues[1]"
-              (ngModelChange)="tempoValues = [tempoValues[0], tempoValues[1]]"
+              [(ngModel)]="tempoRange[1]"
               class="w-full no-spinners"
             />
           </div>
         </ng-template>
 
         <!--Song Features-->
-        <ng-template let-node pTemplate="FeaturesElement"> </ng-template>
+        <ng-template let-node pTemplate="FeaturesElement">
+          <div *ngFor="let feature of features">
+            <div [ngStyle]="feature.name !== 'Valence' ? { 'margin-bottom': '1.5vh' } : {}">
+              <span>{{ feature.name }}</span>
+              <div style="display: flex; justify-content: space-between">
+                <b>Min: </b>
+                <input
+                  style="width: 8vh; padding: 0rem; text-align: center"
+                  placeholder="0"
+                  type="number"
+                  pInputText
+                  [(ngModel)]="feature.range[0]"
+                  class="w-full no-spinners"
+                />
+                <b>Max: </b>
+                <input
+                  style="width: 8vh; padding: 0rem; text-align: center"
+                  placeholder="100"
+                  type="number"
+                  pInputText
+                  [(ngModel)]="feature.range[1]"
+                  class="w-full no-spinners"
+                />
+              </div>
+            </div>
+          </div>
+        </ng-template>
 
         <!--Popularity-->
         <ng-template let-node pTemplate="PopularityElement">
           <!--
           <div style="width: 80%; margin: auto; margin-top: 5%">-->
+
           <div style="display: flex; justify-content: space-between">
             <b>Min: </b>
             <input
@@ -159,8 +170,7 @@
               placeholder="0"
               type="number"
               pInputText
-              [(ngModel)]="popularityValues[0]"
-              (ngModelChange)="popularityValues = [popularityValues[0], popularityValues[1]]"
+              [(ngModel)]="popularityRange[0]"
               class="w-full no-spinners"
             />
             <b>Max: </b>
@@ -169,34 +179,33 @@
               placeholder="100"
               type="number"
               pInputText
-              [(ngModel)]="popularityValues[1]"
-              (ngModelChange)="popularityValues = [popularityValues[0], popularityValues[1]]"
+              [(ngModel)]="popularityRange[1]"
               class="w-full no-spinners"
             />
           </div>
-          <!--
-            <div style="padding-top: 5%; padding-bottom: 10%">
-              <p-slider [(ngModel)]="popularityValues" [min]="0" [max]="100" [range]="true" class="w-full"></p-slider>
-            </div>
-            
-          </div>-->
         </ng-template>
 
         <!--Artist Search-->
         <ng-template let-node pTemplate="ArtistChipElement">
-          <p-chips [(ngModel)]="artistChips"></p-chips>
+          <p-chips [(ngModel)]="artistChips" (ngModelChange)="applySearch()"></p-chips>
         </ng-template>
 
         <!--Contributor Search-->
         <ng-template let-node pTemplate="ContributorChipElement">
-          <p-chips [(ngModel)]="contributorChips"></p-chips>
+          <p-chips [(ngModel)]="contributorChips" (ngModelChange)="applySearch()"></p-chips>
         </ng-template>
 
         <!--Explicitness-->
 
         <ng-template let-node pTemplate="ExplicitnessElement">
           <div class="center-container">
-            <p-selectButton [options]="Explicitness" [(ngModel)]="selectedExplicitness" optionLabel="label" class="explicitSelectButton">
+            <p-selectButton
+              [options]="Explicitness"
+              [(ngModel)]="selectedExplicitness"
+              (ngModelChange)="applySearch()"
+              optionLabel="label"
+              class="explicitSelectButton"
+            >
             </p-selectButton>
           </div>
         </ng-template>
@@ -266,6 +275,7 @@
               pResizableColumn
               title="{{ col.label }}"
               pSortableColumn="{{ col.value }}"
+              (click)="onColumnHeaderClick()"
               [ngClass]="{
                 coltitle: col.value === 'title',
                 colartist: col.value === 'artist',
@@ -332,18 +342,20 @@
                   <ng-container *ngIf="col.value === 'contributor'; else normalField">
                     <ng-container *ngIf="song['contributor']">
                       <p-overlayPanel #op>
-                        <ng-container *ngFor="let name of song['contributorNames']; let i = index">
-                          <ng-container
-                            *ngIf="song['contributorInstruments'][i] && song['contributorInstruments'][i].length > 0; else roleTag"
-                          >
-                            <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorInstruments'][i] }}"></p-tag>
+                        <div style="width: 25vw">
+                          <ng-container *ngFor="let name of song['contributorNames']; let i = index">
+                            <ng-container
+                              *ngIf="song['contributorInstruments'][i] && song['contributorInstruments'][i].length > 0; else roleTag"
+                            >
+                              <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorInstruments'][i] }}"></p-tag>
+                            </ng-container>
+                            <ng-template #roleTag>
+                              <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorRoles'][i] }}"></p-tag>
+                            </ng-template>
                           </ng-container>
-                          <ng-template #roleTag>
-                            <p-tag [rounded]="true" value="{{ name }} - {{ song['contributorRoles'][i] }}"></p-tag>
-                          </ng-template>
-                        </ng-container>
+                        </div>
                       </p-overlayPanel>
-                      <p-button class="contributorButton" (click)="op.toggle($event)" label="Show"></p-button>
+                      <p-button class="contributorButton" (click)="op.toggle($event)" label="View"></p-button>
                     </ng-container>
                   </ng-container>
 

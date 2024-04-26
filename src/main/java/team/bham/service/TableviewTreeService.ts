@@ -56,7 +56,7 @@ export class TableviewTreeService {
       {
         key: '3',
         label: 'Release Years',
-        tooltip: 'Filter by track release years\nFormat - yyyy',
+        tooltip: 'Filter by track release years',
         data: 'ReleaseYears',
         icon: 'pi pi-fw pi-calendar',
         children: [
@@ -71,7 +71,8 @@ export class TableviewTreeService {
       {
         key: '4',
         label: 'Popularity',
-        tooltip: 'Filter by track popularity',
+        tooltip:
+          "Filter by track popularity\nThis metric is calculated by Spotify. The artist's\npopularity is calculated from the popularity\n of all the artis's tracks",
         data: 'Popularity',
         icon: 'pi pi-fw pi-globe',
         children: [
@@ -100,15 +101,24 @@ export class TableviewTreeService {
       },
       {
         key: '6',
-        label: 'Song Features',
-        tooltip: 'Filter by song features',
-        data: 'Song Features',
+        label: 'Track Features',
+        tooltip:
+          'Filter by track features\nThese metrics are calculated by Spotify.' +
+          '\nAcousticness - A measure from 0-100 of whether the track is acoustic.' +
+          '\nDanceability - A measure from 0-100 of how suitable a track is for dancing.' +
+          '\nInstrumentalness - A measure from 0-100 of how instrumental a track is.' +
+          '\nEnergy - A measure from 0-100 of how intense and energetic a track is.' +
+          '\nLiveness - A measure from 0-100 of the presence of the live audience in the recording.' +
+          '\nLoudness - A measure from -60-0 of how loud a song is in dB.' +
+          '\nSpeechiness - A measure from 0-100 of the presence of spoken word in the track.' +
+          '\nValence - A measure from 0-100 conveying the musical positiveness in the track.',
+        data: 'Track Features',
         icon: 'pi pi-fw pi-list',
         children: [
           {
             key: '6-1',
-            label: 'Song Features',
-            data: 'Song Features',
+            label: 'Track Features',
+            data: 'Track Features',
             type: 'FeaturesElement',
           },
         ],
