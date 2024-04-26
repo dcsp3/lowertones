@@ -713,6 +713,30 @@ h4 {
   font-size: 1.8vw;
 }
 
+/* Tableview Section*/
+
+.tableview-container {
+  display: flex;
+  align-items: center;
+}
+
+.tableview-text {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tableview-image {
+}
+
+.filters-image {
+  padding-left: 300px;
+}
+
+.left-right-container {
+  display: flex;
+}
+
 /* Recapped Section */
 
 .description-center-content {

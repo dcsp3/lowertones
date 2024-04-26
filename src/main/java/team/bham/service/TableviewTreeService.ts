@@ -157,7 +157,7 @@ export class TableviewTreeService {
         key: '9',
         label: 'Explicitness',
         tooltip:
-          'Filter by specific explicitness\n' +
+          'Filter by track explicitness\n' +
           '\nBoth - Both Explicit and Non-Explicit tracks will be shown' +
           '\nExplicit - Only Explicit tracks will be shown' +
           '\nNon-Explicit - only Non-Explicit tracks will be shown',

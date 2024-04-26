@@ -366,7 +366,7 @@
                   <ng-container *ngIf="col.value === 'contributor'; else normalField">
                     <ng-container *ngIf="song['contributor']">
                       <p-overlayPanel #op>
-                        <div style="width: 60vw">
+                        <div style="width: 40vw">
                           <ng-container *ngFor="let name of song['contributorNames']; let i = index">
                             <ng-container
                               *ngIf="song['contributorInstruments'][i] && song['contributorInstruments'][i].length > 0; else roleTag"
