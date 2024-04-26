@@ -22,6 +22,7 @@ Main page styles
   align-items: center;
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 h4 {
@@ -71,6 +72,90 @@ h4 {
   position: relative;
   top: -3px;
   //padding-right: 160px;
+}
+
+[type='radio'] {
+  display: none;
+}
+
+#slider {
+  width: 40vw;
+  height: 23vw;
+  position: absolute;
+  bottom: 4vw;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+#slider label {
+  width: 70%;
+  height: 80%;
+  left: 3.5vw;
+  border-radius: 0.6vw;
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+#s1:checked ~ #slide4,
+#s2:checked ~ #slide5,
+#s3:checked ~ #slide1,
+#s4:checked ~ #slide2,
+#s5:checked ~ #slide3 {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+  transform: translate3d(-30%, 0, -200px);
+}
+
+#s1:checked ~ #slide5,
+#s2:checked ~ #slide1,
+#s3:checked ~ #slide2,
+#s4:checked ~ #slide3,
+#s5:checked ~ #slide4 {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  transform: translate3d(-15%, 0, -100px);
+}
+
+#s1:checked ~ #slide1,
+#s2:checked ~ #slide2,
+#s3:checked ~ #slide3,
+#s4:checked ~ #slide4,
+#s5:checked ~ #slide5 {
+  box-shadow: 0 13px 25px 0 rgba(0, 0, 0, 0.3), 0 11px 7px 0 rgba(0, 0, 0, 0.19);
+  transform: translate3d(0, 0, 0);
+}
+
+#s1:checked ~ #slide2,
+#s2:checked ~ #slide3,
+#s3:checked ~ #slide4,
+#s4:checked ~ #slide5,
+#s5:checked ~ #slide1 {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  transform: translate3d(15%, 0, -100px);
+}
+
+#s1:checked ~ #slide3,
+#s2:checked ~ #slide4,
+#s3:checked ~ #slide5,
+#s4:checked ~ #slide1,
+#s5:checked ~ #slide2 {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
+  transform: translate3d(30%, 0, -200px);
+}
+
+#slide1 {
+  background: #00bcd4;
+}
+#slide2 {
+  background: #4caf50;
+}
+#slide3 {
+  background: #cddc39;
+}
+#slide4 {
+  background: #ffc107;
+}
+#slide5 {
+  background: #ff5722;
 }
 
 .scroll-down-container {
@@ -782,8 +867,8 @@ p {
 
 #vaultHeading {
   font-family: 'neue-plak';
-  letter-spacing: 2px;
-  font-size: 5vw;
+  letter-spacing: 1px;
+  font-size: 4vw;
   margin-left: 53%;
   color: #ffffff;
   font-weight: bold;
@@ -925,4 +1010,15 @@ p {
   .top-genre {
     border: 2.5px solid white !important;
   }
+}
+
+/* Get Started Section */
+
+#getStartedHeading {
+  font-family: 'neue-plak';
+  letter-spacing: 2px;
+  font-size: 4vw;
+  color: #ffffff;
+  font-weight: bold;
+  margin-bottom: 35%;
 }
