@@ -255,7 +255,6 @@ export class TableviewComponent implements OnInit {
       { value: 'release', label: 'Release Date', short: 'Rel' },
       { value: 'popularity', label: 'Popularity', short: 'Pop' },
       { value: 'explicit', label: 'Explicit', short: 'Exp' },
-    ]; /*
       { value: 'acousticness', label: 'Acousticness', short: 'Aco' },
       { value: 'danceability', label: 'Danceability', short: 'Dan' },
       { value: 'instrumentalness', label: 'Instrumentalness', short: 'Ins' },
@@ -265,7 +264,7 @@ export class TableviewComponent implements OnInit {
       { value: 'speechiness', label: 'Speechiness', short: 'Spe' },
       { value: 'valence', label: 'Valence', short: 'Val' },
       { value: 'tempo', label: 'Tempo', short: 'Tem' },
-    ];*/
+    ];
     this.tableviewTreeService.getTreeNodes().then(data => (this.filters = data));
 
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
