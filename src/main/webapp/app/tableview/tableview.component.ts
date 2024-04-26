@@ -142,6 +142,11 @@ export class TableviewComponent implements OnInit {
   tableRows: number = 15;
   entryCount: number = 0;
 
+  exportPopupVisible: boolean = false;
+  exportName: string = '';
+  exportNameError: boolean = false;
+  exportItemsError: boolean = false;
+
   constructor(private tableviewService: TableviewService, private scrapeService: ScrapeService) {
     for (let i = 0; i < 15; i++) {
       let songEntry: SongEntry = this.placeholderSong;
@@ -665,5 +670,46 @@ export class TableviewComponent implements OnInit {
         this.loadingSongs = false;
       },
     });
+  }
+
+  showExportPopup() {
+    this.exportName = '';
+    this.exportPopupVisible = true;
+  }
+
+  exportStagingPlaylist() {
+    console.log('playlist name: ' + this.exportName);
+    if (this.exportName.length === 0) {
+      this.exportNameError = true;
+    } else {
+      if (this.selectedSongs.length === 0) {
+        this.exportItemsError = true;
+        return;
+      }
+      //conv from song entries to spotify ids
+      const spotifyIds: string[] = this.selectedSongs.map(song => song.spotifyId);
+      //then get rid of empty strs (why do these appear?)
+      const filteredSpotifyIds: string[] = spotifyIds.filter(spotifyId => spotifyId !== '');
+      console.log(filteredSpotifyIds);
+
+      this.tableviewService
+        .exportPlaylist({
+          name: this.exportName,
+          songSpotifyIds: filteredSpotifyIds,
+        })
+        .subscribe({
+          next: (response: any) => {
+            console.log('Playlist exported!!');
+            this.exportNameError = false;
+            this.exportItemsError = false;
+            this.exportPopupVisible = false;
+          },
+        });
+    }
+  }
+
+  resetExportNameError() {
+    this.exportNameError = false;
+    this.exportItemsError = false;
   }
 }
