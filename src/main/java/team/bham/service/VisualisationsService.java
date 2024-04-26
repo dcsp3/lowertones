@@ -127,12 +127,13 @@ public class VisualisationsService {
         int numOfNonEmptySongs = 0;
 
         for (int i = 0; i < playlistSongs.size(); i++) {
-            if (playlistSongs.get(i).getSongAcousticness() != 0) {
-                AvgAcousticness += playlistSongs.get(i).getSongAcousticness();
-                AvgDanceability += playlistSongs.get(i).getSongDanceability();
-                AvgEnergy += playlistSongs.get(i).getSongEnergy();
-                Avgpopularity += playlistSongs.get(i).getSongPopularity();
-                AvgTempo += playlistSongs.get(i).getSongTempo();
+            Song song = playlistSongs.get(i);
+            if (song != null && song.getSongAcousticness() != null && song.getSongAcousticness() != 0) {
+                AvgAcousticness += song.getSongAcousticness();
+                AvgDanceability += song.getSongDanceability();
+                AvgEnergy += song.getSongEnergy();
+                Avgpopularity += song.getSongPopularity();
+                AvgTempo += song.getSongTempo();
                 numOfNonEmptySongs++;
             }
         }

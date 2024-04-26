@@ -27,11 +27,11 @@
       <div class="chart-description">
         <p>
           The Top Genres in your selected playlist were:<br /><br />
-          GENRE 1: GENRE1PERCENT<br />
-          GENRE 2: GENRE2PERCENT<br />
-          GENRE 3: GENRE3PERCENT<br />
-          GENRE 4: GENRE4PERCENT<br />
-          GENRE 5: GENRE5PERCENT
+          {{ response?.topGenre1Name }}: ({{ response?.topGenre1Percent }}%)<br />
+          {{ response?.topGenre2Name }}: ({{ response?.topGenre2Percent }}%)<br />
+          {{ response?.topGenre3Name }}: ({{ response?.topGenre3Percent }}%)<br />
+          {{ response?.topGenre4Name }}: ({{ response?.topGenre4Percent }}%)<br />
+          {{ response?.topGenre5Name }}: ({{ response?.topGenre5Percent }}%)
         </p>
       </div>
     </div>
@@ -46,11 +46,11 @@
       <div class="chart-description">
         <p>
           The Top Artists in your selected playlist were:<br /><br />
-          ARTIST 1: ARTIST1COUNT<br />
-          ARTIST 2: ARTIST2COUNT<br />
-          ARTIST 3: ARTIST3COUNT<br />
-          ARTIST 4: ARTIST4COUNT<br />
-          ARTIST 5: ARTIST5COUNT
+          {{ response?.topArtist1Name }}: ({{ response?.topArtist1Count }})<br />
+          {{ response?.topArtist2Name }}: ({{ response?.topArtist2Count }})<br />
+          {{ response?.topArtist3Name }}: ({{ response?.topArtist3Count }})<br />
+          {{ response?.topArtist4Name }}: ({{ response?.topArtist4Count }})<br />
+          {{ response?.topArtist5Name }}: ({{ response?.topArtist5Count }})
         </p>
       </div>
     </div>
@@ -64,11 +64,11 @@
       <div class="chart-description">
         <p>
           The Avg Song Features for your selected playlist are:<br /><br />
-          Danceability: DANCEABILITY<br />
-          Energy: ENERGY<br />
-          Valence: VALENCE<br />
-          Tempo: TEMPO<br />
-          Acousticness: ACOUSTICNESS
+          Danceability: ({{ response?.Avgpopularity }}%)<br />
+          Energy: ({{ response?.AvgEnergy }}%)<br />
+          Popularity: ({{ response?.AvgDanceability }}%)<br />
+          Tempo: ({{ response?.AvgAcousticness }}%)<br />
+          Acousticness: ({{ response?.AvgTempo }}%)
         </p>
       </div>
     </div>

@@ -13,11 +13,11 @@ interface VisualisationsDTO {
   topArtist4Count: number;
   topArtist5Count: number;
 
-  topArtist1Name: String;
-  topArtist2Name: String;
-  topArtist3Name: String;
-  topArtist4Name: String;
-  topArtist5Name: String;
+  topArtist1Name: string;
+  topArtist2Name: string;
+  topArtist3Name: string;
+  topArtist4Name: string;
+  topArtist5Name: string;
 
   topGenre1Percent: number;
   topGenre2Percent: number;
@@ -25,11 +25,11 @@ interface VisualisationsDTO {
   topGenre4Percent: number;
   topGenre5Percent: number;
 
-  topGenre1Name: String;
-  topGenre2Name: String;
-  topGenre3Name: String;
-  topGenre4Name: String;
-  topGenre5Name: String;
+  topGenre1Name: string;
+  topGenre2Name: string;
+  topGenre3Name: string;
+  topGenre4Name: string;
+  topGenre5Name: string;
 
   // variables for the features of the users liked songs
   Avgpopularity: number;
@@ -116,26 +116,30 @@ export class VisualisationsComponent implements OnInit {
     this.getVisualisations(event.value.value);
   }
 
+  fetchPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (response: Playlist[]) => {
+        const playlistOptions = response.map((playlist: Playlist) => ({
+          label: playlist.name,
+          value: playlist.spotifyId,
+        }));
+        this.scanType = [...this.scanType, ...playlistOptions];
+      },
+      error: error => {
+        console.error('Error fetching playlists:', error);
+      },
+    });
+  }
+
   private createPieChart() {
     if (this.response) {
       const data = [
-        this.response?.topGenre1Percent * 100,
-        this.response?.topGenre4Percent * 100,
-        this.response?.topGenre3Percent * 100,
-        this.response?.topGenre2Percent * 100,
-        this.response?.topGenre1Percent * 100,
+        this.response?.topGenre1Percent,
+        this.response?.topGenre4Percent,
+        this.response?.topGenre3Percent,
+        this.response?.topGenre2Percent,
+        this.response?.topGenre1Percent,
       ];
-      this.response?.numOfSongs;
-      console.log(this.response?.topGenre1Name);
-      console.log(this.response?.topGenre2Name);
-      console.log(this.response?.topGenre3Name);
-      console.log(this.response?.topGenre4Name);
-      console.log(this.response?.topGenre5Name);
-      this.response?.topGenre1Name;
-      this.response?.topGenre2Name;
-      this.response?.topGenre3Name;
-      this.response?.topGenre4Name;
-      this.response?.topGenre5Name;
 
       const width = 300;
       const height = 300;
@@ -180,107 +184,102 @@ export class VisualisationsComponent implements OnInit {
   }
 
   private createBarChart1() {
-    const data: number[] = [30, 40, 50, 60, 70];
-    const color = d3
-      .scaleOrdinal<number, string>()
-      .domain(data.map((d, i) => i))
-      .range(d3.schemeCategory10);
+    if (this.response) {
+      const data = [
+        { name: this.response.topArtist1Name, count: this.response.topArtist1Count },
+        { name: this.response.topArtist2Name, count: this.response.topArtist2Count },
+        { name: this.response.topArtist3Name, count: this.response.topArtist3Count },
+        { name: this.response.topArtist4Name, count: this.response.topArtist4Count },
+        { name: this.response.topArtist5Name, count: this.response.topArtist5Count },
+      ];
 
-    const svg = d3.select(this.barChart1Svg.nativeElement);
-    const width = 350;
-    const height = 350;
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+      const svg = d3.select(this.barChart1Svg.nativeElement);
+      const width = 350;
+      const height = 350;
+      const margin = { top: 20, right: 20, bottom: 50, left: 40 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
 
-    const x = d3.scaleBand<number>().range([0, chartWidth]).padding(0.1);
+      const x = d3.scaleBand().range([0, chartWidth]).padding(0.1);
+      const y = d3.scaleLinear().range([chartHeight, 0]);
 
-    const y = d3.scaleLinear().range([chartHeight, 0]);
+      const xAxis = d3.axisBottom(x);
+      const yAxis = d3.axisLeft(y);
 
-    const xAxis = d3.axisBottom(x);
-    const yAxis = d3.axisLeft(y);
+      x.domain(data.map(d => d.name));
+      y.domain([0, d3.max(data, d => d.count) || 0]);
 
-    const g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      svg
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top + chartHeight})`)
+        .call(xAxis)
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .attr('transform', 'rotate(-45)');
 
-    x.domain(data.map((d, i) => i));
-    y.domain([0, d3.max(data) || 0]);
+      svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`).call(yAxis);
 
-    g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', 'translate(0,' + chartHeight + ')')
-      .call(xAxis);
-
-    g.append('g').attr('class', 'y-axis').call(yAxis);
-
-    g.selectAll('.bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('x', (d, i): number => x(i) || 0)
-      .attr('y', (d): number => y(d) || 0)
-      .attr('width', x.bandwidth())
-      .attr('height', (d): number => chartHeight - (y(d) || 0))
-      .attr('fill', (d, i): string => color(i));
-  }
-
-  fetchPlaylists() {
-    this.playlistService.getPlaylists().subscribe({
-      next: (response: Playlist[]) => {
-        const playlistOptions = response.map((playlist: Playlist) => ({
-          label: playlist.name,
-          value: playlist.spotifyId,
-        }));
-        this.scanType = [...this.scanType, ...playlistOptions];
-      },
-      error: error => {
-        console.error('Error fetching playlists:', error);
-      },
-    });
+      svg
+        .selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.name)! + margin.left)
+        .attr('y', d => y(d.count) + margin.top)
+        .attr('width', x.bandwidth())
+        .attr('height', d => chartHeight - y(d.count))
+        .attr('fill', 'steelblue');
+    }
   }
 
   private createBarChart2() {
-    const data: number[] = [20, 50, 30, 40, 60];
-    const color = d3
-      .scaleOrdinal<number, string>()
-      .domain(data.map((d, i) => i))
-      .range(d3.schemeCategory10);
+    if (this.response) {
+      const data = [
+        { feature: 'Popularity', value: this.response.Avgpopularity },
+        { feature: 'Energy', value: this.response.AvgEnergy },
+        { feature: 'Danceability', value: this.response.AvgDanceability },
+        { feature: 'Acousticness', value: this.response.AvgAcousticness },
+        { feature: 'Tempo', value: this.response.AvgTempo },
+      ];
 
-    const svg = d3.select(this.barChart2Svg.nativeElement);
-    const width = 350;
-    const height = 350;
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+      const svg = d3.select(this.barChart2Svg.nativeElement);
+      const width = 350;
+      const height = 350;
+      const margin = { top: 20, right: 20, bottom: 50, left: 40 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
 
-    const x = d3.scaleBand<number>().range([0, chartWidth]).padding(0.1);
+      const x = d3.scaleBand().range([0, chartWidth]).padding(0.1);
+      const y = d3.scaleLinear().range([chartHeight, 0]);
 
-    const y = d3.scaleLinear().range([chartHeight, 0]);
+      const xAxis = d3.axisBottom(x);
+      const yAxis = d3.axisLeft(y);
 
-    const xAxis = d3.axisBottom(x);
-    const yAxis = d3.axisLeft(y);
+      x.domain(data.map(d => d.feature));
+      y.domain([0, d3.max(data, d => d.value) || 0]);
 
-    const g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      svg
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top + chartHeight})`)
+        .call(xAxis)
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .attr('transform', 'rotate(-45)');
 
-    x.domain(data.map((d, i) => i));
-    y.domain([0, d3.max(data) || 0]);
+      svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`).call(yAxis);
 
-    g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', 'translate(0,' + chartHeight + ')')
-      .call(xAxis);
-
-    g.append('g').attr('class', 'y-axis').call(yAxis);
-
-    g.selectAll('.bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('x', (d, i): number => x(i) || 0)
-      .attr('y', (d): number => y(d) || 0)
-      .attr('width', x.bandwidth())
-      .attr('height', (d): number => chartHeight - (y(d) || 0))
-      .attr('fill', (d, i): string => color(i));
+      svg
+        .selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.feature)! + margin.left)
+        .attr('y', d => y(d.value) + margin.top)
+        .attr('width', x.bandwidth())
+        .attr('height', d => chartHeight - y(d.value))
+        .attr('fill', 'steelblue');
+    }
   }
 }
