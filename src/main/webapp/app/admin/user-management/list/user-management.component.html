@@ -103,4 +103,12 @@
       ></ngb-pagination>
     </div>
   </div>
+
+  <form (ngSubmit)="sendEmailUpdate()">
+    <div class="mb-3">
+      <label for="emailUpdateMessage" class="form-label">Email Update Message</label>
+      <textarea class="form-control" id="emailUpdateMessage" name="emailUpdateMessage" rows="5" [(ngModel)]="emailUpdateMessage"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Email Update</button>
+  </form>
 </div>

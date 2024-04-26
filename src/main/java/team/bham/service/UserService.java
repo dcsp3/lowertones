@@ -222,9 +222,13 @@ public class UserService {
         User user = userRepository
             .findOneByLogin(username)
             .orElseThrow(() -> new RuntimeException("User not found with login: " + username));
-        return appUserRepository
-            .findByUserId(user.getId())
-            .orElseThrow(() -> new RuntimeException("AppUser not found for user id: " + user.getId()));
+        Optional<AppUser> optionalAppUser = appUserRepository.findByUserId(user.getId());
+        if (optionalAppUser.isPresent()) {
+            return optionalAppUser.get(); // Return the AppUser if it exists
+        } else {
+            // Handle the case where AppUser does not exist for the User
+            return null; // Or you can throw an exception, depending on your requirements
+        }
     }
 
     /**

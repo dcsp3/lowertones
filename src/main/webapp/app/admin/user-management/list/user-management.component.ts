@@ -25,6 +25,7 @@ export class UserManagementComponent implements OnInit {
   page!: number;
   predicate!: string;
   ascending!: boolean;
+  emailUpdateMessage: string = '';
 
   constructor(
     private userService: UserManagementService,
@@ -107,5 +108,19 @@ export class UserManagementComponent implements OnInit {
   private onSuccess(users: User[] | null, headers: HttpHeaders): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.users = users;
+  }
+
+  public sendEmailUpdate(): void {
+    if (this.emailUpdateMessage.trim() !== '') {
+      this.userService.sendEmailUpdate(this.emailUpdateMessage).subscribe(
+        () => {
+          console.log('Email update sent successfully');
+          this.emailUpdateMessage = '';
+        },
+        error => {
+          console.error('Error sending email update:', error);
+        }
+      );
+    }
   }
 }

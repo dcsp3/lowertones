@@ -26,6 +26,7 @@ import team.bham.security.AuthoritiesConstants;
 import team.bham.service.MailService;
 import team.bham.service.UserService;
 import team.bham.service.dto.AdminUserDTO;
+import team.bham.service.dto.EmailRequest;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import team.bham.web.rest.errors.EmailAlreadyUsedException;
 import team.bham.web.rest.errors.LoginAlreadyUsedException;
@@ -212,5 +213,25 @@ public class UserResource {
             .noContent()
             .headers(HeaderUtil.createAlert(applicationName, "A user is deleted with identifier " + login, login))
             .build();
+    }
+
+    /**
+     * POST  /admin/users/send-email-to-all : Send an email to all users.
+     *
+     * @param emailRequest the request containing email subject and body.
+     * @return the ResponseEntity with status 200 (OK).
+     */
+    @PostMapping("/users/send-email-to-all")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public ResponseEntity<Void> sendEmailToAllUsers(@Valid @RequestBody EmailRequest emailRequest) {
+        log.debug("REST request to send email to all users : {}", emailRequest);
+
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            // Send email to each user
+            mailService.sendEmail(user.getEmail(), emailRequest.getSubject(), emailRequest.getBody(), false, false);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
