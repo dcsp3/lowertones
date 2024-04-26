@@ -335,14 +335,16 @@ public class RecappedService {
         } else {
             closestTimeRange = timeRange;
         }
-        List<Song> topSongs = utilService.getUserTopSongs(appUser, closestTimeRange);
 
         String[] images = new String[5];
+
+        //List<Song> topSongs = utilService.getUserTopSongs(appUser, closestTimeRange);
         for (int i = 0; i < 5; i++) {
             if (names[i] == null) {
                 continue;
             }
             images[i] = getContributorImageUrl(names[i], appUser);
+            /*
             if (images[i] == null) {
                 final int index = i;
                 Contributor currentContributor = top5Contributors
@@ -373,6 +375,7 @@ public class RecappedService {
                     }
                 }
             }
+            */
         }
 
         for (int i = 0; i < 5; i++) {
