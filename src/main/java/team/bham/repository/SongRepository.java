@@ -74,6 +74,40 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
     List<SongWithCollaborators> findSongsCollaboratorsByPlaylistId(@Param("playlistId") String playlistId);
 
     @Query(
+        value = "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName, A.ALBUM_RELEASE_DATE as albumReleaseDate " +
+        "FROM SONG_TABLE S " +
+        "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
+        "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
+        "JOIN ALBUM_TABLE A ON S.SONG_ALBUM_ID = A.ALBUM_SPOTIFY_ID " +
+        "JOIN REL_ARTISTS_TABLE__ALBUM RATA ON A.ID = RATA.ALBUM_ID " +
+        "JOIN ARTISTS_TABLE AR ON RATA.ARTISTS_TABLE_ID = AR.ID " +
+        "WHERE P.APP_USER_ID = :appUserID AND (S.SONG_TITLE <> '' AND S.SONG_DURATION <> 0) " +
+        "UNION " +
+        "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName, A.ALBUM_RELEASE_DATE as albumReleaseDate " +
+        "FROM SONG_TABLE S " +
+        "JOIN ALBUM_TABLE A ON S.SONG_ALBUM_ID = A.ALBUM_SPOTIFY_ID " +
+        "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
+        "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
+        "JOIN SONG_ARTIST_TABLE SA ON S.ID = SA.SONG_ID " +
+        "JOIN ARTISTS_TABLE AR ON SA.MAIN_ARTIST_ID = AR.ID " +
+        "WHERE P.APP_USER_ID = :appUserID AND (S.SONG_TITLE <> '' AND S.SONG_DURATION <> 0);",
+        nativeQuery = true
+    )
+    List<SongWithArtistName> findSongsByUserId(@Param("appUserID") Long appUserID);
+
+    @Query(
+        value = "SELECT S.SONG_SPOTIFY_ID as songSpotifyId, C.NAME as contributorName, C.ROLE as contributorRole, C.INSTRUMENT as contributorInstrument " +
+        "FROM SONG_TABLE S " +
+        "JOIN PLAYLIST_SONG_TABLE PSJ ON S.ID = PSJ.SONG_ID " +
+        "JOIN PLAYLIST_TABLE P ON PSJ.PLAYLIST_ID = P.ID " +
+        "JOIN REL_SONG_TABLE__CONTRIBUTOR RSTC ON S.ID = RSTC.SONG_TABLE_ID " +
+        "JOIN CONTRIBUTOR C ON RSTC.CONTRIBUTOR_ID = C.ID " +
+        "WHERE P.APP_USER_ID = :appUserID AND (S.SONG_TITLE <> '' AND S.SONG_DURATION <> 0);",
+        nativeQuery = true
+    )
+    List<SongWithCollaborators> findSongsCollaboratorsByUserId(@Param("appUserID") Long appUserID);
+
+    @Query(
         value = "SELECT TOP 500 S.SONG_SPOTIFY_ID as songSpotifyId, S.SONG_TITLE as songTitle, S.SONG_DURATION as songDuration, S.SONG_EXPLICIT as songExplicit, S.SONG_POPULARITY as songPopularity, S.SONG_ACOUSTICNESS as songAcousticness, S.SONG_DANCEABILITY as songDanceability, S.SONG_ENERGY as songEnergy, S.SONG_INSTRUMENTALNESS as songInstrumentalness, S.SONG_LIVENESS as songLiveness, S.SONG_LOUDNESS as songLoudness, S.SONG_SPEECHINESS as songSpeechiness, S.SONG_TEMPO as songTempo, S.SONG_VALENCE as songValence, AR.ARTIST_NAME as artistName, A.ALBUM_RELEASE_DATE as albumReleaseDate " +
         "FROM SONG_TABLE S " +
         "JOIN ALBUM_TABLE A ON S.SONG_ALBUM_ID = A.ALBUM_SPOTIFY_ID " +

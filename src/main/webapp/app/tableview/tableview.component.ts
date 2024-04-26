@@ -36,7 +36,8 @@ interface QueryParams {
   selectedExplicitness: string;
   minPopularity: number | null;
   maxPopularity: number | null;
-  artistName: string[];
+  artistChips: string[];
+  contributorChips: string[];
   minAcousticness: number | null | undefined;
   maxAcousticness: number | null | undefined;
   minDanceability: number | null | undefined;
@@ -214,7 +215,6 @@ export class TableviewComponent implements OnInit {
     this.playlists = [
       { name: 'Lowertones Library', spotifyId: 'lowertonesLibrary', image: '../../content/images/lowertones_small.png' },
       { name: 'My Entire Library', spotifyId: 'entireLibrary', image: '../../content/images/library.png' },
-      { name: 'My Top Songs', spotifyId: 'topSongs', image: '../../content/images/topsongs.png' },
     ];
 
     this.importedPlaylists = [{}];
@@ -634,7 +634,6 @@ export class TableviewComponent implements OnInit {
   }
 
   capitalizeWords(inputArray: string[]): string[] {
-    // Check if the input array is empty
     if (inputArray.length === 0) {
       return [];
     }
@@ -643,12 +642,15 @@ export class TableviewComponent implements OnInit {
       return text
         .split(' ')
         .map(word => {
-          // Make sure we are not trying to capitalize an empty string
           if (word === '') return word;
           return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
         })
         .join(' ');
     });
+  }
+
+  toLowerCaseArray(strings: string[]): string[] {
+    return strings.map(s => s.toLowerCase());
   }
 
   fetchFiltersData(): void {
@@ -659,7 +661,8 @@ export class TableviewComponent implements OnInit {
       selectedExplicitness: this.selectedExplicitness.value,
       minPopularity: this.popularityRange[0],
       maxPopularity: this.popularityRange[1],
-      artistName: this.artistChips,
+      artistChips: this.artistChips,
+      contributorChips: this.contributorChips,
       minAcousticness: this.features.find(f => f.name === 'Acousticness')?.range[0],
       maxAcousticness: this.features.find(f => f.name === 'Acousticness')?.range[1],
       minDanceability: this.features.find(f => f.name === 'Danceability')?.range[0],
@@ -688,7 +691,8 @@ export class TableviewComponent implements OnInit {
       selectedExplicitness: 'both',
       minPopularity: null,
       maxPopularity: null,
-      artistName: [],
+      artistChips: [],
+      contributorChips: [],
       minAcousticness: null,
       maxAcousticness: null,
       minDanceability: null,

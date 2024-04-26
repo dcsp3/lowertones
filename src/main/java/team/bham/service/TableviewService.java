@@ -1,6 +1,7 @@
 package team.bham.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Collections;
 import java.util.Comparator;
@@ -136,8 +137,16 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
-        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
+        List<SongWithArtistName> songs;
+        List<SongWithCollaborators> songsCollaborators;
+
+        if (playlistId.equals("entireLibrary")) {
+            songs = songRepository.findSongsByUserId(appUser.getId());
+            songsCollaborators = songRepository.findSongsCollaboratorsByUserId(appUser.getId());
+        } else {
+            songs = songRepository.findSongsByPlaylistId(playlistId);
+            songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
+        }
 
         // Group collaborators by spotifyId
         Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
@@ -196,12 +205,23 @@ public class TableviewService {
         return ResponseEntity.ok().body(songInfo);
     }
 
+    public static String toSqlList(String[] countries) {
+        return Arrays
+            .stream(countries)
+            .map(country -> "'" + country.replace("'", "''") + "'") // Handles single quotes in country names by escaping them.
+            .collect(Collectors.joining(", ", "(", ")"));
+    }
+
     @Transactional
     public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams, Authentication authentication) {
         AppUser appUser = userService.resolveAppUser(authentication.getName());
         if (appUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        System.out.println("\n\n\n\n\n\n");
+        System.out.println(toSqlList(queryParams.getArtistChips()));
+        System.out.println("\n\n\n\n\n\n");
 
         System.out.println("\n\n\n\n\n\n");
         System.out.println(queryParams);

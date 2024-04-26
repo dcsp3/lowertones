@@ -10,7 +10,8 @@ public class QueryParams {
     private String selectedExplicitness;
     private Integer minPopularity;
     private Integer maxPopularity;
-    private String[] artistName;
+    private String[] artistChips;
+    private String[] contributorChips;
     private Double minAcousticness;
     private Double maxAcousticness;
     private Double minDanceability;
@@ -53,8 +54,12 @@ public class QueryParams {
         return maxPopularity;
     }
 
-    public String[] getArtistName() {
-        return artistName;
+    public String[] getArtistChips() {
+        return artistChips;
+    }
+
+    public String[] getContributorChips() {
+        return contributorChips;
     }
 
     public Double getMinAcousticness() {
@@ -146,8 +151,12 @@ public class QueryParams {
         this.maxPopularity = maxPopularity;
     }
 
-    public void setArtistName(String[] artistName) {
-        this.artistName = artistName;
+    public void setArtistChips(String[] artistChips) {
+        this.artistChips = artistChips;
+    }
+
+    public void setContributorChips(String[] contributorChips) {
+        this.contributorChips = contributorChips;
     }
 
     public void setMinAcousticness(Double minAcousticness) {
@@ -232,8 +241,10 @@ public class QueryParams {
             minPopularity +
             ", maxPopularity=" +
             maxPopularity +
-            ", artistName=" +
-            Arrays.toString(artistName) +
+            ", artistChips=" +
+            Arrays.toString(artistChips) +
+            ", contributorChips=" +
+            Arrays.toString(contributorChips) +
             ", minAcousticness=" +
             minAcousticness +
             ", maxAcousticness=" +

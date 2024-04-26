@@ -9,7 +9,8 @@ interface QueryParams {
   selectedExplicitness: string;
   minPopularity: number | null;
   maxPopularity: number | null;
-  artistName: string[];
+  artistChips: string[];
+  contributorChips: string[];
   minAcousticness: number | null | undefined;
   maxAcousticness: number | null | undefined;
   minDanceability: number | null | undefined;
