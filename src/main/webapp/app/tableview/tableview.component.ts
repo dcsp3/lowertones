@@ -303,15 +303,15 @@ export class TableviewComponent implements OnInit {
 
   private filterByPopularity(song: SongEntry): boolean {
     const [minPopularity, maxPopularity] = this.popularityRange;
-    if (minPopularity !== undefined && song.popularity < minPopularity) return false;
-    if (maxPopularity !== undefined && song.popularity > maxPopularity) return false;
+    if (minPopularity !== null && song.popularity < minPopularity) return false;
+    if (maxPopularity !== null && song.popularity > maxPopularity) return false;
     return true;
   }
 
   private filterByTempo(song: SongEntry): boolean {
     const [minTempo, maxTempo] = this.tempoRange;
-    if (minTempo !== undefined && song.tempo < minTempo) return false;
-    if (maxTempo !== undefined && song.tempo > maxTempo) return false;
+    if (minTempo !== null && song.tempo < minTempo) return false;
+    if (maxTempo !== null && song.tempo > maxTempo) return false;
     return true;
   }
 
