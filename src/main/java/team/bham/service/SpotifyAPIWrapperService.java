@@ -283,7 +283,7 @@ public class SpotifyAPIWrapperService {
     }
 
     public SpotifyAPIResponse<ArrayList<SpotifyTrack>> getTrackInfo(ArrayList<String> trackIds, AppUser user) {
-        String endpoint = "https://api.spotify.com/v1/tracks";
+        String endpoint = "https://api.spotify.com/v1/tracks/";
         ArrayList<String> batches = batchSpotifyIDs(trackIds, 50); //docs say 50, don't really trust that
         ArrayList<SpotifyTrack> tracks = new ArrayList<>();
         for (int i = 0; i < batches.size(); i++) {
