@@ -57,7 +57,6 @@ public class VisualisationsService {
         for (int i = 0; i < playlistGenreEntities.size(); i++) {
             playlistGenres.add(playlistGenreEntities.get(i).getSpotifyGenre());
         }
-        System.out.println("playlistGenres" + playlistGenres);
         Map<String, Integer> topFive = findTopFiveFrequentStrings(playlistGenres);
 
         int numOfSongs = playlistSongs.size();
@@ -67,26 +66,27 @@ public class VisualisationsService {
         for (int i = 0; i < entries.size(); i++) {
             String genreName = entries.get(i).getKey();
             int genreCount = entries.get(i).getValue();
+            float genrePercent = ((float) genreCount / (float) numOfSongs) * 100;
             switch (i) {
                 case 0:
                     dto.setTopGenre1Name(genreName);
-                    dto.setTopGenre1Percent(genreCount / numOfSongs * 100);
+                    dto.setTopGenre1Percent((int) genrePercent);
                     break;
                 case 1:
                     dto.setTopGenre2Name(genreName);
-                    dto.setTopGenre2Percent(genreCount / numOfSongs * 100);
+                    dto.setTopGenre2Percent((int) genrePercent);
                     break;
                 case 2:
                     dto.setTopGenre3Name(genreName);
-                    dto.setTopGenre3Percent(genreCount / numOfSongs * 100);
+                    dto.setTopGenre3Percent((int) genrePercent);
                     break;
                 case 3:
                     dto.setTopGenre4Name(genreName);
-                    dto.setTopGenre4Percent(genreCount / numOfSongs * 100);
+                    dto.setTopGenre4Percent((int) genrePercent);
                     break;
                 case 4:
                     dto.setTopGenre5Name(genreName);
-                    dto.setTopGenre5Percent(genreCount / numOfSongs * 100);
+                    dto.setTopGenre5Percent((int) genrePercent);
                     break;
             }
         }
@@ -101,20 +101,20 @@ public class VisualisationsService {
                     dto.setTopArtist1Count(artistCount);
                     break;
                 case 1:
-                    dto.setTopGenre2Name(artistName);
-                    dto.setTopGenre2Percent(artistCount);
+                    dto.setTopArtist2Name(artistName);
+                    dto.setTopArtist2Count(artistCount);
                     break;
                 case 2:
-                    dto.setTopGenre3Name(artistName);
-                    dto.setTopGenre3Percent(artistCount);
+                    dto.setTopArtist3Name(artistName);
+                    dto.setTopArtist3Count(artistCount);
                     break;
                 case 3:
-                    dto.setTopGenre4Name(artistName);
-                    dto.setTopGenre4Percent(artistCount);
+                    dto.setTopArtist4Name(artistName);
+                    dto.setTopArtist4Count(artistCount);
                     break;
                 case 4:
-                    dto.setTopGenre5Name(artistName);
-                    dto.setTopGenre5Percent(artistCount);
+                    dto.setTopArtist5Name(artistName);
+                    dto.setTopArtist5Count(artistCount);
                     break;
             }
         }
@@ -138,18 +138,35 @@ public class VisualisationsService {
             }
         }
 
-        dto.setAvgAcousticness(AvgAcousticness / numOfNonEmptySongs);
+        float avgAcousticnessFloat = (float) AvgAcousticness / (float) numOfNonEmptySongs;
+        dto.setAvgAcousticness(avgAcousticnessFloat);
         System.out.println("AvgAcousticness: " + AvgAcousticness / numOfNonEmptySongs);
-        dto.setAvgDanceability(AvgDanceability / numOfNonEmptySongs);
+        System.out.println(dto.getAvgAcousticness());
+
+        float avgDanceabilityFloat = (float) AvgDanceability / (float) numOfNonEmptySongs;
+        dto.setAvgDanceability(avgDanceabilityFloat);
         System.out.println("AvgDanceability: " + AvgDanceability / numOfNonEmptySongs);
-        dto.setAvgEnergy(AvgEnergy / numOfNonEmptySongs);
+        System.out.println(dto.getAvgDanceability());
+
+        float avgEnergyFloat = (float) AvgEnergy / (float) numOfNonEmptySongs;
+        dto.setAvgEnergy(avgEnergyFloat);
         System.out.println("AvgEnergy: " + AvgEnergy / numOfNonEmptySongs);
-        dto.setAvgpopularity(Avgpopularity / numOfNonEmptySongs);
+        System.out.println(dto.getAvgEnergy());
+
+        float avgpopularityFloat = (float) Avgpopularity / (float) numOfNonEmptySongs;
+        dto.setAvgpopularity(avgpopularityFloat);
         System.out.println("Avgpopularity: " + Avgpopularity / numOfNonEmptySongs);
-        dto.setAvgTempo(AvgTempo / numOfNonEmptySongs);
+        System.out.println(dto.getAvgpopularity());
+
+        float avgTempoFloat = (float) AvgTempo / (float) numOfNonEmptySongs;
+        dto.setAvgTempo(avgTempoFloat);
         System.out.println("AvgTempo: " + AvgTempo / numOfNonEmptySongs);
+        System.out.println(dto.getAvgTempo());
+
         dto.setNumOfSongs(numOfSongs);
         System.out.println("NumOfSongs: " + numOfSongs);
+        System.out.println(dto.getNumOfSongs());
+
         return dto;
     }
 

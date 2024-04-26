@@ -1,13 +1,3 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-}
-
 .dropdown {
   background-color: transparent !important;
 }
@@ -18,7 +8,8 @@ body {
   text-align: center;
   background-color: transparent;
   margin-right: 20px;
-  margin-top: 80px;
+  margin-top: 15px;
+  margin-bottom: -5px;
 }
 
 .chart-title {
@@ -34,4 +25,50 @@ body {
 .chart-description {
   margin-top: 0px;
   font-size: 18px;
+}
+
+.card {
+  background: linear-gradient(200deg, transparent, rgba(255, 233, 230, 0.277), transparent);
+  background-clip: padding-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 80%;
+  min-height: 82vh !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+  overflow: visible;
+  flex-basis: 100%;
+  padding: 0px;
+  //background-color: #ffffff00;
+  flex-basis: 100%;
+  padding: 0px;
+  border: 1px solid #cccccc00;
+  padding-top: 20vh;
+}
+
+.description-padding {
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 40px;
+}
+
+.description-center-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.dropdown {
+  margin-top: -10rem;
+}
+
+.chart-description {
+  margin-bottom: 10px;
 }

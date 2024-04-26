@@ -32,11 +32,11 @@ interface VisualisationsDTO {
   topGenre5Name: string;
 
   // variables for the features of the users liked songs
-  Avgpopularity: number;
-  AvgDanceability: number;
-  AvgEnergy: number;
-  AvgAcousticness: number;
-  AvgTempo: number;
+  avgPopularity: number;
+  avgDanceability: number;
+  avgEnergy: number;
+  avgAcousticness: number;
+  avgTempo: number;
 }
 
 interface Playlist {
@@ -98,8 +98,39 @@ export class VisualisationsComponent implements OnInit {
       next: response => {
         console.log('Response:', response);
         if (response) {
-          this.response = response;
-          console.log('topGenre1Percent:', this.response.topGenre1Percent);
+          const formattedResponse: VisualisationsDTO = {
+            numOfSongs: response.numOfSongs,
+            topArtist1Count: response.topArtist1Count,
+            topArtist2Count: response.topArtist2Count,
+            topArtist3Count: response.topArtist3Count,
+            topArtist4Count: response.topArtist4Count,
+            topArtist5Count: response.topArtist5Count,
+            topArtist1Name: response.topArtist1Name || '',
+            topArtist2Name: response.topArtist2Name || '',
+            topArtist3Name: response.topArtist3Name || '',
+            topArtist4Name: response.topArtist4Name || '',
+            topArtist5Name: response.topArtist5Name || '',
+            topGenre1Percent: response.topGenre1Percent,
+            topGenre2Percent: response.topGenre2Percent,
+            topGenre3Percent: response.topGenre3Percent,
+            topGenre4Percent: response.topGenre4Percent,
+            topGenre5Percent: response.topGenre5Percent,
+            topGenre1Name: response.topGenre1Name,
+            topGenre2Name: response.topGenre2Name,
+            topGenre3Name: response.topGenre3Name,
+            topGenre4Name: response.topGenre4Name,
+            topGenre5Name: response.topGenre5Name,
+            avgPopularity: response.avgPopularity,
+            avgDanceability: response.avgDanceability,
+            avgEnergy: response.avgEnergy,
+            avgAcousticness: response.avgAcousticness,
+            avgTempo: response.avgTempo,
+          };
+
+          this.response = formattedResponse;
+          console.log('Formatted RESPONSE HERE:', this.response);
+
+          console.log('RESPONSE HERE:', this.response);
           this.createPieChart();
           this.createBarChart1();
           this.createBarChart2();
@@ -236,12 +267,14 @@ export class VisualisationsComponent implements OnInit {
   private createBarChart2() {
     if (this.response) {
       const data = [
-        { feature: 'Popularity', value: this.response.Avgpopularity },
-        { feature: 'Energy', value: this.response.AvgEnergy },
-        { feature: 'Danceability', value: this.response.AvgDanceability },
-        { feature: 'Acousticness', value: this.response.AvgAcousticness },
-        { feature: 'Tempo', value: this.response.AvgTempo },
+        { feature: 'Energy', value: this.response.avgEnergy },
+        { feature: 'Danceability', value: this.response.avgDanceability },
+        { feature: 'Acousticness', value: this.response.avgAcousticness },
       ];
+      console.log(
+        'Data values:',
+        data.map(d => d.value)
+      );
 
       const svg = d3.select(this.barChart2Svg.nativeElement);
       const width = 350;
@@ -282,4 +315,7 @@ export class VisualisationsComponent implements OnInit {
         .attr('fill', 'steelblue');
     }
   }
+
+  //{ feature: 'Popularity', value: this.response.avgPopularity },
+  //{ feature: 'Tempo', value: this.response.avgTempo },
 }
