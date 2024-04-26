@@ -26,9 +26,16 @@
           pInputText
           [(ngModel)]="searchQuery"
           placeholder="Search..."
-          (keydown.enter)="applySearch()"
+          (keydown.enter)="searchOrQuery()"
         />
-        <button style="border-bottom-right-radius: 0px" type="button" pButton pRipple icon="pi pi-search" (click)="applySearch()"></button>
+        <button
+          style="border-bottom-right-radius: 0px"
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-search"
+          (click)="searchOrQuery()"
+        ></button>
       </div>
     </div>
 

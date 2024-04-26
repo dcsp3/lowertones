@@ -203,17 +203,46 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        System.out.println(queryParams.getSearchQuery());
+        System.out.println("\n\n\n\n\n\n");
+        System.out.println(queryParams);
+        System.out.println("\n\n\n\n\n\n");
 
         String queryString = "";
 
-        List<SongWithArtistName> songs = songRepository.findSongsByLowertonesLibrary(queryString);
-        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(queryString);
+        List<SongWithArtistName> songs = songRepository.findSongsByLowertonesLibrary(
+            queryParams.getSearchQuery(),
+            queryParams.getMinDuration(),
+            queryParams.getMaxDuration(),
+            queryParams.getSelectedExplicitness(),
+            queryParams.getMinPopularity(),
+            queryParams.getMaxPopularity(),
+            queryParams.getMinAcousticness(),
+            queryParams.getMaxAcousticness(),
+            queryParams.getMinDanceability(),
+            queryParams.getMaxDanceability(),
+            queryParams.getMinInstrumentalness(),
+            queryParams.getMaxInstrumentalness(),
+            queryParams.getMinEnergy(),
+            queryParams.getMaxEnergy(),
+            queryParams.getMinLiveness(),
+            queryParams.getMaxLiveness(),
+            queryParams.getMinLoudness(),
+            queryParams.getMaxLoudness(),
+            queryParams.getMinSpeechiness(),
+            queryParams.getMaxSpeechiness(),
+            queryParams.getMinValence(),
+            queryParams.getMaxValence()
+        );
+
+        System.out.println("\n\n\n\n\n\n");
+        System.out.println("WHAT'S THE BIG IDEA");
+        System.out.println("\n\n\n\n\n\n");
+        //List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(queryString);
 
         // Group collaborators by spotifyId
-        Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
-            .stream()
-            .collect(Collectors.groupingBy(SongWithCollaborators::getSongSpotifyId));
+        // Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
+        //     .stream()
+        //     .collect(Collectors.groupingBy(SongWithCollaborators::getSongSpotifyId));
 
         List<Map<String, Object>> songInfo = songs
             .stream()
@@ -236,29 +265,10 @@ public class TableviewService {
                 info.put("valence", song.getSongValence());
                 info.put("tempo", song.getSongTempo());
 
-                if (collaboratorMap.containsKey(song.getSongSpotifyId())) {
-                    List<SongWithCollaborators> collaborators = collaboratorMap.get(song.getSongSpotifyId());
-                    List<String> names = collaborators.stream().map(SongWithCollaborators::getContributorName).collect(Collectors.toList());
-                    List<String> roles = collaborators.stream().map(SongWithCollaborators::getContributorRole).collect(Collectors.toList());
-                    List<String> instruments = collaborators
-                        .stream()
-                        .map(SongWithCollaborators::getContributorInstrument)
-                        .collect(Collectors.toList());
-
-                    info.put("contributorNames", names);
-                    info.put("contributorRoles", roles);
-                    info.put("contributorInstruments", instruments);
-                    info.put("contributor", true);
-
-                    System.out.println("\n\n\n\n\n\n\n");
-                    System.out.println(names);
-                    System.out.println("\n\n\n\n\n\n\n");
-                } else {
-                    info.put("contributorNames", new String[0]);
-                    info.put("contributorRoles", new String[0]);
-                    info.put("contributorInstruments", new String[0]);
-                    info.put("contributor", false);
-                }
+                info.put("contributorNames", new String[0]);
+                info.put("contributorRoles", new String[0]);
+                info.put("contributorInstruments", new String[0]);
+                info.put("contributor", false);
 
                 return info;
             })

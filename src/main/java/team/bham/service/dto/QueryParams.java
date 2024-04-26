@@ -1,10 +1,12 @@
 package team.bham.service.dto;
 
+import java.util.Arrays;
+
 public class QueryParams {
 
     private String searchQuery;
-    private Integer minDuration;
-    private Integer maxDuration;
+    private Double minDuration;
+    private Double maxDuration;
     private String selectedExplicitness;
     private Integer minPopularity;
     private Integer maxPopularity;
@@ -31,11 +33,11 @@ public class QueryParams {
         return searchQuery;
     }
 
-    public Integer getMinDuration() {
+    public Double getMinDuration() {
         return minDuration;
     }
 
-    public Integer getMaxDuration() {
+    public Double getMaxDuration() {
         return maxDuration;
     }
 
@@ -124,11 +126,11 @@ public class QueryParams {
         this.searchQuery = searchQuery;
     }
 
-    public void setMinDuration(Integer minDuration) {
+    public void setMinDuration(Double minDuration) {
         this.minDuration = minDuration;
     }
 
-    public void setMaxDuration(Integer maxDuration) {
+    public void setMaxDuration(Double maxDuration) {
         this.maxDuration = maxDuration;
     }
 
@@ -210,5 +212,61 @@ public class QueryParams {
 
     public void setMaxValence(Double maxValence) {
         this.maxValence = maxValence;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "QueryParams{" +
+            "searchQuery='" +
+            searchQuery +
+            '\'' +
+            ", minDuration=" +
+            minDuration +
+            ", maxDuration=" +
+            maxDuration +
+            ", selectedExplicitness='" +
+            selectedExplicitness +
+            '\'' +
+            ", minPopularity=" +
+            minPopularity +
+            ", maxPopularity=" +
+            maxPopularity +
+            ", artistName=" +
+            Arrays.toString(artistName) +
+            ", minAcousticness=" +
+            minAcousticness +
+            ", maxAcousticness=" +
+            maxAcousticness +
+            ", minDanceability=" +
+            minDanceability +
+            ", maxDanceability=" +
+            maxDanceability +
+            ", minInstrumentalness=" +
+            minInstrumentalness +
+            ", maxInstrumentalness=" +
+            maxInstrumentalness +
+            ", minEnergy=" +
+            minEnergy +
+            ", maxEnergy=" +
+            maxEnergy +
+            ", minLiveness=" +
+            minLiveness +
+            ", maxLiveness=" +
+            maxLiveness +
+            ", minLoudness=" +
+            minLoudness +
+            ", maxLoudness=" +
+            maxLoudness +
+            ", minSpeechiness=" +
+            minSpeechiness +
+            ", maxSpeechiness=" +
+            maxSpeechiness +
+            ", minValence=" +
+            minValence +
+            ", maxValence=" +
+            maxValence +
+            '}'
+        );
     }
 }

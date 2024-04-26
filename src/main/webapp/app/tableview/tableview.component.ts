@@ -31,8 +31,8 @@ interface SongEntry {
 
 interface QueryParams {
   searchQuery: string;
-  minDuration: string | null;
-  maxDuration: string | null;
+  minDuration: number | null;
+  maxDuration: number | null;
   selectedExplicitness: string;
   minPopularity: number | null;
   maxPopularity: number | null;
@@ -271,6 +271,14 @@ export class TableviewComponent implements OnInit {
     const defaultSearchType = this.searchTypes.find(searchType => searchType.label === 'Titles & Artists');
     if (defaultSearchType) {
       this.selectedSearchType = defaultSearchType;
+    }
+  }
+
+  searchOrQuery(): void {
+    if (this.selectedPlaylist.spotifyId === 'lowertonesLibrary') {
+      this.genSongList();
+    } else {
+      this.applySearch();
     }
   }
 
@@ -573,21 +581,20 @@ export class TableviewComponent implements OnInit {
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
   }
 
-  appendExtraToArtist(songEntries: SongEntry[]): void {
-    const spotifyIdMap = new Map<string, number>();
+  timeToMilliseconds(time: string): number | null {
+    const parts = time.split(':');
+    if (parts.length !== 2) {
+      return null;
+    }
 
-    // First pass: count occurrences of each spotifyID
-    songEntries.forEach(song => {
-      const count = spotifyIdMap.get(song.spotifyId) ?? 0;
-      spotifyIdMap.set(song.spotifyId, count + 1);
-    });
+    const minutes = parseInt(parts[0]);
+    const seconds = parseInt(parts[1]);
 
-    // Second pass: append "extra" to artist name if spotifyID occurs more than once
-    songEntries.forEach(song => {
-      if (spotifyIdMap.get(song.spotifyId)! > 1) {
-        song.artist += ' extra';
-      }
-    });
+    if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0 || seconds >= 60) {
+      return null;
+    }
+
+    return (minutes * 60 + seconds) * 1000;
   }
 
   consolidateArtists(songEntries: SongEntry[]): SongEntry[] {
@@ -644,11 +651,11 @@ export class TableviewComponent implements OnInit {
     });
   }
 
-  fetchFilteredData(): void {
+  fetchFiltersData(): void {
     this.queryParams = {
       searchQuery: this.searchQuery,
-      minDuration: this.durationRange[0],
-      maxDuration: this.durationRange[1],
+      minDuration: this.timeToMilliseconds(this.durationRange[0]),
+      maxDuration: this.timeToMilliseconds(this.durationRange[1]),
       selectedExplicitness: this.selectedExplicitness.value,
       minPopularity: this.popularityRange[0],
       maxPopularity: this.popularityRange[1],
@@ -710,7 +717,7 @@ export class TableviewComponent implements OnInit {
     }
     console.log('the ID being used: ' + this.selectedPlaylist.spotifyId);
 
-    this.fetchFilteredData();
+    this.fetchFiltersData();
 
     if (this.selectedPlaylist.spotifyId === 'lowertonesLibrary') {
       this.tableviewService.getLowertonesData(this.queryParams).subscribe({

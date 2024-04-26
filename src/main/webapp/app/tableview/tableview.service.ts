@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 interface QueryParams {
   searchQuery: string;
-  minDuration: string | null;
-  maxDuration: string | null;
+  minDuration: number | null;
+  maxDuration: number | null;
   selectedExplicitness: string;
   minPopularity: number | null;
   maxPopularity: number | null;
