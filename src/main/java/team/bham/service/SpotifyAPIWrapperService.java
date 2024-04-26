@@ -111,8 +111,16 @@ public class SpotifyAPIWrapperService {
                         for (int k = 0; k < images.length(); k++) {
                             JSONObject imageJSON = images.getJSONObject(k);
                             SpotifyImage image = new SpotifyImage();
-                            image.setWidth(imageJSON.getInt("width"));
-                            image.setHeight(imageJSON.getInt("height"));
+                            if (imageJSON.has("width") && !imageJSON.isNull("width") && imageJSON.optInt("width", -1) != -1) {
+                                image.setWidth(imageJSON.getInt("width"));
+                            } else {
+                                image.setWidth(0);
+                            }
+                            if (imageJSON.has("height") && !imageJSON.isNull("height") && imageJSON.optInt("height", -1) != -1) {
+                                image.setHeight(imageJSON.getInt("height"));
+                            } else {
+                                image.setHeight(0);
+                            }
                             image.setUrl(imageJSON.getString("url"));
                             curPlaylist.addImage(image);
                         }

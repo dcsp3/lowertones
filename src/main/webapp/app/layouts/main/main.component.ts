@@ -80,7 +80,6 @@ export class MainComponent implements OnInit {
     this.highContrastElements.forEach(selector => {
       const element = document.querySelector(selector);
       if (element) {
-        console.log(element);
         element.classList.add('highContrast');
       }
     });

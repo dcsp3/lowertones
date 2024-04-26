@@ -81,10 +81,15 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .attr('height', height)
     .style('animation', 'subtle-zoom 5s infinite alternate ease-in-out');
 
+  const scaleDistance = (d: any) => {
+    const scale = width / 1000; // Calculate the scaling factor based on current width
+    return d.distance * scale; // Scale the distance based on the current container width
+  };
+
   const defs = svg.append('defs');
   nodes.forEach((node, index) => {
     const sanitizedId = encodeURIComponent(node.id).replace(/[!'()*]/g, '');
-    const imageSize = node.type === 'user' ? 50 : 40;
+    const imageSize = node.type === 'user' ? width / 17.82 : width / 22.275;
 
     defs
       .append('pattern')
@@ -131,7 +136,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     }
   });
 
-  const nodeRadius = (d: any) => (d.type === 'user' ? 25 : 20);
+  const nodeRadius = (d: any) => (d.type === 'user' ? width / 50 : width / 60);
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -156,7 +161,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       d3
         .forceLink(links)
         .id((d: any) => d.id)
-        .distance(d => d.distance)
+        .distance(scaleDistance)
     )
     .force(
       'fixUserX',
@@ -174,7 +179,7 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .data(nodes)
     .enter()
     .append('circle')
-    .attr('r', d => (d.type === 'user' ? 25 : 20))
+    .attr('r', d => (d.type === 'user' ? width / 35.64 : width / 44.55))
     .attr('class', d => (d.type === 'user' ? 'user-node' : 'normal-node'))
     .style('fill', d => `url(#img-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`)
     .style('stroke', 'black')
@@ -188,24 +193,11 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       const cardSelector = `#node-card-${d.id}`;
       d3.select(cardSelector).style('visibility', 'hidden');
     });
-  const label = svg
-    .selectAll('text')
-    .data(nodes)
-    .enter()
-    .append('text')
-    .text(d => (d.name !== 'user' ? d.id : ''))
-    .attr('text-anchor', 'middle')
-    .attr('alignment-baseline', 'middle')
-    .style('font-size', '12px')
-    .style('fill', d => 'white')
-    .style('display', 'none')
-    .attr('id', d => `label-${encodeURIComponent(d.id).replace(/[!'()*]/g, '')})`);
-
-  simulation.on('tick', () => updateGraph(node, link, label, width, height));
+  simulation.on('tick', () => updateGraph(node, link, width, height));
   // applyVisualOscillationToNodes(svg, nodes);
 }
 
-function updateGraph(node: any, link: any, label: any, width: number, height: number) {
+function updateGraph(node: any, link: any, width: number, height: number) {
   node
     .attr('cx', (d: any) => {
       const radius = d.type === 'user' ? 25 : 20;

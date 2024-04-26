@@ -7,8 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.AppUser;
 import team.bham.domain.User;
 import team.bham.repository.UserRepository;
 import team.bham.security.SecurityUtils;
@@ -215,5 +218,24 @@ public class AccountResource {
             password.length() < ManagedUserVM.PASSWORD_MIN_LENGTH ||
             password.length() > ManagedUserVM.PASSWORD_MAX_LENGTH
         );
+    }
+
+    /**
+     * {@code POST  /send-email-to-all} : Send an email to all users.
+     */
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/admin/user-management/send-email-to-all")
+    public ResponseEntity<Void> sendEmailUpdate(@RequestBody Map<String, String> requestBody) {
+        String message = requestBody.get("content"); // Extract message from request body
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            AppUser appUser = userService.resolveAppUser(user.getLogin());
+            if (appUser != null && appUser.getDiscoverWeeklyBufferSettings() == 0) {
+                mailService.sendEmail(user.getEmail(), "Update to Lowertones!", message, false, false);
+            }
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

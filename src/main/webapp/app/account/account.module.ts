@@ -12,8 +12,11 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { accountState } from './account.route';
 import { PreferencesService } from './preferences/preferences.service';
 
+import { SelectItem } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
+
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(accountState)],
+  imports: [SharedModule, RouterModule.forChild(accountState), DropdownModule],
   declarations: [
     ActivateComponent,
     RegisterComponent,
