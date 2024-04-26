@@ -72,7 +72,7 @@ export class TableviewTreeService {
         key: '4',
         label: 'Popularity',
         tooltip:
-          "Filter by track popularity\nThis metric is calculated by Spotify. The artist's\npopularity is calculated from the popularity\n of all the artis's tracks",
+          "Filter by track popularity\nThis metric is calculated by Spotify. The artist's\npopularity is calculated from the popularity\n of all the artist's tracks",
         data: 'Popularity',
         icon: 'pi pi-fw pi-globe',
         children: [
