@@ -405,7 +405,7 @@ export class TableviewComponent implements OnInit {
 
   private filterByArtistChips(song: SongEntry): boolean {
     if (this.artistChips.length === 0) {
-      return true; // If no artist chips are specified, do not filter out any songs.
+      return true;
     }
     const lowerCaseArtist = song.artist.toLowerCase();
     const lowerCaseChips = this.artistChips.map(chip => chip.toLowerCase());
@@ -414,23 +414,23 @@ export class TableviewComponent implements OnInit {
 
   private filterByContributorChips(song: SongEntry): boolean {
     if (this.contributorChips.length === 0) {
-      return true; // If no contributor chips are specified, do not filter out any songs.
+      return true;
     }
     const lowerCaseContributorChips = this.contributorChips.map(chip => chip.toLowerCase());
-    // Check if any contributor in the song matches any name in the chips
+
     return song.contributorNames.some(contributor => lowerCaseContributorChips.includes(contributor.toLowerCase()));
   }
 
   private filterByExplicitness(song: SongEntry): boolean {
     switch (this.selectedExplicitness.value) {
       case 'both':
-        return true; // Do not filter out any songs, show both explicit and non-explicit.
+        return true;
       case 'yes':
-        return song.explicit === true; // Filter to show only explicit songs.
+        return song.explicit === true;
       case 'no':
-        return song.explicit === false; // Filter to show only non-explicit songs.
+        return song.explicit === false;
       default:
-        return true; // Default to showing all if there's an unexpected value.
+        return true;
     }
   }
 
@@ -611,6 +611,37 @@ export class TableviewComponent implements OnInit {
     return Array.from(spotifyIdMap.values());
   }
 
+  consolidateContributors(songEntries: SongEntry[]): SongEntry[] {
+    return songEntries.map(song => {
+      const { contributorNames, contributorRoles, contributorInstruments } = song;
+
+      let uniqueContributorNames: string[] = [];
+      let uniqueContributorRoles: string[] = [];
+      let uniqueContributorInstruments: string[] = [];
+
+      const seenTrios = new Set<string>();
+
+      contributorNames.forEach((name, index) => {
+        const role = contributorRoles[index];
+        const instrument = contributorInstruments[index];
+        const trioKey = `${name}-${role}-${instrument}`;
+
+        if (!seenTrios.has(trioKey)) {
+          seenTrios.add(trioKey);
+          uniqueContributorNames.push(name);
+          uniqueContributorRoles.push(role);
+          uniqueContributorInstruments.push(instrument);
+        }
+      });
+      return {
+        ...song,
+        contributorNames: uniqueContributorNames,
+        contributorRoles: uniqueContributorRoles,
+        contributorInstruments: uniqueContributorInstruments,
+      };
+    });
+  }
+
   printContributorDetails(): void {
     this.songData.forEach((song, index) => {
       //console.log(`Song ${index + 1}:`);
@@ -630,6 +661,17 @@ export class TableviewComponent implements OnInit {
       } else {
       }
       console.log();
+    });
+  }
+
+  printContributorDetails2(songs: SongEntry[]): void {
+    songs.forEach(song => {
+      console.log(`Details for Song: ${song.title}`);
+      song.contributorNames.forEach((contributor, index) => {
+        const role = song.contributorRoles[index] || '[blank]';
+        const instrument = song.contributorInstruments[index] || '[blank]';
+        console.log(`${contributor} - ${role} - ${instrument}`);
+      });
     });
   }
 
@@ -683,7 +725,6 @@ export class TableviewComponent implements OnInit {
   }
 
   private initializeQueryParams(): QueryParams {
-    // Initialize queryParams with default values
     return {
       searchQuery: '',
       minDuration: null,
@@ -750,13 +791,9 @@ export class TableviewComponent implements OnInit {
             contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
           }));
 
-          this.printContributorDetails();
-
-          console.log('here is how long the list is' + this.songData.length);
-
           this.songData = this.consolidateArtists(this.songData);
 
-          console.log('and now: presto! ' + this.songData.length);
+          this.songData = this.consolidateContributors(this.songData);
 
           if (this.selectedTableState.value === 'user') {
             this.songDataInUse = this.songData;
@@ -797,13 +834,9 @@ export class TableviewComponent implements OnInit {
             contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
           }));
 
-          this.printContributorDetails();
-
-          console.log('here is how long the list is' + this.songData.length);
-
           this.songData = this.consolidateArtists(this.songData);
 
-          console.log('and now: presto! ' + this.songData.length);
+          this.songData = this.consolidateContributors(this.songData);
 
           if (this.selectedTableState.value === 'user') {
             this.songDataInUse = this.songData;
