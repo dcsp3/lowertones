@@ -139,12 +139,12 @@ public class TableviewService {
         List<SongWithCollaborators> songsCollaborators;
 
         if (playlistId.equals("lowertonesLibrary")) {
-            songs = songRepository.findSongsByLowertonesLibrary(playlistId);
-            songsCollaborators = songRepository.findSongsCollaboratorsByLowertonesLibrary(playlistId);
-        } else {
-            songs = songRepository.findSongsByPlaylistId(playlistId);
-            songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
-        }
+            //songs = songRepository.findSongsByLowertonesLibrary(whereQuery);
+            //songsCollaborators = songRepository.findSongsCollaboratorsByLowertonesLibrary(playlistId);
+        } else {}
+
+        songs = songRepository.findSongsByPlaylistId(playlistId);
+        songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
 
         // Group collaborators by spotifyId
         Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
