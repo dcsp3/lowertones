@@ -14,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ import team.bham.service.APIWrapper.Enums.*;
 import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.service.TableviewService;
 import team.bham.service.UserService;
+import team.bham.service.dto.PlaylistExportDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -61,5 +64,19 @@ public class TableviewResource {
         Authentication authentication
     ) {
         return tableviewService.getUserPlaylistSongs(playlistId, authentication);
+    }
+
+    @PostMapping("/tableview-export-playlist")
+    public ResponseEntity<Boolean> exportToSpotify(Authentication authentication, @RequestBody PlaylistExportDTO playlistExportDTO) {
+        System.out.println(
+            "Playlist name: " + playlistExportDTO.getName() + ", Songs: " + playlistExportDTO.getSongSpotifyIds().toString()
+        );
+
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        JSONObject createResponse = this.apiWrapper.createPlaylist(appUser, playlistExportDTO.getName()).getData();
+        String playlistId = createResponse.getString("id");
+        this.apiWrapper.addItemsToPlaylist(appUser, playlistId, playlistExportDTO.getSongSpotifyIds());
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

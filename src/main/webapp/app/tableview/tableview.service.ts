@@ -20,4 +20,8 @@ export class TableviewService {
 
     return this.http.get<any>(this.playlistSongsUrl, { params: params });
   }
+
+  exportPlaylist(playlistObject: any): Observable<any> {
+    return this.http.post('/api/tableview-export-playlist', playlistObject);
+  }
 }
