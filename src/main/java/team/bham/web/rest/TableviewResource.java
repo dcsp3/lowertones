@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ import team.bham.service.SpotifyAPIWrapperService;
 import team.bham.service.TableviewService;
 import team.bham.service.UserService;
 import team.bham.service.dto.PlaylistExportDTO;
+import team.bham.service.dto.QueryParams;
 
 @RestController
 @RequestMapping("/api")
@@ -64,6 +66,14 @@ public class TableviewResource {
         Authentication authentication
     ) {
         return tableviewService.getUserPlaylistSongs(playlistId, authentication);
+    }
+
+    @GetMapping("/tableview-lowertones-songs")
+    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(
+        @ModelAttribute QueryParams queryParams,
+        Authentication authentication
+    ) {
+        return tableviewService.getLowertonesSongs(queryParams, authentication);
     }
 
     @PostMapping("/tableview-export-playlist")

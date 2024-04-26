@@ -61,6 +61,7 @@ import team.bham.service.APIWrapper.Enums.SpotifyTimeRange;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.APIWrapper.SpotifyAPIResponse;
 import team.bham.service.dto.NetworkDTO;
+import team.bham.service.dto.QueryParams;
 
 @Service
 public class TableviewService {
@@ -135,16 +136,79 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        List<SongWithArtistName> songs;
-        List<SongWithCollaborators> songsCollaborators;
+        List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
+        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
 
-        if (playlistId.equals("lowertonesLibrary")) {
-            //songs = songRepository.findSongsByLowertonesLibrary(whereQuery);
-            //songsCollaborators = songRepository.findSongsCollaboratorsByLowertonesLibrary(playlistId);
-        } else {}
+        // Group collaborators by spotifyId
+        Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
+            .stream()
+            .collect(Collectors.groupingBy(SongWithCollaborators::getSongSpotifyId));
 
-        songs = songRepository.findSongsByPlaylistId(playlistId);
-        songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
+        List<Map<String, Object>> songInfo = songs
+            .stream()
+            .map(song -> {
+                Map<String, Object> info = new HashMap<>();
+                info.put("spotifyId", song.getSongSpotifyId());
+                info.put("title", song.getSongTitle());
+                info.put("artist", song.getArtistName());
+                info.put("length", song.getSongDuration());
+                info.put("explicit", song.getSongExplicit());
+                info.put("popularity", song.getSongPopularity());
+                info.put("release", song.getAlbumReleaseDate());
+                info.put("acousticness", song.getSongAcousticness());
+                info.put("danceability", song.getSongDanceability());
+                info.put("instrumentalness", song.getSongInstrumentalness());
+                info.put("energy", song.getSongEnergy());
+                info.put("liveness", song.getSongLiveness());
+                info.put("loudness", song.getSongLoudness());
+                info.put("speechiness", song.getSongSpeechiness());
+                info.put("valence", song.getSongValence());
+                info.put("tempo", song.getSongTempo());
+
+                if (collaboratorMap.containsKey(song.getSongSpotifyId())) {
+                    List<SongWithCollaborators> collaborators = collaboratorMap.get(song.getSongSpotifyId());
+                    List<String> names = collaborators.stream().map(SongWithCollaborators::getContributorName).collect(Collectors.toList());
+                    List<String> roles = collaborators.stream().map(SongWithCollaborators::getContributorRole).collect(Collectors.toList());
+                    List<String> instruments = collaborators
+                        .stream()
+                        .map(SongWithCollaborators::getContributorInstrument)
+                        .collect(Collectors.toList());
+
+                    info.put("contributorNames", names);
+                    info.put("contributorRoles", roles);
+                    info.put("contributorInstruments", instruments);
+                    info.put("contributor", true);
+
+                    System.out.println("\n\n\n\n\n\n\n");
+                    System.out.println(names);
+                    System.out.println("\n\n\n\n\n\n\n");
+                } else {
+                    info.put("contributorNames", new String[0]);
+                    info.put("contributorRoles", new String[0]);
+                    info.put("contributorInstruments", new String[0]);
+                    info.put("contributor", false);
+                }
+
+                return info;
+            })
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(songInfo);
+    }
+
+    @Transactional
+    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams, Authentication authentication) {
+        AppUser appUser = userService.resolveAppUser(authentication.getName());
+        if (appUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        System.out.println(queryParams.getSearchQuery());
+
+        String queryString = "";
+
+        List<SongWithArtistName> songs = songRepository.findSongsByLowertonesLibrary(queryString);
+        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(queryString);
 
         // Group collaborators by spotifyId
         Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators

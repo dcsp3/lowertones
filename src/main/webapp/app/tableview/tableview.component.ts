@@ -29,6 +29,32 @@ interface SongEntry {
   contributorInstruments: string[];
 }
 
+interface QueryParams {
+  searchQuery: string;
+  minDuration: string | null;
+  maxDuration: string | null;
+  selectedExplicitness: string;
+  minPopularity: number | null;
+  maxPopularity: number | null;
+  artistName: string[];
+  minAcousticness: number | null | undefined;
+  maxAcousticness: number | null | undefined;
+  minDanceability: number | null | undefined;
+  maxDanceability: number | null | undefined;
+  minInstrumentalness: number | null | undefined;
+  maxInstrumentalness: number | null | undefined;
+  minEnergy: number | null | undefined;
+  maxEnergy: number | null | undefined;
+  minLiveness: number | null | undefined;
+  maxLiveness: number | null | undefined;
+  minLoudness: number | null | undefined;
+  maxLoudness: number | null | undefined;
+  minSpeechiness: number | null | undefined;
+  maxSpeechiness: number | null | undefined;
+  minValence: number | null | undefined;
+  maxValence: number | null | undefined;
+}
+
 type Feature = {
   name: string;
   range: [number | null, number | null];
@@ -111,6 +137,7 @@ export class TableviewComponent implements OnInit {
   selectedSearchType: Choice;
   columns!: Column[];
   selectedColumns!: Column[];
+  queryParams: QueryParams;
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
 
   features: Feature[] = [
@@ -158,6 +185,8 @@ export class TableviewComponent implements OnInit {
     }
 
     this.songDataInUse = this.songData;
+
+    this.queryParams = this.initializeQueryParams();
 
     this.tableStates = [
       { label: 'Working Playlist', value: 'user' },
@@ -615,6 +644,63 @@ export class TableviewComponent implements OnInit {
     });
   }
 
+  fetchFilteredData(): void {
+    this.queryParams = {
+      searchQuery: this.searchQuery,
+      minDuration: this.durationRange[0],
+      maxDuration: this.durationRange[1],
+      selectedExplicitness: this.selectedExplicitness.value,
+      minPopularity: this.popularityRange[0],
+      maxPopularity: this.popularityRange[1],
+      artistName: this.artistChips,
+      minAcousticness: this.features.find(f => f.name === 'Acousticness')?.range[0],
+      maxAcousticness: this.features.find(f => f.name === 'Acousticness')?.range[1],
+      minDanceability: this.features.find(f => f.name === 'Danceability')?.range[0],
+      maxDanceability: this.features.find(f => f.name === 'Danceability')?.range[1],
+      minInstrumentalness: this.features.find(f => f.name === 'Instrumentalness')?.range[0],
+      maxInstrumentalness: this.features.find(f => f.name === 'Instrumentalness')?.range[1],
+      minEnergy: this.features.find(f => f.name === 'Energy')?.range[0],
+      maxEnergy: this.features.find(f => f.name === 'Energy')?.range[1],
+      minLiveness: this.features.find(f => f.name === 'Liveness')?.range[0],
+      maxLiveness: this.features.find(f => f.name === 'Liveness')?.range[1],
+      minLoudness: this.features.find(f => f.name === 'Loudness')?.range[0],
+      maxLoudness: this.features.find(f => f.name === 'Loudness')?.range[1],
+      minSpeechiness: this.features.find(f => f.name === 'Speechiness')?.range[0],
+      maxSpeechiness: this.features.find(f => f.name === 'Speechiness')?.range[1],
+      minValence: this.features.find(f => f.name === 'Valence')?.range[0],
+      maxValence: this.features.find(f => f.name === 'Valence')?.range[1],
+    };
+  }
+
+  private initializeQueryParams(): QueryParams {
+    // Initialize queryParams with default values
+    return {
+      searchQuery: '',
+      minDuration: null,
+      maxDuration: null,
+      selectedExplicitness: 'both',
+      minPopularity: null,
+      maxPopularity: null,
+      artistName: [],
+      minAcousticness: null,
+      maxAcousticness: null,
+      minDanceability: null,
+      maxDanceability: null,
+      minInstrumentalness: null,
+      maxInstrumentalness: null,
+      minEnergy: null,
+      maxEnergy: null,
+      minLiveness: null,
+      maxLiveness: null,
+      minLoudness: null,
+      maxLoudness: null,
+      minSpeechiness: null,
+      maxSpeechiness: null,
+      minValence: null,
+      maxValence: null,
+    };
+  }
+
   genSongList(): void {
     this.loadingSongs = true;
     this.setPage(0);
@@ -624,52 +710,103 @@ export class TableviewComponent implements OnInit {
     }
     console.log('the ID being used: ' + this.selectedPlaylist.spotifyId);
 
-    this.tableviewService.getPlaylistData(this.selectedPlaylist.spotifyId).subscribe({
-      next: (data: any[]) => {
-        this.songData = data.map(songEntry => ({
-          placeholder: false,
-          title: songEntry.title,
-          artist: songEntry.artist,
-          contributor: songEntry.contributor,
-          length: this.formatTime(songEntry.length),
-          explicit: songEntry.explicit,
-          popularity: songEntry.popularity,
-          release: songEntry.release,
-          acousticness: this.truncate(songEntry.acousticness * 100),
-          danceability: this.truncate(songEntry.danceability * 100),
-          instrumentalness: this.truncate(songEntry.instrumentalness * 100),
-          energy: this.truncate(songEntry.energy * 100),
-          liveness: this.truncate(songEntry.liveness * 100),
-          loudness: songEntry.loudness,
-          speechiness: this.truncate(songEntry.speechiness * 100),
-          valence: this.truncate(songEntry.valence * 100),
-          tempo: Math.round(songEntry.tempo * 2) / 2,
-          spotifyId: songEntry.spotifyId,
-          contributorNames: this.capitalizeWords(songEntry.contributorNames),
-          contributorRoles: this.capitalizeWords(songEntry.contributorRoles),
-          contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
-        }));
+    this.fetchFilteredData();
 
-        this.printContributorDetails();
+    if (this.selectedPlaylist.spotifyId === 'lowertonesLibrary') {
+      this.tableviewService.getLowertonesData(this.queryParams).subscribe({
+        next: (data: any[]) => {
+          this.songData = data.map(songEntry => ({
+            placeholder: false,
+            title: songEntry.title,
+            artist: songEntry.artist,
+            contributor: songEntry.contributor,
+            length: this.formatTime(songEntry.length),
+            explicit: songEntry.explicit,
+            popularity: songEntry.popularity,
+            release: songEntry.release,
+            acousticness: this.truncate(songEntry.acousticness * 100),
+            danceability: this.truncate(songEntry.danceability * 100),
+            instrumentalness: this.truncate(songEntry.instrumentalness * 100),
+            energy: this.truncate(songEntry.energy * 100),
+            liveness: this.truncate(songEntry.liveness * 100),
+            loudness: songEntry.loudness,
+            speechiness: this.truncate(songEntry.speechiness * 100),
+            valence: this.truncate(songEntry.valence * 100),
+            tempo: Math.round(songEntry.tempo * 2) / 2,
+            spotifyId: songEntry.spotifyId,
+            contributorNames: this.capitalizeWords(songEntry.contributorNames),
+            contributorRoles: this.capitalizeWords(songEntry.contributorRoles),
+            contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
+          }));
 
-        console.log('here is how long the list is' + this.songData.length);
+          this.printContributorDetails();
 
-        this.songData = this.consolidateArtists(this.songData);
+          console.log('here is how long the list is' + this.songData.length);
 
-        console.log('and now: presto! ' + this.songData.length);
+          this.songData = this.consolidateArtists(this.songData);
 
-        if (this.selectedTableState.value === 'user') {
-          this.songDataInUse = this.songData;
-        }
+          console.log('and now: presto! ' + this.songData.length);
 
-        this.applySearch();
-        this.loadingSongs = false;
-      },
-      error: error => {
-        console.error('There was an error fetching the playlists', error);
-        this.loadingSongs = false;
-      },
-    });
+          if (this.selectedTableState.value === 'user') {
+            this.songDataInUse = this.songData;
+          }
+
+          this.applySearch();
+          this.loadingSongs = false;
+        },
+        error: error => {
+          console.error('There was an error fetching the playlists', error);
+          this.loadingSongs = false;
+        },
+      });
+    } else {
+      this.tableviewService.getPlaylistData(this.selectedPlaylist.spotifyId).subscribe({
+        next: (data: any[]) => {
+          this.songData = data.map(songEntry => ({
+            placeholder: false,
+            title: songEntry.title,
+            artist: songEntry.artist,
+            contributor: songEntry.contributor,
+            length: this.formatTime(songEntry.length),
+            explicit: songEntry.explicit,
+            popularity: songEntry.popularity,
+            release: songEntry.release,
+            acousticness: this.truncate(songEntry.acousticness * 100),
+            danceability: this.truncate(songEntry.danceability * 100),
+            instrumentalness: this.truncate(songEntry.instrumentalness * 100),
+            energy: this.truncate(songEntry.energy * 100),
+            liveness: this.truncate(songEntry.liveness * 100),
+            loudness: songEntry.loudness,
+            speechiness: this.truncate(songEntry.speechiness * 100),
+            valence: this.truncate(songEntry.valence * 100),
+            tempo: Math.round(songEntry.tempo * 2) / 2,
+            spotifyId: songEntry.spotifyId,
+            contributorNames: this.capitalizeWords(songEntry.contributorNames),
+            contributorRoles: this.capitalizeWords(songEntry.contributorRoles),
+            contributorInstruments: this.capitalizeWords(songEntry.contributorInstruments),
+          }));
+
+          this.printContributorDetails();
+
+          console.log('here is how long the list is' + this.songData.length);
+
+          this.songData = this.consolidateArtists(this.songData);
+
+          console.log('and now: presto! ' + this.songData.length);
+
+          if (this.selectedTableState.value === 'user') {
+            this.songDataInUse = this.songData;
+          }
+
+          this.applySearch();
+          this.loadingSongs = false;
+        },
+        error: error => {
+          console.error('There was an error fetching the playlists', error);
+          this.loadingSongs = false;
+        },
+      });
+    }
   }
 
   showExportPopup() {
