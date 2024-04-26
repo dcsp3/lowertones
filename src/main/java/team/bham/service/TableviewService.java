@@ -135,8 +135,16 @@ public class TableviewService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        List<SongWithArtistName> songs = songRepository.findSongsByPlaylistId(playlistId);
-        List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
+        List<SongWithArtistName> songs;
+        List<SongWithCollaborators> songsCollaborators;
+
+        if (playlistId.equals("lowertonesLibrary")) {
+            songs = songRepository.findSongsByLowertonesLibrary(playlistId);
+            songsCollaborators = songRepository.findSongsCollaboratorsByLowertonesLibrary(playlistId);
+        } else {
+            songs = songRepository.findSongsByPlaylistId(playlistId);
+            songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(playlistId);
+        }
 
         // Group collaborators by spotifyId
         Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators

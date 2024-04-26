@@ -75,17 +75,7 @@
         <ng-template let-node pTemplate="DurationElement">
           <div style="display: flex; justify-content: space-between">
             <b>Min: </b>
-            <<<<<<< HEAD
-            <p-inputMask
-              mask="99:99"
-              placeholder="mm:ss"
-              type="text"
-              [(ngModel)]="durationValues[0]"
-              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
-            ></p-inputMask>
-            =======
             <p-inputMask mask="99:99" placeholder="mm:ss" type="text" [(ngModel)]="durationRange[0]"></p-inputMask>
-            >>>>>>> fc55def63a4a90afbf9c91dfc8c369d7491bba9a
             <b>Max: </b>
             <p-inputMask mask="99:99" placeholder="mm:ss" type="text" [(ngModel)]="durationRange[1]"></p-inputMask>
           </div>
