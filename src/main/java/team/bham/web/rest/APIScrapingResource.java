@@ -192,6 +192,7 @@ public class APIScrapingResource {
             appUser.setHighContrastMode(false);
             appUser.setTextSize(0);
             appUserRepository.save(appUser);
+            return new ResponseEntity<>(false, HttpStatus.OK);
         }
 
         //no refresh - not linked

@@ -45,12 +45,14 @@ public class PreferencesResource {
     @PostMapping("/account/preferences/highContrast")
     public ResponseEntity<Boolean> getHighContrast(Authentication authentication) {
         appUser = preferencesService.getAppUser(authentication);
+        if (appUser == null) return ResponseEntity.ok(false);
         return ResponseEntity.ok(appUser.getHighContrastMode());
     }
 
     @PostMapping("/account/preferences/textSize")
     public ResponseEntity<Number> getTextSize(Authentication authentication) {
         appUser = preferencesService.getAppUser(authentication);
+        if (appUser == null) return ResponseEntity.ok(10);
         return ResponseEntity.ok(appUser.getTextSize());
     }
 

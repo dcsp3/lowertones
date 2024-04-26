@@ -103,9 +103,9 @@ public class SpotifyAPIWrapperService {
                 JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(j);
                 SpotifySimplifiedPlaylist curPlaylist = new SpotifySimplifiedPlaylist();
                 curPlaylist.setName(playlistEntry.getString("name"));
-                curPlaylist.setSpotifyId("id");
-                curPlaylist.setSnapshotId("snapshot_id");
-                if (playlistEntry.has("images")) {
+                curPlaylist.setSpotifyId(playlistEntry.getString("id"));
+                curPlaylist.setSnapshotId(playlistEntry.getString("snapshot_id"));
+                /*if (playlistEntry.has("images")) {
                     if (!playlistEntry.isNull("images")) {
                         JSONArray images = playlistEntry.getJSONArray("images");
                         for (int k = 0; k < images.length(); k++) {
@@ -125,7 +125,7 @@ public class SpotifyAPIWrapperService {
                             curPlaylist.addImage(image);
                         }
                     }
-                }
+                }*/
                 playlists.add(curPlaylist);
             }
             if (!responseJSON.isNull("next")) {
@@ -256,15 +256,13 @@ public class SpotifyAPIWrapperService {
         }
 
         // grab track audio features
-        // SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>>
-        // audioFeaturesResponse = getTrackAudioFeatures(trackIds, user);
-        // if(audioFeaturesResponse.getSuccess()) {
-        // ArrayList<SpotifyTrackAudioFeatures> audioFeatures =
-        // audioFeaturesResponse.getData();
-        // for (int i = 0; i < audioFeatures.size(); i++) {
-        // playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
-        // }
-        // }
+        SpotifyAPIResponse<ArrayList<SpotifyTrackAudioFeatures>> audioFeaturesResponse = getTrackAudioFeatures(trackIds, user);
+        if (audioFeaturesResponse.getSuccess()) {
+            ArrayList<SpotifyTrackAudioFeatures> audioFeatures = audioFeaturesResponse.getData();
+            for (int i = 0; i < audioFeatures.size(); i++) {
+                playlist.getTracks().get(i).setAudioFeatures(audioFeatures.get(i));
+            }
+        }
 
         // TESTING STUFF, IGNORE
 
@@ -482,6 +480,7 @@ public class SpotifyAPIWrapperService {
                         entity = new HttpEntity<>(headers);
                     }
                 } else {
+                    System.out.println("uhhh" + entity.getHeaders().toString() + " " + endpoint);
                     throw new RuntimeException("bruh: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
                     // apiResponse.setSuccess(false);
                     // apiResponse.setStatus(status);
@@ -598,8 +597,8 @@ public class SpotifyAPIWrapperService {
         // album.setCoverArtURL(albumJSON.getJSONArray("images").getJSONObject(0).getString("url"));
 
         track.setAlbum(album);
-        SpotifyTrackAudioFeatures defaultFeatures = new SpotifyTrackAudioFeatures();
-        track.setAudioFeatures(defaultFeatures);
+        //SpotifyTrackAudioFeatures defaultFeatures = new SpotifyTrackAudioFeatures();
+        //track.setAudioFeatures(defaultFeatures);
 
         // only care about main artist
         JSONObject mainArtistJSON = trackJSON.getJSONArray("artists").getJSONObject(0);
