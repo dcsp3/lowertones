@@ -33,7 +33,8 @@ public class PreferencesService {
     @Transactional
     public AppUser getAppUser(Authentication authentication) {
         User user = userRepository.findOneByLogin(authentication.getName()).get();
-        return appUserRepository.findByUserId(user.getId()).get();
+        Optional<AppUser> appUser = appUserRepository.findByUserId(user.getId());
+        if (appUser.isPresent()) return appUser.get(); else return null;
     }
 
     public void updateEmail(String login, String email) {

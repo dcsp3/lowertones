@@ -489,7 +489,7 @@ public class APIScrapingService {
         song.setSongTrackFeaturesAdded(false);
 
         //runtime scraping of audio features is too slow/broken.. :(
-        /*//awful, todo: remove
+        //awful, todo: remove
         if (track.getAudioFeatures() != null) {
             song.setSongTrackFeaturesAdded(true);
             song.setSongAcousticness(track.getAudioFeatures().getAcousticness());
@@ -503,7 +503,7 @@ public class APIScrapingService {
             song.setSongValence(track.getAudioFeatures().getValence());
             song.setSongKey(track.getAudioFeatures().getKey());
             song.setSongTimeSignature(track.getAudioFeatures().getTimeSignature());
-        }*/
+        }
         song.setAlbum(album);
         songRepository.save(song);
         return song;

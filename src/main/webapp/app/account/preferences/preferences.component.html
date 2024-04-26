@@ -9,12 +9,16 @@
       <div class="categoryTitle">Additional features</div>
       <div class="preferenceTitle">
         <label>Email updates</label>
-        <input
-          type="checkbox"
-          id="toggleEmailUpdates"
-          [checked]="appUserForm.get('discoverWeeklyBufferSettings')?.value === 0"
-          (change)="toggleEmailUpdates()"
-        />
+
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="toggleEmailUpdates"
+            [checked]="appUserForm.get('discoverWeeklyBufferSettings')?.value === 0"
+            (change)="toggleEmailUpdates()"
+          />
+          <span class="slider round"></span>
+        </label>
       </div>
       <div class="preferenceSubtitle">Get notified as soon as we release an update.</div>
 
@@ -22,19 +26,26 @@
       <div class="categoryTitle">Accessibility</div>
       <div class="preferenceTitle">
         <label>High colour contrast</label>
-        <input type="checkbox" id="toggleHighContrast" formControlName="highContrastMode" (change)="savePreferences()" />
+        <label class="switch">
+          <input type="checkbox" id="toggleHighContrast" formControlName="highContrastMode" (change)="savePreferences()" />
+          <span class="slider round"></span>
+        </label>
       </div>
       <div class="preferenceSubtitle">Simplify colour scheme for better readability.</div>
 
       <br />
       <div class="preferenceTitle">
         <label>Text size</label>
-        <select id="dropdown" class="custom-dropdown" formControlName="textSize" (change)="savePreferences()">
-          <option value="100" [selected]="appUserForm.get('textSize')?.value === 100 || appUserForm.get('textSize')?.value === 0">
+        <select id="dropdown" class="dropdown-button" formControlName="textSize" (change)="savePreferences()">
+          <option
+            class="option"
+            value="100"
+            [selected]="appUserForm.get('textSize')?.value === 100 || appUserForm.get('textSize')?.value === 0"
+          >
             Normal
           </option>
-          <option value="115" [selected]="appUserForm.get('textSize')?.value === 115">Large</option>
-          <option value="125" [selected]="appUserForm.get('textSize')?.value === 125">Extra Large</option>
+          <option class="option" value="115" [selected]="appUserForm.get('textSize')?.value === 115">Large</option>
+          <option class="option" value="125" [selected]="appUserForm.get('textSize')?.value === 125">Extra Large</option>
         </select>
       </div>
       <div class="preferenceSubtitle">Increase text size for better readability.</div>

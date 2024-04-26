@@ -29,6 +29,11 @@ interface SongEntry {
   contributorInstruments: string[];
 }
 
+type Feature = {
+  name: string;
+  range: [number | null, number | null];
+};
+
 interface Column {
   value: string;
   label: string;
@@ -107,15 +112,28 @@ export class TableviewComponent implements OnInit {
   columns!: Column[];
   selectedColumns!: Column[];
   private tableviewTreeService: TableviewTreeService = new TableviewTreeService();
-  yearValues: number[] = new Array(2).fill(undefined);
-  popularityValues: number[] = new Array(2).fill(undefined);
-  tempoValues: number[] = new Array(2).fill(undefined);
-  durationValues: string[] = ['', ''];
+
+  features: Feature[] = [
+    { name: 'Acousticness', range: [null, null] },
+    { name: 'Danceability', range: [null, null] },
+    { name: 'Instrumentalness', range: [null, null] },
+    { name: 'Energy', range: [null, null] },
+    { name: 'Liveness', range: [null, null] },
+    { name: 'Loudness', range: [null, null] },
+    { name: 'Speechiness', range: [null, null] },
+    { name: 'Valence', range: [null, null] },
+  ];
+
+  yearRange: number[] = new Array(2).fill(undefined);
+  popularityRange: number[] = new Array(2).fill(undefined);
+  tempoRange: number[] = new Array(2).fill(undefined);
+  durationRange: string[] = ['', ''];
   artistChips: string[] = [];
   contributorChips: string[] = [];
   Explicitness: Choice[] = [];
   selectedExplicitness: Choice;
   playlists: any[];
+  importedPlaylists: any[];
   selectedPlaylist!: any;
   tableStates: Choice[];
   selectedTableState: Choice;
@@ -155,19 +173,22 @@ export class TableviewComponent implements OnInit {
     ];
 
     this.Explicitness = [
-      { label: 'Both', value: 'Both' },
-      { label: 'Explicit', value: 'Yes' },
-      { label: 'Non-Explicit', value: 'No' },
+      { label: 'Both', value: 'both' },
+      { label: 'Explicit', value: 'yes' },
+      { label: 'Non-Explicit', value: 'no' },
     ];
 
-    this.selectedExplicitness = { label: 'Both', value: 'Both' };
+    this.selectedExplicitness = { label: 'Both', value: 'both' };
 
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
     this.playlists = [
-      { name: 'My Entire Library', spotifyId: 'entireLibrary', image: 'null' },
-      { name: 'My Top Songs', spotifyId: 'topSongs', image: 'null' },
+      { name: 'Lowertones Library', spotifyId: 'lowertonesLibrary', image: '../../content/images/lowertones_small.png' },
+      { name: 'My Entire Library', spotifyId: 'entireLibrary', image: '../../content/images/library.png' },
+      { name: 'My Top Songs', spotifyId: 'topSongs', image: '../../content/images/topsongs.png' },
     ];
+
+    this.importedPlaylists = [{}];
 
     this.selectedPlaylist = { name: 'My Top Songs', spotifyId: 'topSongs', image: 'null' };
     this.selectedSongCount = 0;
@@ -226,14 +247,157 @@ export class TableviewComponent implements OnInit {
 
   applySearch(): void {
     this.filteredSongData = this.songDataInUse.filter(song => {
-      const query = this.searchQuery.toLowerCase();
-      const matchesTitle = song.title.toLowerCase().includes(query);
-      const matchesArtist = song.artist.toLowerCase().includes(query);
-
-      if (this.selectedSearchType.value === 'both') return matchesTitle || matchesArtist;
-      else if (this.selectedSearchType.value === 'title') return matchesTitle;
-      else return matchesArtist;
+      return (
+        this.matchesSearchQuery(song) &&
+        this.filterByExplicitness(song) &&
+        this.filterByArtistChips(song) &&
+        this.filterByContributorChips(song) &&
+        this.filterByDuration(song) &&
+        this.filterByReleaseYear(song) &&
+        this.filterByPopularity(song) &&
+        this.filterByTempo(song) &&
+        this.filterByAcousticness(song) &&
+        this.filterByDanceability(song) &&
+        this.filterByInstrumentalness(song) &&
+        this.filterByEnergy(song) &&
+        this.filterByLiveness(song) &&
+        this.filterByLoudness(song) &&
+        this.filterBySpeechiness(song) &&
+        this.filterByValence(song)
+      );
     });
+
+    this.fixPages();
+    this.filteredSongData = this.removePlaceholders(this.filteredSongData);
+    this.songListFactor15(this.filteredSongData);
+  }
+
+  private matchesSearchQuery(song: SongEntry): boolean {
+    const query = this.searchQuery.toLowerCase();
+    const matchesTitle = song.title.toLowerCase().includes(query);
+    const matchesArtist = song.artist.toLowerCase().includes(query);
+
+    if (this.selectedSearchType.value === 'both') return matchesTitle || matchesArtist;
+    else if (this.selectedSearchType.value === 'title') return matchesTitle;
+    else return matchesArtist;
+  }
+
+  private filterByDuration(song: SongEntry): boolean {
+    const songDurationSeconds = this.convertToSeconds(song.length);
+    const [minTime, maxTime] = this.durationRange;
+    const minTimeSeconds = minTime.includes('_') ? null : this.convertToSeconds(minTime);
+    const maxTimeSeconds = maxTime.includes('_') ? null : this.convertToSeconds(maxTime);
+    if (minTimeSeconds !== null && songDurationSeconds < minTimeSeconds) return false;
+    if (maxTimeSeconds !== null && songDurationSeconds > maxTimeSeconds) return false;
+    return true;
+  }
+
+  private filterByReleaseYear(song: SongEntry): boolean {
+    const songReleaseYear = parseInt(song.release.split('-')[0]);
+    const [minYear, maxYear] = this.yearRange;
+
+    if (minYear !== null && minYear !== undefined && songReleaseYear < minYear) return false;
+    if (maxYear !== null && maxYear !== undefined && songReleaseYear > maxYear) return false;
+    return true;
+  }
+
+  private filterByPopularity(song: SongEntry): boolean {
+    const [minPopularity, maxPopularity] = this.popularityRange;
+    if (minPopularity !== null && song.popularity < minPopularity) return false;
+    if (maxPopularity !== null && song.popularity > maxPopularity) return false;
+    return true;
+  }
+
+  private filterByTempo(song: SongEntry): boolean {
+    const [minTempo, maxTempo] = this.tempoRange;
+    if (minTempo !== null && song.tempo < minTempo) return false;
+    if (maxTempo !== null && song.tempo > maxTempo) return false;
+    return true;
+  }
+
+  private convertToSeconds(timeStr: string): number {
+    const [mins, secs] = timeStr.split(':').map(Number);
+    return mins * 60 + secs;
+  }
+
+  private filterByFeature(song: SongEntry, featureName: string): boolean {
+    const feature = this.features.find(f => f.name === featureName);
+    if (!feature) {
+      console.error(`Feature not found: ${featureName}`);
+      return true;
+    }
+
+    const [minValue, maxValue] = feature.range;
+    const featureValue = song[featureName.toLowerCase() as keyof SongEntry] as number;
+    if (minValue !== null && featureValue < minValue) return false;
+    if (maxValue !== null && featureValue > maxValue) return false;
+    return true;
+  }
+
+  private filterByAcousticness(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Acousticness');
+  }
+
+  private filterByDanceability(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Danceability');
+  }
+
+  private filterByInstrumentalness(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Instrumentalness');
+  }
+
+  private filterByEnergy(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Energy');
+  }
+
+  private filterByLiveness(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Liveness');
+  }
+
+  private filterByLoudness(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Loudness');
+  }
+
+  private filterBySpeechiness(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Speechiness');
+  }
+
+  private filterByValence(song: SongEntry): boolean {
+    return this.filterByFeature(song, 'Valence');
+  }
+
+  private filterByArtistChips(song: SongEntry): boolean {
+    if (this.artistChips.length === 0) {
+      return true; // If no artist chips are specified, do not filter out any songs.
+    }
+    const lowerCaseArtist = song.artist.toLowerCase();
+    const lowerCaseChips = this.artistChips.map(chip => chip.toLowerCase());
+    return lowerCaseChips.includes(lowerCaseArtist);
+  }
+
+  private filterByContributorChips(song: SongEntry): boolean {
+    if (this.contributorChips.length === 0) {
+      return true; // If no contributor chips are specified, do not filter out any songs.
+    }
+    const lowerCaseContributorChips = this.contributorChips.map(chip => chip.toLowerCase());
+    // Check if any contributor in the song matches any name in the chips
+    return song.contributorNames.some(contributor => lowerCaseContributorChips.includes(contributor.toLowerCase()));
+  }
+
+  private filterByExplicitness(song: SongEntry): boolean {
+    switch (this.selectedExplicitness.value) {
+      case 'both':
+        return true; // Do not filter out any songs, show both explicit and non-explicit.
+      case 'yes':
+        return song.explicit === true; // Filter to show only explicit songs.
+      case 'no':
+        return song.explicit === false; // Filter to show only non-explicit songs.
+      default:
+        return true; // Default to showing all if there's an unexpected value.
+    }
+  }
+
+  onColumnHeaderClick(): void {
     this.filteredSongData = this.removePlaceholders(this.filteredSongData);
     this.songListFactor15(this.filteredSongData);
   }
@@ -255,6 +419,18 @@ export class TableviewComponent implements OnInit {
     } else {
       console.log('setting value to ' + this.pagePair[key].toString() + ':3');
       this.setPage(this.pagePair[key]);
+    }
+  }
+
+  fixPages(): void {
+    const key = this.selectedTableState.value as keyof PagePair;
+    let maxPages = this.countSongsNoPlaceholder(this.filteredSongData);
+
+    if (maxPages < this.tablePage) {
+      console.log(
+        "setting value from what could've been " + maxPages.toString() + ' to ' + (Math.floor(maxPages / 15) * 15).toString() + ':1'
+      );
+      this.setPage(Math.floor(maxPages / 15) * 15);
     }
   }
 
@@ -338,7 +514,7 @@ export class TableviewComponent implements OnInit {
   fetchPlaylists(): void {
     this.tableviewService.getPlaylists().subscribe({
       next: (data: any[]) => {
-        this.playlists = data.map(playlist => {
+        this.importedPlaylists = data.map(playlist => {
           const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
           return {
             name: playlist.name,
@@ -348,10 +524,12 @@ export class TableviewComponent implements OnInit {
         });
 
         // Check if there are any playlists and set the first one as selected
-        if (this.playlists.length > 0) {
-          this.selectedPlaylist = this.playlists[0];
+        if (this.importedPlaylists.length > 0) {
+          this.selectedPlaylist = this.importedPlaylists[0];
           this.getPlaylistData();
         }
+
+        this.playlists.push(...this.importedPlaylists);
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);

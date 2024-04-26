@@ -9,8 +9,10 @@ import { IUser } from '../user-management.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
+  private emailResourceURL = this.applicationConfigService.getEndpointFor('api/admin/user-management');
   private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
   private userResourceUrl = this.applicationConfigService.getEndpointFor('api/account/preferences');
+
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   create(user: IUser): Observable<IUser> {
@@ -41,5 +43,11 @@ export class UserManagementService {
 
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(this.applicationConfigService.getEndpointFor('api/authorities'));
+  }
+
+  sendEmailUpdate(message: string): Observable<void> {
+    console.log('Preparing to send email with message: ' + message);
+    const url = `${this.emailResourceURL}/send-email-to-all`;
+    return this.http.post<void>(url, { content: message });
   }
 }
