@@ -80,7 +80,7 @@
               placeholder="mm:ss"
               type="text"
               [(ngModel)]="durationValues[0]"
-              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]; console.log(durationValues)"
+              (ngModelChange)="durationValues = [durationValues[0], durationValues[1]]"
             ></p-inputMask>
             <b>Max: </b>
             <p-inputMask
