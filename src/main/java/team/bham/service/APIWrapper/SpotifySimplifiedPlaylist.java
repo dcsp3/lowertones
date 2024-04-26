@@ -1,10 +1,17 @@
 package team.bham.service.APIWrapper;
 
+import java.util.ArrayList;
+
 public class SpotifySimplifiedPlaylist {
 
     private String name;
     private String spotifyId;
     private String snapshotId;
+    private ArrayList<SpotifyImage> images;
+
+    public SpotifySimplifiedPlaylist() {
+        this.images = new ArrayList<>();
+    }
 
     public SpotifySimplifiedPlaylist(String name, String spotifyId, String snapshotId) {
         this.name = name;
@@ -24,6 +31,10 @@ public class SpotifySimplifiedPlaylist {
         this.snapshotId = snapshotId;
     }
 
+    public void addImage(SpotifyImage image) {
+        this.images.add(image);
+    }
+
     public String getName() {
         return name;
     }
@@ -34,5 +45,9 @@ public class SpotifySimplifiedPlaylist {
 
     public String getSnapshotId() {
         return snapshotId;
+    }
+
+    public ArrayList<SpotifyImage> getImages() {
+        return images;
     }
 }

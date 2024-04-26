@@ -101,13 +101,24 @@ public class SpotifyAPIWrapperService {
         for (int i = 0; i < totalPlaylists; i += 50) {
             for (int j = 0; j < playlistEntriesJSON.length(); j++) {
                 JSONObject playlistEntry = playlistEntriesJSON.getJSONObject(j);
-                playlists.add(
-                    new SpotifySimplifiedPlaylist(
-                        playlistEntry.getString("name"),
-                        playlistEntry.getString("id"),
-                        playlistEntry.getString("snapshot_id")
-                    )
-                );
+                SpotifySimplifiedPlaylist curPlaylist = new SpotifySimplifiedPlaylist();
+                curPlaylist.setName(playlistEntry.getString("name"));
+                curPlaylist.setSpotifyId("id");
+                curPlaylist.setSnapshotId("snapshot_id");
+                if (playlistEntry.has("images")) {
+                    if (!playlistEntry.isNull("images")) {
+                        JSONArray images = playlistEntry.getJSONArray("images");
+                        for (int k = 0; k < images.length(); k++) {
+                            JSONObject imageJSON = images.getJSONObject(k);
+                            SpotifyImage image = new SpotifyImage();
+                            image.setWidth(imageJSON.getInt("width"));
+                            image.setHeight(imageJSON.getInt("height"));
+                            image.setUrl(imageJSON.getString("url"));
+                            curPlaylist.addImage(image);
+                        }
+                    }
+                }
+                playlists.add(curPlaylist);
             }
             if (!responseJSON.isNull("next")) {
                 String nextPageURL = responseJSON.getString("next");
