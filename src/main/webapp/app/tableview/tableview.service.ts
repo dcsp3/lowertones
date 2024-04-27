@@ -35,7 +35,7 @@ interface QueryParams {
 export class TableviewService {
   private playlistUrl = '/api/tableview-user-playlists';
   private playlistSongsUrl = '/api/tableview-playlist-songs';
-  private lowertonesSongsUrl = 'api/tableview-lowertones-songs';
+  private lowertonesSongsUrl = '/api/tableview-lowertones-songs';
 
   constructor(private http: HttpClient) {}
 

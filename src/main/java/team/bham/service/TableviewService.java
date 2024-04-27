@@ -218,12 +218,7 @@ public class TableviewService {
     }
 
     @Transactional
-    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams, Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        if (appUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
+    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams) {
         System.out.println("\n\n\n\n\n\n");
         System.out.println(toSqlList(queryParams.getArtistChips()));
         System.out.println("\n\n\n\n\n\n");

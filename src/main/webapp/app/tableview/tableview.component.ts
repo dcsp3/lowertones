@@ -169,6 +169,7 @@ export class TableviewComponent implements OnInit {
   tablePage: number = 0;
   tableRows: number = 15;
   entryCount: number = 0;
+  loadedPlaylists: boolean = false;
 
   exportPopupVisible: boolean = false;
   exportName: string = '';
@@ -212,20 +213,22 @@ export class TableviewComponent implements OnInit {
 
     this.selectedSearchType = { label: 'Titles & Artists', value: 'both' };
 
-    this.playlists = [
-      { name: 'Lowertones Library', spotifyId: 'lowertonesLibrary', image: '../../content/images/lowertones_small.png' },
-      { name: 'My Entire Library', spotifyId: 'entireLibrary', image: '../../content/images/library.png' },
-    ];
+    this.playlists = [{ name: 'Lowertones Library', spotifyId: 'lowertonesLibrary', image: '../../content/images/lowertones_small.png' }];
 
     this.importedPlaylists = [{}];
 
-    this.selectedPlaylist = { name: 'My Top Songs', spotifyId: 'topSongs', image: 'null' };
+    this.selectedPlaylist = {
+      name: 'Lowertones Library',
+      spotifyId: 'lowertonesLibrary',
+      image: '../../content/images/lowertones_small.png',
+    };
     this.selectedSongCount = 0;
   }
 
   ngOnInit(): void {
     this.scrape();
     this.fetchPlaylists();
+    this.genSongList();
 
     this.filteredSongData = this.songDataInUse;
     this.columns = [
@@ -565,10 +568,13 @@ export class TableviewComponent implements OnInit {
           this.getPlaylistData();
         }
 
+        this.playlists.push(...[{ name: 'My Entire Library', spotifyId: 'entireLibrary', image: '../../content/images/library.png' }]);
         this.playlists.push(...this.importedPlaylists);
+        this.loadedPlaylists = true;
       },
       error: error => {
         console.error('There was an error fetching the playlists', error);
+        this.loadedPlaylists = true;
       },
     });
   }
