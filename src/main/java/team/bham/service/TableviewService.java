@@ -117,9 +117,14 @@ public class TableviewService {
     }
 
     @Transactional
-    public List<Song> findSongsByPlaylistId(String playlistId) {
+    public List<Song> findSongsByPlaylistId(AppUser user, String playlistId) {
         Set<Song> playlistSongsSet = new HashSet<>();
-        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<Playlist> playlists = user.getPlaylists();
+        Playlist userPlaylist = playlists
+            .stream()
+            .filter(playlist -> playlist.getPlaylistSpotifyID().equals(playlistId))
+            .findFirst()
+            .orElse(null);
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
         for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
