@@ -21,11 +21,11 @@ public class VisualisationsDTO {
     private String topArtist5Name;
 
     // variables for the top 5 genres
-    private int topGenre1Percent;
-    private int topGenre2Percent;
-    private int topGenre3Percent;
-    private int topGenre4Percent;
-    private int topGenre5Percent;
+    private float topGenre1Percent;
+    private float topGenre2Percent;
+    private float topGenre3Percent;
+    private float topGenre4Percent;
+    private float topGenre5Percent;
 
     private String topGenre1Name;
     private String topGenre2Name;
@@ -45,7 +45,7 @@ public class VisualisationsDTO {
 
     // Getters and Setters of the above variables
 
-    public int getTopGenre1Percent() {
+    public float getTopGenre1Percent() {
         return topGenre1Percent;
     }
 
@@ -53,7 +53,7 @@ public class VisualisationsDTO {
         this.topGenre1Percent = topGenre1Percent;
     }
 
-    public int getTopGenre2Percent() {
+    public float getTopGenre2Percent() {
         return topGenre2Percent;
     }
 
@@ -61,7 +61,7 @@ public class VisualisationsDTO {
         this.topGenre2Percent = topGenre2Percent;
     }
 
-    public int getTopGenre3Percent() {
+    public float getTopGenre3Percent() {
         return topGenre3Percent;
     }
 
@@ -69,7 +69,7 @@ public class VisualisationsDTO {
         this.topGenre3Percent = topGenre3Percent;
     }
 
-    public int getTopGenre4Percent() {
+    public float getTopGenre4Percent() {
         return topGenre4Percent;
     }
 
@@ -77,7 +77,7 @@ public class VisualisationsDTO {
         this.topGenre4Percent = topGenre4Percent;
     }
 
-    public int getTopGenre5Percent() {
+    public float getTopGenre5Percent() {
         return topGenre5Percent;
     }
 

@@ -275,6 +275,7 @@ public class SpotifyAPIWrapperService {
         // playlist.getTracks().get(i).setMainArtist(artistInfo.get(i));
         // }
         // }
+        //lol
 
         SpotifyAPIResponse<SpotifyPlaylist> res = new SpotifyAPIResponse<>();
         res.setData(playlist);
