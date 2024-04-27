@@ -35,11 +35,21 @@
               <input type="radio" name="slider" id="s3" [(ngModel)]="currentSlide" [value]="3" />
               <input type="radio" name="slider" id="s4" [(ngModel)]="currentSlide" [value]="4" />
               <input type="radio" name="slider" id="s5" [(ngModel)]="currentSlide" [value]="5" />
-              <label for="s1" id="slide1"></label>
-              <label for="s2" id="slide2"></label>
-              <label for="s3" id="slide3"></label>
-              <label for="s4" id="slide4"></label>
-              <label for="s5" id="slide5"></label>
+              <label for="s1" id="slide1">
+                <img src="../../content/images/home-page-visualisations.png" alt="" id="slide-image" />
+              </label>
+              <label for="s2" id="slide2">
+                <img src="../../content/images/home-page-vault.png" alt="" id="slide-image" />
+              </label>
+              <label for="s3" id="slide3">
+                <img src="../../content/images/home-page-tableview.png" alt="" id="slide-image" />
+              </label>
+              <label for="s4" id="slide4">
+                <img src="../../content/images/home-page-recapd.png" alt="" id="slide-image" />
+              </label>
+              <label for="s5" id="slide5">
+                <img src="../../content/images/home-page-network.png" alt="" id="slide-image" />
+              </label>
             </section>
           </div>
         </div>
@@ -54,42 +64,28 @@
   </section>
 
   <section id="tableview-tab" class="et-slide">
-    <div style="height: 30px"></div>
+    <div style="height: 60px"></div>
     <div class="card">
-      <div class="tableview-container">
-        <div class="tableview-text">
-          <h2 class="how-it-works-title title-shift-left">Tableview & Advanced Filters</h2>
-          <div class="description-text">
-            <h5>
-              <br />
-              Tableview allows you to find out more about the music<br />you love through Spotify's Song Features.
-              <br />
-              <br />
-              We import your playlists into our database and give you<br />information about your tracks in an easy-to-digest manner.
-              <br />
-              <br />
-              Take advantage of the advanced filters to query our database in the way YOU want.
-              <br />
-              You can filter by Track Features, Populartiy and even by Producers.
+      <h1 id="tableviewHeading" class="heading">Library</h1>
+      <div class="vault-card-content">
+        <div class="vault-content">
+          <div class="preview">
+            <img src="../../content/images/tableview.png" alt="Library Preview" class="tableview-preview" />
+          </div>
+          <div class="tableview-info-card">
+            <h5 class="tableview-info-text">
+              Libary allows you to find out more about the music you love through Spotify's Song Features. We import your playlists into our
+              database and give you information about your tracks in an easy-to-digest manner.
               <br />
               <br />
-              After filtering the songs you want, you can select them to add them to the Staging Playlist.
-              <br />
-              From the staging playlist, you can export your curated playlist onto Spotify.
+              Take advantage of the advanced filters to query our database in the way YOU want. You can filter by Track Features, Populartiy
+              and even by Producers. After filtering the songs you want, you can select them to add them to the Staging Playlist. From the
+              staging playlist, you can export your curated playlist onto Spotify.
             </h5>
           </div>
-
-          <div class="tableview-image">
-            <img src="../../content/images/tableview.png" alt="Title Photo" class="" style="width: 1000px" />
+          <div class="filters">
+            <img src="../../content/images/filters.png" alt="Filters Preview" class="filters-preview" />
           </div>
-        </div>
-
-        <div class="col-md-4 description-padding d-flex justify-content-center align-items-center recapd-example-card">
-          <img
-            src="../../content/images/filters.png"
-            alt="Title Photo"
-            class="recapped-photo img-fluid rounded vanilla-tilt-img fade-in-up"
-          />
         </div>
       </div>
     </div>
@@ -198,8 +194,8 @@
               Network maps your listening habits by extracting data directly from your Spotify account.
               <br />
               <br />
-              We pull data directly from the Spotify API to determine your top artists and fetch your playlists. The visualization can be
-              tailored to reflect different time periods, and connections can be toggled based on artist similarity.
+              We pull data using the Spotify API to determine your top artists and fetch your playlists. The visualization can be tailored
+              to reflect different time periods, and connections can be toggled based on artist similarity.
               <br />
               <br />
               Network offers a deep dive into your musical preferences, providing insights into the artists and genres you love the most.
