@@ -160,7 +160,11 @@ export class NetworkComponent implements OnInit, OnDestroy {
     this.networkService.getPlaylists().subscribe({
       next: (data: any[]) => {
         this.playlists = data.map(playlist => {
-          const image = playlist.imgLarge || playlist.imgMedium || playlist.imgSmall || '';
+          const image =
+            playlist.imgLarge ||
+            playlist.imgMedium ||
+            playlist.imgSmall ||
+            'https://tidal.com/browse/assets/images/defaultImages/defaultPlaylistImage.png';
           return {
             label: playlist.name,
             value: playlist.id,

@@ -45,25 +45,23 @@ function getElements(artists: Artist[], userImg: string, connections: { [key: st
       rank: artist.distance,
       songsInLibrary: artist.songsInLibrary || 0,
     });
-    idMap[artist.id] = nodeId; // Mapping external artist ID to internal node ID
+    idMap[artist.id] = nodeId;
   });
 
   artists.forEach(artist => {
-    // Adding links from user to each artist
     links.push({
       source: 0,
       target: idMap[artist.id],
       distance: artist.distance,
     });
 
-    // Adding artist-to-artist connections
     if (connections[artist.id]) {
       connections[artist.id].forEach(connectedArtistId => {
         if (idMap[connectedArtistId]) {
           links.push({
             source: idMap[artist.id],
             target: idMap[connectedArtistId],
-            distance: 600, // Arbitrary distance or derived value
+            distance: 600,
           });
         }
       });
@@ -82,8 +80,8 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
     .style('animation', 'subtle-zoom 5s infinite alternate ease-in-out');
 
   const scaleDistance = (d: any) => {
-    const scale = width / 1000; // Calculate the scaling factor based on current width
-    return d.distance * scale; // Scale the distance based on the current container width
+    const scale = width / 1000;
+    return d.distance * scale;
   };
 
   const defs = svg.append('defs');
@@ -98,7 +96,12 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
       .attr('width', 1)
       .attr('height', 1)
       .append('image')
-      .attr('xlink:href', node.img)
+      .attr(
+        'xlink:href',
+        node.img !== ''
+          ? node.img
+          : 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTexTU33K_p2Vy9x44U-jtJ9I_dlXQ4pQfcBx9-sDt95DS3ZQFQ'
+      )
       .attr('width', imageSize)
       .attr('height', imageSize)
       .attr('preserveAspectRatio', 'xMidYMid slice');
@@ -114,7 +117,11 @@ function renderGraph(graphContainer: any, width: number, height: number, nodes: 
         .attr('id', `node-card-${sanitizedId}`)
         .html(
           `
-          <center><img src="${node.img}" alt="Artist Image" style="width: 80px; height: 80px; border-radius: 0.375rem; box-shadow: 0 0 1px white;"></center>
+          <center><img src="${
+            node.img !== ''
+              ? node.img
+              : 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTexTU33K_p2Vy9x44U-jtJ9I_dlXQ4pQfcBx9-sDt95DS3ZQFQ'
+          }" alt="Artist Image" style="width: 80px; height: 80px; border-radius: 0.375rem; box-shadow: 0 0 1px white;"></center>
           <div><center><strong>${node.name}</strong></center></div>
           <div><center><strong>${node.genre}</strong></center></div>
           <br>
