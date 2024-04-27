@@ -21,7 +21,7 @@
               <br />
               <br />
 
-              Tailor your playlists with advanced sorting options, and ensure you never miss a beat with the Discover Weekly Buffer.
+              Tailor your playlists with advanced sorting options, and ensure you never miss a beat with the Vault.
               <br />
               <br />
 
@@ -30,11 +30,11 @@
           </div>
           <div class="column">
             <section id="slider">
-              <input type="radio" name="slider" id="s1" />
-              <input type="radio" name="slider" id="s2" />
-              <input type="radio" name="slider" id="s3" checked />
-              <input type="radio" name="slider" id="s4" />
-              <input type="radio" name="slider" id="s5" />
+              <input type="radio" name="slider" id="s1" [(ngModel)]="currentSlide" [value]="1" />
+              <input type="radio" name="slider" id="s2" [(ngModel)]="currentSlide" [value]="2" />
+              <input type="radio" name="slider" id="s3" [(ngModel)]="currentSlide" [value]="3" />
+              <input type="radio" name="slider" id="s4" [(ngModel)]="currentSlide" [value]="4" />
+              <input type="radio" name="slider" id="s5" [(ngModel)]="currentSlide" [value]="5" />
               <label for="s1" id="slide1"></label>
               <label for="s2" id="slide2"></label>
               <label for="s3" id="slide3"></label>
@@ -288,8 +288,7 @@
               <br /><br />
               Set Vault to save your playlists daily, weekly, or monthly. Customize the frequency to fit your listening habits.
               <br /><br />
-              While Vault is perfect for automatically generated playlists like, it’s also fully capable of handling any playlist you
-              cherish.
+              While Vault is perfect for automatically generated playlists, it’s also fully capable of handling any playlist you cherish.
               <br /><br />
               Set it once and forget it. Vault takes care of the rest, ensuring your playlists are saved and accessible anytime, anywhere.
               <br />
@@ -299,9 +298,28 @@
       </div>
     </div>
   </section>
-  <section id="getstarted-tab" class="et-slide">
-    <div class="card">
-      <h1 id="getStartedHeading" class="heading">Get Started</h1>
+
+  <section id="getstarted-tab" class="get-started-et-slide">
+    <div class="get-started-card">
+      <h1 id="getStartedHeading">Get Started</h1>
+      <div class="get-started-card-content">
+        <div class="get-started-info-card">
+          <h5 class="get-started-card-text">
+            Register now to enjoy all our features, or continue browsing through the Lowertones Library without an account.
+          </h5>
+          <div class="buttons-container">
+            <div class="buttons">
+              <a href="/account/register">Register</a>
+            </div>
+            <div class="buttons">
+              <a href="/tableview">Library</a>
+            </div>
+          </div>
+        </div>
+        <div class="center" style="--total: 1080">
+          <div *ngFor="let particle of particles; let i = index" class="particle" [style]="{ '--index': i }"></div>
+        </div>
+      </div>
     </div>
   </section>
 </main>

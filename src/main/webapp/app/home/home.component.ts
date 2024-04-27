@@ -42,6 +42,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private accountService: AccountService, private router: Router, private locationService: LocationService) {}
   private resizeSubject = new Subject<Event>();
 
+  currentSlide = 3;
+  maxSlides = 5;
+  autoSlideInterval: any;
+
   ngOnInit(): void {
     this.accountService
       .getAuthenticationState()
@@ -49,6 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(account => (this.account = account));
     const totalParticles = 360 * 2; // Or any number you prefer
     this.particles = Array.from({ length: totalParticles }, (_, i) => i + 1);
+
+    this.startAutoSlide();
 
     fromEvent(window, 'resize')
       .pipe(debounceTime(500), takeUntil(this.destroy$))
@@ -96,6 +102,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    clearInterval(this.autoSlideInterval);
+  }
+
+  startAutoSlide() {
+    this.autoSlideInterval = setInterval(() => {
+      this.currentSlide = (this.currentSlide % this.maxSlides) + 1;
+    }, 3000);
   }
 
   // Network Stuff

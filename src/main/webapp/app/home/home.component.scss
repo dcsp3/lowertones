@@ -80,9 +80,9 @@ h4 {
 
 #slider {
   width: 40vw;
-  height: 23vw;
+  height: 25vw;
   position: absolute;
-  bottom: 4vw;
+  bottom: 3vw;
   perspective: 1000px;
   transform-style: preserve-3d;
 }
@@ -230,57 +230,6 @@ h4 {
     opacity: 0;
     transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
   }
-}
-
-.particle {
-  /* Starting values */
-  --angle: (5 * var(--index));
-  --radius: 20;
-  --x: calc(sin(var(--angle)) * var(--radius) * 1vmin);
-  --y: calc(cos(var(--angle)) * var(--radius) * 1vmin);
-
-  --angle2: calc(var(--index) * 1turn / var(--total));
-  --x2: calc(sin(var(--angle2)) * var(--radius) * 1vmin);
-  --y2: calc(cos(var(--angle2)) * var(--radius) * 1vmin);
-
-  --size: 3;
-  --speed: 3s;
-  --delay: calc(var(--index) * var(--speed) / var(--total) * 4);
-
-  --hue-angle: 10;
-  --hue-range: 90;
-  --hue-start: 20;
-
-  /* Animation */
-  animation: animation var(--speed) ease-out infinite alternate var(--delay);
-  transform: translate3d(var(--x), var(--y), 0);
-  opacity: 0;
-
-  /* Particle styling */
-  border-radius: 50%;
-  background: currentColor;
-  color: #ffffff;
-
-  position: absolute;
-  width: calc(var(--size) * 0.1vmin);
-  height: calc(var(--size) * 0.1vmin);
-  contain: strict; /* Does this help or is translate3d already doing it*/
-}
-
-@keyframes animation {
-  100% {
-    transform: translate3d(var(--x2), var(--y2), 0);
-    opacity: 1;
-  }
-}
-
-.center {
-  display: flex;
-  min-height: 50vh;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  overflow: hidden;
 }
 
 .et-slide {
@@ -1014,11 +963,143 @@ p {
 
 /* Get Started Section */
 
+.get-started-et-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.get-started-card {
+  background: linear-gradient(200deg, transparent, rgba(255, 233, 230, 0.277), transparent);
+  background-clip: padding-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  padding: 10px;
+  border: 1px solid transparent;
+}
+
 #getStartedHeading {
   font-family: 'neue-plak';
   letter-spacing: 2px;
   font-size: 4vw;
   color: #ffffff;
   font-weight: bold;
-  margin-bottom: 35%;
+  text-align: center;
+  margin-bottom: 8vw;
+  position: absolute;
+  top: 5%;
+}
+
+.get-started-card-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.get-started-info-card {
+  flex: 1;
+  left: 5%;
+  width: 10vw;
+  text-align: center;
+  padding: 1vw;
+  bottom: 4%;
+  position: relative;
+}
+
+.get-started-card-text {
+  width: 30vw;
+  margin-top: 1vw;
+  font-size: 1.2vw;
+}
+
+.buttons-container {
+  width: 30vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1vw;
+}
+
+.buttons {
+  background-color: #e7e7e7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  margin: 0 0.5vw;
+  border-radius: 10px;
+  font-size: 1vw;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.buttons:hover {
+  transform: scale(1.1);
+}
+
+.buttons a {
+  text-decoration: none;
+  color: black;
+}
+
+.center {
+  position: relative;
+  top: 1vw;
+  right: 18vw;
+}
+
+.particle {
+  /* Starting values */
+  --angle: (5 * var(--index));
+  --radius: 15;
+  --x: calc(sin(var(--angle)) * var(--radius) * 1vmin);
+  --y: calc(cos(var(--angle)) * var(--radius) * 1vmin);
+
+  --angle2: calc(var(--index) * 1turn / var(--total));
+  --x2: calc(sin(var(--angle2)) * var(--radius) * 1vmin);
+  --y2: calc(cos(var(--angle2)) * var(--radius) * 1vmin);
+
+  --size: 3;
+  --speed: 3s;
+  --delay: calc(var(--index) * var(--speed) / var(--total) * 4);
+
+  --hue-angle: 10;
+  --hue-range: 90;
+  --hue-start: 20;
+
+  /* Animation */
+  animation: animation var(--speed) ease-out infinite alternate var(--delay);
+  transform: translate3d(var(--x), var(--y), 0);
+  opacity: 0;
+
+  /* Particle styling */
+  border-radius: 50%;
+  background: currentColor;
+  color: #ffffff;
+
+  position: absolute;
+  width: calc(var(--size) * 0.1vmin);
+  height: calc(var(--size) * 0.1vmin);
+  contain: strict; /* Does this help or is translate3d already doing it*/
+}
+
+@keyframes animation {
+  100% {
+    transform: translate3d(var(--x2), var(--y2), 0);
+    opacity: 1;
+  }
 }
