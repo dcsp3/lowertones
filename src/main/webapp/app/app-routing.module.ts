@@ -62,9 +62,8 @@ import { DataMethodologyComponent } from './data-methodology/data-methodology.co
           component: TableviewComponent,
           data: {
             pageTitle: 'Track Organizer',
-            authorities: [Authority.ADMIN, Authority.USER],
+            authorities: [],
           },
-          canActivate: [UserRouteAccessService],
         },
         {
           path: 'your-network',
