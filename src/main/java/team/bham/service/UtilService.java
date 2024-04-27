@@ -85,9 +85,14 @@ public class UtilService {
     }
 
     @Transactional
-    public List<Song> getPlaylistSongsInTimeframe(String playlistId, LocalDate startDate, LocalDate endDate) {
+    public List<Song> getPlaylistSongsInTimeframe(AppUser user, String playlistId, LocalDate startDate, LocalDate endDate) {
         Set<Song> playlistSongsSet = new HashSet<>();
-        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<Playlist> playlists = user.getPlaylists();
+        Playlist userPlaylist = playlists
+            .stream()
+            .filter(playlist -> playlist.getPlaylistSpotifyID().equals(playlistId))
+            .findFirst()
+            .orElse(null);
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
         for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
