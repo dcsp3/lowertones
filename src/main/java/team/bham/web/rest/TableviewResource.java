@@ -69,11 +69,8 @@ public class TableviewResource {
     }
 
     @GetMapping("/tableview-lowertones-songs")
-    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(
-        @ModelAttribute QueryParams queryParams,
-        Authentication authentication
-    ) {
-        return tableviewService.getLowertonesSongs(queryParams, authentication);
+    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(@ModelAttribute QueryParams queryParams) {
+        return tableviewService.getLowertonesSongs(queryParams);
     }
 
     @PostMapping("/tableview-export-playlist")

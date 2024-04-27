@@ -251,6 +251,11 @@
             <span *ngIf="option.value === 'staging'">{{ option.label }} ({{ selectedSongCount }})</span>
           </ng-template>
         </p-selectButton>
+
+        <p *ngIf="loadedPlaylists && playlists.length < 2" style="font-size: 1.7vh; color: white">
+          <b>Log in and link your Spotify account to view your playlists.</b>
+        </p>
+
         <button pButton type="button" label="Export.." icon="pi pi-file-export" (click)="showExportPopup()"></button>
       </p-toolbar>
     </div>
