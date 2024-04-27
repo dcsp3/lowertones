@@ -14,7 +14,7 @@
           <a
             class="nav-link underline-link"
             routerLink="/tableview"
-            (click)="navigateIfAuthenticated('/tableview', 'tableview-tab')"
+            (click)="collapseNavbar()"
             [class.active-nav-link]="currentSection === 'tableview-tab'"
           >
             <span>

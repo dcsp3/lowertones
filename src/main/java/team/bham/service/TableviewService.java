@@ -117,9 +117,14 @@ public class TableviewService {
     }
 
     @Transactional
-    public List<Song> findSongsByPlaylistId(String playlistId) {
+    public List<Song> findSongsByPlaylistId(AppUser user, String playlistId) {
         Set<Song> playlistSongsSet = new HashSet<>();
-        Playlist userPlaylist = playlistRepository.findPlaylistBySpotifyId(playlistId);
+        Set<Playlist> playlists = user.getPlaylists();
+        Playlist userPlaylist = playlists
+            .stream()
+            .filter(playlist -> playlist.getPlaylistSpotifyID().equals(playlistId))
+            .findFirst()
+            .orElse(null);
         Set<PlaylistSongJoin> playlistSongJoins = new HashSet<>();
         playlistSongJoins.addAll(userPlaylist.getPlaylistSongJoins());
         for (PlaylistSongJoin playlistSongJoin : playlistSongJoins) {
@@ -213,12 +218,7 @@ public class TableviewService {
     }
 
     @Transactional
-    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams, Authentication authentication) {
-        AppUser appUser = userService.resolveAppUser(authentication.getName());
-        if (appUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
+    public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams) {
         System.out.println("\n\n\n\n\n\n");
         System.out.println(toSqlList(queryParams.getArtistChips()));
         System.out.println("\n\n\n\n\n\n");

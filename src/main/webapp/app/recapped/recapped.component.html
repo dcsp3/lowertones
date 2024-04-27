@@ -185,7 +185,7 @@
   <div *ngIf="currentPage === 1" class="page2">
     <div class="quiz-container">
       <img src="../../content/images/quiz.png" alt="Quiz" class="quiz-img" />
-      <div class="quiz-textlarge">Which was your top {{ getMusicianTypeLabel() }} from the last {{ getTimeframeLabel() }}?</div>
+      <div class="quiz-textlarge">Which was your top {{ getMusicianTypeLabel() }} from the {{ getTimeframeLabel() }} scanned?</div>
       <div class="quiz-card-container">
         <div class="quiz-card leftquiz" [ngClass]="cardClass('left')" (click)="selectCard('left')">
           <img src="{{ quizCardLeft.image }}" alt="{{ quizCardLeft.name }}" class="quiz-card-img" />
@@ -205,7 +205,7 @@
 
   <div *ngIf="currentPage === 2" class="page3">
     <div class="results-container-page3">
-      <div class="your-top-title">Your top {{ getMusicianTypeLabel() }} from the past year</div>
+      <div class="your-top-title">Your top {{ getMusicianTypeLabel() }} from the {{ getTimeframeLabel() }} scanned</div>
       <div class="top-producers">
         <div class="producer-hero">
           <div class="num1artist">

@@ -103,7 +103,7 @@ export class RecappedComponent implements OnInit, AfterViewInit {
     ];
     this.scanType = [
       { label: 'My Entire Library', value: 'entireLibrary' },
-      { label: 'My Top Songs', value: 'topSongs' },
+      /*{ label: 'My Top Songs', value: 'topSongs' },*/
     ];
 
     this.recappedForm = this.fb.group({

@@ -40,7 +40,9 @@ public class VisualisationsService {
     @Transactional
     public VisualisationsDTO getVisualisations(Authentication authentication, String playlistId) {
         VisualisationsDTO dto = new VisualisationsDTO();
-        List<Song> playlistSongs = utilService.getPlaylistSongs(playlistId);
+        User user = userRepository.findOneByLogin(authentication.getName()).get();
+        AppUser appUser = appUserRepository.findByUserId(user.getId()).get();
+        List<Song> playlistSongs = utilService.getPlaylistSongs(appUser, playlistId);
         List<Album> playlistAlbums = new ArrayList<>();
         for (int i = 0; i < playlistSongs.size(); i++) {
             playlistAlbums.add(playlistSongs.get(i).getAlbum());

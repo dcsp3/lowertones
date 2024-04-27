@@ -257,7 +257,7 @@ public class RecappedService {
             System.out.println("scan Top Songs");
             System.out.println("songs: " + songs.size());
         } else if (request.getScanType().length() == 22) {
-            songs = utilService.getPlaylistSongsInTimeframe(request.getScanType(), startDate, endDate);
+            songs = utilService.getPlaylistSongsInTimeframe(appUser, request.getScanType(), startDate, endDate);
             System.out.println("scan Playlist");
             System.out.println("songs: " + songs.size());
         } else {
