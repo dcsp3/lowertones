@@ -137,8 +137,8 @@ public interface SongRepository extends SongRepositoryWithBagRelationships, JpaR
         "AND (:minSpeechiness IS NULL OR S.SONG_SPEECHINESS >= :minSpeechiness) " +
         "AND (:maxSpeechiness IS NULL OR S.SONG_SPEECHINESS <= :maxSpeechiness) " +
         "AND (:minValence IS NULL OR S.SONG_VALENCE >= :minValence) " +
-        "AND (:maxValence IS NULL OR S.SONG_VALENCE <= :maxValence)" +
-        "LIMIT 500",
+        "AND (:maxValence IS NULL OR S.SONG_VALENCE <= :maxValence) " +
+        "LIMIT 250",
         nativeQuery = true
     )
     List<SongWithArtistName> findSongsByLowertonesLibrary(
