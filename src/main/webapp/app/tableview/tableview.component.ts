@@ -11,18 +11,18 @@ interface SongEntry {
   artist: string;
   contributor: boolean;
   length: string;
-  explicit: boolean;
-  popularity: number;
+  explicit: boolean | null;
+  popularity: number | null;
   release: string;
-  acousticness: number;
-  danceability: number;
-  instrumentalness: number;
-  energy: number;
-  liveness: number;
-  loudness: number;
-  speechiness: number;
-  valence: number;
-  tempo: number;
+  acousticness: number | null;
+  danceability: number | null;
+  instrumentalness: number | null;
+  energy: number | null;
+  liveness: number | null;
+  loudness: number | null;
+  speechiness: number | null;
+  valence: number | null;
+  tempo: number | null;
   spotifyId: string;
   contributorNames: string[];
   contributorRoles: string[];
@@ -110,17 +110,17 @@ export class TableviewComponent implements OnInit {
     contributor: false,
     length: '',
     explicit: false,
-    popularity: 0,
+    popularity: null,
     release: '',
-    acousticness: 0,
-    danceability: 0,
-    instrumentalness: 0,
-    energy: 0,
-    liveness: 0,
-    loudness: 0,
-    speechiness: 0,
-    valence: 0,
-    tempo: 0,
+    acousticness: null,
+    danceability: null,
+    instrumentalness: null,
+    energy: null,
+    liveness: null,
+    loudness: null,
+    speechiness: null,
+    valence: null,
+    tempo: null,
     spotifyId: '',
     contributorNames: [],
     contributorRoles: [],
@@ -285,6 +285,7 @@ export class TableviewComponent implements OnInit {
   }
 
   applySearch(): void {
+    this.filteredSongData = this.removePlaceholders(this.filteredSongData);
     this.filteredSongData = this.songDataInUse.filter(song => {
       return (
         this.matchesSearchQuery(song) &&
@@ -307,7 +308,6 @@ export class TableviewComponent implements OnInit {
     });
 
     this.fixPages();
-    this.filteredSongData = this.removePlaceholders(this.filteredSongData);
     this.songListFactor15(this.filteredSongData);
   }
 
@@ -342,15 +342,15 @@ export class TableviewComponent implements OnInit {
 
   private filterByPopularity(song: SongEntry): boolean {
     const [minPopularity, maxPopularity] = this.popularityRange;
-    if (minPopularity !== null && song.popularity < minPopularity) return false;
-    if (maxPopularity !== null && song.popularity > maxPopularity) return false;
+    if (minPopularity !== null && song.popularity !== null && song.popularity < minPopularity) return false;
+    if (maxPopularity !== null && song.popularity !== null && song.popularity > maxPopularity) return false;
     return true;
   }
 
   private filterByTempo(song: SongEntry): boolean {
     const [minTempo, maxTempo] = this.tempoRange;
-    if (minTempo !== null && song.tempo < minTempo) return false;
-    if (maxTempo !== null && song.tempo > maxTempo) return false;
+    if (minTempo !== null && song.tempo !== null && song.tempo < minTempo) return false;
+    if (maxTempo !== null && song.tempo !== null && song.tempo > maxTempo) return false;
     return true;
   }
 

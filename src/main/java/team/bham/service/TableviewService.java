@@ -192,10 +192,6 @@ public class TableviewService {
                     info.put("contributorRoles", roles);
                     info.put("contributorInstruments", instruments);
                     info.put("contributor", true);
-
-                    System.out.println("\n\n\n\n\n\n\n");
-                    System.out.println(names);
-                    System.out.println("\n\n\n\n\n\n\n");
                 } else {
                     info.put("contributorNames", new String[0]);
                     info.put("contributorRoles", new String[0]);
@@ -219,16 +215,6 @@ public class TableviewService {
 
     @Transactional
     public ResponseEntity<List<Map<String, Object>>> getLowertonesSongs(QueryParams queryParams) {
-        System.out.println("\n\n\n\n\n\n");
-        System.out.println(toSqlList(queryParams.getArtistChips()));
-        System.out.println("\n\n\n\n\n\n");
-
-        System.out.println("\n\n\n\n\n\n");
-        System.out.println(queryParams);
-        System.out.println("\n\n\n\n\n\n");
-
-        String queryString = "";
-
         List<SongWithArtistName> songs = songRepository.findSongsByLowertonesLibrary(
             queryParams.getSearchQuery(),
             queryParams.getMinDuration(),
@@ -253,16 +239,6 @@ public class TableviewService {
             queryParams.getMinValence(),
             queryParams.getMaxValence()
         );
-
-        System.out.println("\n\n\n\n\n\n");
-        System.out.println("WHAT'S THE BIG IDEA");
-        System.out.println("\n\n\n\n\n\n");
-        //List<SongWithCollaborators> songsCollaborators = songRepository.findSongsCollaboratorsByPlaylistId(queryString);
-
-        // Group collaborators by spotifyId
-        // Map<String, List<SongWithCollaborators>> collaboratorMap = songsCollaborators
-        //     .stream()
-        //     .collect(Collectors.groupingBy(SongWithCollaborators::getSongSpotifyId));
 
         List<Map<String, Object>> songInfo = songs
             .stream()
