@@ -12,6 +12,10 @@
   font-style: normal;
 }
 
+.highContrast {
+  background: rgb(50, 50, 50) !important;
+}
+
 .card {
   background: linear-gradient(200deg, transparent, rgba(230, 240, 255, 0.277), transparent);
   border-radius: 10px;
