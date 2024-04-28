@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { PreferencesService } from 'app/account/preferences/preferences.service';
@@ -11,7 +11,19 @@ import { AccountService } from 'app/core/auth/account.service';
 })
 export class MainComponent implements OnInit {
   // Define the list of all CSS selectors representing elements to style
-  highContrastElements: string[] = ['.navbar', '.footer', '.container', '.text-container', '.top-section', '.et-main', '.tabs-container'];
+  highContrastElements: string[] = [
+    '.navbar',
+    '.footer',
+    '.container',
+    '.text-container',
+    '.top-section',
+    '.et-main',
+    '.tabs-container',
+    '.et-main',
+    '.card',
+    '.elements',
+    '.description-text',
+  ];
 
   constructor(
     private accountService: AccountService,
@@ -78,10 +90,25 @@ export class MainComponent implements OnInit {
 
   private applyHighContrast(): void {
     this.highContrastElements.forEach(selector => {
-      const element = document.querySelector(selector);
-      if (element) {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(element => {
         element.classList.add('highContrast');
-      }
+      });
+    });
+
+    this.highContrastElements.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(element => {
+        const cardElement = element.querySelector('.card');
+        if (cardElement) {
+          (cardElement as HTMLElement).style.background = 'rgb(50, 50, 50)';
+        }
+        const recapdText = element.querySelector('.description-text');
+        if (recapdText) {
+          (recapdText as HTMLElement).style.background = 'rgb(50, 50, 50)';
+          (recapdText as HTMLElement).style.borderRadius = '7px';
+        }
+      });
     });
   }
 
@@ -91,6 +118,21 @@ export class MainComponent implements OnInit {
       if (element) {
         element.classList.remove('highContrast');
       }
+    });
+
+    this.highContrastElements.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(element => {
+        const cardElement = element.querySelector('.card');
+        if (cardElement) {
+          (cardElement as HTMLElement).style.background = '';
+        }
+        const recapdText = element.querySelector('.description-text');
+        if (recapdText) {
+          (recapdText as HTMLElement).style.background = '';
+          (recapdText as HTMLElement).style.borderRadius = '';
+        }
+      });
     });
   }
 

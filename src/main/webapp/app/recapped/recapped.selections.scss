@@ -30,11 +30,25 @@
   align-items: center;
 }
 
+.highContrast {
+  .ring {
+    background: rgb(50, 50, 50) !important;
+    border-radius: 15px;
+  }
+  .btn-secondary {
+    background-color: black !important;
+    border: solid 2.5px red !important;
+  }
+  .text {
+    color: yellow !important;
+  }
+}
+
 .card {
   flex-basis: 45%;
   padding: 0px;
   border: 1px solid #cccccc00;
-  background-color: #ffffff00;
+  background-color: #ffffff00 !important;
 }
 
 h4 {

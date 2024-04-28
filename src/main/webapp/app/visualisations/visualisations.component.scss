@@ -19,12 +19,17 @@
 .chart-title .title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
 }
 
 .chart-description {
   margin-top: 0px;
   font-size: 18px;
+  color: white;
+}
+
+p {
+  color: white;
 }
 
 .card {
@@ -34,7 +39,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   max-width: 80%;
-  min-height: 82vh !important;
+  min-height: 82vh;
   display: flex;
   flex-direction: column;
   align-items: center;

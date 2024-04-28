@@ -999,7 +999,8 @@ p {
 }
 
 .highContrast {
-  .card {
+  .card,
+  .get-started-card {
     background: rgb(50, 50, 50) !important;
   }
   .heading,
@@ -1024,6 +1025,9 @@ p {
   .mainstream-score,
   .top-genre {
     border: 2.5px solid white !important;
+  }
+  .buttons {
+    border: 2.5px solid red !important;
   }
 }
 
